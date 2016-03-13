@@ -7,16 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace QyWeixin
+namespace QyWeixin.EF
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class PinhuaEntities : DbContext
+    public partial class EastRiverEntities : DbContext
     {
-        public PinhuaEntities()
-            : base("name=PinhuaEntities")
+        public EastRiverEntities()
+            : base("name=EastRiverEntities")
         {
         }
     
@@ -25,11 +25,6 @@ namespace QyWeixin
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<发货> 发货 { get; set; }
-        public virtual DbSet<人员档案> 人员档案 { get; set; }
-        public virtual DbSet<考勤卡号变动> 考勤卡号变动 { get; set; }
-        public virtual DbSet<打卡登记> 打卡登记 { get; set; }
-        public virtual DbSet<ES_RepCase> ES_RepCase { get; set; }
-        public virtual DbSet<ES_Tmp> ES_Tmp { get; set; }
+        public virtual DbSet<TimeRecords> TimeRecords { get; set; }
     }
 }

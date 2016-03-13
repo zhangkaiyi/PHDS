@@ -132,37 +132,37 @@
     <Content Include="Kaoqin.aspx" />
     <Content Include="Html\ajax\gongzi_query.html" />
     <Content Include="Html\ajax\xiaoshou_query.html" />
-    <Content Include="PinhuaModel.Context.tt">
+    <Content Include="EF\PinhuaModel.Context.tt">
       <DependentUpon>PinhuaModel.edmx</DependentUpon>
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>PinhuaModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="PinhuaModel.edmx.diagram">
+    <Content Include="EF\PinhuaModel.edmx.diagram">
       <DependentUpon>PinhuaModel.edmx</DependentUpon>
     </Content>
-    <Content Include="PinhuaModel.tt">
+    <Content Include="EF\PinhuaModel.tt">
       <DependentUpon>PinhuaModel.edmx</DependentUpon>
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>PinhuaModel.cs</LastGenOutput>
     </Content>
-    <EntityDeploy Include="EastRiverModel.edmx">
+    <EntityDeploy Include="EF\EastRiverModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>EastRiverModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="EastRiverModel.Context.tt">
+    <Content Include="EF\EastRiverModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>EastRiverModel.edmx</DependentUpon>
       <LastGenOutput>EastRiverModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="EastRiverModel.edmx.diagram">
+    <Content Include="EF\EastRiverModel.edmx.diagram">
       <DependentUpon>EastRiverModel.edmx</DependentUpon>
     </Content>
-    <Content Include="EastRiverModel.tt">
+    <Content Include="EF\EastRiverModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>EastRiverModel.edmx</DependentUpon>
       <LastGenOutput>EastRiverModel.cs</LastGenOutput>
     </Content>
-    <EntityDeploy Include="PinhuaModel.edmx">
+    <EntityDeploy Include="EF\PinhuaModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>PinhuaModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
@@ -185,25 +185,25 @@
     <Compile Include="clock.aspx.designer.cs">
       <DependentUpon>clock.aspx</DependentUpon>
     </Compile>
-    <Compile Include="EastRiverModel.Context.cs">
+    <Compile Include="EF\EastRiverModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EastRiverModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="EastRiverModel.cs">
+    <Compile Include="EF\EastRiverModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EastRiverModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="EastRiverModel.Designer.cs">
+    <Compile Include="EF\EastRiverModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EastRiverModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="ES_RepCase.cs">
+    <Compile Include="EF\ES_RepCase.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ES_Tmp.cs">
+    <Compile Include="EF\ES_Tmp.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Kaoqin.aspx.cs">
@@ -216,18 +216,18 @@
     <Compile Include="jqGridHandler.ashx.cs">
       <DependentUpon>jqGridHandler.ashx</DependentUpon>
     </Compile>
-    <Compile Include="PinhuaModel.Context.cs">
+    <Compile Include="EF\PinhuaModel.Context.cs">
       <DependentUpon>PinhuaModel.Context.tt</DependentUpon>
       <SubType>Code</SubType>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="PinhuaModel.cs">
+    <Compile Include="EF\PinhuaModel.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="PinhuaModel.Designer.cs">
+    <Compile Include="EF\PinhuaModel.Designer.cs">
       <DependentUpon>PinhuaModel.edmx</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -249,23 +249,23 @@
     <Compile Include="QyWeixin.ashx.cs">
       <DependentUpon>QyWeixin.ashx</DependentUpon>
     </Compile>
-    <Compile Include="TimeRecords.cs">
+    <Compile Include="EF\TimeRecords.cs">
       <DependentUpon>EastRiverModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="人员档案.cs">
+    <Compile Include="EF\人员档案.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="发货.cs">
+    <Compile Include="EF\发货.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="打卡.ashx.cs">
       <DependentUpon>打卡.ashx</DependentUpon>
     </Compile>
-    <Compile Include="打卡登记.cs">
+    <Compile Include="EF\打卡登记.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="考勤卡号变动.cs">
+    <Compile Include="EF\考勤卡号变动.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>

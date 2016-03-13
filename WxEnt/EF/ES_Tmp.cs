@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace QyWeixin
+namespace QyWeixin.EF
 {
     using System;
     using System.Collections.Generic;

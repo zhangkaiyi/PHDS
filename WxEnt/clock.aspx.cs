@@ -193,18 +193,6 @@ namespace QyWeixin
                     var ds = SqlHelper.ExecuteDataset(QyEntry.sqlConnectstr, CommandType.Text, commandString);
                     string json = JsonConvert.SerializeObject(ds.Tables[0]);
                     Response.Clear();
-                    using (var pinhua = new PinhuaEntities())
-                    {
-                        var info = from item in pinhua.人员档案
-                                   where item.状态 == "在职"
-                                   orderby item.人员编号 ascending
-                                   select new { item.人员编号, item.姓名 };
-                        Debug.WriteLine(JsonConvert.SerializeObject(info));
-                        Response.Write(JsonConvert.SerializeObject(info));
-                        Debug.WriteLine(JsonConvert.SerializeObject(json));
-                    }
-
-
                     Response.Flush();
                     Response.End();
                 }

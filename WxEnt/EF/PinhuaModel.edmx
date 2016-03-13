@@ -171,8 +171,8 @@
           <EntitySet Name="人员档案" EntityType="PinhuaModel.人员档案" />
           <EntitySet Name="考勤卡号变动" EntityType="PinhuaModel.考勤卡号变动" />
           <EntitySet Name="打卡登记" EntityType="PinhuaModel.打卡登记" />
-          <EntitySet Name="ES_RepCase" EntityType="PinhuaModel.ES_RepCase" />
           <EntitySet Name="ES_Tmp" EntityType="PinhuaModel.ES_Tmp" />
+          <EntitySet Name="ES_RepCase" EntityType="PinhuaModel.ES_RepCase" />
         </EntityContainer>
         <EntityType Name="发货">
           <Key>
@@ -257,39 +257,6 @@
           <Property Name="审核人" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="pk" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
-        <EntityType Name="ES_RepCase">
-          <Key>
-            <PropertyRef Name="rcId" />
-          </Key>
-          <Property Name="rcId" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="RtId" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="fillDept" Type="Int32" />
-          <Property Name="fillDeptName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="fillUser" Type="Int32" />
-          <Property Name="fillUserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="fillDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="rcDesc" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="state" Type="Int16" />
-          <Property Name="lstFiller" Type="Int32" Nullable="false" />
-          <Property Name="lstFillerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="lstFillDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="backUpdate" Type="Int16" Nullable="false" />
-          <Property Name="openState" Type="Int16" Nullable="false" />
-          <Property Name="openBy" Type="Int32" />
-          <Property Name="openByName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="OpenBySesId" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="lockState" Type="Int16" Nullable="false" />
-          <Property Name="lockInServer" Type="Int16" Nullable="false" />
-          <Property Name="noticeState" Type="Int16" Nullable="false" />
-          <Property Name="setNStateInServer" Type="Int16" Nullable="false" />
-          <Property Name="replacerId_fill" Type="Int32" />
-          <Property Name="replacerName_fill" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="replacerId_lstFill" Type="Int32" />
-          <Property Name="replacerName_lstFill" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="printTime" Type="DateTime" Precision="3" />
-          <Property Name="wiId" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="commitByDataWriter" Type="Int16" Nullable="false" />
-        </EntityType>
         <EntityType Name="ES_Tmp">
           <Key>
             <PropertyRef Name="RtId" />
@@ -322,6 +289,39 @@
           <Property Name="indexSpec" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="hasNoticeExp" Type="Int16" Nullable="false" />
           <Property Name="fileFormat" Type="Int16" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ES_RepCase">
+          <Key>
+            <PropertyRef Name="rcId" />
+          </Key>
+          <Property Name="rcId" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="RtId" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="fillDept" Type="Int32" />
+          <Property Name="fillDeptName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fillUser" Type="Int32" />
+          <Property Name="fillUserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fillDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="rcDesc" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="state" Type="Int16" />
+          <Property Name="lstFiller" Type="Int32" Nullable="false" />
+          <Property Name="lstFillerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="lstFillDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="backUpdate" Type="Int16" Nullable="false" />
+          <Property Name="openState" Type="Int16" Nullable="false" />
+          <Property Name="openBy" Type="Int32" />
+          <Property Name="openByName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OpenBySesId" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="lockState" Type="Int16" Nullable="false" />
+          <Property Name="lockInServer" Type="Int16" Nullable="false" />
+          <Property Name="noticeState" Type="Int16" Nullable="false" />
+          <Property Name="setNStateInServer" Type="Int16" Nullable="false" />
+          <Property Name="replacerId_fill" Type="Int32" />
+          <Property Name="replacerName_fill" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="replacerId_lstFill" Type="Int32" />
+          <Property Name="replacerName_lstFill" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="printTime" Type="DateTime" Precision="3" />
+          <Property Name="wiId" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="commitByDataWriter" Type="Int16" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -416,40 +416,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ES_RepCase">
-            <EntityTypeMapping TypeName="PinhuaModel.ES_RepCase">
-              <MappingFragment StoreEntitySet="ES_RepCase">
-                <ScalarProperty Name="commitByDataWriter" ColumnName="commitByDataWriter" />
-                <ScalarProperty Name="wiId" ColumnName="wiId" />
-                <ScalarProperty Name="printTime" ColumnName="printTime" />
-                <ScalarProperty Name="replacerName_lstFill" ColumnName="replacerName_lstFill" />
-                <ScalarProperty Name="replacerId_lstFill" ColumnName="replacerId_lstFill" />
-                <ScalarProperty Name="replacerName_fill" ColumnName="replacerName_fill" />
-                <ScalarProperty Name="replacerId_fill" ColumnName="replacerId_fill" />
-                <ScalarProperty Name="setNStateInServer" ColumnName="setNStateInServer" />
-                <ScalarProperty Name="noticeState" ColumnName="noticeState" />
-                <ScalarProperty Name="lockInServer" ColumnName="lockInServer" />
-                <ScalarProperty Name="lockState" ColumnName="lockState" />
-                <ScalarProperty Name="OpenBySesId" ColumnName="OpenBySesId" />
-                <ScalarProperty Name="openByName" ColumnName="openByName" />
-                <ScalarProperty Name="openBy" ColumnName="openBy" />
-                <ScalarProperty Name="openState" ColumnName="openState" />
-                <ScalarProperty Name="backUpdate" ColumnName="backUpdate" />
-                <ScalarProperty Name="lstFillDate" ColumnName="lstFillDate" />
-                <ScalarProperty Name="lstFillerName" ColumnName="lstFillerName" />
-                <ScalarProperty Name="lstFiller" ColumnName="lstFiller" />
-                <ScalarProperty Name="state" ColumnName="state" />
-                <ScalarProperty Name="rcDesc" ColumnName="rcDesc" />
-                <ScalarProperty Name="fillDate" ColumnName="fillDate" />
-                <ScalarProperty Name="fillUserName" ColumnName="fillUserName" />
-                <ScalarProperty Name="fillUser" ColumnName="fillUser" />
-                <ScalarProperty Name="fillDeptName" ColumnName="fillDeptName" />
-                <ScalarProperty Name="fillDept" ColumnName="fillDept" />
-                <ScalarProperty Name="RtId" ColumnName="RtId" />
-                <ScalarProperty Name="rcId" ColumnName="rcId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ES_Tmp">
             <EntityTypeMapping TypeName="PinhuaModel.ES_Tmp">
               <MappingFragment StoreEntitySet="ES_Tmp">
@@ -481,6 +447,40 @@
                 <ScalarProperty Name="RtName" ColumnName="RtName" />
                 <ScalarProperty Name="RtNo" ColumnName="RtNo" />
                 <ScalarProperty Name="RtId" ColumnName="RtId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ES_RepCase">
+            <EntityTypeMapping TypeName="PinhuaModel.ES_RepCase">
+              <MappingFragment StoreEntitySet="ES_RepCase">
+                <ScalarProperty Name="commitByDataWriter" ColumnName="commitByDataWriter" />
+                <ScalarProperty Name="wiId" ColumnName="wiId" />
+                <ScalarProperty Name="printTime" ColumnName="printTime" />
+                <ScalarProperty Name="replacerName_lstFill" ColumnName="replacerName_lstFill" />
+                <ScalarProperty Name="replacerId_lstFill" ColumnName="replacerId_lstFill" />
+                <ScalarProperty Name="replacerName_fill" ColumnName="replacerName_fill" />
+                <ScalarProperty Name="replacerId_fill" ColumnName="replacerId_fill" />
+                <ScalarProperty Name="setNStateInServer" ColumnName="setNStateInServer" />
+                <ScalarProperty Name="noticeState" ColumnName="noticeState" />
+                <ScalarProperty Name="lockInServer" ColumnName="lockInServer" />
+                <ScalarProperty Name="lockState" ColumnName="lockState" />
+                <ScalarProperty Name="OpenBySesId" ColumnName="OpenBySesId" />
+                <ScalarProperty Name="openByName" ColumnName="openByName" />
+                <ScalarProperty Name="openBy" ColumnName="openBy" />
+                <ScalarProperty Name="openState" ColumnName="openState" />
+                <ScalarProperty Name="backUpdate" ColumnName="backUpdate" />
+                <ScalarProperty Name="lstFillDate" ColumnName="lstFillDate" />
+                <ScalarProperty Name="lstFillerName" ColumnName="lstFillerName" />
+                <ScalarProperty Name="lstFiller" ColumnName="lstFiller" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="rcDesc" ColumnName="rcDesc" />
+                <ScalarProperty Name="fillDate" ColumnName="fillDate" />
+                <ScalarProperty Name="fillUserName" ColumnName="fillUserName" />
+                <ScalarProperty Name="fillUser" ColumnName="fillUser" />
+                <ScalarProperty Name="fillDeptName" ColumnName="fillDeptName" />
+                <ScalarProperty Name="fillDept" ColumnName="fillDept" />
+                <ScalarProperty Name="RtId" ColumnName="RtId" />
+                <ScalarProperty Name="rcId" ColumnName="rcId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -7,18 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace QyWeixin
+namespace QyWeixin.EF
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class 打卡登记
+    public partial class 发货
     {
-        public string 签卡原因 { get; set; }
-        public string 人员编号 { get; set; }
-        public string 姓名 { get; set; }
-        public Nullable<System.DateTime> 时间 { get; set; }
-        public Nullable<System.DateTime> 审核时间 { get; set; }
+        public string 客户 { get; set; }
+        public string 送货单号 { get; set; }
+        public string 地址 { get; set; }
+        public Nullable<System.DateTime> 送货日期 { get; set; }
+        public string 备注 { get; set; }
+        public string 客户编号 { get; set; }
         public string ExcelServerRCID { get; set; }
         public Nullable<int> ExcelServerRN { get; set; }
         public Nullable<int> ExcelServerCN { get; set; }
@@ -26,8 +27,9 @@ namespace QyWeixin
         public string ExcelServerWIID { get; set; }
         public string ExcelServerRTID { get; set; }
         public Nullable<int> ExcelServerCHG { get; set; }
-        public string 审核状态 { get; set; }
-        public string 审核人 { get; set; }
-        public int pk { get; set; }
+        public string 业务类型 { get; set; }
+        public string 业务描述 { get; set; }
+        public string 冲销理由 { get; set; }
+        public string 创建者 { get; set; }
     }
 }
