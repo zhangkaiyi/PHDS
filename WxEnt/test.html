@@ -1,0 +1,83 @@
+﻿<title>Blank Page - Ace Admin</title>
+<link rel="stylesheet" href="/jqGrid/css/ui.jqgrid.css" />
+<!-- ajax layout which only needs content area -->
+<div class="row">
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+        <div class="page-header">
+
+        </div>
+            <!-- #section:plugins/input.masked-input -->
+        <table id="grid-table"></table>
+            <!-- /section:plugins/input.masked-input -->
+        <!-- PAGE CONTENT ENDS -->
+    </div><!-- /.col -->
+</div><!-- /.row -->
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+    var scripts = [null, "/jqGrid/js/jquery.jqGrid.min.js"]
+    ace.load_ajax_scripts(scripts, function () {
+        //inline scripts related to this page
+
+        jQuery(function ($) {
+            jQuery("#grid-table").jqGrid({
+                datatype: "xml",
+                url: 'jqGridHandler.ashx?method=jqGridXml',
+                //datatype: "xmlstring",
+                //datastr: xmlstr,
+                //shrinkToFit: false,
+                autowidth: true,
+                height: 'auto',
+                altRows: true,
+                colNames: ['日期', '单号', '物品编号', '单位名称', '描述', "规格", 'PCS', "单位数量", "计价单位", '工艺', '木种', /*"金额"*/],
+                colModel: [
+                    { name: '日期', width: 100, xmlmap: "日期" },
+                    { name: '单号', width: 100, xmlmap: "单号", hidden: true },
+                    { name: '物品编号', width: 100, xmlmap: "物品编号", hidden: false },
+                    { name: '单位', width: 100, xmlmap: "单位" },
+                    { name: '描述', width: 185, xmlmap: "描述" },
+                    { name: '规格', width: 135, xmlmap: "规格" },
+                    { name: 'PCS', width: 50, align: 'right', xmlmap: "PCS" },
+                    { name: '单位数量', width: 70, align: 'right', xmlmap: "单位数量" },
+                    { name: '计价单位', width: 70, xmlmap: "计价单位" },
+                    { name: '工艺', width: 90, xmlmap: "工艺", hidden: false },
+                    { name: '木种', width: 90, xmlmap: "木种", hidden: false },
+                    //{ name: 'amount', width: 100, xmlmap: "金额" },
+                ],
+                rowNum: 15,
+                rowList: [15, 30, 50, 100],
+                sortname: '日期',
+                caption: 'Test',
+                grouping: true,
+                groupingView: {
+                    groupField: ['日期', '单位'],
+                    groupColumnShow: [false, false],
+                    groupDataSorted: true, // 分组中的数据是否排序
+                    //groupSummary: [true],
+                    groupText: [
+                        '<span class="label label-lg label-info arrowed-in-right">日期：{0} </span><span class="label label-lg label-success arrowed"> {1} Item(s)</span>',
+                        '<span class="label label-lg label-primary arrowed-right arrowed "><small>单位：{0}</small></span>',
+                        '<span>单号：{0}</span>'
+                    ],
+                    groupOrder: ['desc']
+                },
+                xmlReader: {
+                    root: "NewDataSet",
+                    row: "Table",
+                    //page: "NewDataSet>TotalPages",
+                    total: "NewDataSet>TotalPages",
+                    records: "NewDataSet>TotalCount",
+                    repeatitems: false,
+                }
+            });
+            jQuery("#grid-table").jqGrid('setGroupHeaders', {
+                useColSpanStyle: false,
+                groupHeaders: [
+                  { startColumnName: '工艺', numberOfColumns: 2, titleText: '<em>Price</em>' },
+                  { startColumnName: 'closed', numberOfColumns: 2, titleText: 'Shiping' }
+                ]
+            });
+        });
+
+    });
+</script>
