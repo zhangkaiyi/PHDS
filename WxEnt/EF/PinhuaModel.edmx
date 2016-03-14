@@ -15,12 +15,12 @@
           <Property Name="fillDeptName" Type="nvarchar" MaxLength="50" />
           <Property Name="fillUser" Type="int" />
           <Property Name="fillUserName" Type="nvarchar" MaxLength="50" />
-          <Property Name="fillDate" Type="datetime" Nullable="false" />
+          <Property Name="fillDate" Type="datetime" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="rcDesc" Type="nvarchar" MaxLength="2000" />
-          <Property Name="state" Type="smallint" />
+          <Property Name="state" Type="smallint" StoreGeneratedPattern="Identity" />
           <Property Name="lstFiller" Type="int" Nullable="false" />
           <Property Name="lstFillerName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="lstFillDate" Type="datetime" Nullable="false" />
+          <Property Name="lstFillDate" Type="datetime" Nullable="false" StoreGeneratedPattern="None" />
           <Property Name="backUpdate" Type="smallint" Nullable="false" />
           <Property Name="openState" Type="smallint" Nullable="false" />
           <Property Name="openBy" Type="int" />
@@ -35,7 +35,7 @@
           <Property Name="replacerId_lstFill" Type="int" />
           <Property Name="replacerName_lstFill" Type="nvarchar" MaxLength="50" />
           <Property Name="printTime" Type="datetime" />
-          <Property Name="wiId" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="wiId" Type="nvarchar" MaxLength="20" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="commitByDataWriter" Type="smallint" Nullable="false" />
         </EntityType>
         <EntityType Name="ES_Tmp">
@@ -300,12 +300,12 @@
           <Property Name="fillDeptName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fillUser" Type="Int32" />
           <Property Name="fillUserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="fillDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fillDate" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="rcDesc" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="state" Type="Int16" />
+          <Property Name="state" Type="Int16" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="lstFiller" Type="Int32" Nullable="false" />
           <Property Name="lstFillerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="lstFillDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="lstFillDate" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="None" />
           <Property Name="backUpdate" Type="Int16" Nullable="false" />
           <Property Name="openState" Type="Int16" Nullable="false" />
           <Property Name="openBy" Type="Int32" />
@@ -320,7 +320,7 @@
           <Property Name="replacerId_lstFill" Type="Int32" />
           <Property Name="replacerName_lstFill" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="printTime" Type="DateTime" Precision="3" />
-          <Property Name="wiId" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="wiId" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="commitByDataWriter" Type="Int16" Nullable="false" />
         </EntityType>
       </Schema>

@@ -109,8 +109,8 @@
                             <div class="item-media"><i class="icon icon-form-email"></i></div>
                             <div class="item-inner">
                                 <div class="item-title label">姓名</div>
-                                <div class="item-input">
-                                    <input type="email" placeholder="你的姓名" id="myname">
+                                <div class="item-input open-popup">
+                                    <input type="email" placeholder="你的姓名" id="myname" readonly>
                                 </div>
                             </div>
                         </div>
@@ -182,12 +182,21 @@
 
         function Submit()
         {
+            if (myid.value == "" || myname.value == "" || datetimepicker.value == "")
+            {
+                alert("打卡失败，可能原因如下：\r\n1、编号或姓名未填写\r\n2、时间格式错误");
+                return;
+            }
             $.ajax({
                 type: "post",
                 url: "打卡.ashx?action=postTimeInfo",
                 data: { id: myid.value, name: myname.value, time: datetimepicker.value },
-                success: function () {
-
+                dataType:"json",
+                success: function (data) {
+                    if ($.parseJSON(data.Json).Count > 0 && data.ErrorMessage == "ok")
+                        alert("考勤登记成功");
+                    else
+                        alert("失败");
                 }
             });
         }

@@ -136,39 +136,39 @@ namespace QyWeixin
                         var name = context.Request.Form["name"];
                         var time = Convert.ToDateTime(context.Request.Form["time"]);
                         var rcid = "wx" + DateTime.Now.ToString("yyyyMMdd");
+                        var rtid = "74.1";
+
                         var xxx = from p in pinhua.ES_RepCase
                                   where p.rcId.Substring(0, 10) == rcid
-                                  select p;
-                        var yyy = from p in xxx
                                   orderby p.rcId.Substring(10) descending
                                   select p;
-
-                        if (yyy.Count() == 0)
+                        
+                        if (xxx.Count() == 0)
                         {
-                            rcid += "00001"; 
+                            rcid += "00001";
                         }
                         else
                         {
-                            var zzz = (int.Parse(string.IsNullOrEmpty(yyy.FirstOrDefault().rcId.Substring(10)) ? "0" : yyy.FirstOrDefault().rcId.Substring(10)) + 1).ToString("D5");
-                            rcid += zzz;
+                            var yyy = (int.Parse(string.IsNullOrEmpty(xxx.FirstOrDefault().rcId.Substring(10)) ? "0" : xxx.FirstOrDefault().rcId.Substring(10)) + 1).ToString("D5");
+                            rcid += yyy;
                         }
 
                         var data_RepCase = new ES_RepCase
                         {
                             rcId = rcid,
-                            RtId = "74.1",
+                            RtId = rtid,
                             lstFiller = 2,
                             lstFillerName = "张凯译",
-                            lstFillDate = DateTime.Now,
-                            fillDate = DateTime.Now,
-                            wiId = "",
-                            state = 1,
+                            lstFillDate = DateTime.UtcNow,
+                            //fillDate = DateTime.Now,
+                            //wiId = "",
+                            //state = 1,
                         };
 
                         var data = new 打卡登记
                         {
                             ExcelServerRCID = rcid,
-                            ExcelServerRTID = "74.1",
+                            ExcelServerRTID = rtid,
                             签卡原因 = "微信",
                             人员编号 = id,
                             姓名 = name,
@@ -177,16 +177,20 @@ namespace QyWeixin
 
                         pinhua.ES_RepCase.Add(data_RepCase);
                         pinhua.打卡登记.Add(data);
-                        try
-                        {
-                            var num = pinhua.SaveChanges();
 
-                        }
-                        catch (Exception ex)
+                        var num = pinhua.SaveChanges();
+                        var error = new ErrorType
                         {
-
-                            Debug.WriteLine(ex.InnerException.InnerException.Message);
-                        }
+                            ErrorCode = 0,
+                            ErrorMessage = "ok",
+                            Json = JsonConvert.SerializeObject(
+                            new
+                            {
+                                Count = num
+                            }),
+                        };
+                        context.Response.Write(JsonConvert.SerializeObject(error));
+                        
                     }
                     break;
             }
