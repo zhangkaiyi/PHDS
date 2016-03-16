@@ -45,6 +45,12 @@
 
                     </div>
                 </div>
+                <!--<div class="content-block">
+                    <div class="row">
+                        <div class="col-50"><a href="#" class="button button-big button-fill button-danger">确定</a></div>
+                        <div class="col-50"><a href="#" class="button button-big button-fill button-success">取消</a></div>
+                    </div>
+                </div>-->
             </div>
         </div>
     </div>
@@ -131,11 +137,6 @@
                     <div class="col-50"><a href="#" class="button button-big button-fill button-success" onclick="Submit()">提交</a></div>
                 </div>
             </div>
-
-            <div class="card" id="mycard">
-
-            </div>
-
         </div>
     </div>
     <script type='text/javascript' src='Scripts/jquery-2.2.1.min.js' charset='utf-8'></script>
@@ -173,69 +174,29 @@
 
         }
 
-        function Cancel() {
+        function Cancel()
+        {
             myid.value = "";
             myname.value = "";
         }
 
-        function Submit() {
-            if (myid.value == "" || myname.value == "" || datetimepicker.value == "") {
-                alert("打卡失败，请检查编号、姓名、时间格式是否有误。");
+        function Submit()
+        {
+            if (myid.value == "" || myname.value == "" || datetimepicker.value == "")
+            {
+                alert("打卡失败，可能原因如下：\r\n1、编号或姓名未填写\r\n2、时间格式错误");
                 return;
             }
-            $.confirm('Are you sure?',
-            function () {
-                $.ajax({
-                    type: "post",
-                    url: "打卡.ashx?action=postTimeInfo",
-                    data: { id: myid.value, name: myname.value, time: datetimepicker.value },
-                    dataType: "json",
-                    success: function (data) {
-
-                        if ($.parseJSON(data.Json).Count > 0 && data.ErrorMessage == "ok")
-                            alert("考勤登记成功");
-                        else
-                            alert("失败");
-
-                        getSingle();
-                    }
-                });
-            },
-            function () {
-
-            }
-          );
-            
-        }
-
-        function getSingle() {
-            
-            $.getJSON("打卡.ashx?action=getSingleRecordToday&id=" + $('#myid').val() + "&date=" + $('#datetimepicker').val().substring(0, 10), function (data) {
-                
-                if (data.ErrorMessage == "ok") {
-                    var json = $.parseJSON(data.Json);
-                    var s = "";
-
-                    s += "<div class='card-header'>" + $("#myname").val() + "<i class='icon icon-friends'></i></div>";
-                    s += "<div class='list-block'>";
-                    s += "<ul>";
-                    for (var i in json) {
-
-                        s += "<li class='item-content'>";
-                        if (json[i].card != "手动")
-                            s += "<div class='item-media'><i class='icon icon-card'></i></div>";
-                        else
-                            s += "<div class='item-media'><i class='icon icon-edit'></i></div>";
-                        s += "<div class='item-inner'>";
-                        s += "<div class='item-title'>" + json[i].card + "</div>";
-                        s += "<div class='item-after'>" + json[i].time + "</div>";
-                        s += "</div>";
-                        s += "</li>";
-
-                    }
-                    s += "</ul>";
-                    s += "</div>";
-                    $("#mycard").html(s);
+            $.ajax({
+                type: "post",
+                url: "打卡.ashx?action=postTimeInfo",
+                data: { id: myid.value, name: myname.value, time: datetimepicker.value },
+                dataType:"json",
+                success: function (data) {
+                    if ($.parseJSON(data.Json).Count > 0 && data.ErrorMessage == "ok")
+                        alert("考勤登记成功");
+                    else
+                        alert("失败");
                 }
             });
         }
@@ -255,13 +216,16 @@
 
                 var s = "";
                 for (var v in data) {
-                    
+                    //s += "<li>";
                     s += "<li class='item-content item-link close-popup'>";
+                    //s += "<label class='label-checkbox item-content close-popup'>";
+                    //s += "<input type='radio' name='my-radio'>";
                     s += "<div class='item-media'><i class='icon icon-f7'></i></div>";
                     s += "<div class='item-inner'>";
                     s += "<div class='item-title'>" + data[v].姓名 + "</div>";
                     s += "<div class='item-after'>" + data[v].人员编号 + "</div>";
                     s += "</div>";
+                    //s += "</label>";
                     s += "</li>";
                 }
 
@@ -269,17 +233,14 @@
                 $("#WorkerList li").click(function () {
                     myid.value = $(this).find('.item-after').text();
                     myname.value = $(this).find('.item-title').text();
-                    getSingle();
                 });
 
             })
 
-            $('#datetimepicker').change(function () { getSingle() });
-
             $('#datepicker').change(function () {
 
                 $.getJSON("打卡.ashx?action=getRecordTimeToday&date=" + $('#datepicker').val(), function (data) {
-                    
+
                     var json = $.parseJSON(data.Json);
                     var yuangong = $.parseJSON(json.Yuangong);
                     var shuju = $.parseJSON(json.Shuju);
@@ -294,10 +255,10 @@
                         for (var i = 0; i < yuangong.length; i++) {
                             s += "<div class='card'>";
                             s += "<div class='card-header'>" + yuangong[i].姓名 + "<i class='icon icon-friends'></i></div>";
-                            s += "<div class='list-block'>";
-                            s += "<ul>";
-                            for (var j = 0; j < shuju.length; j++) {
 
+                            for (var j = 0; j < shuju.length; j++) {
+                                s += "<div class='list-block'>";
+                                s += "<ul>";
                                 if (shuju[j].人员编号 == yuangong[i].人员编号) {
                                     s += "<li class='item-content'>";
                                     if (shuju[j].卡号 != "手动")
@@ -310,9 +271,9 @@
                                     s += "</div>";
                                     s += "</li>";
                                 }
+                                s += "</ul>";
+                                s += "</div>";
                             }
-                            s += "</ul>";
-                            s += "</div>";
                             s += "</div>";
                         }
                     }
@@ -323,5 +284,4 @@
         });
     </script>
 </body>
-
 </html>

@@ -48,147 +48,77 @@ namespace QyWeixin
                     break;
 
                 case "getRecordTimeToday":
-
-                    using (var pinhua = new PinhuaEntities())
-                    using (var eastriver = new EastRiverEntities())
                     {
+
                         var date = Convert.ToDateTime(context.Request["date"]);
 
-                        var eastriverinfo = from row in eastriver.TimeRecords
-                                            where row.sign_time.Year == date.Year && row.sign_time.Month == date.Month && row.sign_time.Day == date.Day
-                                            select row;
-
-                        var pinhuainfo = from row in pinhua.人员档案
-                                         join row2 in pinhua.考勤卡号变动
-                                             on row.ExcelServerRCID equals row2.ExcelServerRCID
-                                         select new
-                                         {
-                                             row.人员编号,
-                                             row.姓名,
-                                             row2.卡号,
-                                         };
-
-                        var info = (from x in pinhuainfo.ToList()
-                                    join y in eastriverinfo.ToList() on x.卡号 equals y.card_id
-                                    select new
-                                    {
-                                        x.人员编号,
-                                        x.姓名,
-                                        x.卡号,
-                                        时间 = y.sign_time
-                                    }).Concat(
-                                    from x in pinhua.打卡登记
-                                    where x.时间.Value.Year == date.Year && x.时间.Value.Month == date.Month && x.时间.Value.Day == date.Day
-                                    select new
-                                    {
-                                        x.人员编号,
-                                        x.姓名,
-                                        卡号 = "微信",
-                                        时间 = x.时间.Value
-                                    });
-
-                        var workerlist = (from p in info
-                                          select new
-                                          {
-                                              p.人员编号,
-                                              p.姓名
-                                          }
-                            ).Distinct();
-
-                        try
+                        using (var pinhua = new PinhuaEntities())
+                        using (var eastriver = new EastRiverEntities())
                         {
-                            var timeConverter = new Newtonsoft.Json.Converters.IsoDateTimeConverter() { DateTimeFormat = "yyyy-MM-dd HH:mm" };
-                            var error = new ErrorType
+                            var eastriverinfo = from row in eastriver.TimeRecords
+                                                where row.sign_time.Year == date.Year && row.sign_time.Month == date.Month && row.sign_time.Day == date.Day
+                                                select row;
+
+                            var pinhuainfo = from row in pinhua.人员档案
+                                             join row2 in pinhua.考勤卡号变动
+                                                 on row.ExcelServerRCID equals row2.ExcelServerRCID
+                                             select new
+                                             {
+                                                 row.人员编号,
+                                                 row.姓名,
+                                                 row2.卡号,
+                                             };
+
+                            var info = from x in pinhuainfo.ToList()
+                                       join y in eastriverinfo.ToList() on x.卡号 equals y.card_id
+                                       select new
+                                       {
+                                           x.人员编号,
+                                           x.姓名,
+                                           x.卡号,
+                                           时间 = y.sign_time
+                                       };
+
+                            var workerlist = (from p in info
+                                              select new
+                                              {
+                                                  p.人员编号,
+                                                  p.姓名
+                                              }
+                                ).Distinct();
+
+                            try
                             {
-                                ErrorCode = 0,
-                                ErrorMessage = "ok",
-                                Json = JsonConvert.SerializeObject(
-                                new
+                                var timeConverter = new Newtonsoft.Json.Converters.IsoDateTimeConverter() { DateTimeFormat = "yyyy-MM-dd HH:mm" };
+                                var error = new ErrorType
                                 {
-                                    Yuangong = JsonConvert.SerializeObject(workerlist),
-                                    Shuju = JsonConvert.SerializeObject(info, timeConverter),
-                                    Count = info.Count()
-                                }),
-                            };
-                            var jsonString = JsonConvert.SerializeObject(error);
-                            context.Response.Write(jsonString);
-
-                        }
-                        catch (SqlException ex)
-                        {
-                            var error = new ErrorType
-                            {
-                                ErrorCode = ex.ErrorCode,
-                                ErrorMessage = ex.Message,
-                                ErrorServer = ex.Server,
-                            };
-                            context.Response.Write(JsonConvert.SerializeObject(error));
-
-                        }
-                    }
-
-                    break;
-
-                case "getSingleRecordToday":
-                    using (var pinhua = new PinhuaEntities())
-                    using (var eastriver = new EastRiverEntities())
-                    {
-                        var id = context.Request["id"];
-                        var date = Convert.ToDateTime(context.Request["date"]);
-
-                        var eastriverinfo = from row in eastriver.TimeRecords
-                                            where row.sign_time.Year == date.Year && row.sign_time.Month == date.Month && row.sign_time.Day == date.Day
-                                            select row;
-
-                        var pinhuainfo = from row in pinhua.人员档案
-                                         join row2 in pinhua.考勤卡号变动
-                                             on row.ExcelServerRCID equals row2.ExcelServerRCID
-                                             where row.人员编号 == id
-                                         select new
-                                         {
-                                             row.人员编号,
-                                             row.姓名,
-                                             row2.卡号,
-                                         };
-
-                        var info = (from x in pinhuainfo.ToList()
-                                    join y in eastriverinfo.ToList() on x.卡号 equals y.card_id
-                                    select new
+                                    ErrorCode = 0,
+                                    ErrorMessage = "ok",
+                                    Json = JsonConvert.SerializeObject(
+                                    new
                                     {
-                                        card = x.卡号,
-                                        time = y.sign_time
-                                    }).Concat(
-                                    from x in pinhua.打卡登记
-                                    where x.人员编号 == id && x.时间.Value.Year == date.Year && x.时间.Value.Month == date.Month && x.时间.Value.Day == date.Day
-                                    select new
-                                    {
-                                        card = "微信",
-                                        time = x.时间.Value
-                                    });
+                                        Yuangong = JsonConvert.SerializeObject(workerlist),
+                                        Shuju = JsonConvert.SerializeObject(info, timeConverter),
+                                        Count = info.Count()
+                                    }),
+                                };
+                                var jsonString = JsonConvert.SerializeObject(error);
+                                context.Response.Write(jsonString);
 
-                        try
-                        {
-                            var timeConverter = new Newtonsoft.Json.Converters.IsoDateTimeConverter() { DateTimeFormat = "yyyy-MM-dd HH:mm" };
-                            var error = new ErrorType
+                            }
+                            catch (SqlException ex)
                             {
-                                ErrorCode = 0,
-                                ErrorMessage = "ok",
-                                Json = JsonConvert.SerializeObject(info, timeConverter),
-                            };
-                            var jsonString = JsonConvert.SerializeObject(error);
-                            context.Response.Write(jsonString);
+                                var error = new ErrorType
+                                {
+                                    ErrorCode = ex.ErrorCode,
+                                    ErrorMessage = ex.Message,
+                                    ErrorServer = ex.Server,
+                                };
+                                context.Response.Write(JsonConvert.SerializeObject(error));
 
+                            }
                         }
-                        catch (SqlException ex)
-                        {
-                            var error = new ErrorType
-                            {
-                                ErrorCode = ex.ErrorCode,
-                                ErrorMessage = ex.Message,
-                                ErrorServer = ex.Server,
-                            };
-                            context.Response.Write(JsonConvert.SerializeObject(error));
-                        }
+
                     }
                     break;
             }
@@ -249,7 +179,6 @@ namespace QyWeixin
                         pinhua.打卡登记.Add(data);
 
                         var num = pinhua.SaveChanges();
-                        
                         var error = new ErrorType
                         {
                             ErrorCode = 0,
