@@ -6,7 +6,7 @@
 
     <link rel="stylesheet" href="Assets/light7/dist/css/light7.min.css">
 
-    <title>拼花大师™地板</title>
+    <title>拼花大师地板</title>
 </head>
 <body>
 
@@ -72,42 +72,24 @@
         </div>
     </div>
 
-    <div class="popover">
-        <!-- Popover's angle arrow -->
-        <div class="popover-angle"></div>
-
-        <!-- Popover content -->
-        <div class="popover-inner">
-            <!-- Any HTML content here -->我是一个popover
-        </div>
-    </div>
+    <div class="panel-overlay"></div>
     <!-- Left Panel with Reveal effect -->
     <!-- 新增记录页 -->
     <div class="page" id='router'>
         <header class="bar bar-nav">
-            <!--<a class="button button-link button-nav pull-left back" href="/timerecords.html">
+            <a class="button button-link button-nav pull-left back" href="/timerecords.html">
                 <span class="icon icon-left"></span>
                 返回
-            </a>-->
+            </a>
             <h1 class='title'>新增记录</h1>
         </header>
-
-        <nav class="bar bar-tab">
-            <a class="tab-item" href="#">
-                取消
-            </a>
-            <a class="tab-item" href="#">
-                提交
-            </a>
-        </nav>
-
         <<div class="content">
             <div class="list-block">
                 <ul>
                     <!-- Text inputs -->
                     <li>
                         <div class="item-content">
-                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
                             <div class="item-inner">
                                 <div class="item-title label">编号</div>
                                 <div class="item-input open-popup">
@@ -118,7 +100,7 @@
                     </li>
                     <li>
                         <div class="item-content">
-                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
                             <div class="item-inner">
                                 <div class="item-title label">姓名</div>
                                 <div class="item-input open-popup">
@@ -143,15 +125,16 @@
                     </li>
                 </ul>
             </div>
+            <div class="content-block">
+                <div class="row">
+                    <div class="col-50"><a href="#" class="button button-big button-fill button-danger back" onclick="Cancel()">取消</a></div>
+                    <div class="col-50"><a href="#" class="button button-big button-fill button-success" onclick="Submit()">提交</a></div>
+                </div>
+            </div>
+
             <div class="card" id="mycard">
 
             </div>
-             <div class="content-block">
-                 <div class="row">
-                     <div class="col-50"><a href="/timerecords.html" class="button button-big button-fill button-danger back" onclick="Cancel()">取消</a></div>
-                     <div class="col-50"><a href="#" class="button button-big button-fill button-success" onclick="Submit()">提交</a></div>
-                 </div>
-             </div>
 
         </div>
     </div>
@@ -197,22 +180,22 @@
 
         function Submit() {
             if (myid.value == "" || myname.value == "" || datetimepicker.value == "") {
-                $.alert("输入有误，请检查后重试。", "拼花大师™");
+                alert("打卡失败，请检查编号、姓名、时间格式是否有误。");
                 return;
             }
-            $.confirm('确认登记考勤信息吗？', "拼花大师™",
+            $.confirm('Are you sure?',
             function () {
                 $.ajax({
                     type: "post",
-                    url: "打卡.ashx?行为=增加考勤记录",
+                    url: "打卡.ashx?action=postTimeInfo",
                     data: { id: myid.value, name: myname.value, time: datetimepicker.value },
                     dataType: "json",
                     success: function (data) {
 
                         if ($.parseJSON(data.Json).Count > 0 && data.ErrorMessage == "ok")
-                            $.alert("登记成功", "拼花大师™");
+                            alert("考勤登记成功");
                         else
-                            $.alert("失败", "拼花大师™");
+                            alert("失败");
 
                         getSingle();
                     }
@@ -227,24 +210,25 @@
 
         function getSingle() {
             
-            $.getJSON("打卡.ashx?行为=获取当天单人记录&id=" + $('#myid').val() + "&date=" + $('#datetimepicker').val().substring(0, 10), function (data) {
+            $.getJSON("打卡.ashx?action=getSingleRecordToday&id=" + $('#myid').val() + "&date=" + $('#datetimepicker').val().substring(0, 10), function (data) {
                 
                 if (data.ErrorMessage == "ok") {
                     var json = $.parseJSON(data.Json);
                     var s = "";
 
+                    s += "<div class='card-header'>" + $("#myname").val() + "<i class='icon icon-friends'></i></div>";
                     s += "<div class='list-block'>";
                     s += "<ul>";
                     for (var i in json) {
 
-                        s += "<li class='item-content' id='pk"+json[i].pk+"'>";
-                        if (json[i].card != "微信登记")
+                        s += "<li class='item-content'>";
+                        if (json[i].card != "手动")
                             s += "<div class='item-media'><i class='icon icon-card'></i></div>";
                         else
-                            s += "<div class='item-media'><i class='icon icon-message'></i></div>";
+                            s += "<div class='item-media'><i class='icon icon-edit'></i></div>";
                         s += "<div class='item-inner'>";
                         s += "<div class='item-title'>" + json[i].card + "</div>";
-                        s += "<div class='item-after'><a href='#'>" + json[i].time + "</a></div>";
+                        s += "<div class='item-after'>" + json[i].time + "</div>";
                         s += "</div>";
                         s += "</li>";
 
@@ -252,49 +236,6 @@
                     s += "</ul>";
                     s += "</div>";
                     $("#mycard").html(s);
-                    $("#mycard li").click(function () {
-                        
-                        var buttons1 = [
-                      {
-                          text: "当前记录："+ $(this).find(".item-title").text() + "，" + $(this).find(".item-after").text(),
-                          label: true
-                      },
-                      {
-                          text: '删除',
-                          bold: true,
-                          color: 'danger',
-                          onClick: function () {
-                              $.confirm("确定删除该条记录吗？", "拼花大师™", function () {
-                                  
-                                  $.ajax({
-                                      type: "post",
-                                      url: "打卡.ashx?行为=删除单条考勤记录",
-                                      data: { pk: $("#mycard li").attr("id").substring(2) },
-                                      dataType: "json",
-                                      success: function (data) {
-
-                                          if ($.parseJSON(data.Json).Count > 0)
-                                              $.alert("删除成功", "拼花大师™");
-                                          else
-                                              $.alert("失败", "拼花大师™");
-
-                                          getSingle();
-                                      }
-                                  });
-                              })
-                          }
-
-                      }
-                        ];
-                        var buttons2 = [
-                          {
-                              text: '取消',
-                              bg: 'danger'
-                          }
-                        ];
-                        var groups = [buttons1, buttons2];
-                        $.actions(groups);
-                    });
                 }
             });
         }
@@ -310,7 +251,7 @@
 
         jQuery(function ($) {
 
-            $.getJSON("打卡.ashx?行为=获取员工列表", function (data) {
+            $.getJSON("打卡.ashx?action=getWorkerList", function (data) {
 
                 var s = "";
                 for (var v in data) {
@@ -337,7 +278,7 @@
 
             $('#datepicker').change(function () {
 
-                $.getJSON("打卡.ashx?行为=获取当天所有记录&date=" + $('#datepicker').val(), function (data) {
+                $.getJSON("打卡.ashx?action=getRecordTimeToday&date=" + $('#datepicker').val(), function (data) {
                     
                     var json = $.parseJSON(data.Json);
                     var yuangong = $.parseJSON(json.Yuangong);
@@ -362,7 +303,7 @@
                                     if (shuju[j].卡号 != "手动")
                                         s += "<div class='item-media'><i class='icon icon-card'></i></div>";
                                     else
-                                        s += "<div class='item-media'><i class='icon icon-message'></i></div>";
+                                        s += "<div class='item-media'><i class='icon icon-edit'></i></div>";
                                     s += "<div class='item-inner'>";
                                     s += "<div class='item-title'>" + shuju[j].卡号 + "</div>";
                                     s += "<div class='item-after'>" + shuju[j].时间 + "</div>";

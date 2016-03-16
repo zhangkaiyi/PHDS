@@ -28,9 +28,9 @@ namespace QyWeixin
 
         private void ProcessGet(HttpContext context)
         {
-            switch (context.Request["行为"])
+            switch (context.Request["action"])
             {
-                case "获取员工列表":
+                case "getWorkerList":
 
                     using (var pinhua = new PinhuaEntities())
                     {
@@ -47,7 +47,7 @@ namespace QyWeixin
                     }
                     break;
 
-                case "获取当天所有记录":
+                case "getRecordTimeToday":
 
                     using (var pinhua = new PinhuaEntities())
                     using (var eastriver = new EastRiverEntities())
@@ -83,7 +83,7 @@ namespace QyWeixin
                                     {
                                         x.人员编号,
                                         x.姓名,
-                                        卡号 = "微信登记",
+                                        卡号 = "微信",
                                         时间 = x.时间.Value
                                     });
 
@@ -120,6 +120,7 @@ namespace QyWeixin
                             {
                                 ErrorCode = ex.ErrorCode,
                                 ErrorMessage = ex.Message,
+                                ErrorServer = ex.Server,
                             };
                             context.Response.Write(JsonConvert.SerializeObject(error));
 
@@ -128,7 +129,7 @@ namespace QyWeixin
 
                     break;
 
-                case "获取当天单人记录":
+                case "getSingleRecordToday":
                     using (var pinhua = new PinhuaEntities())
                     using (var eastriver = new EastRiverEntities())
                     {
@@ -155,16 +156,14 @@ namespace QyWeixin
                                     select new
                                     {
                                         card = x.卡号,
-                                        time = y.sign_time,
-                                        pk = 0
+                                        time = y.sign_time
                                     }).Concat(
                                     from x in pinhua.打卡登记
                                     where x.人员编号 == id && x.时间.Value.Year == date.Year && x.时间.Value.Month == date.Month && x.时间.Value.Day == date.Day
                                     select new
                                     {
-                                        card = "微信登记",
-                                        time = x.时间.Value,
-                                        pk = x.pk
+                                        card = "微信",
+                                        time = x.时间.Value
                                     });
 
                         try
@@ -186,6 +185,7 @@ namespace QyWeixin
                             {
                                 ErrorCode = ex.ErrorCode,
                                 ErrorMessage = ex.Message,
+                                ErrorServer = ex.Server,
                             };
                             context.Response.Write(JsonConvert.SerializeObject(error));
                         }
@@ -196,9 +196,9 @@ namespace QyWeixin
 
         private void ProcessPost(HttpContext context)
         {
-            switch (context.Request["行为"])
+            switch (context.Request["action"])
             {
-                case "增加考勤记录":
+                case "postTimeInfo":
 
                     using (var pinhua = new PinhuaEntities())
                     {
@@ -262,34 +262,6 @@ namespace QyWeixin
                         };
                         context.Response.Write(JsonConvert.SerializeObject(error));
                         
-                    }
-                    break;
-                case "删除单条考勤记录":
-
-                    using (var pinhua = new PinhuaEntities())
-                    {
-                        var pk = int.Parse(context.Request.Form["pk"]);
-                        var delrow = from row in pinhua.打卡登记
-                                         where row.pk == pk
-                                         select row;
-                        var delrow2 = from row in pinhua.ES_RepCase
-                                      where row.rcId == delrow.FirstOrDefault().ExcelServerRCID
-                                      select row;
-                        pinhua.打卡登记.Remove(delrow.FirstOrDefault());
-                        pinhua.ES_RepCase.Remove(delrow2.FirstOrDefault());
-                        var num = pinhua.SaveChanges();
-
-                        var error = new ErrorType
-                        {
-                            ErrorCode = 0,
-                            ErrorMessage = "ok",
-                            Json = JsonConvert.SerializeObject(
-                            new
-                            {
-                                Count = num
-                            }),
-                        };
-                        context.Response.Write(JsonConvert.SerializeObject(error));
                     }
                     break;
             }
