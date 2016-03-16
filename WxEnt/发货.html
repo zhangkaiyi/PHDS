@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <link rel="stylesheet" href="Assets/light7/dist/css/light7.min.css">
+
+    <title>拼花大师™地板</title>
+</head>
+<body>
+
+    <!-- page 容器 -->
+    <div class="page page-current" id="main">
+        <!-- 标题栏 -->
+        <header class="bar bar-nav">
+            <a class="button button-link button-nav pull-right" href="#router">
+                新增
+                <span class="icon icon-edit"></span>
+            </a>
+            <h1 class="title">单位列表</h1>
+        </header>
+
+        <!-- 这里是页面内容区 -->
+        <div class="content">
+            <div class="content-block-title">单位名称与编号</div>
+            <div class="list-block">
+                <ul id="往来单位列表">
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- 新增记录页 -->
+    
+    <script type='text/javascript' src='Scripts/jquery-2.2.1.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='Assets/light7/dist/js/light7.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='Assets/light7/dist/js/i18n/cn.min.js' charset='utf-8'></script>
+
+    <script type='text/javascript'>
+        $.ajax({
+            url: "发货.ashx?行为=往来单位",
+            dataType: "json",
+            success: function (data) {
+                var s = "";
+                for (var i in data) {
+                    s += "<li class='item-content item-link'>";
+                    s += "<div class='item-media'><i class='icon icon-f7'></i></div>";
+                    s += "<div class='item-inner'>";
+                    s += "<div class='item-title'>" + data[i].单位名称 + "</div>";
+                    s += "<div class='item-after'><span class='color-primary'>" + data[i].单位编号 + "</span></div>";
+                    s += "</div>";
+                    s += "</li>";
+                }
+                $("#往来单位列表").html(s);
+            },
+            error: function() {
+                var s = "";
+                s += "<li class='item-content item-link'>";
+                s += "<div class='item-media'><i class='icon icon-f7'></i></div>";
+                s += "<div class='item-inner'>";
+                s += "<div class='item-title'>" + "加载失败" + "</div>";
+                s += "</div>";
+                s += "</li>";
+                $("#往来单位列表").html(s);
+            }
+        })
+    </script>
+    
+
+    
+</body>
+
+</html>

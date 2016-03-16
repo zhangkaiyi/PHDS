@@ -170,9 +170,11 @@
     <None Include="Scripts\jquery-2.2.1-vsdoc.js" />
     <Content Include="Scripts\jquery-2.2.1.js" />
     <Content Include="Scripts\jquery-2.2.1.min.js" />
-    <Content Include="timerecords.html" />
+    <Content Include="发货.html" />
+    <Content Include="打卡.html" />
     <Content Include="Web.config" />
     <Content Include="打卡.ashx" />
+    <Content Include="发货.ashx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Agents\AgentHR.cs" />
@@ -205,6 +207,12 @@
       <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EF\ES_Tmp.cs">
+      <DependentUpon>PinhuaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\发货_DETAIL.cs">
+      <DependentUpon>PinhuaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\往来单位.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Kaoqin.aspx.cs">
@@ -259,6 +267,9 @@
     <Compile Include="EF\发货.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="发货.ashx.cs">
+      <DependentUpon>发货.ashx</DependentUpon>
     </Compile>
     <Compile Include="打卡.ashx.cs">
       <DependentUpon>打卡.ashx</DependentUpon>
