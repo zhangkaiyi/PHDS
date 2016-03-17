@@ -41,7 +41,92 @@
 
         </div>
     </div>
-
+    <div class="popup popup-单位信息">
+        <header class="bar bar-nav">
+            <h1 class="title">单位列表</h1>
+            <a href="#" class="button button-link button-nav pull-left close-popup">
+                <span class="icon icon-left"></span> 关闭
+            </a>
+        </header>
+        <div class="content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">单位编号</div>
+                                <div class="item-input">
+                                    <input type="text" placeholder="Company ID">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">单位名称</div>
+                                <div class="item-input">
+                                    <input type="email" placeholder="Company Name">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-password"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">RANK</div>
+                                <div class="item-input">
+                                    <input type="password" placeholder="Level" class="">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-tel"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">电话</div>
+                                <div class="item-input">
+                                    <input type="password" placeholder="Tel" class="">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-url"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">传真</div>
+                                <div class="item-input">
+                                    <input type="password" placeholder="Fax" class="">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="align-top">
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-comment"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">地址</div>
+                                <div class="item-input">
+                                    <textarea></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="content-block">
+                <div class="row">
+                    <div class="col-50"><a href="#" class="button button-big button-fill button-danger">Cancel</a></div>
+                    <div class="col-50"><a href="#" class="button button-big button-fill button-success">Submit</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- 新增记录页 -->
     
     <script type='text/javascript' src='Scripts/jquery-2.2.1.min.js' charset='utf-8'></script>
@@ -56,17 +141,15 @@
             },
             {
                 text: '单位信息',
-                bold: true,
+                //bold: true,
                 color: 'primary',
                 onClick: function () {
-                    $.confirm("确定删除该条记录吗？", "拼花大师™", function () {
-
-                    })
+                    $.popup(".popup-单位信息")
                 }
             },
             {
                 text: '发货明细',
-                bold: true,
+                //bold: true,
                 color: 'warning',
                 onClick: function () {
                     $.confirm("确定删除该条记录吗？", "拼花大师™", function () {
