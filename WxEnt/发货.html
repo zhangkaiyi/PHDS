@@ -14,20 +14,31 @@
     <div class="page page-current" id="main">
         <!-- 标题栏 -->
         <header class="bar bar-nav">
-            <a class="button button-link button-nav pull-right" href="#router">
-                新增
-                <span class="icon icon-edit"></span>
-            </a>
             <h1 class="title">单位列表</h1>
         </header>
 
         <!-- 这里是页面内容区 -->
         <div class="content">
-            <div class="content-block-title">单位名称与编号</div>
-            <div class="list-block">
-                <ul id="往来单位列表">
-                </ul>
+            <div class="buttons-tab">
+                <a href="#tab1" class="tab-link active button">全部</a>
+                <a href="#tab2" class="tab-link button">客户</a>
+                <a href="#tab3" class="tab-link button">委外</a>
             </div>
+
+            <div class="tabs">
+                <div id="tab1" class="tab active">
+                    <div class="list-block">
+                        <ul id="往来单位列表"></ul>
+                    </div>
+                </div>
+                <div id="tab2" class="tab">
+                    <div class="content-block">
+                        <p>This is tab 2 content</p>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
     </div>
 
@@ -37,22 +48,61 @@
     <script type='text/javascript' src='Assets/light7/dist/js/light7.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='Assets/light7/dist/js/i18n/cn.min.js' charset='utf-8'></script>
 
+    <script type="text/javascript">
+        function BuildActionsGroup(title) {
+            var buttons1 = [{
+                text: title,
+                label: true
+            },
+            {
+                text: '单位信息',
+                bold: true,
+                color: 'primary',
+                onClick: function () {
+                    $.confirm("确定删除该条记录吗？", "拼花大师™", function () {
+
+                    })
+                }
+            },
+            {
+                text: '发货明细',
+                bold: true,
+                color: 'warning',
+                onClick: function () {
+                    $.confirm("确定删除该条记录吗？", "拼花大师™", function () {
+
+                    })
+                }
+            }
+            ];
+            var buttons2 = [{
+                text: '取消',
+                bg: 'danger'
+            }
+            ];
+            var groups = [buttons1, buttons2];
+            return groups;
+        }
+    </script>
     <script type='text/javascript'>
+        $.showPreloader();
         $.ajax({
             url: "发货.ashx?行为=往来单位",
             dataType: "json",
             success: function (data) {
                 var s = "";
                 for (var i in data) {
-                    s += "<li class='item-content item-link'>";
+                    s += "<li class='item-content item-link' id='" + data[i].单位编号 + "'>";
                     s += "<div class='item-media'><i class='icon icon-f7'></i></div>";
                     s += "<div class='item-inner'>";
                     s += "<div class='item-title'>" + data[i].单位名称 + "</div>";
-                    s += "<div class='item-after'><span class='color-primary'>" + data[i].单位编号 + "</span></div>";
+                    //s += "<div class='item-after'><span class='color-primary'>" + data[i].单位编号 + "</span></div>";
                     s += "</div>";
                     s += "</li>";
                 }
-                $("#往来单位列表").html(s);
+                $("#往来单位列表").html(s).find("li").click(function () {
+                    $.actions(BuildActionsGroup($(this).attr("id")+" "+$(this).find(".item-title").text()));
+                });
             },
             error: function() {
                 var s = "";
@@ -63,6 +113,9 @@
                 s += "</div>";
                 s += "</li>";
                 $("#往来单位列表").html(s);
+            },
+            complete: function () {
+                $.hidePreloader();
             }
         })
     </script>
