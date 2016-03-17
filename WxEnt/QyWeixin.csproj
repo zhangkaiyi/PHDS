@@ -166,7 +166,8 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>PinhuaModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Properties\PublishProfiles\PHDS.pubxml" />
+    <None Include="Properties\PublishProfiles\内网.pubxml" />
+    <None Include="Properties\PublishProfiles\外网.pubxml" />
     <None Include="Scripts\jquery-2.2.1-vsdoc.js" />
     <Content Include="Scripts\jquery-2.2.1.js" />
     <Content Include="Scripts\jquery-2.2.1.min.js" />
@@ -289,7 +290,6 @@
     <Content Include="jqGridHandler.ashx" />
     <Content Include="packages.config" />
     <Content Include="Assets\datatables\images\Sorting icons.psd" />
-    <None Include="Properties\PublishProfiles\Wx.pubxml" />
     <Content Include="Scripts\jquery-2.2.1.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

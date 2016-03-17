@@ -31,11 +31,14 @@ namespace QyWeixin
                 case "往来单位":
                     using (var pinhua = new PinhuaEntities())
                     {
-                        var set = from p in pinhua.往来单位 orderby p.RANK
+                        var set = from p in pinhua.往来单位 orderby p.RANK descending
                                   select new
                                   {
                                       p.单位编号,
                                       p.单位名称,
+                                      p.单位地址,
+                                      p.电话,
+                                      p.传真,
                                       p.RANK,
                                       p.ExcelServerRCID,
                                   };
