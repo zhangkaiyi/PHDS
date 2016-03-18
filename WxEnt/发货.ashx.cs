@@ -57,21 +57,35 @@ namespace QyWeixin
                     using (var pinhua = new PinhuaEntities())
                     {
                         var id = context.Request["单位编号"];
-                        var set1 = (from p in pinhua.发货
-                                    where p.客户编号 == id
-                                    orderby p.送货日期 descending
-                                    select new
-                                    {
-                                        p.送货单号,
-                                        p.客户编号,
-                                        p.客户,
-                                        p.送货日期,
-                                        p.业务类型,
-                                        p.业务描述,
-                                        p.地址,
-                                        p.备注,
-                                        p.ExcelServerRCID,
-                                    }).Take(10);
+                        var set1 = from p1 in
+                                       (from p in pinhua.发货
+                                        where p.客户编号 == id
+                                        orderby p.送货日期 descending, p.送货单号 descending
+                                        select p).Take(10)
+                                   join p2 in
+                                       (from p in pinhua.发货_DETAIL
+                                        group p by p.ExcelServerRCID into g
+                                        select new
+                                        {
+                                            rcid = g.Key,
+                                            total = g.Sum(x => x.金额),
+                                            square = g.Sum(x=>x.单位数量)
+                                        }) on p1.ExcelServerRCID equals p2.rcid
+                                   orderby p1.送货日期 descending, p1.送货单号 descending
+                                   select new
+                                   {
+                                       p1.送货单号,
+                                       p1.客户编号,
+                                       p1.客户,
+                                       p1.送货日期,
+                                       p1.业务类型,
+                                       p1.业务描述,
+                                       p1.地址,
+                                       p1.备注,
+                                       p1.ExcelServerRCID,
+                                       p2.total,
+                                       p2.square
+                                   };
                         var set2 = from p in set1
                                    join d in pinhua.发货_DETAIL on p.ExcelServerRCID equals d.ExcelServerRCID
                                    select new
@@ -85,7 +99,8 @@ namespace QyWeixin
                                        d.单价,
                                        d.金额,
                                        d.木种,
-                                       d.工艺
+                                       d.工艺,
+                                       d.ExcelServerRCID
                                    };
                         //var withRN = set2.AsEnumerable().Select((item,index) => new { RN=index+1,item}); // 带上编号
                         var setfinal = new
@@ -93,10 +108,9 @@ namespace QyWeixin
                             单据信息 = set1,
                             发货明细 = set2
                         };
-                        var json = JsonConvert.SerializeObject(setfinal);
+                        var timeConverter = new Newtonsoft.Json.Converters.IsoDateTimeConverter() { DateTimeFormat = "yyyy-MM-dd" };
+                        var json = JsonConvert.SerializeObject(setfinal, timeConverter);
                         context.Response.Write(json);
-                        Debug.WriteLine(set1.Count());
-                        Debug.WriteLine(set2.Count());
                     }
                     break;
             }
