@@ -7,6 +7,13 @@
     <link rel="stylesheet" href="Assets/light7/dist/css/light7.min.css">
 
     <title>拼花大师™地板</title>
+
+    <style>
+        html {
+            font-size: 20px !important;
+        }
+    </style>
+
 </head>
 <body>
 
@@ -41,10 +48,15 @@
 
         </div>
     </div>
-    <div class='popups'></div>
-    
+    <div class='popups'>
+
+    </div>
+    <div class='popups2'>
+
+    </div>
+
     <!-- 新增记录页 -->
-    
+
     <script type='text/javascript' src='Scripts/jquery-2.2.1.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='Assets/light7/dist/js/light7.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='Assets/light7/dist/js/i18n/cn.min.js' charset='utf-8'></script>
@@ -68,9 +80,15 @@
                 //bold: true,
                 color: 'warning',
                 onClick: function () {
-                    $.confirm("确定删除该条记录吗？", "拼花大师™", function () {
+                    $.ajax({
+                        url: "发货.ashx?行为=发货明细&单位编号=" + id,
+                        //data:{单位编号:id},
+                        dataType: "json",
+                        success: function (data) {
 
+                        }
                     })
+                    $("#popups2");
                 }
             }
             ];
@@ -117,7 +135,7 @@
                     s2 += "<div class='item-inner'>"
                     s2 += "<div class='item-title label'>单位编号</div>"
                     s2 += "<div class='item-input'>"
-                    s2 += "<input type='text' placeholder='Company ID' value='" + data[i].单位编号 + "' readonly>"
+                    s2 += "<input type='text' placeholder='未登记' value='" + data[i].单位编号 + "' readonly>"
                     s2 += "</div>"
                     s2 += "</div>"
                     s2 += "</div>"
@@ -128,7 +146,7 @@
                     s2 += "<div class='item-inner'>"
                     s2 += "<div class='item-title label'>单位名称</div>"
                     s2 += "<div class='item-input'>"
-                    s2 += "<input type='text' placeholder='Company Name' value='" + data[i].单位名称 + "' readonly>"
+                    s2 += "<input type='text' placeholder='未登记' value='" + data[i].单位名称 + "' readonly>"
                     s2 += "</div>"
                     s2 += "</div>"
                     s2 += "</div>"
@@ -137,9 +155,9 @@
                     s2 += "<div class='item-content'>"
                     s2 += "<div class='item-media'><i class='icon icon-form-password'></i></div>"
                     s2 += "<div class='item-inner'>"
-                    s2 += "<div class='item-title label'>RANK</div>"
+                    s2 += "<div class='item-title label'>优先级</div>"
                     s2 += "<div class='item-input'>"
-                    s2 += "<input type='text' placeholder='Level' value='" + data[i].RANK + "' readonly>"
+                    s2 += "<input type='text' placeholder='未登记' value='" + data[i].RANK + "' readonly>"
                     s2 += "</div>"
                     s2 += "</div>"
                     s2 += "</div>"
@@ -150,7 +168,7 @@
                     s2 += "<div class='item-inner'>"
                     s2 += "<div class='item-title label'>电话</div>"
                     s2 += "<div class='item-input'>"
-                    s2 += "<input type='text' placeholder='Tel' value='" + data[i].电话 + "' readonly>"
+                    s2 += "<input type='text' placeholder='未登记' value='" + data[i].电话 + "' readonly>"
                     s2 += "</div>"
                     s2 += "</div>"
                     s2 += "</div>"
@@ -161,7 +179,7 @@
                     s2 += "<div class='item-inner'>"
                     s2 += "<div class='item-title label'>传真</div>"
                     s2 += "<div class='item-input'>"
-                    s2 += "<input type='text' placeholder='Fax' value='" + data[i].传真 + "' readonly>"
+                    s2 += "<input type='text' placeholder='未登记' value='" + data[i].传真 + "' readonly>"
                     s2 += "</div>"
                     s2 += "</div>"
                     s2 += "</div>"
@@ -193,13 +211,13 @@
                     s2 += "</div>"
                     s2 += "</div>"
                 }
-                
+
                 $("#往来单位列表").html(s).find("li").click(function () {
-                    $.actions(BuildActionsGroup(this.id +" "+$(this).find(".item-title").text(), this.id));
+                    $.actions(BuildActionsGroup(this.id + " " + $(this).find(".item-title").text(), this.id));
                 });
                 $(".popups").html(s2);
             },
-            error: function() {
+            error: function () {
                 var s = "";
                 s += "<li class='item-content item-link'>";
                 s += "<div class='item-media'><i class='icon icon-f7'></i></div>";
@@ -214,9 +232,9 @@
             }
         })
     </script>
-    
 
-    
+
+
 </body>
 
 </html>

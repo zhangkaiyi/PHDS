@@ -13,38 +13,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=0.85, maximum-scale=0.85" />
 
     <!-- bootstrap & fontawesome -->
-    <link rel="stylesheet" href="/ace/assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/ace/assets/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/assets/ace/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/assets/ace/css/font-awesome.min.css" />
 
     <!-- page specific plugin styles -->
 
 
     <!-- text fonts -->
-    <link rel="stylesheet" href="/ace/assets/css/ace-fonts.css" />
+    <link rel="stylesheet" href="/assets/ace/css/ace-fonts.css" />
 
     <!-- ace styles -->
-    <link rel="stylesheet" href="/ace/assets/css/ace.min.css" id="main-ace-style" />
+    <link rel="stylesheet" href="/assets/ace/css/ace.min.css" id="main-ace-style" />
 
     <!--[if lte IE 9]>
-			<link rel="stylesheet" href="/ace/assets/css/ace-part2.min.css" />
+			<link rel="stylesheet" href="/assets/ace/css/ace-part2.min.css" />
 		<![endif]-->
-    <link rel="stylesheet" href="/ace/assets/css/ace-skins.min.css" />
-    <link rel="stylesheet" href="/ace/assets/css/ace-rtl.min.css" />
+    <link rel="stylesheet" href="/assets/ace/css/ace-skins.min.css" />
+    <link rel="stylesheet" href="/assets/ace/css/ace-rtl.min.css" />
 
     <!--[if lte IE 9]>
-		  <link rel="stylesheet" href="/ace/assets/css/ace-ie.min.css" />
+		  <link rel="stylesheet" href="/assets/ace/css/ace-ie.min.css" />
 		<![endif]-->
 
     <!-- inline styles related to this page -->
 
     <!-- ace settings handler -->
-    <script src="/ace/assets/js/ace-extra.min.js"></script>
+    <script src="/assets/ace/js/ace-extra.min.js"></script>
 
     <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
 
     <!--[if lte IE 8]>
-		<script src="/ace/assets/js/html5shiv.min.js"></script>
-		<script src="/ace/assets/js/respond.min.js"></script>
+		<script src="/assets/ace/js/html5shiv.min.js"></script>
+		<script src="/assets/ace/js/respond.min.js"></script>
 		<![endif]-->
 </head>
 
@@ -280,28 +280,28 @@
 
     <!--[if !IE]> -->
     <script type="text/javascript">
-        window.jQuery || document.write("<script src='/ace/assets/js/jquery.min.js'>" + "<" + "/script>");
+        window.jQuery || document.write("<script src='/assets/ace/js/jquery.min.js'>" + "<" + "/script>");
     </script>
 
     <!-- <![endif]-->
 
     <!--[if IE]>
 <script type="text/javascript">
- window.jQuery || document.write("<script src='/ace/assets/js/jquery1x.min.js'>"+"<"+"/script>");
+ window.jQuery || document.write("<script src='/assets/ace/js/jquery1x.min.js'>"+"<"+"/script>");
 </script>
 <![endif]-->
     <script type="text/javascript">
-        if ('ontouchstart' in document.documentElement) document.write("<script src='/ace/assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+        if ('ontouchstart' in document.documentElement) document.write("<script src='/assets/ace/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
     </script>
-    <script src="/ace/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/ace/js/bootstrap.min.js"></script>
 
     <!-- page specific plugin scripts -->
-    <script src="ace/assets/js/jquery.dataTables.min.js"></script>
-    <script src="ace/assets/js/jquery.dataTables.bootstrap.js"></script>
+    <script src="assets/ace/js/jquery.dataTables.min.js"></script>
+    <script src="assets/ace/js/jquery.dataTables.bootstrap.js"></script>
 
     <!-- ace scripts -->
-    <script src="/ace/assets/js/ace-elements.min.js"></script>
-    <script src="/ace/assets/js/ace.min.js"></script>
+    <script src="/assets/ace/js/ace-elements.min.js"></script>
+    <script src="/assets/ace/js/ace.min.js"></script>
 
 
     <!-- inline scripts related to this page -->

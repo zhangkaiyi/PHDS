@@ -56,8 +56,46 @@ namespace QyWeixin
                 case "发货明细":
                     using (var pinhua = new PinhuaEntities())
                     {
-                        var set = from p in pinhua.发货_DETAIL
-                                   select p;
+                        var id = context.Request["单位编号"];
+                        var set1 = (from p in pinhua.发货
+                                    where p.客户编号 == id
+                                    orderby p.送货日期 descending
+                                    select new
+                                    {
+                                        p.客户编号,
+                                        p.客户,
+                                        p.送货日期,
+                                        p.业务类型,
+                                        p.业务描述,
+                                        p.地址,
+                                        p.备注,
+                                        p.ExcelServerRCID,
+                                    }).Take(10);
+                        var set2 = from p in set1
+                                   join d in pinhua.发货_DETAIL on p.ExcelServerRCID equals d.ExcelServerRCID
+                                   select new
+                                   {
+                                       d.编号,
+                                       d.描述,
+                                       d.规格,
+                                       d.PCS,
+                                       d.计价单位,
+                                       d.单位数量,
+                                       d.单价,
+                                       d.金额,
+                                       d.木种,
+                                       d.工艺
+                                   };
+                        //var withRN = set2.AsEnumerable().Select((item,index) => new { RN=index+1,item}); // 带上编号
+                        var setfinal = new
+                        {
+                            单据信息 = set1,
+                            发货明细 = set2
+                        };
+                        var json = JsonConvert.SerializeObject(setfinal);
+                        context.Response.Write(json);
+                        Debug.WriteLine(set1.Count());
+                        Debug.WriteLine(set2.Count());
                     }
                     break;
             }
