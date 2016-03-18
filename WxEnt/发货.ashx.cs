@@ -62,6 +62,7 @@ namespace QyWeixin
                                     orderby p.送货日期 descending
                                     select new
                                     {
+                                        p.送货单号,
                                         p.客户编号,
                                         p.客户,
                                         p.送货日期,

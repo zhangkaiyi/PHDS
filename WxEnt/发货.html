@@ -20,10 +20,9 @@
     <!-- page 容器 -->
     <div class="page page-current" id="main">
         <!-- 标题栏 -->
-        <header class="bar bar-nav">
+        <!--<header class="bar bar-nav">
             <h1 class="title">单位列表</h1>
-        </header>
-
+        </header>-->
         <!-- 这里是页面内容区 -->
         <div class="content">
             <div class="buttons-tab">
@@ -34,6 +33,7 @@
 
             <div class="tabs">
                 <div id="tab1" class="tab active">
+
                     <div class="list-block">
                         <ul id="往来单位列表"></ul>
                     </div>
@@ -48,10 +48,76 @@
 
         </div>
     </div>
-    <div class='popups'>
+
+    <div class='popups_单位信息'>
 
     </div>
-    <div class='popups2'>
+    <div id='pages'>
+        <div class='page' id='router'>
+            <header class='bar bar-nav'>
+                <h1 class='title'>单据列表</h1>
+                <a href='/发货.html' class='button button-link button-nav pull-left back'>
+                    <span class='icon icon-left'></span> 关闭
+                </a>
+            </header>
+            <div class='content'>
+                <div class='content-block-title'>拼花大师地板 KH-13-0032</div>
+                <div class='card'>
+                    <div class='card-header'>单号：SH-1603-005</div>
+                    <div class='card-content'>
+                        <div class='list-block media-list'>
+                            <ul>
+                                <li class='item-content item-link'>
+                                    <div class='item-media'>
+                                        <img src='/Assets/pic1.jpg' width='80'>
+                                    </div>
+                                    <div class='item-inner'>
+                                        <div class='item-title-row'>
+                                            <div class='item-title'>名称</div>
+                                        </div>
+                                        <div class='item-subtitle'>拼花大师地板</div>
+                                        <div class='item-title-row'>
+                                            <div class='item-title'>地址</div>
+                                        </div>
+                                        <div class='item-subtitle'>浙江省嘉善县开发区玉山路8号</div>
+
+                                        <div class='item-title-row'>
+                                            <div class='item-title'>统计</div>
+                                        </div>
+                                        <div class='item-title-row'>
+                                            <div class='item-subtitle'>平方</div>
+                                            <div class='item-subtitle color-primary'>2387.00</div>
+                                        </div>
+                                        <div class='item-title-row'>
+                                            <div class='item-subtitle'>金额</div>
+                                            <div class='item-subtitle color-primary'>238793.00</div>
+                                            </div>
+
+                                            <div class='item-title-row'><div class='item-title'>摘要</div></div>
+                                            <div class='item-title-row'>
+                                                <div class='item-subtitle'>榆木 拼花素板</div>
+                                                <div class='item-subtitle'>1005片</div>
+                                            </div>
+                                            <div class='item-title-row'>
+                                                <div class='item-subtitle'>柞木 拼花素板</div>
+                                                <div class='item-subtitle'>870片</div>
+                                            </div>
+                                            <div class='item-title-row'>
+                                                <div class='item-subtitle'>安然盛世 拼花</div>
+                                                <div class='item-subtitle'>206片</div>
+                                            </div>
+                                        </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class='card-footer'>
+                        <span>单据日期：2016-03-17</span>
+                        <span>点击查看</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
 
@@ -82,13 +148,14 @@
                 onClick: function () {
                     $.ajax({
                         url: "发货.ashx?行为=发货明细&单位编号=" + id,
-                        //data:{单位编号:id},
                         dataType: "json",
                         success: function (data) {
+                            var s = "";
 
+                            $.router.loadPage("#router");
                         }
                     })
-                    $("#popups2");
+
                 }
             }
             ];
@@ -118,6 +185,10 @@
                     s += "</div>";
                     s += "</li>";
                 }
+                $("#往来单位列表").html(s).find("li").click(function () {
+                    $.actions(BuildActionsGroup(this.id + " " + $(this).find(".item-title").text(), this.id));
+                });
+
                 for (var i in data) {
                     s2 += "<div class='popup popup-" + data[i].单位编号 + "'>";
                     s2 += "<header class='bar bar-nav'>";
@@ -212,10 +283,7 @@
                     s2 += "</div>"
                 }
 
-                $("#往来单位列表").html(s).find("li").click(function () {
-                    $.actions(BuildActionsGroup(this.id + " " + $(this).find(".item-title").text(), this.id));
-                });
-                $(".popups").html(s2);
+                $(".popups_单位信息").html(s2);
             },
             error: function () {
                 var s = "";
