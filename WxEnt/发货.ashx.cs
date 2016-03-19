@@ -83,8 +83,8 @@ namespace QyWeixin
                                        p1.地址,
                                        p1.备注,
                                        p1.ExcelServerRCID,
-                                       p2.total,
-                                       p2.square
+                                       total = System.Data.Entity.SqlServer.SqlFunctions.StringConvert(p2.total.HasValue?p2.total.Value:0,10,2)+" 元",
+                                       square=System.Data.Entity.SqlServer.SqlFunctions.StringConvert(p2.square.HasValue?p2.square.Value:0,10,2)+" ㎡"
                                    };
                         var set2 = from p in set1
                                    join d in pinhua.发货_DETAIL on p.ExcelServerRCID equals d.ExcelServerRCID

@@ -52,11 +52,11 @@
     <div class='popups_单位信息'>
 
     </div>
-    <div id='pages'>
-        <div class='page' id='router'>
+    <div class="popups_发货明细">
+        <div class='popup' id='发货单' style="background: #eee">
             <header class='bar bar-nav'>
                 <h1 class='title'>单据列表</h1>
-                <a href='/发货.html' class='button button-link button-nav pull-left back'>
+                <a href='/发货.html' class='button button-link button-nav pull-left close-popup'>
                     <span class='icon icon-left'></span> 关闭
                 </a>
             </header>
@@ -91,22 +91,22 @@
                                         <div class='item-title-row'>
                                             <div class='item-subtitle'>金额</div>
                                             <div class='item-subtitle color-primary'>238793.00</div>
-                                            </div>
-
-                                            <div class='item-title-row'><div class='item-title'>摘要</div></div>
-                                            <div class='item-title-row'>
-                                                <div class='item-subtitle'>榆木 拼花素板</div>
-                                                <div class='item-subtitle'>1005片</div>
-                                            </div>
-                                            <div class='item-title-row'>
-                                                <div class='item-subtitle'>柞木 拼花素板</div>
-                                                <div class='item-subtitle'>870片</div>
-                                            </div>
-                                            <div class='item-title-row'>
-                                                <div class='item-subtitle'>安然盛世 拼花</div>
-                                                <div class='item-subtitle'>206片</div>
-                                            </div>
                                         </div>
+
+                                        <div class='item-title-row'><div class='item-title'>摘要</div></div>
+                                        <div class='item-title-row'>
+                                            <div class='item-subtitle'>榆木 拼花素板</div>
+                                            <div class='item-subtitle'>1005片</div>
+                                        </div>
+                                        <div class='item-title-row'>
+                                            <div class='item-subtitle'>柞木 拼花素板</div>
+                                            <div class='item-subtitle'>870片</div>
+                                        </div>
+                                        <div class='item-title-row'>
+                                            <div class='item-subtitle'>安然盛世 拼花</div>
+                                            <div class='item-subtitle'>206片</div>
+                                        </div>
+                                    </div>
                                 </li>
                             </ul>
                         </div>
@@ -151,10 +151,13 @@
                         dataType: "json",
                         success: function (data) {
                             var s = "";
-                            s += "<div class='content-block-title'>" + data.单据信息[0].客户 + " （" + data.单据信息[0].客户编号+"）" + "</div>"
+                            //s += "<div class='content-block-title'>" + data.单据信息[0].客户 + " （" + id +"）" + "</div>"
                             for (var i in data.单据信息) {
                                 s += "<div class='card'>"
-                                s += "<div class='card-header'>单号：" + data.单据信息[i].送货单号 + "</div>"
+                                s += "<div class='card-header'>"
+                                s += "<span>单号：" + data.单据信息[i].送货单号 + "</span>"
+                                //s += "<span>日期：" + data.单据信息[i].送货日期 + "</span>"
+                                s += "</div>"
                                 s += "<div class='card-content'>"
                                 s += "<div class='list-block media-list'>"
                                 s += "<ul>"
@@ -163,14 +166,25 @@
                                 s += "<img src='/Assets/pic1.jpg' width='80'>"
                                 s += "</div>"
                                 s += "<div class='item-inner'>"
-                                s += "<div class='item-title-row'>"
-                                s += "<div class='item-title'>名称：</div>"
-                                s += "</div>"
-                                s += "<div class='item-subtitle'>"+data.单据信息[i].客户+"</div>"
+                                //s += "<div class='item-title-row'>"
+                                //s += "<div class='item-title'>名称：</div>"
+                                //s += "</div>"
+                                //s += "<div class='item-subtitle'>" + data.单据信息[i].客户 + "</div>"
+
                                 s += "<div class='item-title-row'>"
                                 s += "<div class='item-title'>地址：</div>"
                                 s += "</div>"
                                 s += "<div class='item-subtitle'>"+data.单据信息[i].地址+"</div>"
+
+                                s += "<div class='item-title-row'><div class='item-title'>摘要：</div></div>"
+                                for (var j in data.发货明细) {
+                                    if (data.发货明细[j].ExcelServerRCID == data.单据信息[i].ExcelServerRCID) {
+                                        s += "<div class='item-title-row'>"
+                                        s += "<div class='item-subtitle'>" + data.发货明细[j].描述 + "</div>"
+                                        s += "<div class='item-subtitle'>" + data.发货明细[j].PCS + " P</div>"
+                                        s += "</div>"
+                                    }
+                                }
 
                                 s += "<div class='item-title-row'>"
                                 s += "<div class='item-title'>统计：</div>"
@@ -184,15 +198,6 @@
                                 s += "<div class='item-subtitle color-primary'>" + data.单据信息[i].total + "</div>"
                                 s += "</div>"
 
-                                s += "<div class='item-title-row'><div class='item-title'>摘要：</div></div>"
-                                for (var j in data.发货明细) {
-                                    if (data.发货明细[j].ExcelServerRCID == data.单据信息[i].ExcelServerRCID) {
-                                        s += "<div class='item-title-row'>"
-                                        s += "<div class='item-subtitle'>" + data.发货明细[j].描述 + "</div>"
-                                        s += "<div class='item-subtitle'>" + data.发货明细[j].PCS + " P</div>"
-                                        s += "</div>"
-                                    }
-                                }
                                 s += "</div>"
                                 s += "</li>"
                                 s += "</ul>"
@@ -204,8 +209,9 @@
                                 s += "</div>"
                                 s += "</div>"
                             }
-                            $("#router .content").html(s);
-                            $.router.loadPage("#router");
+                            $("#发货单 .content").html(s);
+                            //$.router.loadPage("#router");
+                            $.popup("#发货单");
                         }
                     })
 
