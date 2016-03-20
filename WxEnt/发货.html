@@ -34,13 +34,11 @@
             <div class="tabs">
                 <div id="tab1" class="tab active">
 
-                    <div class="list-block">
-                        <ul id="往来单位列表"></ul>
-                    </div>
+                    
                 </div>
                 <div id="tab2" class="tab">
-                    <div class="content-block">
-                        <p>This is tab 2 content</p>
+                    <div class="list-block">
+                        <ul id="往来单位列表"></ul>
                     </div>
                 </div>
 
@@ -150,8 +148,9 @@
         var 单位编号 = "";
         var 每页行数 = 10;
 
-        function 获取发货清单(id) {
-            
+        function 获取发货清单(id, name) {
+            $("#发货单 .content").html("");
+            $("#发货单 .title").text(name + "（" + id + "）");
             $.ajax({
                 url: "发货.ashx?行为=发货明细&单位编号=" + id+"&行号="+window.行号,
                 dataType: "json",
@@ -160,7 +159,7 @@
                     window.总行数 = data.总行数;
                     var s = "";
                     for (var i in data.单据信息) {
-                        s += "<div class='content-block-title'>" + data.单据信息[i].index + "＃" + "</div>"
+                        s += "<div class='content-block-title'>" + data.单据信息[i].rn + "＃" + "</div>"
                         s += "<div class='card'>"
                         s += "<div class='card-header'>"
                         s += "<span>单号：" + data.单据信息[i].送货单号 + "</span>"
@@ -179,10 +178,10 @@
                         //s += "</div>"
                         //s += "<div class='item-subtitle'>" + data.单据信息[i].客户 + "</div>"
 
-                        s += "<div class='item-title-row'>"
-                        s += "<div class='item-title'>地址：</div>"
-                        s += "</div>"
-                        s += "<div class='item-subtitle'>"+data.单据信息[i].地址+"</div>"
+                        //s += "<div class='item-title-row'>"
+                        //s += "<div class='item-title'>地址：</div>"
+                        //s += "</div>"
+                        //s += "<div class='item-subtitle'>"+data.单据信息[i].地址+"</div>"
 
                         s += "<div class='item-title-row'><div class='item-title'>摘要：</div></div>"
                         for (var j in data.发货明细) {
@@ -225,9 +224,9 @@
     </script>
     <script type="text/javascript">
 
-        function BuildActionsGroup(title, id) {
+        function BuildActionsGroup(id, name) {
             var buttons1 = [{
-                text: title,
+                text: name + "（" + id + "）",
                 label: true
             },
             {
@@ -244,7 +243,8 @@
                 color: 'warning',
                 onClick: function () {
                     window.单位编号 = id;
-                    获取发货清单(id);
+                    window.行号 = 0;
+                    获取发货清单(id,name);
                     $.popup("#发货单");
                 }
             }
@@ -259,7 +259,7 @@
         }
     </script>
     <script type='text/javascript'>
-        $.showPreloader();
+        $.showIndicator();
         $.ajax({
             url: "发货.ashx?行为=往来单位",
             dataType: "json",
@@ -276,7 +276,7 @@
                     s += "</li>";
                 }
                 $("#往来单位列表").html(s).find("li").click(function () {
-                    $.actions(BuildActionsGroup(this.id + " " + $(this).find(".item-title").text(), this.id));
+                    $.actions(BuildActionsGroup(this.id, $(this).find(".item-title").text()));
                 });
 
                 for (var i in data) {
@@ -386,7 +386,7 @@
                 $("#往来单位列表").html(s);
             },
             complete: function () {
-                $.hidePreloader();
+                $.hideIndicator();
             }
         })
     </script>

@@ -59,39 +59,51 @@ namespace QyWeixin
                         var id = context.Request["单位编号"];
                         var rowstart = int.Parse(context.Request["行号"]);
                         var count = (from p in pinhua.发货 where p.客户编号 == id select p).Count();
-                        var set0 = pinhua.发货.ToList().Where(p => p.客户编号 == id).Select((p, rn) => new { rn, p });
-                        foreach (var p in set0)
-                        {
-                            Debug.WriteLine(p.rn);
-                        }
-                        var set1 = from p1 in
-                                       (from p in pinhua.发货
+
+                        
+                            //var seta = pinhua.发货.ToList().Where(p => p.客户编号 == id).Select((p, rn) => new { rn, p });
+                            var a = (from p in pinhua.发货
                                         where p.客户编号 == id
                                         orderby p.送货日期 descending, p.送货单号 descending
-                                        select p).Take(rowstart+10).Skip(rowstart)
-                                   join p2 in
-                                       (from p in pinhua.发货_DETAIL
+                                        select p).AsEnumerable().Select((p, rn) => new
+                                        {
+                                            rn,
+                                            p
+                                        });
+                            var b = from p in pinhua.发货_DETAIL
                                         group p by p.ExcelServerRCID into g
                                         select new
                                         {
                                             rcid = g.Key,
                                             total = g.Sum(x => x.金额),
                                             square = g.Sum(x => x.单位数量)
-                                        }) on p1.ExcelServerRCID equals p2.rcid
-                                   orderby p1.送货日期 descending, p1.送货单号 descending
+                                        };
+                            var ab = from p1 in a
+                                     join p2 in b on p1.p.ExcelServerRCID equals p2.rcid
+                                     orderby p1.p.送货日期 descending, p1.p.送货单号 descending
+                                     select new { p1, p2 };
+
+
+                            var set1 = from p1 in a.Take(rowstart + 10).Skip(rowstart)
+                                   join p2 in b
+                                       on p1.p.ExcelServerRCID equals p2.rcid
+                                   orderby p1.p.送货日期 descending, p1.p.送货单号 descending
                                    select new
                                    {
-                                       p1.送货单号,
-                                       p1.客户编号,
-                                       p1.客户,
-                                       p1.送货日期,
-                                       p1.业务类型,
-                                       p1.业务描述,
-                                       p1.地址,
-                                       p1.备注,
-                                       p1.ExcelServerRCID,
-                                       total = System.Data.Entity.SqlServer.SqlFunctions.StringConvert(p2.total.HasValue ? p2.total.Value : 0, 10, 2) + " 元",
-                                       square = System.Data.Entity.SqlServer.SqlFunctions.StringConvert(p2.square.HasValue ? p2.square.Value : 0, 10, 2) + " ㎡"
+                                       rn=p1.rn+1,
+                                       p1.p.送货单号,
+                                       p1.p.客户编号,
+                                       p1.p.客户,
+                                       p1.p.送货日期,
+                                       p1.p.业务类型,
+                                       p1.p.业务描述,
+                                       p1.p.地址,
+                                       p1.p.备注,
+                                       p1.p.ExcelServerRCID,
+                                       total = (p2.total.HasValue ? p2.total.Value : 0).ToString("F2") + " 元",
+                                       square = (p2.square.HasValue ? p2.square.Value : 0).ToString("F2") + " ㎡"
+                                       //total = System.Data.Entity.SqlServer.SqlFunctions.StringConvert(p2.total.HasValue ? p2.total.Value : 0, 10, 2) + " 元",
+                                       //square = System.Data.Entity.SqlServer.SqlFunctions.StringConvert(p2.square.HasValue ? p2.square.Value : 0, 10, 2) + " ㎡"
                                    };
                         var set2 = from p in set1
                                    join d in pinhua.发货_DETAIL on p.ExcelServerRCID equals d.ExcelServerRCID
@@ -127,6 +139,23 @@ namespace QyWeixin
         { 
 
         }
+        public static String ToSBC(String input)
+        {
+            // 半角转全角：
+            char[] c = input.ToCharArray();
+            for (int i = 0; i < c.Length; i++)
+            {
+                if (c[i] == 32)
+                {
+                    c[i] = (char)12288;
+                    continue;
+                }
+                if (c[i] < 127)
+                    c[i] = (char)(c[i] + 65248);
+            }
+            return new String(c);
+        }
+
 
         public bool IsReusable
         {
