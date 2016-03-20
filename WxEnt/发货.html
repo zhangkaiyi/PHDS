@@ -44,6 +44,7 @@
                     </div>
                 </div>
 
+
             </div>
 
         </div>
@@ -56,10 +57,24 @@
         <div class='popup' id='发货单' style="background: #eee">
             <header class='bar bar-nav'>
                 <h1 class='title'>单据列表</h1>
-                <a href='/发货.html' class='button button-link button-nav pull-left close-popup'>
+                <a href='#' class='button button-link button-nav pull-left close-popup'>
                     <span class='icon icon-left'></span> 关闭
                 </a>
             </header>
+            <nav class="bar bar-tab">
+                <a class="tab-item" href="#" onclick="{ window.行号 -= window.每页行数; if (window.行号 < 0) window.行号 = 0; 获取发货清单(window.单位编号); }">
+                    <span class="icon icon-left"></span>
+                    <span class="tab-label">往前</span>
+                </a>
+                <a class="tab-item active" href="#" onclick="{ window.行号 = 0; 获取发货清单(window.单位编号); }">
+                    <span class="icon icon-home"></span>
+                    <span class="tab-label">首页</span>
+                </a>
+                <a class="tab-item" href="#" onclick="{ if (window.行号 < window.总行数 - window.每页行数) window.行号 += window.每页行数; 获取发货清单(window.单位编号); }">
+                    <span class="icon icon-right"></span>
+                    <span class="tab-label">往后</span>
+                </a>
+            </nav>
             <div class='content'>
                 <div class='content-block-title'>拼花大师地板 KH-13-0032</div>
                 <div class='card'>
@@ -121,13 +136,95 @@
 
     </div>
 
-    <!-- 新增记录页 -->
+    <div class="pages"></div>
 
     <script type='text/javascript' src='Scripts/jquery-2.2.1.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='Assets/light7/dist/js/light7.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='Assets/light7/dist/js/i18n/cn.min.js' charset='utf-8'></script>
 
     <script type="text/javascript">
+        // 全局变量
+
+        var 行号 = 0;
+        var 总行数 = 0;
+        var 单位编号 = "";
+        var 每页行数 = 10;
+
+        function 获取发货清单(id) {
+            
+            $.ajax({
+                url: "发货.ashx?行为=发货明细&单位编号=" + id+"&行号="+window.行号,
+                dataType: "json",
+                success: function (data) {
+                    
+                    window.总行数 = data.总行数;
+                    var s = "";
+                    for (var i in data.单据信息) {
+                        s += "<div class='content-block-title'>" + data.单据信息[i].index + "＃" + "</div>"
+                        s += "<div class='card'>"
+                        s += "<div class='card-header'>"
+                        s += "<span>单号：" + data.单据信息[i].送货单号 + "</span>"
+                        //s += "<span>日期：" + data.单据信息[i].送货日期 + "</span>"
+                        s += "</div>"
+                        s += "<div class='card-content'>"
+                        s += "<div class='list-block media-list'>"
+                        s += "<ul>"
+                        s += "<li class='item-content'>"
+                        s += "<div class='item-media'>"
+                        s += "<img src='/Assets/pic1.jpg' width='80'>"
+                        s += "</div>"
+                        s += "<div class='item-inner'>"
+                        //s += "<div class='item-title-row'>"
+                        //s += "<div class='item-title'>名称：</div>"
+                        //s += "</div>"
+                        //s += "<div class='item-subtitle'>" + data.单据信息[i].客户 + "</div>"
+
+                        s += "<div class='item-title-row'>"
+                        s += "<div class='item-title'>地址：</div>"
+                        s += "</div>"
+                        s += "<div class='item-subtitle'>"+data.单据信息[i].地址+"</div>"
+
+                        s += "<div class='item-title-row'><div class='item-title'>摘要：</div></div>"
+                        for (var j in data.发货明细) {
+                            if (data.发货明细[j].ExcelServerRCID == data.单据信息[i].ExcelServerRCID) {
+                                s += "<div class='item-title-row'>"
+                                s += "<div class='item-subtitle'>" + data.发货明细[j].描述 + "</div>"
+                                s += "<div class='item-subtitle'>" + data.发货明细[j].PCS + " P</div>"
+                                s += "</div>"
+                            }
+                        }
+
+                        s += "<div class='item-title-row'>"
+                        s += "<div class='item-title'>统计：</div>"
+                        s += "</div>"
+                        s += "<div class='item-title-row'>"
+                        s += "<div class='item-subtitle'>平方</div>"
+                        s += "<div class='item-subtitle color-primary'>" + data.单据信息[i].square + "</div>"
+                        s += "</div>"
+                        s += "<div class='item-title-row'>"
+                        s += "<div class='item-subtitle'>金额</div>"
+                        s += "<div class='item-subtitle color-primary'>" + data.单据信息[i].total + "</div>"
+                        s += "</div>"
+
+                        s += "</div>"
+                        s += "</li>"
+                        s += "</ul>"
+                        s += "</div>"
+                        s += "</div>"
+                        s += "<div class='card-footer'>"
+                        s += "<span>单据日期：" + data.单据信息[i].送货日期 + "</span>"
+                        s += "<a href='#' class='link'>查看详情</a>"
+                        s += "</div>"
+                        s += "</div>"
+                    }
+                    $("#发货单 .content").html(s);
+                }
+            })
+
+        }
+    </script>
+    <script type="text/javascript">
+
         function BuildActionsGroup(title, id) {
             var buttons1 = [{
                 text: title,
@@ -146,75 +243,9 @@
                 //bold: true,
                 color: 'warning',
                 onClick: function () {
-                    $.ajax({
-                        url: "发货.ashx?行为=发货明细&单位编号=" + id,
-                        dataType: "json",
-                        success: function (data) {
-                            var s = "";
-                            //s += "<div class='content-block-title'>" + data.单据信息[0].客户 + " （" + id +"）" + "</div>"
-                            for (var i in data.单据信息) {
-                                s += "<div class='card'>"
-                                s += "<div class='card-header'>"
-                                s += "<span>单号：" + data.单据信息[i].送货单号 + "</span>"
-                                //s += "<span>日期：" + data.单据信息[i].送货日期 + "</span>"
-                                s += "</div>"
-                                s += "<div class='card-content'>"
-                                s += "<div class='list-block media-list'>"
-                                s += "<ul>"
-                                s += "<li class='item-content'>"
-                                s += "<div class='item-media'>"
-                                s += "<img src='/Assets/pic1.jpg' width='80'>"
-                                s += "</div>"
-                                s += "<div class='item-inner'>"
-                                //s += "<div class='item-title-row'>"
-                                //s += "<div class='item-title'>名称：</div>"
-                                //s += "</div>"
-                                //s += "<div class='item-subtitle'>" + data.单据信息[i].客户 + "</div>"
-
-                                s += "<div class='item-title-row'>"
-                                s += "<div class='item-title'>地址：</div>"
-                                s += "</div>"
-                                s += "<div class='item-subtitle'>"+data.单据信息[i].地址+"</div>"
-
-                                s += "<div class='item-title-row'><div class='item-title'>摘要：</div></div>"
-                                for (var j in data.发货明细) {
-                                    if (data.发货明细[j].ExcelServerRCID == data.单据信息[i].ExcelServerRCID) {
-                                        s += "<div class='item-title-row'>"
-                                        s += "<div class='item-subtitle'>" + data.发货明细[j].描述 + "</div>"
-                                        s += "<div class='item-subtitle'>" + data.发货明细[j].PCS + " P</div>"
-                                        s += "</div>"
-                                    }
-                                }
-
-                                s += "<div class='item-title-row'>"
-                                s += "<div class='item-title'>统计：</div>"
-                                s += "</div>"
-                                s += "<div class='item-title-row'>"
-                                s += "<div class='item-subtitle'>平方</div>"
-                                s += "<div class='item-subtitle color-primary'>" + data.单据信息[i].square + "</div>"
-                                s += "</div>"
-                                s += "<div class='item-title-row'>"
-                                s += "<div class='item-subtitle'>金额</div>"
-                                s += "<div class='item-subtitle color-primary'>" + data.单据信息[i].total + "</div>"
-                                s += "</div>"
-
-                                s += "</div>"
-                                s += "</li>"
-                                s += "</ul>"
-                                s += "</div>"
-                                s += "</div>"
-                                s += "<div class='card-footer'>"
-                                s += "<span>单据日期：" + data.单据信息[i].送货日期 + "</span>"
-                                s += "<span>查看详情</span>"
-                                s += "</div>"
-                                s += "</div>"
-                            }
-                            $("#发货单 .content").html(s);
-                            //$.router.loadPage("#router");
-                            $.popup("#发货单");
-                        }
-                    })
-
+                    window.单位编号 = id;
+                    获取发货清单(id);
+                    $.popup("#发货单");
                 }
             }
             ];

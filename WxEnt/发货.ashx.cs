@@ -57,11 +57,18 @@ namespace QyWeixin
                     using (var pinhua = new PinhuaEntities())
                     {
                         var id = context.Request["单位编号"];
+                        var rowstart = int.Parse(context.Request["行号"]);
+                        var count = (from p in pinhua.发货 where p.客户编号 == id select p).Count();
+                        var set0 = pinhua.发货.ToList().Where(p => p.客户编号 == id).Select((p, rn) => new { rn, p });
+                        foreach (var p in set0)
+                        {
+                            Debug.WriteLine(p.rn);
+                        }
                         var set1 = from p1 in
                                        (from p in pinhua.发货
                                         where p.客户编号 == id
                                         orderby p.送货日期 descending, p.送货单号 descending
-                                        select p).Take(10)
+                                        select p).Take(rowstart+10).Skip(rowstart)
                                    join p2 in
                                        (from p in pinhua.发货_DETAIL
                                         group p by p.ExcelServerRCID into g
@@ -69,7 +76,7 @@ namespace QyWeixin
                                         {
                                             rcid = g.Key,
                                             total = g.Sum(x => x.金额),
-                                            square = g.Sum(x=>x.单位数量)
+                                            square = g.Sum(x => x.单位数量)
                                         }) on p1.ExcelServerRCID equals p2.rcid
                                    orderby p1.送货日期 descending, p1.送货单号 descending
                                    select new
@@ -83,8 +90,8 @@ namespace QyWeixin
                                        p1.地址,
                                        p1.备注,
                                        p1.ExcelServerRCID,
-                                       total = System.Data.Entity.SqlServer.SqlFunctions.StringConvert(p2.total.HasValue?p2.total.Value:0,10,2)+" 元",
-                                       square=System.Data.Entity.SqlServer.SqlFunctions.StringConvert(p2.square.HasValue?p2.square.Value:0,10,2)+" ㎡"
+                                       total = System.Data.Entity.SqlServer.SqlFunctions.StringConvert(p2.total.HasValue ? p2.total.Value : 0, 10, 2) + " 元",
+                                       square = System.Data.Entity.SqlServer.SqlFunctions.StringConvert(p2.square.HasValue ? p2.square.Value : 0, 10, 2) + " ㎡"
                                    };
                         var set2 = from p in set1
                                    join d in pinhua.发货_DETAIL on p.ExcelServerRCID equals d.ExcelServerRCID
@@ -105,6 +112,7 @@ namespace QyWeixin
                         //var withRN = set2.AsEnumerable().Select((item,index) => new { RN=index+1,item}); // 带上编号
                         var setfinal = new
                         {
+                            总行数 = count,
                             单据信息 = set1,
                             发货明细 = set2
                         };
