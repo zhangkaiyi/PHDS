@@ -46,11 +46,36 @@ namespace QyWeixin
                         context.Response.Write(json);
                     }
                     break;
-                case "发货清单":
+                case "单据流水":
                     using (var pinhua = new PinhuaEntities())
                     {
-                        var set = from p in pinhua.发货
-                                   select p;
+                        var 每页行数 = int.Parse(context.Request["每页行数"]);
+                        var a = (from p in pinhua.发货 orderby p.送货日期 descending, p.送货单号 descending
+                                   select p).Take(每页行数);
+                        var b = from p in pinhua.发货_DETAIL
+                                group p by p.ExcelServerRCID into g
+                                select new
+                                {
+                                    rcid = g.Key,
+                                    total = g.Sum(x => x.金额),
+                                    square = g.Sum(x => x.单位数量)
+                                };
+                        var set = from p1 in a.AsEnumerable()
+                                  join p2 in b.AsEnumerable()
+                                  on p1.ExcelServerRCID equals p2.rcid
+                                  select new { p1.送货单号, p1.送货日期, p1.客户, p1.ExcelServerRCID, p1.业务描述, 金额 = (p2.total.HasValue ? p2.total.Value : 0).ToString("F2") + " 元" };
+                        var timeConverter = new Newtonsoft.Json.Converters.IsoDateTimeConverter() { DateTimeFormat = "yyyy-MM-dd" };
+                        var json = JsonConvert.SerializeObject(set, timeConverter);
+                        context.Response.Write(json);
+                    }
+                    break;
+                case "单据流水_单据明细":
+                    using (var pinhua = new PinhuaEntities())
+                    {
+                        var rcid = context.Request["rcid"];
+                        var set = from p in pinhua.发货_DETAIL where p.ExcelServerRCID == rcid select p;
+                        var json = JsonConvert.SerializeObject(set);
+                        context.Response.Write(json);
                     }
                     break;
                 case "发货明细":
@@ -102,8 +127,6 @@ namespace QyWeixin
                                        p1.p.ExcelServerRCID,
                                        total = (p2.total.HasValue ? p2.total.Value : 0).ToString("F2") + " 元",
                                        square = (p2.square.HasValue ? p2.square.Value : 0).ToString("F2") + " ㎡"
-                                       //total = System.Data.Entity.SqlServer.SqlFunctions.StringConvert(p2.total.HasValue ? p2.total.Value : 0, 10, 2) + " 元",
-                                       //square = System.Data.Entity.SqlServer.SqlFunctions.StringConvert(p2.square.HasValue ? p2.square.Value : 0, 10, 2) + " ㎡"
                                    };
                         var set2 = from p in set1
                                    join d in pinhua.发货_DETAIL on p.ExcelServerRCID equals d.ExcelServerRCID
@@ -121,7 +144,6 @@ namespace QyWeixin
                                        d.工艺,
                                        d.ExcelServerRCID
                                    };
-                        //var withRN = set2.AsEnumerable().Select((item,index) => new { RN=index+1,item}); // 带上编号
                         var setfinal = new
                         {
                             总行数 = count,

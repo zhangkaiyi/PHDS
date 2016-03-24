@@ -12,6 +12,9 @@
         html {
             font-size: 20px !important;
         }
+        .popup{
+            background: #eee
+        }
     </style>
 
 </head>
@@ -22,18 +25,21 @@
         <!-- 这里是页面内容区 -->
         <div class="content">
             <div class="buttons-tab">
-                <a href="#tab1" class="tab-link active button">送货流水</a>
+                <a href="#tab1" class="tab-link active button">单据流水</a>
                 <a href="#tab2" class="tab-link button">客户列表</a>
             </div>
 
             <div class="tabs">
                 <div id="tab1" class="tab active">
+                    <div class="list-block media-list inset">
+                        <ul id="单据流水"></ul>
 
+                    </div>
                     
                 </div>
                 <div id="tab2" class="tab">
-                    <div class="list-block">
-                        <ul id="往来单位列表"></ul>
+                    <div class="list-block inset">
+                        <ul id="客户列表"></ul>
                     </div>
                 </div>
 
@@ -42,11 +48,29 @@
         </div>
     </div>
 
+    <div class='popups_单据流水'>
+        <div class='popup' id='单据明细'>
+            <header class='bar bar-nav'>
+                <h1 class='title'>单据明细</h1>
+                <a href='#' class='button button-link button-nav pull-left close-popup'>
+                    <span class='icon icon-left'></span> 关闭
+                </a>
+            </header>
+            <div class='content'>
+                <div class='list-block media-list inset'>
+                    <ul>
+
+                    </ul>
+                </div>
+            </div>
+            </div>
+    </div>
+
     <div class='popups_单位信息'>
 
     </div>
     <div class="popups_发货明细">
-        <div class='popup' id='发货单' style="background: #eee">
+        <div class='popup' id='发货单'>
             <header class='bar bar-nav'>
                 <h1 class='title'>单据列表</h1>
                 <a href='#' class='button button-link button-nav pull-left close-popup'>
@@ -215,6 +239,85 @@
             })
 
         }
+
+        var $Orders = new Object();
+        $Orders.操作对象 = $("#单据流水");
+        $Orders.每页行数 = 20;
+        $Orders.开始行号 = 0;
+        $Orders.绑定点击事件 = function()
+        {
+            $Orders.操作对象.find("li").click(function () {
+                var s1 = "&rcid=" + this.id;
+                
+                $.ajax({
+                    url: "发货.ashx?行为=单据流水_单据明细" + s1,
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        var htmlstring = "";
+                        for (var v in data) {
+                            htmlstring += "<li>"
+                            htmlstring += "<a href='#' class='item-link item-content'>"
+                            htmlstring += "<div class='item-inner'>"
+                            htmlstring += "<div class='item-title-row'>"
+                            htmlstring += "<div class='item-title'>" + data[v].ExcelServerRN + "＃ " + data[v].描述 + "</div>"
+                            htmlstring += "<div class='item-subtitle'>" + data[v].编号 + "</div>"
+                            htmlstring += "</div>"
+                            htmlstring += "<div class='item-subtitle'>数量：" + data[v].PCS + " 片（" + data[v].单位数量 + " " + data[v].计价单位 + "）</div>"
+                            htmlstring += "<div class='item-subtitle'>单价：" + data[v].单价 + " 元/" + data[v].计价单位 + "</div>"
+                            htmlstring += "<div class='item-subtitle'>金额：" + data[v].金额 + " 元</div>"
+                            htmlstring += "<div class='item-title-row'>"
+                            htmlstring += "<div class='item-subtitle'></div>"
+                            htmlstring += "</div>"
+                            htmlstring += "<div class='item-text'>木种：" + data[v].木种 + "，工艺：" + data[v].工艺 + "</div>"
+                            htmlstring += "</div>"
+                            htmlstring += "</a>"
+                            htmlstring += "</li>"
+                        }
+                        $("#单据明细").find("ul").html(htmlstring);
+                    }
+                })
+                $.popup("#单据明细")
+            });
+            return this;
+        }
+        $Orders.构造单据流水列表 = function (selector)
+        {
+            if (selector != null)
+                this.操作对象 = $(selector);
+            var s1 = "&每页行数=" + this.每页行数;
+            var s2 = "&开始行号=" + this.开始行号;
+            $.ajax({
+                url: "发货.ashx?行为=单据流水" + s1 + s2,
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    var htmlstring = "";
+                    for (var i in data) {
+                        htmlstring += "<li class='item-content item-link' id='" + data[i].ExcelServerRCID + "'>";
+                        htmlstring += "<div class='item-media'><i class='icon icon-f7'></i></div>";
+                        htmlstring += "<div class='item-inner'>"
+                        htmlstring += "<div class='item-title-row'>"
+                        htmlstring += "<div class='item-title'>" + data[i].客户 + "</div>"
+                        htmlstring += "<div class='item-subtitle'>" + data[i].业务描述 + "</div>"
+                        htmlstring += "</div>"
+                        htmlstring += "<div class='item-title-row'>"
+                        htmlstring += "<div class='item-subtitle'>" + data[i].送货单号 + "</div>"
+                        htmlstring += "<div class='item-subtitle'>" + data[i].送货日期 + "</div>"
+                        htmlstring += "</div>"
+                        htmlstring += "<div class='item-title-row'>"
+                        htmlstring += "<div class='item-subtitle'>５ items</div>"
+                        htmlstring += "<div class='item-subtitle'><span class='color-primary'>" + data[i].金额 + "</span></div>"
+                        htmlstring += "</div>"
+                        htmlstring += "</li>";
+                    }
+                    $Orders.操作对象.html(htmlstring);
+                }
+            });
+            return this;
+        }
+        $Orders.构造单据流水列表().绑定点击事件();
+        
     </script>
     <script type="text/javascript">
 
@@ -269,7 +372,7 @@
                     s += "</div>";
                     s += "</li>";
                 }
-                $("#往来单位列表").html(s).find("li").click(function () {
+                $("#客户列表").html(s).find("li").click(function () {
                     $.actions(BuildActionsGroup(this.id, $(this).find(".item-title").text()));
                 });
 
@@ -377,7 +480,7 @@
                 s += "<div class='item-title'>" + "加载失败" + "</div>";
                 s += "</div>";
                 s += "</li>";
-                $("#往来单位列表").html(s);
+                $("#客户列表").html(s);
             },
             complete: function () {
                 $.hideIndicator();
