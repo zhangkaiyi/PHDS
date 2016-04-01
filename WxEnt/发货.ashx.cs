@@ -57,13 +57,14 @@ namespace QyWeixin
                                 select new
                                 {
                                     rcid = g.Key,
+                                    count = g.Count(),
                                     total = g.Sum(x => x.金额),
                                     square = g.Sum(x => x.单位数量)
                                 };
                         var set = from p1 in a.AsEnumerable()
                                   join p2 in b.AsEnumerable()
                                   on p1.ExcelServerRCID equals p2.rcid
-                                  select new { p1.送货单号, p1.送货日期, p1.客户, p1.ExcelServerRCID, p1.业务描述, 金额 = (p2.total.HasValue ? p2.total.Value : 0).ToString("F2") + " 元" };
+                                  select new { p1.送货单号, p1.送货日期, p1.客户, p1.ExcelServerRCID, p1.业务描述, 金额 = (p2.total.HasValue ? p2.total.Value : 0).ToString("F2") + " 元", 项目数 = "共" + ToSBC(p2.count.ToString()) + "条记录" };
                         var timeConverter = new Newtonsoft.Json.Converters.IsoDateTimeConverter() { DateTimeFormat = "yyyy-MM-dd" };
                         var json = JsonConvert.SerializeObject(set, timeConverter);
                         context.Response.Write(json);
@@ -73,7 +74,7 @@ namespace QyWeixin
                     using (var pinhua = new PinhuaEntities())
                     {
                         var rcid = context.Request["rcid"];
-                        var set = from p in pinhua.发货_DETAIL where p.ExcelServerRCID == rcid select p;
+                        var set = from p in pinhua.发货_DETAIL where p.ExcelServerRCID == rcid orderby p.ExcelServerRN select p;
                         var json = JsonConvert.SerializeObject(set);
                         context.Response.Write(json);
                     }
