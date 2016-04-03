@@ -62,7 +62,7 @@ namespace PHDS.Weixin
                                 Debug.WriteLine(string.Format(surl, encodeurl));
                                 responseMessage.Articles.Add(new ResponseMessageInnerType.Article
                                 {
-                                    Url = "http://pinhuadashi.ticp.net/timerecords.html",
+                                    Url = "http://pinhuadashi.ticp.net/打卡.html",
                                     Description = "点击进行操作",
                                     Title = "手动打卡"
                                 });
@@ -116,7 +116,7 @@ namespace PHDS.Weixin
             var sJiaban = sReal - sStardard > 0 ? sReal - sStardard : 0;
             var sQuanqin = (string)ds.Tables[0].Rows[0]["是否全勤"];
             var sDescription = "{0}，该月标准工时{1}小时，您实际出勤{2}小时，其中{3}小时将作为加班工时为您结算加班工资。全勤：{4}";
-            var sUrl = "http://www.skyflag.com:6018/kaoqin.aspx?id={0}&date={1}&name={2}";
+            var sUrl = "http://pinhuadashi.ticp.net/kaoqin.aspx?id={0}&date={1}&name={2}";
             var sDate = requestMessage.Content;
             sUrl = string.Format(sUrl, sID, sDate, sName);
             sDescription = string.Format(sDescription, sName, sStardard, sReal, sJiaban, sQuanqin);
@@ -127,7 +127,7 @@ namespace PHDS.Weixin
             { Title = requestMessage.Content + "考勤数据",
                 Description = sDescription,
                 Url = sUrl,
-                PicUrl = "http://www.skyflag.com:6018/img/salary.jpg"
+              PicUrl = "http://pinhuadashi.ticp.net/Assets/salary.jpg"
             };
             responseMessage.Articles.Add(art1);
             return responseMessage;

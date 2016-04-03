@@ -336,7 +336,7 @@
             $('#datetimepicker').change(function () { getSingle() });
 
             $('#datepicker').change(function () {
-
+                
                 $.getJSON("打卡.ashx?行为=获取当天所有记录&date=" + $('#datepicker').val(), function (data) {
                     
                     var json = $.parseJSON(data.Json);

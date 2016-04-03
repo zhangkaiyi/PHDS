@@ -78,32 +78,41 @@
                     </div>
                 </div>
                 <div id="tab3" class="tab">
-                    <div class="content-padded grid-demo">
-                        <div class="row">
-                            <div class="col-50">50%</div>
-                            <div class="col-50"><i class="icon icon-form-email"></i></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-33">33%</div>
-                            <div class="col-33">33%</div>
-                            <div class="col-33">33%</div>
-                        </div>
-                        <div class="row icons-demo">
-                            <div class="col-50"><span class="icon icon-search color-primary"></span><span class="tab-label">查找</span></div>
-                            <div class="col-50">80%</div>
-                        </div>
-                    </div>
-                    <div class="content-block">
+
+                    <div class="" id="开送货单">
+                        <div class="content-block-title color-primary">基本资料</div>
                         <div class="list-block">
                             <ul>
                                 <!-- Text inputs -->
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-media"><i class="icon icon-form-email"></i></div>
+                                        <div class="item-inner">
+                                            <div class="item-title label">编号</div>
+                                            <div class="item-input">
+                                                <input type="text" id="id" placeholder="Your ID" onclick="{ $.popup('#popup客户列表')}" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
                                 <li>
                                     <div class="item-content">
                                         <div class="item-media"><i class="icon icon-form-name"></i></div>
                                         <div class="item-inner">
                                             <div class="item-title label">名称</div>
                                             <div class="item-input">
-                                                <input type="text" placeholder="Your name">
+                                                <input type="text" id="name" placeholder="Your Name" onclick="{ $.popup('#popup客户列表')}" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-media"><i class="icon icon-form-toggle"></i></div>
+                                        <div class="item-inner">
+                                            <div class="item-title label">地址</div>
+                                            <div class="item-input">
+                                                <input type="text" id="address" placeholder="Your Address">
                                             </div>
                                         </div>
                                     </div>
@@ -115,7 +124,18 @@
                                         <div class="item-inner">
                                             <div class="item-title label">日期</div>
                                             <div class="item-input">
-                                                <input type="date" placeholder="Birth day" value="2014-04-30">
+                                                <input type="date" placeholder="Your Date">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-media"><i class="icon icon-form-comment"></i></div>
+                                        <div class="item-inner">
+                                            <div class="item-title label">备注</div>
+                                            <div class="item-input">
+                                                <input type="text" id="comment" placeholder="Your Comment">
                                             </div>
                                         </div>
                                     </div>
@@ -123,81 +143,120 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="content-block-title color-primary">客户选择</div>
-                    <div class="list-block media-list inset">
-                        <ul id="客户列表"></ul>
-                    </div>
-                    <div class="content-block-title color-primary">木种选择</div>
-                    <div class="list-block media-list inset">
-                        <ul id="木种">
-                            <li>
-                                <label class="label-checkbox item-content">
-                                    <input type="checkbox" name="my-radio">
-                                    <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+                    <div class="content-block-title color-primary">产品明细</div>
+                    <div class="list-block inset">
+                        <ul id="明细">
+                            <li onclick="$.actions(BuildActionsGroupForDetails('#'+($(this).index()+1),this));">
+                                <div class="item-content">
+                                    <div class="item-media">1</div>
                                     <div class="item-inner">
-                                        <div class="item-title-row">
-                                            <div class="item-title">榆木</div>
-                                        </div>
                                     </div>
-                                </label>
+                                </div>
                             </li>
-                            <li>
-                                <label class="label-checkbox item-content">
-                                    <input type="checkbox" name="my-radio">
-                                    <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+                            <li onclick="$.actions(BuildActionsGroupForDetails('#'+($(this).index()+1),this));">
+                                <div class="item-content">
+                                    <div class="item-media">2</div>
                                     <div class="item-inner">
-                                        <div class="item-title-row">
-                                            <div class="item-title">柞木</div>
-                                        </div>
                                     </div>
-                                </label>
+                                </div>
+                            </li>
+                            <li onclick="$.actions(BuildActionsGroupForDetails('#'+($(this).index()+1),this));">
+                                <div class="item-content">
+                                    <div class="item-media">3</div>
+                                    <div class="item-inner">
+                                    </div>
+                                </div>
                             </li>
                         </ul>
                     </div>
-                    <div class="content-block-title color-primary">工艺选择</div>
-                    <div class="list-block media-list inset">
-                        <ul id="工艺">
-                            <li>
-                                <label class="label-checkbox item-content">
-                                    <input type="checkbox" name="my-radio">
-                                    <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
-                                    <div class="item-inner">
-                                        <div class="item-title-row">
-                                            <div class="item-title">拉丝</div>
-                                        </div>
-                                    </div>
-                                </label>
-                            </li>
-                            <li>
-                                <label class="label-checkbox item-content">
-                                    <input type="checkbox" name="my-radio">
-                                    <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
-                                    <div class="item-inner">
-                                        <div class="item-title-row">
-                                            <div class="item-title">浮雕</div>
-                                        </div>
-                                    </div>
-                                </label>
-                            </li>
-                            <li>
-                                <label class="label-checkbox item-content">
-                                    <input type="checkbox" name="my-radio">
-                                    <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
-                                    <div class="item-inner">
-                                        <div class="item-title-row">
-                                            <div class="item-title">刻线</div>
-                                        </div>
-                                    </div>
-                                </label>
-                            </li>
-                        </ul>
-                    </div>
+
                 </div>
             </div>
-
         </div>
     </div>
-
+    <div class="popups">
+        <div class="popup" id="popup客户列表">
+            <div class="list-block media-list inset">
+                <ul id="客户列表2"></ul>
+            </div>
+        </div>
+        <div class="popup" id="popup明细填表">
+            <header class='bar bar-nav'>
+                <h1 class='title'>填表属性</h1>
+                <a href='#' class='button button-link button-nav pull-left close-popup'>
+                    <span class='icon icon-left'></span> 关闭
+                </a>
+            </header>
+            <div class="content">
+                <div id="index"></div>
+                <div class="content-block-title color-primary">木种选择</div>
+                <div class="list-block media-list inset">
+                    <ul id="木种">
+                        <li>
+                            <label class="label-checkbox item-content">
+                                <input type="checkbox" name="my-radio">
+                                <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div class="item-title">榆木</div>
+                                    </div>
+                                </div>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="label-checkbox item-content">
+                                <input type="checkbox" name="my-radio">
+                                <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div class="item-title">柞木</div>
+                                    </div>
+                                </div>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title color-primary">工艺选择</div>
+                <div class="list-block media-list inset">
+                    <ul id="工艺">
+                        <li>
+                            <label class="label-checkbox item-content">
+                                <input type="checkbox" name="my-radio">
+                                <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div class="item-title">拉丝</div>
+                                    </div>
+                                </div>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="label-checkbox item-content">
+                                <input type="checkbox" name="my-radio">
+                                <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div class="item-title">浮雕</div>
+                                    </div>
+                                </div>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="label-checkbox item-content">
+                                <input type="checkbox" name="my-radio">
+                                <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div class="item-title">刻线</div>
+                                    </div>
+                                </div>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class='popups_单据流水'>
         <div class='popup' id='单据明细'>
             <header class='bar bar-nav'>
@@ -305,7 +364,38 @@
     <script type='text/javascript' src='Scripts/jquery-2.2.1.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='Assets/light7/dist/js/light7.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='Assets/light7/dist/js/i18n/cn.min.js' charset='utf-8'></script>
+    <script type='text/javascript'>
+        // 对Date的扩展，将 Date 转化为指定格式的String
+        // 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
+        // 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)
+        // 例子：
+        // (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423
+        // (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18
+        Date.prototype.Format = function (fmt) { //author: meizz
+            var o = {
+                "M+": this.getMonth() + 1,                 //月份
+                "d+": this.getDate(),                    //日
+                "h+": this.getHours(),                   //小时
+                "m+": this.getMinutes(),                 //分
+                "s+": this.getSeconds(),                 //秒
+                "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+                "S": this.getMilliseconds()             //毫秒
+            };
+            if (/(y+)/.test(fmt))
+                fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt))
+                    fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        }
 
+        function getNow() {
+            var date = new Date();
+            return date.Format("yyyy-MM-dd");
+        }
+        $("#开送货单 input[type=date]").val(getNow());
+
+    </script>
     <script type="text/javascript">
         function 往来单位() {
             this.数据 = this.获取数据();
@@ -322,134 +412,150 @@
             })
             return retdata;
         };
-        往来单位.prototype.填充列表 = function (selector) {
+        往来单位.prototype.生成往来单位列表 = function (selector) {
             var data = $往来单位.数据;
+            var htmlstring = "";
+            //htmlstring += "<header class='bar bar-nav'>";
+            //htmlstring += "<h1 class='title'>单位信息</h1>";
+            //htmlstring += "<a href='#' class='button button-link button-nav pull-left close-popup'>";
+            //htmlstring += "<span class='icon icon-left'></span> 关闭"
+            //htmlstring += "</a>"
+            //htmlstring += "</header>"
             if (data == '' || data == undefined || data == null) {
-                var s = "";
-                s += "<li class='item-content item-link'>";
-                s += "<div class='item-media'><i class='icon icon-f7'></i></div>";
-                s += "<div class='item-inner'>";
-                s += "<div class='item-title'>" + "加载失败" + "</div>";
-                s += "</div>";
-                s += "</li>";
+                htmlstring += "<li class='item-content item-link'>";
+                htmlstring += "<div class='item-media'><i class='icon icon-f7'></i></div>";
+                htmlstring += "<div class='item-inner'>";
+                htmlstring += "<div class='item-title'>" + "加载失败" + "</div>";
+                htmlstring += "</div>";
+                htmlstring += "</li>";
                 $(selector).html(s);
-            }
-            else {
-                var s = "";
-                var s2 = "";
+            } else {
                 for (var i in data) {
-                    s += "<li class='item-content item-link' id='" + data[i].单位编号 + "'>";
-                    s += "<div class='item-media'><i class='icon icon-f7'></i></div>";
-                    s += "<div class='item-inner'>";
-                    s += "<div class='item-title'>" + data[i].单位名称 + "</div>";
-                    //s += "<div class='item-after'><span class='color-primary'>" + data[i].单位编号 + "</span></div>";
-                    s += "</div>";
-                    s += "</li>";
+                    htmlstring += "<li class='item-content item-link close-popup' id='" + data[i].单位编号 + "'>";
+                    htmlstring += "<div class='item-media'><i class='icon icon-f7'></i></div>";
+                    htmlstring += "<div class='item-inner'>";
+                    htmlstring += "<div class='item-title'>" + data[i].单位名称 + "</div>";
+                    //htmlstring+= "<div class='item-after'><span class='color-primary'>" + data[i].单位编号 + "</span></div>";
+                    htmlstring += "</div>";
+                    htmlstring += "</li>";
                 }
-                $(selector).html(s).find("li").click(function () {
-                    $.actions(BuildActionsGroup(this.id, $(this).find(".item-title").text()));
-                });
-
-                for (var i in data) {
-                    s2 += "<div class='popup popup-" + data[i].单位编号 + "'>";
-                    s2 += "<header class='bar bar-nav'>";
-                    s2 += "<h1 class='title'>单位信息</h1>";
-                    s2 += "<a href='#' class='button button-link button-nav pull-left close-popup'>";
-                    s2 += "<span class='icon icon-left'></span> 关闭"
-                    s2 += "</a>"
-                    s2 += "</header>"
-                    s2 += "<div class='content'>"
-                    s2 += "<div class='list-block'>"
-                    s2 += "<ul>"
-                    s2 += "<li>"
-                    s2 += "<div class='item-content'>"
-                    s2 += "<div class='item-media'><i class='icon icon-form-email'></i></div>"
-                    s2 += "<div class='item-inner'>"
-                    s2 += "<div class='item-title label'>单位编号</div>"
-                    s2 += "<div class='item-input'>"
-                    s2 += "<input type='text' placeholder='未登记' value='" + data[i].单位编号 + "' readonly>"
-                    s2 += "</div>"
-                    s2 += "</div>"
-                    s2 += "</div>"
-                    s2 += "</li>"
-                    s2 += "<li>"
-                    s2 += "<div class='item-content'>"
-                    s2 += "<div class='item-media'><i class='icon icon-form-name'></i></div>"
-                    s2 += "<div class='item-inner'>"
-                    s2 += "<div class='item-title label'>单位名称</div>"
-                    s2 += "<div class='item-input'>"
-                    s2 += "<input type='text' placeholder='未登记' value='" + data[i].单位名称 + "' readonly>"
-                    s2 += "</div>"
-                    s2 += "</div>"
-                    s2 += "</div>"
-                    s2 += "</li>"
-                    s2 += "<li>"
-                    s2 += "<div class='item-content'>"
-                    s2 += "<div class='item-media'><i class='icon icon-form-password'></i></div>"
-                    s2 += "<div class='item-inner'>"
-                    s2 += "<div class='item-title label'>优先级</div>"
-                    s2 += "<div class='item-input'>"
-                    s2 += "<input type='text' placeholder='未登记' value='" + data[i].RANK + "' readonly>"
-                    s2 += "</div>"
-                    s2 += "</div>"
-                    s2 += "</div>"
-                    s2 += "</li>"
-                    s2 += "<li>"
-                    s2 += "<div class='item-content'>"
-                    s2 += "<div class='item-media'><i class='icon icon-form-tel'></i></div>"
-                    s2 += "<div class='item-inner'>"
-                    s2 += "<div class='item-title label'>电话</div>"
-                    s2 += "<div class='item-input'>"
-                    s2 += "<input type='text' placeholder='未登记' value='" + data[i].电话 + "' readonly>"
-                    s2 += "</div>"
-                    s2 += "</div>"
-                    s2 += "</div>"
-                    s2 += "</li>"
-                    s2 += "<li>"
-                    s2 += "<div class='item-content'>"
-                    s2 += "<div class='item-media'><i class='icon icon-form-url'></i></div>"
-                    s2 += "<div class='item-inner'>"
-                    s2 += "<div class='item-title label'>传真</div>"
-                    s2 += "<div class='item-input'>"
-                    s2 += "<input type='text' placeholder='未登记' value='" + data[i].传真 + "' readonly>"
-                    s2 += "</div>"
-                    s2 += "</div>"
-                    s2 += "</div>"
-                    s2 += "</li>"
-                    s2 += "<li class='align-top'>"
-                    s2 += "<div class='item-content'>"
-                    s2 += "<div class='item-media'><i class='icon icon-form-comment'></i></div>"
-                    s2 += "<div class='item-inner'>"
-                    s2 += "<div class='item-title label'>地址</div>"
-                    s2 += "<div class='item-input'>"
-                    s2 += "<textarea readonly>" + data[i].单位地址 + "</textarea>"
-                    s2 += "</div>"
-                    s2 += "</div>"
-                    s2 += "</div>"
-                    s2 += "</li>"
-                    s2 += "<li class='align-top'>"
-                    s2 += "<div class='item-content'>"
-                    s2 += "<div class='item-media'><i class='icon icon-form-comment'></i></div>"
-                    s2 += "<div class='item-inner'>"
-                    s2 += "<div class='item-title label'>备注</div>"
-                    s2 += "<div class='item-input'>"
-                    s2 += "<textarea readonly></textarea>"
-                    s2 += "</div>"
-                    s2 += "</div>"
-                    s2 += "</div>"
-                    s2 += "</li>"
-                    s2 += "</ul>"
-                    s2 += "</div>"
-                    s2 += "</div>"
-                    s2 += "</div>"
-                }
-
-                $(".popups_单位信息").html(s2);
+                $(selector).html(htmlstring);
             }
+            return $(selector);
         }
 
+        往来单位.prototype.生成往来单位信息 = function (selector) {
+            var data = $往来单位.数据;
+            var htmlstring = "";
+            for (var i in data) {
+                htmlstring += "<div class='popup popup-" + data[i].单位编号 + "'>";
+                htmlstring += "<header class='bar bar-nav'>";
+                htmlstring += "<h1 class='title'>单位信息</h1>";
+                htmlstring += "<a href='#' class='button button-link button-nav pull-left close-popup'>";
+                htmlstring += "<span class='icon icon-left'></span> 关闭"
+                htmlstring += "</a>"
+                htmlstring += "</header>"
+                htmlstring += "<div class='content'>"
+                htmlstring += "<div class='list-block'>"
+                htmlstring += "<ul>"
+                htmlstring += "<li>"
+                htmlstring += "<div class='item-content'>"
+                htmlstring += "<div class='item-media'><i class='icon icon-form-email'></i></div>"
+                htmlstring += "<div class='item-inner'>"
+                htmlstring += "<div class='item-title label'>单位编号</div>"
+                htmlstring += "<div class='item-input'>"
+                htmlstring += "<input type='text' placeholder='未登记' value='" + data[i].单位编号 + "' readonly>"
+                htmlstring += "</div>"
+                htmlstring += "</div>"
+                htmlstring += "</div>"
+                htmlstring += "</li>"
+                htmlstring += "<li>"
+                htmlstring += "<div class='item-content'>"
+                htmlstring += "<div class='item-media'><i class='icon icon-form-name'></i></div>"
+                htmlstring += "<div class='item-inner'>"
+                htmlstring += "<div class='item-title label'>单位名称</div>"
+                htmlstring += "<div class='item-input'>"
+                htmlstring += "<input type='text' placeholder='未登记' value='" + data[i].单位名称 + "' readonly>"
+                htmlstring += "</div>"
+                htmlstring += "</div>"
+                htmlstring += "</div>"
+                htmlstring += "</li>"
+                htmlstring += "<li>"
+                htmlstring += "<div class='item-content'>"
+                htmlstring += "<div class='item-media'><i class='icon icon-form-password'></i></div>"
+                htmlstring += "<div class='item-inner'>"
+                htmlstring += "<div class='item-title label'>优先级</div>"
+                htmlstring += "<div class='item-input'>"
+                htmlstring += "<input type='text' placeholder='未登记' value='" + data[i].RANK + "' readonly>"
+                htmlstring += "</div>"
+                htmlstring += "</div>"
+                htmlstring += "</div>"
+                htmlstring += "</li>"
+                htmlstring += "<li>"
+                htmlstring += "<div class='item-content'>"
+                htmlstring += "<div class='item-media'><i class='icon icon-form-tel'></i></div>"
+                htmlstring += "<div class='item-inner'>"
+                htmlstring += "<div class='item-title label'>电话</div>"
+                htmlstring += "<div class='item-input'>"
+                htmlstring += "<input type='text' placeholder='未登记' value='" + data[i].电话 + "' readonly>"
+                htmlstring += "</div>"
+                htmlstring += "</div>"
+                htmlstring += "</div>"
+                htmlstring += "</li>"
+                htmlstring += "<li>"
+                htmlstring += "<div class='item-content'>"
+                htmlstring += "<div class='item-media'><i class='icon icon-form-url'></i></div>"
+                htmlstring += "<div class='item-inner'>"
+                htmlstring += "<div class='item-title label'>传真</div>"
+                htmlstring += "<div class='item-input'>"
+                htmlstring += "<input type='text' placeholder='未登记' value='" + data[i].传真 + "' readonly>"
+                htmlstring += "</div>"
+                htmlstring += "</div>"
+                htmlstring += "</div>"
+                htmlstring += "</li>"
+                htmlstring += "<li class='align-top'>"
+                htmlstring += "<div class='item-content'>"
+                htmlstring += "<div class='item-media'><i class='icon icon-form-comment'></i></div>"
+                htmlstring += "<div class='item-inner'>"
+                htmlstring += "<div class='item-title label'>地址</div>"
+                htmlstring += "<div class='item-input'>"
+                htmlstring += "<textarea readonly>" + data[i].单位地址 + "</textarea>"
+                htmlstring += "</div>"
+                htmlstring += "</div>"
+                htmlstring += "</div>"
+                htmlstring += "</li>"
+                htmlstring += "<li class='align-top'>"
+                htmlstring += "<div class='item-content'>"
+                htmlstring += "<div class='item-media'><i class='icon icon-form-comment'></i></div>"
+                htmlstring += "<div class='item-inner'>"
+                htmlstring += "<div class='item-title label'>备注</div>"
+                htmlstring += "<div class='item-input'>"
+                htmlstring += "<textarea readonly></textarea>"
+                htmlstring += "</div>"
+                htmlstring += "</div>"
+                htmlstring += "</div>"
+                htmlstring += "</li>"
+                htmlstring += "</ul>"
+                htmlstring += "</div>"
+                htmlstring += "</div>"
+                htmlstring += "</div>"
+            }
+
+            $(selector).html(htmlstring);
+            return $(selector);
+        };
+
         var $往来单位 = new 往来单位;
-        $往来单位.填充列表("#客户列表")
+        $往来单位.生成往来单位列表("#客户列表").find("li").click(function () {
+            $.actions(BuildActionsGroup(this.id, $(this).find(".item-title").text()));
+        });
+        $往来单位.生成往来单位列表("#客户列表2").find("li").click(function () {
+            var data = { id: this.id, name: $(this).find(".item-title").text() };
+            $("#开送货单 #id").val(data.id);
+            $("#开送货单 #name").val(data.name);
+            return data;
+        });
+        $往来单位.生成往来单位信息(".popups_单位信息");
 
         // 全局变量
 
@@ -460,7 +566,7 @@
 
         function 获取发货清单(id, name) {
             $("#发货单 .content").html("");
-            $("#发货单 .title").text(name + "（" + id + "）");
+            $("#发货单 .title").text(name);
             $.ajax({
                 url: "发货.ashx?行为=发货明细&单位编号=" + id + "&行号=" + window.行号,
                 dataType: "json",
@@ -646,12 +752,39 @@
             var groups = [buttons1, buttons2];
             return groups;
         }
+        function BuildActionsGroupForDetails(title,obj) {
+            var buttons1 = [{
+                text: title,
+                label: true
+            },
+            {
+                text: '编辑',
+                //bold: true,
+                color: 'primary',
+                onClick: function () {
+                    $('#popup明细填表 #index').attr('data-index', $(obj).index());
+                    $.popup('#popup明细填表');
+                }
+            },
+            {
+                text: '删除',
+                //bold: true,
+                color: 'warning',
+                onClick: function () {
+                    $(obj).remove();
+                }
+            }
+            ];
+            var buttons2 = [{
+                text: '取消',
+                bg: 'danger'
+            }
+            ];
+            var groups = [buttons1, buttons2];
+            return groups;
+        }
     </script>
     <script type='text/javascript'>
     </script>
-
-
-
 </body>
-
 </html>

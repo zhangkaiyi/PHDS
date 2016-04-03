@@ -512,6 +512,7 @@
     <Content Include="Assets\light7\dist\js\light7.js" />
     <Content Include="Assets\light7\dist\js\light7.min.js" />
     <Content Include="Assets\pic1.jpg" />
+    <Content Include="Assets\salary.jpg" />
     <Content Include="clock.aspx" />
     <Content Include="Kaoqin.aspx" />
     <Content Include="Html\ajax\gongzi_query.html" />

@@ -17,7 +17,7 @@ namespace QyWeixin
         public static readonly string EncodingAESKey = "heUKgrsuTsYexBX9xKSGNt6E1NrcW3JNxjPdbZNMJ6H";
         public static readonly string CorpId = "wx87c90793c5376e09";
         public static readonly string Secret = "NqQ5v-QatUFBfxeQ7ySDw3cawwwh4xAJtvPtGB33qTOKZDq3GiXOtoJQGsMhVrdt";
-        public static readonly string sqlConnectstr = "server=www.skyflag.com,6019;database=pinhua;uid=sa;pwd=benny0922;connect timeout=5";
+        public static readonly string sqlConnectstr = "server=122.225.47.230,6019;database=pinhua;uid=sa;pwd=benny0922;connect timeout=5";
         public void ProcessRequest(HttpContext context)
         {
             var msg_signature = context.Request["msg_signature"] ?? string.Empty;
