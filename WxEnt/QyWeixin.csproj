@@ -48,7 +48,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -728,9 +728,9 @@
     <Content Include="Assets\ace\js\ace\scripts.json" />
     <None Include="Properties\PublishProfiles\内网.pubxml" />
     <None Include="Properties\PublishProfiles\外网.pubxml" />
-    <None Include="Scripts\jquery-2.2.1-vsdoc.js" />
-    <Content Include="Scripts\jquery-2.2.1.js" />
-    <Content Include="Scripts\jquery-2.2.1.min.js" />
+    <None Include="Scripts\jquery-2.2.2.intellisense.js" />
+    <Content Include="Scripts\jquery-2.2.2.js" />
+    <Content Include="Scripts\jquery-2.2.2.min.js" />
     <Content Include="发货.html" />
     <Content Include="打卡.html" />
     <Content Include="Web.config" />
@@ -850,7 +850,7 @@
     <Content Include="jqGridHandler.ashx" />
     <Content Include="packages.config" />
     <Content Include="Assets\datatables\images\Sorting icons.psd" />
-    <Content Include="Scripts\jquery-2.2.1.min.map" />
+    <Content Include="Scripts\jquery-2.2.2.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -873,7 +873,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>56529</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

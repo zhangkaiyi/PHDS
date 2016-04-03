@@ -80,7 +80,6 @@
                 <div id="tab3" class="tab">
 
                     <div class="" id="开送货单">
-                        <div class="content-block-title color-primary">基本资料</div>
                         <div class="list-block">
                             <ul>
                                 <!-- Text inputs -->
@@ -143,30 +142,15 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="content-block-title color-primary">产品明细</div>
+
+                    <div class="list-block">
+                        <ul>
+                            <li><a href="#" class="item-link list-button" onclick="NewLi('#明细',this)">添加明细</a></li>
+                        </ul>
+                    </div>
                     <div class="list-block inset">
                         <ul id="明细">
-                            <li onclick="$.actions(BuildActionsGroupForDetails('#'+($(this).index()+1),this));">
-                                <div class="item-content">
-                                    <div class="item-media">1</div>
-                                    <div class="item-inner">
-                                    </div>
-                                </div>
-                            </li>
-                            <li onclick="$.actions(BuildActionsGroupForDetails('#'+($(this).index()+1),this));">
-                                <div class="item-content">
-                                    <div class="item-media">2</div>
-                                    <div class="item-inner">
-                                    </div>
-                                </div>
-                            </li>
-                            <li onclick="$.actions(BuildActionsGroupForDetails('#'+($(this).index()+1),this));">
-                                <div class="item-content">
-                                    <div class="item-media">3</div>
-                                    <div class="item-inner">
-                                    </div>
-                                </div>
-                            </li>
+
                         </ul>
                     </div>
 
@@ -361,7 +345,7 @@
 
     <div class="pages"></div>
 
-    <script type='text/javascript' src='Scripts/jquery-2.2.1.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='Scripts/jquery-2.2.2.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='Assets/light7/dist/js/light7.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='Assets/light7/dist/js/i18n/cn.min.js' charset='utf-8'></script>
     <script type='text/javascript'>
@@ -771,7 +755,11 @@
                 //bold: true,
                 color: 'warning',
                 onClick: function () {
+                    var p = $(obj).parent();
                     $(obj).remove();
+                    p.find("li").each(function (index, element) {
+                        $(element).find(".item-media").text(index + 1);
+                    })
                 }
             }
             ];
@@ -782,6 +770,22 @@
             ];
             var groups = [buttons1, buttons2];
             return groups;
+        }
+
+        function NewLi(selector,obj)
+        {
+            var htmlstring = "";
+            htmlstring += "<li class='item-link' onclick=\"$.actions(BuildActionsGroupForDetails('#'+($(this).index()+1),this));\">";
+            htmlstring += "<div class='item-content'>";
+            htmlstring += "<div class='item-media'></div>";
+            htmlstring += "<div class='item-inner'>";
+            htmlstring += "</div>";
+            htmlstring += "</div>";
+            htmlstring += "</li>";
+            $(selector).append(htmlstring);
+            $(selector).find("li").each(function (index,element) {
+                $(element).find(".item-media").text(index + 1);
+            })
         }
     </script>
     <script type='text/javascript'>
