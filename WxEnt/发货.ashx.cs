@@ -156,6 +156,12 @@ namespace QyWeixin
                         context.Response.Write(json);
                     }
                     break;
+                case "物料清单":
+                    using(var pinhua = new PinhuaEntities())
+                    {
+
+                    }
+                    break;
             }
         }
         private void ProcessPost(HttpContext context) 

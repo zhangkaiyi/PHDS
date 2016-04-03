@@ -68,8 +68,8 @@ namespace QyWeixin
                                              row2.卡号,
                                          };
 
-                        var info = (from x in pinhuainfo.ToList()
-                                    join y in eastriverinfo.ToList() on x.卡号 equals y.card_id
+                        var info = (from x in pinhuainfo.AsEnumerable()
+                                    join y in eastriverinfo.AsEnumerable() on x.卡号 equals y.card_id
                                     select new
                                     {
                                         x.人员编号,
@@ -278,7 +278,7 @@ namespace QyWeixin
                         pinhua.打卡登记.Remove(delrow.FirstOrDefault());
                         pinhua.ES_RepCase.Remove(delrow2.FirstOrDefault());
                         var num = pinhua.SaveChanges();
-
+                        
                         var error = new ErrorType
                         {
                             ErrorCode = 0,

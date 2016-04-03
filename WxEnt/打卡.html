@@ -253,7 +253,9 @@
                     s += "</div>";
                     $("#mycard").html(s);
                     $("#mycard li").click(function () {
-                        
+
+                        var that = this;
+
                         var buttons1 = [
                       {
                           text: "当前记录："+ $(this).find(".item-title").text() + "，" + $(this).find(".item-after").text(),
@@ -269,7 +271,7 @@
                                   $.ajax({
                                       type: "post",
                                       url: "打卡.ashx?行为=删除单条考勤记录",
-                                      data: { pk: $("#mycard li").attr("id").substring(2) },
+                                      data: { pk: that.id.substring(2) },
                                       dataType: "json",
                                       success: function (data) {
 
