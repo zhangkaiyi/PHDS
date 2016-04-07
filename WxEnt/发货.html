@@ -153,7 +153,12 @@
 
                         </ul>
                     </div>
-
+                    <div class="content-block">
+                        <div class="row">
+                            <div class="col-50"><a href="#" class="button button-big button-fill button-danger close-popup">清空</a></div>
+                            <div class="col-50"><a href="#" class="button button-big button-fill button-success close-popup" onclick="">保存</a></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -297,7 +302,7 @@
                     <div class="content-block">
                         <div class="row">
                             <div class="col-50"><a href="#" class="button button-big button-fill button-danger close-popup">Cancel</a></div>
-                            <div class="col-50"><a href="#" class="button button-big button-fill button-success" onclick="RecordSubmit()">Submit</a></div>
+                            <div class="col-50"><a href="#" class="button button-big button-fill button-success close-popup" onclick="RecordSubmit()">Submit</a></div>
                         </div>
                     </div>
                 </div>
@@ -927,6 +932,7 @@
                 recordjine: recordjine.value
             };
             var target = $("#明细 li").eq(data.index).find(".item-inner");
+            
             var htmlstring = "";
             htmlstring += "<div class='item-title-row'>"
             htmlstring += "<div class='item-title'>编号</div>"
@@ -960,6 +966,7 @@
             htmlstring += "<div class='item-title'>金额</div>"
             htmlstring += "<div class='item-subtitle'>" + data.recordjine + "</div>"
             htmlstring += "</div>"
+
             target.html(htmlstring);
         }
     </script>
