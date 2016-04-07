@@ -33,5 +33,6 @@ namespace QyWeixin.EF
         public virtual DbSet<ES_RepCase> ES_RepCase { get; set; }
         public virtual DbSet<发货_DETAIL> 发货_DETAIL { get; set; }
         public virtual DbSet<往来单位> 往来单位 { get; set; }
+        public virtual DbSet<物料登记> 物料登记 { get; set; }
     }
 }

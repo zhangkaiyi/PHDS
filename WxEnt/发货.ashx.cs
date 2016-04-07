@@ -159,14 +159,30 @@ namespace QyWeixin
                 case "物料清单":
                     using(var pinhua = new PinhuaEntities())
                     {
-
+                        var set = from p in pinhua.物料登记
+                                  select new { 
+                                      p.编号,
+                                      p.描述,
+                                      p.规格,
+                                      p.类型,
+                                      p.Length,
+                                      p.Width,
+                                      p.Height
+                                  };
+                        var json = JsonConvert.SerializeObject(set);
+                        context.Response.Write(json);
                     }
                     break;
             }
         }
         private void ProcessPost(HttpContext context) 
         { 
-
+            switch(context.Request["行为"])
+            {
+                case "提交送货单":
+                    Debug.WriteLine(context.Request["recordname"]);
+                    break;
+            }
         }
         public static String ToSBC(String input)
         {

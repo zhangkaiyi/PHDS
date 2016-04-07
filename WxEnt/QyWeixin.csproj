@@ -776,6 +776,9 @@
     <Compile Include="EF\往来单位.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EF\物料登记.cs">
+      <DependentUpon>PinhuaModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Kaoqin.aspx.cs">
       <SubType>ASPXCodeBehind</SubType>
       <DependentUpon>Kaoqin.aspx</DependentUpon>

@@ -24,12 +24,12 @@
             .row + .row {
                 margin-top: 0.75rem;
             }
-
+        /*
             .row > [class*=col-] {
                 border: 1px solid #ddd;
                 padding: .5rem;
             }
-
+        */
         .icons-demo .icon {
             width: 2.5rem;
             height: 2.5rem;
@@ -148,7 +148,7 @@
                             <li><a href="#" class="item-link list-button" onclick="NewLi('#明细',this)">添加明细</a></li>
                         </ul>
                     </div>
-                    <div class="list-block inset">
+                    <div class="list-block media-list inset">
                         <ul id="明细">
 
                         </ul>
@@ -164,83 +164,145 @@
                 <ul id="客户列表2"></ul>
             </div>
         </div>
-        <div class="popup" id="popup明细填表">
+        <div class="popup" id="popup物料清单">
             <header class='bar bar-nav'>
-                <h1 class='title'>填表属性</h1>
+
                 <a href='#' class='button button-link button-nav pull-left close-popup'>
                     <span class='icon icon-left'></span> 关闭
                 </a>
+                <button class="button button-link button-nav pull-right">
+                    列表
+                    <span class="icon icon-menu"></span>
+                </button>
             </header>
-            <div class="content">
-                <div id="index"></div>
-                <div class="content-block-title color-primary">木种选择</div>
-                <div class="list-block media-list inset">
-                    <ul id="木种">
-                        <li>
-                            <label class="label-checkbox item-content">
-                                <input type="checkbox" name="my-radio">
-                                <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
-                                <div class="item-inner">
-                                    <div class="item-title-row">
-                                        <div class="item-title">榆木</div>
-                                    </div>
-                                </div>
-                            </label>
-                        </li>
-                        <li>
-                            <label class="label-checkbox item-content">
-                                <input type="checkbox" name="my-radio">
-                                <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
-                                <div class="item-inner">
-                                    <div class="item-title-row">
-                                        <div class="item-title">柞木</div>
-                                    </div>
-                                </div>
-                            </label>
-                        </li>
-                    </ul>
+            <div class="list-block media-list">
+                <ul></ul>
                 </div>
-                <div class="content-block-title color-primary">工艺选择</div>
-                <div class="list-block media-list inset">
-                    <ul id="工艺">
-                        <li>
-                            <label class="label-checkbox item-content">
-                                <input type="checkbox" name="my-radio">
-                                <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+            </div>        
+            <div class="popup" id="popup明细填表">
+                <header class='bar bar-nav'>
+
+                    <a href='#' class='button button-link button-nav pull-left close-popup'>
+                        <span class='icon icon-left'></span> 关闭
+                    </a>
+                    <button class="button button-link button-nav pull-right">
+                        列表
+                        <span class="icon icon-menu"></span>
+                    </button>
+                </header>
+                <div class="content">
+                    <div id="index"></div>
+                    <div class="content-block-title color-primary">物料属性</div>
+                    <div class="list-block">
+                        <ul>
+                            <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-form-name"></i></div>
                                 <div class="item-inner">
-                                    <div class="item-title-row">
-                                        <div class="item-title">拉丝</div>
+                                    <div class="item-title label">编号</div>
+                                    <div class="item-input">
+                                        <input id="recordid" type="text" placeholder="Type" value="微信登记" readonly>
                                     </div>
                                 </div>
-                            </label>
-                        </li>
-                        <li>
-                            <label class="label-checkbox item-content">
-                                <input type="checkbox" name="my-radio">
-                                <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
-                                <div class="item-inner">
-                                    <div class="item-title-row">
-                                        <div class="item-title">浮雕</div>
+                            </div>
+                            </li>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-form-name"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title label">描述</div>
+                                        <div class="item-input">
+                                            <input id="recordname" type="text" placeholder="Description">
+                                        </div>
                                     </div>
                                 </div>
-                            </label>
-                        </li>
-                        <li>
-                            <label class="label-checkbox item-content">
-                                <input type="checkbox" name="my-radio">
-                                <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
-                                <div class="item-inner">
-                                    <div class="item-title-row">
-                                        <div class="item-title">刻线</div>
+                            </li>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-form-gender"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title label">规格</div>
+                                        <div class="item-input">
+                                            <select id="recordguige" onchange="Compute()">
+                                                <option>450*450*15</option>
+                                                <option>500*500*15</option>
+                                                <option>600*600*15</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                            </label>
-                        </li>
-                    </ul>
+                            </li>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title label">片数</div>
+                                        <div class="item-input">
+                                            <input type="text" id="recordpianshu" placeholder="PCS" onchange="Compute()">
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title label">单位数量</div>
+                                        <div class="item-input">
+                                            <input type="text" id="recorddanweishuliang" placeholder="Compute" readonly">
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-form-gender"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title label">计价单位</div>
+                                        <div class="item-input">
+                                            <select id="recordjijiadanwei" onchange="Compute()">
+                                                <option>平方米</option>
+                                                <option>延长米</option>
+                                                <option>套</option>
+                                                <option>片</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-form-gender"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title label">单价</div>
+                                        <div class="item-input">
+                                            <input type="text" id="recorddanjia" placeholder="Price" onchange="Compute()">
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-form-gender"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title label">金额</div>
+                                        <div class="item-input">
+                                            <input type="text" id="recordjine" placeholder="Amount" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="content-block">
+                        <div class="row">
+                            <div class="col-50"><a href="#" class="button button-big button-fill button-danger close-popup">Cancel</a></div>
+                            <div class="col-50"><a href="#" class="button button-big button-fill button-success" onclick="RecordSubmit()">Submit</a></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     <div class='popups_单据流水'>
         <div class='popup' id='单据明细'>
             <header class='bar bar-nav'>
@@ -249,7 +311,9 @@
                     <span class='icon icon-left'></span> 关闭
                 </a>
             </header>
+            
             <div class='content'>
+                <div id="smalltitle" class='content-block-title'></div>
                 <div class='list-block media-list inset'>
                     <ul></ul>
                 </div>
@@ -630,6 +694,21 @@
         $Orders.绑定点击事件 = function () {
             $Orders.操作对象.find("li").click(function () {
                 $.popup("#单据明细")
+                var ss = "<div class='color-primary'>";
+                ss += "<b>";
+                ss += $(this).find(".item-title-row").eq(0).find(".item-title").text(); //客户名称
+                ss += " / ";
+                ss += $(this).find(".item-title-row").eq(1).find(".item-subtitle").eq(0).text(); //单号
+                ss += " / ";
+                ss += $(this).find(".item-title-row").eq(1).find(".item-subtitle").eq(1).text(); //日期
+                ss += "<br>";
+                ss += "<br>";
+                ss += "金额：" + $(this).find(".item-title-row").eq(2).find(".item-subtitle").eq(1).text(); //金额
+                ss += "<br>";
+                ss += "<br>";
+                ss += "</b>";
+                ss += "</div>";
+                $("#单据明细 #smalltitle").html(ss)
                 var s1 = "&rcid=" + this.id;
 
                 $.ajax({
@@ -748,6 +827,26 @@
                 onClick: function () {
                     $('#popup明细填表 #index').attr('data-index', $(obj).index());
                     $.popup('#popup明细填表');
+                    $('#popup明细填表 .icon-menu').parent().click(function () {
+                        $.ajax({
+                            url: "发货.ashx?行为=物料清单",
+                            dataType: "json",
+                            success: function (data) {
+                                var htmlstring = "";
+                                for (var i in data) {
+                                    htmlstring += "<li class='item-link'>";
+                                    htmlstring += "<div class='item-content'>";
+                                    htmlstring += "<div class='item-media'>" + i + "</div>";
+                                    htmlstring += "<div class='item-inner'>" + data[i].描述;
+                                    htmlstring += "</div>";
+                                    htmlstring += "</div>";
+                                    htmlstring += "</li>";
+                                }
+                                $('#popup物料清单 ul').html(htmlstring);
+                                $.popup('#popup物料清单');
+                            }
+                        })
+                    })
                 }
             },
             {
@@ -786,6 +885,82 @@
             $(selector).find("li").each(function (index,element) {
                 $(element).find(".item-media").text(index + 1);
             })
+        }
+
+        function Compute()
+        {
+            var arr = recordguige.value.split("*");
+            var l = arr[0] || 0;
+            var w = arr[1] || 0;
+            var h = arr[2] || 0;
+
+            recorddanweishuliang.value = (parseFloat(l) / 1000 * parseFloat(w) / 1000 * parseFloat(recordpianshu.value) || 0).toFixed(4);
+            recordjine.value = ((recorddanweishuliang.value || 0) * (recorddanjia.value || 0)).toFixed(2);
+        }
+
+        function RecordSubmit()
+        {
+            //$.ajax({
+            //    url: "发货.ashx?行为=提交送货单",
+            //    type: "post",
+            //    dataType: "json",
+            //    data: {
+            //        recordid: recordid.value,
+            //        recordname: recordname.value,
+            //        recordguige: recordguige.value,
+            //        recordpianshu: recordpianshu.value,
+            //        recorddanweishuliang: recorddanweishuliang.value,
+            //        recordjijiadanwei: recordjijiadanwei.value,
+            //        recorddanjia: recorddanjia.value,
+            //        recordjine: recordjine.value
+            //    }
+            //})
+            var data = {
+                index: $("#popup明细填表 #index").attr("data-index"),
+                recordid: recordid.value,
+                recordname: recordname.value,
+                recordguige: recordguige.value,
+                recordpianshu: recordpianshu.value,
+                recorddanweishuliang: recorddanweishuliang.value,
+                recordjijiadanwei: recordjijiadanwei.value,
+                recorddanjia: recorddanjia.value,
+                recordjine: recordjine.value
+            };
+            var target = $("#明细 li").eq(data.index).find(".item-inner");
+            var htmlstring = "";
+            htmlstring += "<div class='item-title-row'>"
+            htmlstring += "<div class='item-title'>编号</div>"
+            htmlstring += "<div class='item-subtitle'>" + data.recordid + "</div>"
+            htmlstring += "</div>"
+            htmlstring += "<div class='item-title-row'>"
+            htmlstring += "<div class='item-title'>描述</div>"
+            htmlstring += "<div class='item-subtitle'>" + data.recordname + "</div>"
+            htmlstring += "</div>"
+            htmlstring += "<div class='item-title-row'>"
+            htmlstring += "<div class='item-title'>规格</div>"
+            htmlstring += "<div class='item-subtitle'>" + data.recordguige + "</div>"
+            htmlstring += "</div>"
+            htmlstring += "<div class='item-title-row'>"
+            htmlstring += "<div class='item-title'>片数</div>"
+            htmlstring += "<div class='item-subtitle'>" + data.recordpianshu + "</div>"
+            htmlstring += "</div>"
+            htmlstring += "<div class='item-title-row'>"
+            htmlstring += "<div class='item-title'>单位数量</div>"
+            htmlstring += "<div class='item-subtitle'>" + data.recorddanweishuliang + "</div>"
+            htmlstring += "</div>"
+            htmlstring += "<div class='item-title-row'>"
+            htmlstring += "<div class='item-title'>计价单位</div>"
+            htmlstring += "<div class='item-subtitle'>" + data.recordjijiadanwei + "</div>"
+            htmlstring += "</div>"
+            htmlstring += "<div class='item-title-row'>"
+            htmlstring += "<div class='item-title'>单价</div>"
+            htmlstring += "<div class='item-subtitle'>" + data.recorddanjia + "</div>"
+            htmlstring += "</div>"
+            htmlstring += "<div class='item-title-row'>"
+            htmlstring += "<div class='item-title'>金额</div>"
+            htmlstring += "<div class='item-subtitle'>" + data.recordjine + "</div>"
+            htmlstring += "</div>"
+            target.html(htmlstring);
         }
     </script>
     <script type='text/javascript'>

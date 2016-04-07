@@ -201,6 +201,33 @@
           <Property Name="单位性质" Type="nvarchar" MaxLength="20" />
           <Property Name="RANK" Type="int" />
         </EntityType>
+        <EntityType Name="物料登记">
+          <Key>
+            <PropertyRef Name="编号" />
+          </Key>
+          <Property Name="状态" Type="nvarchar" MaxLength="20" />
+          <Property Name="编号" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="类型" Type="nvarchar" MaxLength="20" />
+          <Property Name="描述" Type="nvarchar" MaxLength="100" />
+          <Property Name="型号" Type="nvarchar" MaxLength="100" />
+          <Property Name="规格" Type="nvarchar" MaxLength="100" />
+          <Property Name="工艺" Type="nvarchar" MaxLength="100" />
+          <Property Name="木种" Type="nvarchar" MaxLength="100" />
+          <Property Name="木种个数" Type="nvarchar" MaxLength="20" />
+          <Property Name="图形编号" Type="nvarchar" MaxLength="20" />
+          <Property Name="Length" Type="decimal" Precision="20" Scale="3" />
+          <Property Name="Width" Type="decimal" Precision="20" Scale="3" />
+          <Property Name="Height" Type="decimal" Precision="20" Scale="3" />
+          <Property Name="分类编号" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerRCID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerRN" Type="int" />
+          <Property Name="ExcelServerCN" Type="int" />
+          <Property Name="ExcelServerRC1" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerWIID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerRTID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerCHG" Type="int" />
+          <Property Name="面皮厚度" Type="decimal" Precision="20" Scale="3" />
+        </EntityType>
         <EntityContainer Name="PinhuaModelStoreContainer">
           <EntitySet Name="ES_RepCase" EntityType="Self.ES_RepCase" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ES_Tmp" EntityType="Self.ES_Tmp" Schema="dbo" store:Type="Tables" />
@@ -210,6 +237,7 @@
           <EntitySet Name="考勤卡号变动" EntityType="Self.考勤卡号变动" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="人员档案" EntityType="Self.人员档案" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="往来单位" EntityType="Self.往来单位" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="物料登记" EntityType="Self.物料登记" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -224,6 +252,7 @@
           <EntitySet Name="ES_RepCase" EntityType="PinhuaModel.ES_RepCase" />
           <EntitySet Name="发货_DETAIL" EntityType="PinhuaModel.发货_DETAIL" />
           <EntitySet Name="往来单位" EntityType="PinhuaModel.往来单位" />
+          <EntitySet Name="物料登记" EntityType="PinhuaModel.物料登记" />
         </EntityContainer>
         <EntityType Name="发货">
           <Key>
@@ -420,6 +449,33 @@
           <Property Name="单位类型" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="单位性质" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="RANK" Type="Int32" />
+        </EntityType>
+        <EntityType Name="物料登记">
+          <Key>
+            <PropertyRef Name="编号" />
+          </Key>
+          <Property Name="状态" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="编号" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="类型" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="描述" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="型号" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="规格" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="工艺" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="木种" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="木种个数" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="图形编号" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Length" Type="Decimal" Precision="20" Scale="3" />
+          <Property Name="Width" Type="Decimal" Precision="20" Scale="3" />
+          <Property Name="Height" Type="Decimal" Precision="20" Scale="3" />
+          <Property Name="分类编号" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRCID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRN" Type="Int32" />
+          <Property Name="ExcelServerCN" Type="Int32" />
+          <Property Name="ExcelServerRC1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerWIID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRTID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerCHG" Type="Int32" />
+          <Property Name="面皮厚度" Type="Decimal" Precision="20" Scale="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -628,6 +684,34 @@
                 <ScalarProperty Name="电话" ColumnName="电话" />
                 <ScalarProperty Name="单位名称" ColumnName="单位名称" />
                 <ScalarProperty Name="单位编号" ColumnName="单位编号" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="物料登记">
+            <EntityTypeMapping TypeName="PinhuaModel.物料登记">
+              <MappingFragment StoreEntitySet="物料登记">
+                <ScalarProperty Name="面皮厚度" ColumnName="面皮厚度" />
+                <ScalarProperty Name="ExcelServerCHG" ColumnName="ExcelServerCHG" />
+                <ScalarProperty Name="ExcelServerRTID" ColumnName="ExcelServerRTID" />
+                <ScalarProperty Name="ExcelServerWIID" ColumnName="ExcelServerWIID" />
+                <ScalarProperty Name="ExcelServerRC1" ColumnName="ExcelServerRC1" />
+                <ScalarProperty Name="ExcelServerCN" ColumnName="ExcelServerCN" />
+                <ScalarProperty Name="ExcelServerRN" ColumnName="ExcelServerRN" />
+                <ScalarProperty Name="ExcelServerRCID" ColumnName="ExcelServerRCID" />
+                <ScalarProperty Name="分类编号" ColumnName="分类编号" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
+                <ScalarProperty Name="图形编号" ColumnName="图形编号" />
+                <ScalarProperty Name="木种个数" ColumnName="木种个数" />
+                <ScalarProperty Name="木种" ColumnName="木种" />
+                <ScalarProperty Name="工艺" ColumnName="工艺" />
+                <ScalarProperty Name="规格" ColumnName="规格" />
+                <ScalarProperty Name="型号" ColumnName="型号" />
+                <ScalarProperty Name="描述" ColumnName="描述" />
+                <ScalarProperty Name="类型" ColumnName="类型" />
+                <ScalarProperty Name="编号" ColumnName="编号" />
+                <ScalarProperty Name="状态" ColumnName="状态" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

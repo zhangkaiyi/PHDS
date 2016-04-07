@@ -14,6 +14,7 @@
         <EntityTypeShape EntityType="PinhuaModel.ES_RepCase" Width="1.5" PointX="7.25" PointY="0.75" />
         <EntityTypeShape EntityType="PinhuaModel.发货_DETAIL" Width="1.5" PointX="0.75" PointY="5.125" />
         <EntityTypeShape EntityType="PinhuaModel.往来单位" Width="1.5" PointX="10.5" PointY="0.75" />
+        <EntityTypeShape EntityType="PinhuaModel.物料登记" Width="1.5" PointX="4" PointY="4.125" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
