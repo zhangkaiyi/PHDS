@@ -302,7 +302,7 @@
                     <div class="content-block">
                         <div class="row">
                             <div class="col-50"><a href="#" class="button button-big button-fill button-danger close-popup">Cancel</a></div>
-                            <div class="col-50"><a href="#" class="button button-big button-fill button-success close-popup" onclick="RecordSubmit()">Submit</a></div>
+                            <div class="col-50"><a href="#" class="button button-big button-fill button-success" onclick="RecordSubmit()">Submit</a></div>
                         </div>
                     </div>
                 </div>
@@ -879,28 +879,32 @@
         function NewLi(selector,obj)
         {
             var htmlstring = "";
-            htmlstring += "<li class='item-link' onclick=\"$.actions(BuildActionsGroupForDetails('#'+($(this).index()+1),this));\">";
+            htmlstring += "<li class='item-link' onclick=\"$.actions(BuildActionsGroupForDetails('№'+($(this).index()+1),this));\">";
             htmlstring += "<div class='item-content'>";
-            htmlstring += "<div class='item-media'></div>";
+            //htmlstring += "<div class='item-media'></div>";
             htmlstring += "<div class='item-inner'>";
+            htmlstring += "<div class='item-title-row'>"
+            htmlstring += "<div class='item-title'></div>"
+            htmlstring += "</div>"
             htmlstring += "</div>";
             htmlstring += "</div>";
             htmlstring += "</li>";
             $(selector).append(htmlstring);
             $(selector).find("li").each(function (index,element) {
-                $(element).find(".item-media").text(index + 1);
+                $(element).find(".item-title-row:eq(0) .item-title:eq(0)").text("№" + (index + 1));
             })
         }
 
         function Compute()
         {
             var arr = recordguige.value.split("*");
-            var l = arr[0] || 0;
-            var w = arr[1] || 0;
-            var h = arr[2] || 0;
+            var l = parseFloat(arr[0] || 0);
+            var w = parseFloat(arr[1] || 0);
+            var h = parseFloat(arr[2] || 0);
+            var pcs = parseFloat(recordpianshu.value || 0);
 
-            recorddanweishuliang.value = (parseFloat(l) / 1000 * parseFloat(w) / 1000 * parseFloat(recordpianshu.value) || 0).toFixed(4);
-            recordjine.value = ((recorddanweishuliang.value || 0) * (recorddanjia.value || 0)).toFixed(2);
+            recorddanweishuliang.value = (l / 1000 * w / 1000 * pcs).toFixed(2);
+            recordjine.value = ((l / 1000 * w / 1000 * pcs) * (recorddanjia.value || 0)).toFixed(2);
         }
 
         function RecordSubmit()
@@ -920,6 +924,7 @@
             //        recordjine: recordjine.value
             //    }
             //})
+
             var data = {
                 index: $("#popup明细填表 #index").attr("data-index"),
                 recordid: recordid.value,
@@ -931,43 +936,50 @@
                 recorddanjia: recorddanjia.value,
                 recordjine: recordjine.value
             };
+
+            if (!data.recordid ||
+                !data.recordname ||
+                !data.recordguige ||
+                !data.recordpianshu ||
+                !data.recorddanweishuliang ||
+                !data.recordjijiadanwei ||
+                !data.recorddanjia ||
+                !data.recordjine)
+            {
+                alert("填写不完整");
+                return;
+            }
+
             var target = $("#明细 li").eq(data.index).find(".item-inner");
             
             var htmlstring = "";
             htmlstring += "<div class='item-title-row'>"
-            htmlstring += "<div class='item-title'>编号</div>"
+            htmlstring += "<div class='item-title'>" + "№" + (parseInt(data.index) + 1) + "</div>"
+            htmlstring += "<div class='item-subtitle'></div>"
+            htmlstring += "</div>"
+            htmlstring += "<div class='item-title-row'>"
+            htmlstring += "<div class='item-title'>" + data.recordname + "</div>"
             htmlstring += "<div class='item-subtitle'>" + data.recordid + "</div>"
             htmlstring += "</div>"
             htmlstring += "<div class='item-title-row'>"
-            htmlstring += "<div class='item-title'>描述</div>"
-            htmlstring += "<div class='item-subtitle'>" + data.recordname + "</div>"
-            htmlstring += "</div>"
-            htmlstring += "<div class='item-title-row'>"
-            htmlstring += "<div class='item-title'>规格</div>"
+            htmlstring += "<div class='item-subtitle'>规格</div>"
             htmlstring += "<div class='item-subtitle'>" + data.recordguige + "</div>"
             htmlstring += "</div>"
             htmlstring += "<div class='item-title-row'>"
-            htmlstring += "<div class='item-title'>片数</div>"
-            htmlstring += "<div class='item-subtitle'>" + data.recordpianshu + "</div>"
+            htmlstring += "<div class='item-subtitle'>数量</div>"
+            htmlstring += "<div class='item-subtitle'>" + data.recordpianshu + " 片｜" + data.recorddanweishuliang + " " + data.recordjijiadanwei + "</div>"
             htmlstring += "</div>"
             htmlstring += "<div class='item-title-row'>"
-            htmlstring += "<div class='item-title'>单位数量</div>"
-            htmlstring += "<div class='item-subtitle'>" + data.recorddanweishuliang + "</div>"
+            htmlstring += "<div class='item-subtitle'>单价</div>"
+            htmlstring += "<div class='item-subtitle'>" + data.recorddanjia + " 元" + "</div>"
             htmlstring += "</div>"
             htmlstring += "<div class='item-title-row'>"
-            htmlstring += "<div class='item-title'>计价单位</div>"
-            htmlstring += "<div class='item-subtitle'>" + data.recordjijiadanwei + "</div>"
-            htmlstring += "</div>"
-            htmlstring += "<div class='item-title-row'>"
-            htmlstring += "<div class='item-title'>单价</div>"
-            htmlstring += "<div class='item-subtitle'>" + data.recorddanjia + "</div>"
-            htmlstring += "</div>"
-            htmlstring += "<div class='item-title-row'>"
-            htmlstring += "<div class='item-title'>金额</div>"
-            htmlstring += "<div class='item-subtitle'>" + data.recordjine + "</div>"
+            htmlstring += "<div class='item-subtitle'>金额</div>"
+            htmlstring += "<div class='item-subtitle'>" + data.recordjine + " 元" + "</div>"
             htmlstring += "</div>"
 
             target.html(htmlstring);
+            $.closeModal();
         }
     </script>
     <script type='text/javascript'>
