@@ -862,7 +862,7 @@
                     var p = $(obj).parent();
                     $(obj).remove();
                     p.find("li").each(function (index, element) {
-                        $(element).find(".item-media").text(index + 1);
+                        $(element).find(".item-title-row:eq(1) .item-title:eq(0) span:eq(0)").text("№" + (index + 1) + ".");
                     })
                 }
             }
@@ -886,12 +886,15 @@
             htmlstring += "<div class='item-title-row'>"
             htmlstring += "<div class='item-title'></div>"
             htmlstring += "</div>"
+            htmlstring += "<div class='item-title-row'>"
+            htmlstring += "<div class='item-title'><span></span><span></span></div>"
+            htmlstring += "</div>"
             htmlstring += "</div>";
             htmlstring += "</div>";
             htmlstring += "</li>";
             $(selector).append(htmlstring);
             $(selector).find("li").each(function (index,element) {
-                $(element).find(".item-title-row:eq(0) .item-title:eq(0)").text("№" + (index + 1));
+                $(element).find(".item-title-row:eq(1) .item-title:eq(0) span:eq(0)").text("№" + (index + 1) + ".");
             })
         }
 
@@ -954,11 +957,11 @@
             
             var htmlstring = "";
             htmlstring += "<div class='item-title-row'>"
-            htmlstring += "<div class='item-title'>" + "№" + (parseInt(data.index) + 1) + "</div>"
+            htmlstring += "<div class='item-title'></div>"
             htmlstring += "<div class='item-subtitle'></div>"
             htmlstring += "</div>"
             htmlstring += "<div class='item-title-row'>"
-            htmlstring += "<div class='item-title'>" + data.recordname + "</div>"
+            htmlstring += "<div class='item-title'><span>" + "№" + (parseInt(data.index) + 1) + ".</span><span>" + data.recordname + "</span></div>"
             htmlstring += "<div class='item-subtitle'>" + data.recordid + "</div>"
             htmlstring += "</div>"
             htmlstring += "<div class='item-title-row'>"
