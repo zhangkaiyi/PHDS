@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Text;
 using System.Diagnostics;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using QyWeixin.EF;
 
 namespace QyWeixin
@@ -180,7 +182,85 @@ namespace QyWeixin
             switch(context.Request["行为"])
             {
                 case "提交送货单":
-                    Debug.WriteLine(context.Request["recordname"]);
+                    using (var pinhua = new PinhuaEntities())
+                    {
+
+
+                        byte[] postbytes = new byte[context.Request.InputStream.Length];
+                        context.Request.InputStream.Read(postbytes, 0, (Int32)context.Request.InputStream.Length);
+                        var requestData = Encoding.UTF8.GetString(postbytes);
+                        Debug.WriteLine(requestData);
+                        var jobj = JsonConvert.DeserializeObject<SaveModel>(requestData);
+                        
+                        var rcid = "wx" + DateTime.Now.ToString("yyyyMMdd");
+                        var rtid = "85.1";
+
+                        var xxx = from p in pinhua.ES_RepCase
+                                  where p.rcId.Substring(0, 10) == rcid
+                                  orderby p.rcId.Substring(10) descending
+                                  select p;
+
+                        if (xxx.Count() == 0)
+                        {
+                            rcid += "00001";
+                        }
+                        else
+                        {
+                            var yyy = (int.Parse(string.IsNullOrEmpty(xxx.FirstOrDefault().rcId.Substring(10)) ? "0" : xxx.FirstOrDefault().rcId.Substring(10)) + 1).ToString("D5");
+                            rcid += yyy;
+                        }
+
+                        var data_RepCase = new ES_RepCase
+                        {
+                            rcId = rcid,
+                            RtId = rtid,
+                            lstFiller = 2,
+                            lstFillerName = "张凯译",
+                            lstFillDate = DateTime.UtcNow,
+                            //fillDate = DateTime.Now,
+                            //wiId = "",
+                            //state = 1,
+                        };
+
+                        var data_发货 = new QyWeixin.EF.发货
+                        {
+                            ExcelServerRCID = rcid,
+                            ExcelServerRTID = rtid,
+                            送货单号 = rcid,
+                            客户编号 = jobj.客户编号,
+                            客户 = jobj.客户名称,
+                            地址 = jobj.地址,
+                            送货日期 = jobj.日期,
+                        };
+
+                        var data_发货明细 = new List<发货_DETAIL>();
+                        foreach (var item in jobj.发货明细)
+                        {
+                            var data = new 发货_DETAIL
+                            {
+                                ExcelServerRCID = rcid,
+                                ExcelServerRTID = rtid,
+                                ExcelServerRN = item.序号 + 1,
+                                编号 = item.物料编号,
+                                描述 = item.物料名称,
+                                规格 = item.规格,
+                                PCS = item.片数,
+                                单位数量 = item.单位数量,
+                                计价单位 = item.计价单位,
+                                单价 = item.单价,
+                                金额 = item.金额
+                            };
+                            data_发货明细.Add(data);
+                        }
+                        pinhua.ES_RepCase.Add(data_RepCase);
+                        pinhua.发货.Add(data_发货);
+                        foreach (var item in data_发货明细)
+                        {
+                            pinhua.发货_DETAIL.Add(item);
+                        }
+                        var count = pinhua.SaveChanges();
+                        Debug.WriteLine(count);
+                    }
                     break;
             }
         }
@@ -209,5 +289,42 @@ namespace QyWeixin
                 return false;
             }
         }
+    }
+
+    public class SaveModel
+    {
+        [JsonProperty(PropertyName = "id")]
+        public string 客户编号 { get; set; }
+        [JsonProperty(PropertyName = "name")]
+        public string 客户名称 { get; set; }
+        [JsonProperty(PropertyName = "address")]
+        public string 地址 { get; set; }
+        [JsonProperty(PropertyName = "thisdate")]
+        public DateTime 日期 { get; set; }
+        [JsonProperty(PropertyName = "comment")]
+        public string 备注 { get; set; }
+        [JsonProperty(PropertyName = "details")]
+        public List<SaveDetailsModel> 发货明细 { get; set; }
+    }
+    public class SaveDetailsModel
+    {
+        [JsonProperty(PropertyName = "index")]
+        public int 序号 { get; set; }
+        [JsonProperty(PropertyName = "recordid")]
+        public string 物料编号 { get; set; }
+        [JsonProperty(PropertyName = "recordname")]
+        public string 物料名称 { get; set; }
+        [JsonProperty(PropertyName = "recordguige")]
+        public string 规格 { get; set; }
+        [JsonProperty(PropertyName = "recordpianshu")]
+        public int 片数 { get; set; }
+        [JsonProperty(PropertyName = "recorddanweishuliang")]
+        public decimal 单位数量 { get; set; }
+        [JsonProperty(PropertyName = "recordjijiadanwei")]
+        public string 计价单位 { get; set; }
+        [JsonProperty(PropertyName = "recorddanjia")]
+        public decimal 单价 { get; set; }
+        [JsonProperty(PropertyName = "recordjine")]
+        public decimal 金额 { get; set; }
     }
 }

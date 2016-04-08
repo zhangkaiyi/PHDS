@@ -123,7 +123,7 @@
                                         <div class="item-inner">
                                             <div class="item-title label">日期</div>
                                             <div class="item-input">
-                                                <input type="date" placeholder="Your Date">
+                                                <input type="date" id="thisdate" placeholder="Your Date">
                                             </div>
                                         </div>
                                     </div>
@@ -155,8 +155,8 @@
                     </div>
                     <div class="content-block">
                         <div class="row">
-                            <div class="col-50"><a href="#" class="button button-big button-fill button-danger close-popup">清空</a></div>
-                            <div class="col-50"><a href="#" class="button button-big button-fill button-success close-popup" onclick="">保存</a></div>
+                            <div class="col-50"><a href="#" class="button button-big button-fill button-danger close-popup" onclick="RemoveAll()">清空</a></div>
+                            <div class="col-50"><a href="#" class="button button-big button-fill button-success close-popup" onclick="Save()">保存</a></div>
                         </div>
                     </div>
                 </div>
@@ -831,6 +831,16 @@
                 color: 'primary',
                 onClick: function () {
                     $('#popup明细填表 #index').attr('data-index', $(obj).index());
+
+                    recordid.value = $(obj).find('#lirecordid').text() || "微信登记";
+                    recordname.value = $(obj).find('#lirecordname').text() || "";
+                    recordguige.value = $(obj).find('#lirecordguige').text() || "";
+                    recordpianshu.value = $(obj).find('#lirecordpianshu').text() || "";
+                    recorddanweishuliang.value = $(obj).find('#lirecorddanweishuliang').text() || "";
+                    recordjijiadanwei.value = $(obj).find('#lirecordjijiadanwei').text() || "";
+                    recorddanjia.value = $(obj).find('#lirecorddanjia').text() || "";
+                    recordjine.value = $(obj).find('#lirecordjine').text() || "";
+
                     $.popup('#popup明细填表');
                     $('#popup明细填表 .icon-menu').parent().click(function () {
                         $.ajax({
@@ -862,7 +872,7 @@
                     var p = $(obj).parent();
                     $(obj).remove();
                     p.find("li").each(function (index, element) {
-                        $(element).find(".item-title-row:eq(1) .item-title:eq(0) span:eq(0)").text("№" + (index + 1) + ".");
+                        $(element).find(".item-title-row:eq(0) .item-title:eq(0) span:eq(0)").text("№" + (index + 1) + ".");
                     })
                 }
             }
@@ -879,13 +889,9 @@
         function NewLi(selector,obj)
         {
             var htmlstring = "";
-            htmlstring += "<li class='item-link' onclick=\"$.actions(BuildActionsGroupForDetails('№'+($(this).index()+1),this));\">";
+            htmlstring += "<li class='item-link'>";
             htmlstring += "<div class='item-content'>";
-            //htmlstring += "<div class='item-media'></div>";
             htmlstring += "<div class='item-inner'>";
-            htmlstring += "<div class='item-title-row'>"
-            htmlstring += "<div class='item-title'></div>"
-            htmlstring += "</div>"
             htmlstring += "<div class='item-title-row'>"
             htmlstring += "<div class='item-title'><span></span><span></span></div>"
             htmlstring += "</div>"
@@ -894,8 +900,9 @@
             htmlstring += "</li>";
             $(selector).append(htmlstring);
             $(selector).find("li").each(function (index,element) {
-                $(element).find(".item-title-row:eq(1) .item-title:eq(0) span:eq(0)").text("№" + (index + 1) + ".");
+                $(element).find(".item-title-row:eq(0) .item-title:eq(0) span:eq(0)").text("№" + (index + 1) + ".");
             })
+            $(selector).off('click', 'li').on('click', 'li', function (event) { $.actions(BuildActionsGroupForDetails('№' + ($(this).index() + 1), this));});
         }
 
         function Compute()
@@ -957,32 +964,83 @@
             
             var htmlstring = "";
             htmlstring += "<div class='item-title-row'>"
-            htmlstring += "<div class='item-title'></div>"
-            htmlstring += "<div class='item-subtitle'></div>"
-            htmlstring += "</div>"
-            htmlstring += "<div class='item-title-row'>"
-            htmlstring += "<div class='item-title'><span>" + "№" + (parseInt(data.index) + 1) + ".</span><span>" + data.recordname + "</span></div>"
-            htmlstring += "<div class='item-subtitle'>" + data.recordid + "</div>"
+            htmlstring += "<div class='item-title'><span>" + "№" + (parseInt(data.index) + 1) + ".</span><span id='lirecordname'>" + data.recordname + "</span></div>"
+            htmlstring += "<div class='item-subtitle' id='lirecordid'>" + data.recordid + "</div>"
             htmlstring += "</div>"
             htmlstring += "<div class='item-title-row'>"
             htmlstring += "<div class='item-subtitle'>规格</div>"
-            htmlstring += "<div class='item-subtitle'>" + data.recordguige + "</div>"
+            htmlstring += "<div class='item-subtitle' id='lirecordguige'>" + data.recordguige + "</div>"
             htmlstring += "</div>"
             htmlstring += "<div class='item-title-row'>"
             htmlstring += "<div class='item-subtitle'>数量</div>"
-            htmlstring += "<div class='item-subtitle'>" + data.recordpianshu + " 片｜" + data.recorddanweishuliang + " " + data.recordjijiadanwei + "</div>"
+            htmlstring += "<div class='item-subtitle'><span id='lirecordpianshu'>" + data.recordpianshu + "</span>"+" 片｜" + "<span id='lirecorddanweishuliang'>"+data.recorddanweishuliang+"</span>" + " " + "<span id='lirecordjijiadanwei'>"+data.recordjijiadanwei+"</span>" + "</div>"
             htmlstring += "</div>"
             htmlstring += "<div class='item-title-row'>"
             htmlstring += "<div class='item-subtitle'>单价</div>"
-            htmlstring += "<div class='item-subtitle'>" + data.recorddanjia + " 元" + "</div>"
+            htmlstring += "<div class='item-subtitle'>" + "<span id='lirecorddanjia'>" + data.recorddanjia + "</span>" + " 元" + "</div>"
             htmlstring += "</div>"
             htmlstring += "<div class='item-title-row'>"
             htmlstring += "<div class='item-subtitle'>金额</div>"
-            htmlstring += "<div class='item-subtitle'>" + data.recordjine + " 元" + "</div>"
+            htmlstring += "<div class='item-subtitle'>" + "<span id='lirecordjine'>" + data.recordjine + "</span>" + " 元" + "</div>"
             htmlstring += "</div>"
 
             target.html(htmlstring);
             $.closeModal();
+        }
+
+        function Save()
+        {
+            if ($("#明细 li").length == 0)
+                return;
+            
+            var details = new Array();
+            
+            $('#明细 li').each(function (index, element) {
+                if (!$(element).find('#lirecordname').text())
+                    return true; // continue 如果记录为空，跳过这一条
+
+                details.push({
+                    index: index,
+                    recordid: $(element).find('#lirecordid').text(),
+                    recordname: $(element).find('#lirecordname').text(),
+                    recordguige: $(element).find('#lirecordguige').text(),
+                    recordpianshu: $(element).find('#lirecordpianshu').text(),
+                    recorddanweishuliang: $(element).find('#lirecorddanweishuliang').text(),
+                    recordjijiadanwei: $(element).find('#lirecordjijiadanwei').text(),
+                    recorddanjia: $(element).find('#lirecorddanjia').text(),
+                    recordjine: $(element).find('#lirecordjine').text(),
+                })
+            })
+            if (details.length < 1) {
+                alert("操作失败，请至少保证一条有效的明细。");
+                return false;
+            }
+            
+            var data =
+                {
+                    id: $('#开送货单 #id').val(),
+                    name: $('#开送货单 #name').val(),
+                    address: $('#开送货单 #address').val(),
+                    thisdate: $('#开送货单 #thisdate').val(),
+                    comment: $('#开送货单 #comment').val(),
+                    details: details
+                }
+            
+            $.ajax({
+                url: "发货.ashx?行为=提交送货单",
+                type: "post",
+                dataType: "json",
+                data: JSON.stringify(data),
+                success:function(data)
+                {
+                    
+                }
+            })
+        }
+
+        function RemoveAll()
+        {
+            $.confirm("确定清空明细吗？", function () {$("#明细").empty() })
         }
     </script>
     <script type='text/javascript'>
