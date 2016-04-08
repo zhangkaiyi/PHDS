@@ -268,8 +268,8 @@
                                             <select id="recordjijiadanwei" onchange="Compute()">
                                                 <option>平方米</option>
                                                 <option>延长米</option>
-                                                <option>套</option>
                                                 <option>片</option>
+                                                <option>套</option>
                                             </select>
                                         </div>
                                     </div>
@@ -912,9 +912,18 @@
             var w = parseFloat(arr[1] || 0);
             var h = parseFloat(arr[2] || 0);
             var pcs = parseFloat(recordpianshu.value || 0);
+            if (recordjijiadanwei.value == "平方米") {
+                recorddanweishuliang.value = (l / 1000 * w / 1000 * pcs).toFixed(2);
+                recordjine.value = ((l / 1000 * w / 1000 * pcs) * (recorddanjia.value || 0)).toFixed(2);
+            } else if (recordjijiadanwei.value == "延长米") {
+                recorddanweishuliang.value = (l / 1000 * pcs).toFixed(2);
+                recordjine.value = ((l / 1000 * pcs) * (recorddanjia.value || 0)).toFixed(2);
+            } else if (recordjijiadanwei.value == "片") {
+                recorddanweishuliang.value = pcs;
+                recordjine.value = (pcs * (recorddanjia.value || 0)).toFixed(2);
+            } else {
 
-            recorddanweishuliang.value = (l / 1000 * w / 1000 * pcs).toFixed(2);
-            recordjine.value = ((l / 1000 * w / 1000 * pcs) * (recorddanjia.value || 0)).toFixed(2);
+            }
         }
 
         function RecordSubmit()
@@ -1014,6 +1023,11 @@
             if (details.length < 1) {
                 alert("操作失败，请至少保证一条有效的明细。");
                 return false;
+            }
+            else
+            {
+                if (!confirm("确认保存送货单吗？"))
+                    return false;
             }
             
             var data =
