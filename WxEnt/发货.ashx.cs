@@ -240,7 +240,7 @@ namespace QyWeixin
                             {
                                 ExcelServerRCID = rcid,
                                 ExcelServerRTID = rtid,
-                                ExcelServerRN = item.序号 + 1,
+                                ExcelServerRN = jobj.发货明细.IndexOf(item) + 1,
                                 编号 = item.物料编号,
                                 描述 = item.物料名称,
                                 规格 = item.规格,
