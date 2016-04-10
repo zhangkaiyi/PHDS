@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="EastRiverModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TimeRecords">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="card_id" />
+            <PropertyRef Name="sign_time" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="clock_id" Type="int" />
+          <Property Name="emp_id" Type="nvarchar" MaxLength="32" />
+          <Property Name="card_id" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="sign_time" Type="datetime" Nullable="false" />
+          <Property Name="mark" Type="tinyint" />
+          <Property Name="flag" Type="tinyint" />
+          <Property Name="bill_id" Type="nvarchar" MaxLength="20" />
+          <Property Name="EventName" Type="varchar" MaxLength="50" />
+          <Property Name="Pos_sequ" Type="int" />
+          <Property Name="dCollectTime" Type="datetime" />
+        </EntityType>
+        <EntityContainer Name="EastRiverModelStoreContainer">
+          <EntitySet Name="TimeRecords" EntityType="Self.TimeRecords" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EastRiverModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TimeRecords">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="card_id" />
+            <PropertyRef Name="sign_time" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="clock_id" Type="Int32" />
+          <Property Name="emp_id" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="card_id" Type="String" MaxLength="16" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="sign_time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="mark" Type="Byte" />
+          <Property Name="flag" Type="Byte" />
+          <Property Name="bill_id" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="EventName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Pos_sequ" Type="Int32" />
+          <Property Name="dCollectTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityContainer Name="EastRiverEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TimeRecords" EntityType="Self.TimeRecords" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EastRiverModelStoreContainer" CdmEntityContainer="EastRiverEntities">
+          <EntitySetMapping Name="TimeRecords">
+            <EntityTypeMapping TypeName="EastRiverModel.TimeRecords">
+              <MappingFragment StoreEntitySet="TimeRecords">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="clock_id" ColumnName="clock_id" />
+                <ScalarProperty Name="emp_id" ColumnName="emp_id" />
+                <ScalarProperty Name="card_id" ColumnName="card_id" />
+                <ScalarProperty Name="sign_time" ColumnName="sign_time" />
+                <ScalarProperty Name="mark" ColumnName="mark" />
+                <ScalarProperty Name="flag" ColumnName="flag" />
+                <ScalarProperty Name="bill_id" ColumnName="bill_id" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="Pos_sequ" ColumnName="Pos_sequ" />
+                <ScalarProperty Name="dCollectTime" ColumnName="dCollectTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

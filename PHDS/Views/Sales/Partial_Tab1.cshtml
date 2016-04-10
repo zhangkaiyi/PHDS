@@ -1,18 +1,37 @@
-﻿<div id="微信单据">
-    <div class="list-block">
+﻿@model List<PHDS.Models.SalesModels.OrdersModel>
+
+<div id="微信单据">
+    <div class="list-block media-list">
         <ul>
-            <li>1</li>
-            <li></li>
+            @{
+                var c = 0;
+
+                foreach (var item in Model.Where(m => m.OrderId.Substring(0, 2) == "wx").OrderByDescending(m => m.OrderId))
+                {
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title-row">
+                                    <div class="item-title">№@(++c).</div>
+                                    <div class="item-subtitle">@Html.DisplayTextFor(m => m[Model.IndexOf(item)].OrderId)</div>
+                                </div>
+                                <div class="item-title-row">
+                                    <div class="item-title">@Html.DisplayNameFor(m => m[Model.IndexOf(item)].CustomerId)</div>
+                                    <div class="item-subtitle">@Html.DisplayTextFor(m => m[Model.IndexOf(item)].CustomerId)</div>
+                                </div>
+                                <div class="item-title-row">
+                                    <div class="item-title">@Html.DisplayNameFor(m => m[Model.IndexOf(item)].CustomerName)</div>
+                                    <div class="item-subtitle">@Html.DisplayTextFor(m => m[Model.IndexOf(item)].CustomerName)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                }
+            }
         </ul>
     </div>
 </div>
 
 <div class="list-block media-list inset">
     <ul id="明细"></ul>
-</div>
-<div class="content-block">
-    <div class="row">
-        <div class="col-50"><a href="#" class="button button-big button-fill button-danger close-popup" onclick="RemoveAll()">清空</a></div>
-        <div class="col-50"><a href="#" class="button button-big button-fill button-success close-popup" onclick="Save()">保存</a></div>
-    </div>
 </div>
