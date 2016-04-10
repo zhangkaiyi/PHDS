@@ -1,0 +1,80 @@
+﻿<div id="新增">
+    <div class="list-block">
+        <ul>
+            <!-- Text inputs -->
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">编号</div>
+                        <div class="item-input">
+                            <input type="text" id="id" placeholder="Your ID" onclick="{ $.popup('#popup客户列表')}" readonly>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-name"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">名称</div>
+                        <div class="item-input">
+                            <input type="text" id="name" placeholder="Your Name" onclick="{ $.popup('#popup客户列表')}" readonly>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-toggle"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">地址</div>
+                        <div class="item-input">
+                            <input type="text" id="address" placeholder="Your Address">
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <!-- Date -->
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-calendar"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">日期</div>
+                        <div class="item-input">
+                            <input type="date" id="thisdate" placeholder="Your Date">
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-comment"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">备注</div>
+                        <div class="item-input">
+                            <input type="text" id="comment" placeholder="Your Comment">
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="list-block">
+    <ul>
+        <li><a href="#" class="item-link list-button" onclick="NewLi('#明细',this)">添加明细</a></li>
+    </ul>
+</div>
+<div class="list-block media-list inset">
+    <ul id="明细">
+        
+    </ul>
+</div>
+<div class="content-block">
+    <div class="row">
+        <div class="col-50"><a href="#" class="button button-big button-fill button-danger close-popup" onclick="RemoveAll()">清空</a></div>
+        <div class="col-50"><a href="#" class="button button-big button-fill button-success close-popup" onclick="Save()">保存</a></div>
+    </div>
+</div>

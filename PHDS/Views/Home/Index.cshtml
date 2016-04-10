@@ -1,0 +1,34 @@
+﻿@model PHDS.Models.HomeModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div class="page page-current" id="main">
+    <header class='bar-nav'>
+        <div class="buttons-tab">
+            <a href="#tab1" class="tab-link button active">单据流水</a>
+            <a href="#tab2" class="tab-link button">客户列表</a>
+            <a href="#tab3" class="tab-link button">开送货单</a>
+        </div>
+    </header>
+    <div class="content">
+        <div class="tabs">
+            <div id="tab1" class="tab active">
+
+                <ol id="单据流水">
+                    <li>@Html.LabelFor(m => m.Name)</li>
+                    <li>@Html.TextBoxFor(m => m.Name)</li>
+                </ol>
+            </div>
+            <div id="tab2" class="tab">
+                <div class="list-block inset">
+                    <ul id="客户列表"></ul>
+                </div>
+            </div>
+            <div id="tab3" class="tab">
+            </div>
+        </div>
+    </div>
+</div>

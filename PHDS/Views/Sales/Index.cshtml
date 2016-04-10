@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "Sales";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page page-current" id="main">
+    <header class='bar-nav'>
+        <div class="buttons-tab">
+            <a href="#tab1" class="tab-link button active">微信单据</a>
+            <a href="#tab2" class="tab-link button">新增</a>
+        </div>
+    </header>
+    <div class="content">
+        <div class="tabs">
+            <div id="tab1" class="tab active">
+                @Html.Partial("Partial_Tab1");
+            </div>
+            <div id="tab2" class="tab">
+                @Html.Partial("Partial_Tab2")
+            </div>
+        </div>
+    </div>
+</div>
