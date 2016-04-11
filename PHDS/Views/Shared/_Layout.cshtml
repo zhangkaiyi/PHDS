@@ -6,14 +6,15 @@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Styles.Render("~/light7/css")
+    @RenderSection("style", false)
 
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/light7/js")
 </head>
 <body>
     @RenderBody()
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/light7/js")
     @RenderSection("scripts", required: false)
 </body>
 </html>

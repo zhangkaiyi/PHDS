@@ -3,11 +3,34 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section style{
+    <style>
+        html {
+          font-size: 18px;
+        }
+        @@media only screen and (min-width: 400px) {
+          html {
+            font-size: 19px !important;
+          }
+        }
+        @@media only screen and (min-width: 414px) {
+          html {
+            font-size: 20px !important;
+          }
+        }
+        @@media only screen and (min-width: 480px) {
+          html {
+            font-size: 23px !important;
+          }
+        }
+    </style>
+}
+
 <div class="page page-current" id="main">
     <header class='bar-nav'>
         <div class="buttons-tab">
             <a href="#tab1" class="tab-link button active">微信单据</a>
-            <a href="#tab2" class="tab-link button">新增</a>
+            <a href="#tab2" class="tab-link button">销售开单</a>
         </div>
     </header>
     <div class="content">
