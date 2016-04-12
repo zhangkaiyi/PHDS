@@ -148,64 +148,64 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SalesController.cs" />
-    <Compile Include="EF\EastRiverModel.Context.cs">
+    <Compile Include="Entites\EastRiverModel.Context.cs">
       <DependentUpon>EastRiverModel.Context.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="EF\EastRiverModel.cs">
+    <Compile Include="Entites\EastRiverModel.cs">
       <DependentUpon>EastRiverModel.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="EF\EastRiverModel.Designer.cs">
+    <Compile Include="Entites\EastRiverModel.Designer.cs">
       <DependentUpon>EastRiverModel.edmx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="EF\ES_RepCase.cs">
+    <Compile Include="Entites\ES_RepCase.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="EF\ES_Tmp.cs">
+    <Compile Include="Entites\ES_Tmp.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="EF\PinhuaModel.Context.cs">
+    <Compile Include="Entites\PinhuaModel.Context.cs">
       <DependentUpon>PinhuaModel.Context.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="EF\PinhuaModel.cs">
+    <Compile Include="Entites\PinhuaModel.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="EF\PinhuaModel.Designer.cs">
+    <Compile Include="Entites\PinhuaModel.Designer.cs">
       <DependentUpon>PinhuaModel.edmx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="EF\TimeRecords.cs">
+    <Compile Include="Entites\TimeRecords.cs">
       <DependentUpon>EastRiverModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="EF\人员档案.cs">
+    <Compile Include="Entites\人员档案.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="EF\发货.cs">
+    <Compile Include="Entites\发货.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="EF\发货_DETAIL.cs">
+    <Compile Include="Entites\发货_DETAIL.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="EF\往来单位.cs">
+    <Compile Include="Entites\往来单位.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="EF\打卡登记.cs">
+    <Compile Include="Entites\打卡登记.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="EF\物料登记.cs">
+    <Compile Include="Entites\物料登记.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="EF\考勤卡号变动.cs">
+    <Compile Include="Entites\考勤卡号变动.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
@@ -278,36 +278,36 @@
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <EntityDeploy Include="EF\EastRiverModel.edmx">
+    <EntityDeploy Include="Entites\EastRiverModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>EastRiverModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="EF\EastRiverModel.Context.tt">
+    <Content Include="Entites\EastRiverModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>EastRiverModel.edmx</DependentUpon>
       <LastGenOutput>EastRiverModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="EF\EastRiverModel.edmx.diagram">
+    <Content Include="Entites\EastRiverModel.edmx.diagram">
       <DependentUpon>EastRiverModel.edmx</DependentUpon>
     </Content>
-    <Content Include="EF\EastRiverModel.tt">
+    <Content Include="Entites\EastRiverModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>EastRiverModel.edmx</DependentUpon>
       <LastGenOutput>EastRiverModel.cs</LastGenOutput>
     </Content>
-    <EntityDeploy Include="EF\PinhuaModel.edmx">
+    <EntityDeploy Include="Entites\PinhuaModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>PinhuaModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="EF\PinhuaModel.Context.tt">
+    <Content Include="Entites\PinhuaModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>PinhuaModel.edmx</DependentUpon>
       <LastGenOutput>PinhuaModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="EF\PinhuaModel.edmx.diagram">
+    <Content Include="Entites\PinhuaModel.edmx.diagram">
       <DependentUpon>PinhuaModel.edmx</DependentUpon>
     </Content>
-    <Content Include="EF\PinhuaModel.tt">
+    <Content Include="Entites\PinhuaModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>PinhuaModel.edmx</DependentUpon>
       <LastGenOutput>PinhuaModel.cs</LastGenOutput>

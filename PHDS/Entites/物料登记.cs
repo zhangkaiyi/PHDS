@@ -7,23 +7,27 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PHDS.EF
+namespace PHDS.Entites
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class 人员档案
+    public partial class 物料登记
     {
-        public string 人员编号 { get; set; }
-        public Nullable<System.DateTime> 登记时间 { get; set; }
-        public string 姓名 { get; set; }
         public string 状态 { get; set; }
-        public string 性别 { get; set; }
-        public string 证件号码 { get; set; }
-        public Nullable<System.DateTime> 出生年月 { get; set; }
-        public string 联系电话 { get; set; }
-        public string 联系地址 { get; set; }
-        public Nullable<System.DateTime> 离职时间 { get; set; }
+        public string 编号 { get; set; }
+        public string 类型 { get; set; }
+        public string 描述 { get; set; }
+        public string 型号 { get; set; }
+        public string 规格 { get; set; }
+        public string 工艺 { get; set; }
+        public string 木种 { get; set; }
+        public string 木种个数 { get; set; }
+        public string 图形编号 { get; set; }
+        public Nullable<decimal> Length { get; set; }
+        public Nullable<decimal> Width { get; set; }
+        public Nullable<decimal> Height { get; set; }
+        public string 分类编号 { get; set; }
         public string ExcelServerRCID { get; set; }
         public Nullable<int> ExcelServerRN { get; set; }
         public Nullable<int> ExcelServerCN { get; set; }
@@ -31,7 +35,6 @@ namespace PHDS.EF
         public string ExcelServerWIID { get; set; }
         public string ExcelServerRTID { get; set; }
         public Nullable<int> ExcelServerCHG { get; set; }
-        public Nullable<System.DateTime> 入职时间 { get; set; }
-        public string 考勤班次 { get; set; }
+        public Nullable<decimal> 面皮厚度 { get; set; }
     }
 }

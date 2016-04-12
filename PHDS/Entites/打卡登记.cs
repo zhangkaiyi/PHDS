@@ -7,27 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PHDS.EF
+namespace PHDS.Entites
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class 物料登记
+    public partial class 打卡登记
     {
-        public string 状态 { get; set; }
-        public string 编号 { get; set; }
-        public string 类型 { get; set; }
-        public string 描述 { get; set; }
-        public string 型号 { get; set; }
-        public string 规格 { get; set; }
-        public string 工艺 { get; set; }
-        public string 木种 { get; set; }
-        public string 木种个数 { get; set; }
-        public string 图形编号 { get; set; }
-        public Nullable<decimal> Length { get; set; }
-        public Nullable<decimal> Width { get; set; }
-        public Nullable<decimal> Height { get; set; }
-        public string 分类编号 { get; set; }
+        public string 签卡原因 { get; set; }
+        public string 人员编号 { get; set; }
+        public string 姓名 { get; set; }
+        public Nullable<System.DateTime> 时间 { get; set; }
+        public Nullable<System.DateTime> 审核时间 { get; set; }
         public string ExcelServerRCID { get; set; }
         public Nullable<int> ExcelServerRN { get; set; }
         public Nullable<int> ExcelServerCN { get; set; }
@@ -35,6 +26,8 @@ namespace PHDS.EF
         public string ExcelServerWIID { get; set; }
         public string ExcelServerRTID { get; set; }
         public Nullable<int> ExcelServerCHG { get; set; }
-        public Nullable<decimal> 面皮厚度 { get; set; }
+        public string 审核状态 { get; set; }
+        public string 审核人 { get; set; }
+        public int pk { get; set; }
     }
 }
