@@ -11,6 +11,7 @@ namespace PHDS.Models
     {
         public class OrdersModel
         {
+            [Required]
             [Display(Name = "唯一标识")]
             public string RCID { get; set; }
 

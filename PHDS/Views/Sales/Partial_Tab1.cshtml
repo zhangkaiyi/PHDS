@@ -1,6 +1,17 @@
 ﻿@model List<PHDS.Models.SalesModels.OrdersModel>
 
 <div id="微信单据">
+    <script>function test(data) { alert(data) }</script>
+    <div class="content-block-title">
+        @using (@Ajax.BeginForm(new AjaxOptions { Confirm = "really?", OnSuccess = "test", }))
+        {
+            @Html.ValidationSummary()
+            @Html.LabelFor(m => m[0].RCID)
+            @Html.TextBoxFor(m => m[0].RCID)
+            <input type="submit" value="注册" />
+        }
+    </div>
+
     <div class="list-block media-list">
         <ul>
             @{
@@ -68,8 +79,9 @@
             color: 'warning',
             onClick: function () {
                 $.ajax({
-                    url: "@Url.Action("Index")"
-                })       
+                    url: "@Url.Action("删除单据")",
+                    data: { RCID: 1 }
+                })
             }
         }
         ];
