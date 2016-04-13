@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PHDS.Entites
+namespace PHDS.EF
 {
     using System;
     using System.Data.Entity;

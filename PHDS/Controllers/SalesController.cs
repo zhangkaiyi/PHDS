@@ -9,9 +9,6 @@ namespace PHDS.Controllers
 {
     public class SalesController : Controller
     {
-        //
-        // GET: /Sales/
-
         public ActionResult Index()
         {
             using (var pinhua = new PinhuaEntities())

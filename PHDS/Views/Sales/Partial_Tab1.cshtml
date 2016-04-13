@@ -1,7 +1,7 @@
 ﻿@model List<PHDS.Models.SalesModels.OrdersModel>
 
 <div id="微信单据">
-    <script>function test(data) { alert(data) }</script>
+
     <div class="content-block-title">
         @using (@Ajax.BeginForm(new AjaxOptions { Confirm = "really?", OnSuccess = "test", }))
         {

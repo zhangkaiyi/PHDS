@@ -7,19 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PHDS.Entites
+namespace PHDS.EF
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class 发货
+    public partial class 往来单位
     {
-        public string 客户 { get; set; }
-        public string 送货单号 { get; set; }
-        public string 地址 { get; set; }
-        public Nullable<System.DateTime> 送货日期 { get; set; }
-        public string 备注 { get; set; }
-        public string 客户编号 { get; set; }
+        public string 单位编号 { get; set; }
+        public string 单位名称 { get; set; }
+        public string 电话 { get; set; }
+        public string 传真 { get; set; }
+        public string 单位地址 { get; set; }
+        public Nullable<System.DateTime> 登记日期 { get; set; }
         public string ExcelServerRCID { get; set; }
         public Nullable<int> ExcelServerRN { get; set; }
         public Nullable<int> ExcelServerCN { get; set; }
@@ -27,9 +27,8 @@ namespace PHDS.Entites
         public string ExcelServerWIID { get; set; }
         public string ExcelServerRTID { get; set; }
         public Nullable<int> ExcelServerCHG { get; set; }
-        public string 业务类型 { get; set; }
-        public string 业务描述 { get; set; }
-        public string 冲销理由 { get; set; }
-        public string 创建者 { get; set; }
+        public string 单位类型 { get; set; }
+        public string 单位性质 { get; set; }
+        public Nullable<int> RANK { get; set; }
     }
 }
