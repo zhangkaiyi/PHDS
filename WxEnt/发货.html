@@ -1043,11 +1043,10 @@
             $.ajax({
                 url: "发货.ashx?行为=提交送货单",
                 type: "post",
-                dataType: "json",
                 data: JSON.stringify(data),
                 success:function(data)
                 {
-                    
+                    alert(data);
                 }
             })
         }

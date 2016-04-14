@@ -1,17 +1,6 @@
 ﻿@model List<PHDS.Models.SalesModels.OrdersModel>
 
 <div id="微信单据">
-
-    <div class="content-block-title">
-        @using (@Ajax.BeginForm(new AjaxOptions { Confirm = "really?", OnSuccess = "test", }))
-        {
-            @Html.ValidationSummary()
-            @Html.LabelFor(m => m[0].RCID)
-            @Html.TextBoxFor(m => m[0].RCID)
-            <input type="submit" value="注册" />
-        }
-    </div>
-
     <div class="list-block media-list">
         <ul>
             @{
@@ -19,7 +8,7 @@
 
                 foreach (var item in Model.Where(m => m.OrderId.Substring(0, 2) == "wx").OrderByDescending(m => m.OrderId))
                 {
-                    <li class="item-link">
+                    <li class="item-link" id="@Html.DisplayTextFor(m => m[Model.IndexOf(item)].RCID)">
                         <div class="item-content">
                             <div class="item-inner">
                                 <div class="item-title-row">
@@ -50,10 +39,6 @@
                                     <div class="item-subtitle">@Html.DisplayNameFor(m => m[Model.IndexOf(item)].SalesTypeDescription)</div>
                                     <div class="item-subtitle">@Html.DisplayTextFor(m => m[Model.IndexOf(item)].SalesTypeDescription)</div>
                                 </div>
-                                <div class="item-title-row">
-                                    <div class="item-subtitle">@Html.DisplayNameFor(m => m[Model.IndexOf(item)].RCID)</div>
-                                    <div class="item-subtitle">@Html.DisplayTextFor(m => m[Model.IndexOf(item)].RCID)</div>
-                                </div>
                             </div>
                         </div>
                     </li>
@@ -80,7 +65,11 @@
             onClick: function () {
                 $.ajax({
                     url: "@Url.Action("删除单据")",
-                    data: { RCID: 1 }
+                    type: "post",
+                    data: { rcid: obj.id },
+                    success: function (data) {
+                        alert(data)
+                    }
                 })
             }
         }

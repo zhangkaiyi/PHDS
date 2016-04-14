@@ -39,9 +39,9 @@ namespace PHDS
                         "~/Content/themes/base/jquery.ui.progressbar.css",
                         "~/Content/themes/base/jquery.ui.theme.css"));
 
-            bundles.Add(new StyleBundle("~/light7/css").Include("~/Assets/light7/dist/css/light7.min.css"));
+            bundles.Add(new StyleBundle("~/light7/css").Include("~/Assets/light7/dist/css/light7.css"));
 
-            bundles.Add(new ScriptBundle("~/light7/js").Include("~/Assets/light7/dist/js/light7.min.js"));
+            bundles.Add(new ScriptBundle("~/light7/js").Include("~/Assets/light7/dist/js/light7.js"));
         }
     }
 }

@@ -259,7 +259,7 @@ namespace QyWeixin
                             pinhua.发货_DETAIL.Add(item);
                         }
                         var count = pinhua.SaveChanges();
-                        Debug.WriteLine(count);
+                        context.Response.Write(count>0?"保存送货单成功！":"保存失败！");
                     }
                     break;
             }

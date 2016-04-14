@@ -317,7 +317,7 @@
       <DependentUpon>PinhuaModel.edmx</DependentUpon>
       <LastGenOutput>PinhuaModel.cs</LastGenOutput>
     </Content>
-    <None Include="Properties\PublishProfiles\192.168.1.50.pubxml" />
+    <None Include="Properties\PublishProfiles\192.168.1.60.pubxml" />
     <None Include="Scripts\jquery-2.2.2.intellisense.js" />
     <Content Include="Scripts\jquery-2.2.2.js" />
     <Content Include="Scripts\jquery-2.2.2.min.js" />

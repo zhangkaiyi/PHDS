@@ -726,7 +726,7 @@
     <Content Include="Assets\ace\font\readme" />
     <Content Include="Assets\ace\js\ace\readme" />
     <Content Include="Assets\ace\js\ace\scripts.json" />
-    <None Include="Properties\PublishProfiles\内网.pubxml" />
+    <None Include="Properties\PublishProfiles\192.168.1.60.pubxml" />
     <None Include="Properties\PublishProfiles\外网.pubxml" />
     <None Include="Scripts\jquery-2.2.2.intellisense.js" />
     <Content Include="Scripts\jquery-2.2.2.js" />

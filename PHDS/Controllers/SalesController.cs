@@ -13,7 +13,7 @@ namespace PHDS.Controllers
         {
             using (var pinhua = new PinhuaEntities())
             {
-                var set = from p in pinhua.发货
+                var set = from p in pinhua.发货.AsNoTracking()
                           select new Models.SalesModels.OrdersModel
                           {
                               RCID = p.ExcelServerRCID,
@@ -27,6 +27,41 @@ namespace PHDS.Controllers
                           };
 
                 return View(set.ToList());
+            }
+        }
+
+        [HttpPost]
+        public ActionResult 删除单据(string rcid)
+        {
+            using (var pinhua = new PinhuaEntities())
+            {
+                int delCount = 0;
+                foreach (var p in (from p in pinhua.ES_RepCase where p.rcId == rcid select p))
+                {
+                    pinhua.ES_RepCase.Remove(p);
+                    delCount++;
+                }
+                foreach (var p in (from p in pinhua.发货 where p.ExcelServerRCID == rcid select p))
+                {
+                    pinhua.发货.Remove(p);
+                    delCount++;
+                }
+                foreach (var p in (from p in pinhua.发货_DETAIL where p.ExcelServerRCID == rcid select p))
+                {
+                    pinhua.发货_DETAIL.Remove(p);
+                    delCount++;
+                }
+                using (var trans = pinhua.Database.BeginTransaction())
+                {
+                    var realCount = pinhua.SaveChanges();
+
+                    if (realCount == delCount)
+                        trans.Commit();
+                    else
+                        trans.Rollback();
+
+                    return Content(realCount.ToString());
+                }
             }
         }
 
