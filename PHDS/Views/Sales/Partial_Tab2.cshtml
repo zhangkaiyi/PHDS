@@ -1,4 +1,6 @@
-﻿<div id="新增">
+﻿@model PHDS.Models.SalesModels.OrdersModel
+
+<div id="销售开单">
     <div class="list-block">
         <ul>
             <!-- Text inputs -->
@@ -6,9 +8,9 @@
                 <div class="item-content">
                     <div class="item-media"><i class="icon icon-form-email"></i></div>
                     <div class="item-inner">
-                        <div class="item-title label">编号</div>
+                        <div class="item-title label">@Html.DisplayNameFor(m => m.CustomerId)</div>
                         <div class="item-input">
-                            <input type="text" id="id" placeholder="Your ID" onclick="{ $.popup('#popup客户列表')}" readonly>
+                            @Html.TextBoxFor(m => m.CustomerId, new { @readonly = "readonly" })
                         </div>
                     </div>
                 </div>
@@ -17,9 +19,9 @@
                 <div class="item-content">
                     <div class="item-media"><i class="icon icon-form-name"></i></div>
                     <div class="item-inner">
-                        <div class="item-title label">名称</div>
+                        <div class="item-title label">@Html.DisplayNameFor(m => m.CustomerName)</div>
                         <div class="item-input">
-                            <input type="text" id="name" placeholder="Your Name" onclick="{ $.popup('#popup客户列表')}" readonly>
+                            @Html.TextBoxFor(m => m.CustomerName, new { @readonly = "readonly" })
                         </div>
                     </div>
                 </div>
@@ -28,9 +30,9 @@
                 <div class="item-content">
                     <div class="item-media"><i class="icon icon-form-toggle"></i></div>
                     <div class="item-inner">
-                        <div class="item-title label">地址</div>
+                        <div class="item-title label">@Html.DisplayNameFor(m => m.CustomerAddress)</div>
                         <div class="item-input">
-                            <input type="text" id="address" placeholder="Your Address">
+                            @Html.EditorFor(m => m.CustomerAddress)
                         </div>
                     </div>
                 </div>
@@ -40,9 +42,9 @@
                 <div class="item-content">
                     <div class="item-media"><i class="icon icon-form-calendar"></i></div>
                     <div class="item-inner">
-                        <div class="item-title label">日期</div>
+                        <div class="item-title label">@Html.DisplayNameFor(m => m.SalesDate)</div>
                         <div class="item-input">
-                            <input type="date" id="thisdate" placeholder="Your Date">
+                            @Html.TextBox(@Html.IdFor(m => m.SalesDate).ToString(), "" , new { @readonly = "readonly"})
                         </div>
                     </div>
                 </div>
@@ -51,9 +53,31 @@
                 <div class="item-content">
                     <div class="item-media"><i class="icon icon-form-comment"></i></div>
                     <div class="item-inner">
-                        <div class="item-title label">备注</div>
+                        <div class="item-title label">@Html.DisplayNameFor(m => m.SalesTypeId)</div>
                         <div class="item-input">
-                            <input type="text" id="comment" placeholder="Your Comment">
+                            @Html.EditorFor(m => m.SalesTypeId)
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-comment"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">@Html.DisplayNameFor(m => m.SalesTypeDescription)</div>
+                        <div class="item-input">
+                            @Html.EditorFor(m => m.SalesTypeDescription)
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-comment"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">@Html.DisplayNameFor(m => m.SalesComment)</div>
+                        <div class="item-input">
+                            @Html.TextAreaFor(m => m.SalesComment)
                         </div>
                     </div>
                 </div>
@@ -69,12 +93,72 @@
 </div>
 <div class="list-block media-list inset">
     <ul id="明细">
-        
+        <li class='item-link'>
+            <div class='item-content'>
+                <div class='item-inner'>
+                    <div class='item-title-row'>
+                        <div class='item-title'><span>№1.</span><span></span></div>
+                    </div>
+                </div>
+            </div>
+        </li>
     </ul>
 </div>
+
 <div class="content-block">
     <div class="row">
-        <div class="col-50"><a href="#" class="button button-big button-fill button-danger close-popup" onclick="RemoveAll()">清空</a></div>
+        <div class="col-50"><a href="#" class="button button-big button-fill button-danger close-popup" onclick="RemoveLi()">清空</a></div>
         <div class="col-50"><a href="#" class="button button-big button-fill button-success close-popup" onclick="Save()">保存</a></div>
     </div>
 </div>
+
+<script>
+    $("#@Html.IdFor(m => m.SalesDate)").calendar();
+    $("#明细").off('click', 'li').on('click', 'li', function (event) {
+        var that = this;
+        var buttons1 = [
+            { text: '№' + ($(this).index() + 1), label: true },
+            {
+                text: '编辑', bold: true, color: 'primary', onClick: function () {
+
+                }
+            },
+            {
+                text: '删除', bold: true, color: 'warning', onClick: function () {
+                    var p = $(that).parent();
+                    $(that).remove();
+                    p.find("li").each(function (index, element) {
+                        $(element).find(".item-title-row:eq(0) .item-title:eq(0) span:eq(0)").text("№" + (index + 1) + ".");
+                    })
+                }
+            }
+        ];
+        var buttons2 = [
+            { text: '取消', bg: 'danger' }
+        ];
+        var groups = [buttons1, buttons2];
+        $.actions(groups);
+    });
+    function NewLi(selector, obj) {
+        var htmlstring = "\
+            <li class='item-link'>\
+            <div class='item-content'>\
+            <div class='item-inner'>\
+            <div class='item-title-row'>\
+            <div class='item-title'><span></span><span></span></div>\
+            </div>\
+            </div>\
+            </div>\
+            </li>";
+        $(selector).append(htmlstring);
+        $(selector).find("li").each(function (index, element) {
+            $(element).find(".item-title-row:eq(0) .item-title:eq(0) span:eq(0)").text("№" + (index + 1) + ".");
+        })
+    }
+    function RemoveLi() {
+        $.confirm("确定清空明细吗？", function () {
+            $("#明细").empty();
+        })
+    }
+
+</script>

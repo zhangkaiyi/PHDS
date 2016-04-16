@@ -28,8 +28,8 @@
                                     <div class="item-subtitle">@Html.DisplayTextFor(m => m[Model.IndexOf(item)].CustomerAddress)</div>
                                 </div>
                                 <div class="item-title-row">
-                                    <div class="item-subtitle">@Html.DisplayNameFor(m => m[Model.IndexOf(item)].SaleDate)</div>
-                                    <div class="item-subtitle">@Html.DisplayTextFor(m => m[Model.IndexOf(item)].SaleDate)</div>
+                                    <div class="item-subtitle">@Html.DisplayNameFor(m => m[Model.IndexOf(item)].SalesDate)</div>
+                                    <div class="item-subtitle">@Html.DisplayTextFor(m => m[Model.IndexOf(item)].SalesDate)</div>
                                 </div>
                                 <div class="item-title-row">
                                     <div class="item-subtitle">@Html.DisplayNameFor(m => m[Model.IndexOf(item)].SalesTypeId)</div>
@@ -68,7 +68,7 @@
                     type: "post",
                     data: { rcid: obj.id },
                     success: function (data) {
-                        alert(data)
+                        location.reload();
                     }
                 })
             }

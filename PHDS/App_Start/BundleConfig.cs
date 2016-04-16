@@ -41,7 +41,8 @@ namespace PHDS
 
             bundles.Add(new StyleBundle("~/light7/css").Include("~/Assets/light7/dist/css/light7.css"));
 
-            bundles.Add(new ScriptBundle("~/light7/js").Include("~/Assets/light7/dist/js/light7.js"));
+            bundles.Add(new ScriptBundle("~/light7/js").Include("~/Assets/light7/dist/js/light7.js",
+                "~/Assets/light7/dist/js/i18n/cn.js"));
         }
     }
 }

@@ -6,22 +6,25 @@
 @section style{
     <style>
         html {
-          font-size: 18px;
+            font-size: 18px;
         }
+
         @@media only screen and (min-width: 400px) {
-          html {
-            font-size: 19px !important;
-          }
+            html {
+                font-size: 19px !important;
+            }
         }
+
         @@media only screen and (min-width: 414px) {
-          html {
-            font-size: 20px !important;
-          }
+            html {
+                font-size: 20px !important;
+            }
         }
+
         @@media only screen and (min-width: 480px) {
-          html {
-            font-size: 23px !important;
-          }
+            html {
+                font-size: 23px !important;
+            }
         }
     </style>
 }
@@ -42,7 +45,7 @@
                 @Html.Partial("Partial_Tab1")
             </div>
             <div id="tab2" class="tab">
-                @Html.Partial("Partial_Tab2")
+                @Html.Partial("Partial_Tab2", new PHDS.Models.SalesModels.OrdersModel() {})
             </div>
         </div>
     </div>
