@@ -26,13 +26,18 @@
                 font-size: 23px !important;
             }
         }
+
+        .popup {
+            background: #eee;
+        }
+
     </style>
 }
 @section scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
-
-<div class="page page-current" id="main">
+<!-- page -->
+<div class="page page-current" id="main" style="background-color:#eee">
     <header class='bar-nav'>
         <div class="buttons-tab">
             <a href="#tab1" class="tab-link button active">微信单据</a>
@@ -45,8 +50,10 @@
                 @Html.Partial("Partial_Tab1")
             </div>
             <div id="tab2" class="tab">
-                @Html.Partial("Partial_Tab2", new PHDS.Models.SalesModels.OrdersModel() {})
+                @Html.Partial("Partial_Tab2", new PHDS.Models.SalesModels.OrdersModel() { })
             </div>
         </div>
     </div>
 </div>
+
+@Html.Partial("Partial_Popups", new PHDS.Models.SalesModels.OrderDetialModel() { })

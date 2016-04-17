@@ -12,7 +12,7 @@ namespace PHDS.Models
         public class OrdersModel
         {
             [Required]
-            [Display(Name = "唯一标识")]
+            [Display(Name = "RCID")]
             public string RCID { get; set; }
 
             [Display(Name = "订单编号")]
@@ -33,7 +33,7 @@ namespace PHDS.Models
             [Display(Name = "销售类型")]
             public string SalesTypeId { get; set; }
 
-            [Display(Name = "销售类型描述")]
+            [Display(Name = "类型描述")]
             public string SalesTypeDescription { get; set; }
 
             [Display(Name = "备注")]
@@ -46,6 +46,10 @@ namespace PHDS.Models
             [Required]
             [Display(Name = "行号")]
             public int RN { get; set; }
+
+            [Required]
+            [Display(Name = "编号")]
+            public string Id { get; set; }
 
             [Required]
             [Display(Name = "名称")]

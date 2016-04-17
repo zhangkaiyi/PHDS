@@ -318,12 +318,12 @@
       <LastGenOutput>PinhuaModel.cs</LastGenOutput>
     </Content>
     <None Include="Properties\PublishProfiles\192.168.1.60.pubxml" />
-    <None Include="Scripts\jquery-2.2.2.intellisense.js" />
-    <Content Include="Scripts\jquery-2.2.2.js" />
-    <Content Include="Scripts\jquery-2.2.2.min.js" />
-    <Content Include="Scripts\jquery-2.2.2.min.map" />
+    <None Include="Scripts\jquery-2.2.3.intellisense.js" />
+    <Content Include="Scripts\jquery-2.2.3.js" />
+    <Content Include="Scripts\jquery-2.2.3.min.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
+    <Content Include="Scripts\jquery-2.2.3.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
@@ -350,6 +350,7 @@
     <Content Include="Views\Sales\Index.cshtml" />
     <Content Include="Views\Sales\Partial_Tab1.cshtml" />
     <Content Include="Views\Sales\Partial_Tab2.cshtml" />
+    <Content Include="Views\Sales\Partial_Popups.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
