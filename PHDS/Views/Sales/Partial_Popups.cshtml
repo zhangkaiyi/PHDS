@@ -7,10 +7,7 @@
         <a href='#' class='button button-link button-nav pull-left close-popup'>
             <span class='icon icon-left'></span> 关闭
         </a>
-        <button class="button button-link button-nav pull-right">
-            列表
-            <span class="icon icon-menu"></span>
-        </button>
+
     </header>
     @{
         var ajaxOptions = new AjaxOptions
@@ -20,28 +17,28 @@
         };
     }
     <div class="content">
-        @using (Ajax.BeginForm(ajaxOptions))
-{
+        @using (Ajax.BeginForm("保存单据", null, ajaxOptions, new { id="form_additem"}))
+        {
             <div id="index"></div>
             <div class="content-block-title color-primary">物料属性</div>
             <div class="list-block">
                 <ul>
-                    <li>
+                    @*<li>
                         <div class="item-content">
                             <div class="item-media"><i class="icon icon-form-name"></i></div>
                             <div class="item-inner">
-                                <div class="item-title label">@Html.DisplayNameFor(m => m.Id) @Html.ValidationMessageFor(m => m.Id, "＊")</div>
+                                <div class="item-title label">@Html.ValidationMessageFor(m => m.Id, "•") @Html.DisplayNameFor(m => m.Id)</div>
                                 <div class="item-input">
                                     @Html.TextBox(@Html.IdFor(m => m.Id).ToString(), "微信登记", new { @readonly = "readonly" })
                                 </div>
                             </div>
                         </div>
-                    </li>
+                    </li>*@
                     <li>
                         <div class="item-content">
                             <div class="item-media"><i class="icon icon-form-name"></i></div>
                             <div class="item-inner">
-                                <div class="item-title label">@Html.DisplayNameFor(m => m.Description) @Html.ValidationMessageFor(m => m.Description, "＊")</div>
+                                <div class="item-title label">@Html.ValidationMessageFor(m => m.Description, "•") @Html.DisplayNameFor(m => m.Description)</div>
                                 <div class="item-input">
                                     <span>@Html.TextBoxFor(m => m.Description, new { placeholder = "输入名称" })</span>
                                     <span></span>
@@ -53,7 +50,7 @@
                         <div class="item-content">
                             <div class="item-media"><i class="icon icon-form-gender"></i></div>
                             <div class="item-inner">
-                                <div class="item-title label">@Html.DisplayNameFor(m => m.规格) @Html.ValidationMessageFor(m => m.规格, "＊")</div>
+                                <div class="item-title label">@Html.ValidationMessageFor(m => m.规格, "•") @Html.DisplayNameFor(m => m.规格)</div>
                                 <div class="item-input">
                                     @Html.DropDownListFor(m => m.规格, new List<SelectListItem>
                                     {
@@ -69,7 +66,7 @@
                         <div class="item-content">
                             <div class="item-media"><i class="icon icon-form-email"></i></div>
                             <div class="item-inner">
-                                <div class="item-title label">@Html.DisplayNameFor(m => m.PCS) @Html.ValidationMessageFor(m => m.PCS, "＊")</div>
+                                <div class="item-title label">@Html.ValidationMessageFor(m => m.PCS, "•") @Html.DisplayNameFor(m => m.PCS)</div>
                                 <div class="item-input">
                                     @Html.TextBox(@Html.IdFor(m => m.PCS).ToString(), "", new { placeholder = "输入片数" })
                                 </div>
@@ -80,7 +77,7 @@
                         <div class="item-content">
                             <div class="item-media"><i class="icon icon-form-email"></i></div>
                             <div class="item-inner">
-                                <div class="item-title label">@Html.DisplayNameFor(m => m.UnitQuantity) @Html.ValidationMessageFor(m => m.UnitQuantity, "＊")</div>
+                                <div class="item-title label">@Html.ValidationMessageFor(m => m.UnitQuantity, "•") @Html.DisplayNameFor(m => m.UnitQuantity)</div>
                                 <div class="item-input">
                                     @Html.TextBox(@Html.IdFor(m => m.UnitQuantity).ToString(), "", new { placeholder = "计算单位数量", @readonly = "readonly" })
                                 </div>
@@ -91,7 +88,7 @@
                         <div class="item-content">
                             <div class="item-media"><i class="icon icon-form-gender"></i></div>
                             <div class="item-inner">
-                                <div class="item-title label">@Html.DisplayNameFor(m => m.ChargeUnit) @Html.ValidationMessageFor(m => m.ChargeUnit, "＊")</div>
+                                <div class="item-title label">@Html.ValidationMessageFor(m => m.ChargeUnit, "•") @Html.DisplayNameFor(m => m.ChargeUnit)</div>
                                 <div class="item-input">
                                     @Html.DropDownListFor(m => m.规格, new List<SelectListItem>
                                     {
@@ -108,7 +105,7 @@
                         <div class="item-content">
                             <div class="item-media"><i class="icon icon-form-gender"></i></div>
                             <div class="item-inner">
-                                <div class="item-title label">@Html.DisplayNameFor(m => m.Price) @Html.ValidationMessageFor(m => m.Price, "＊")</div>
+                                <div class="item-title label">@Html.ValidationMessageFor(m => m.Price, "•") @Html.DisplayNameFor(m => m.Price)</div>
                                 <div class="item-input">
                                     @Html.TextBox(@Html.IdFor(m => m.Price).ToString(), "", new { placeholder = "输入单价" })
                                 </div>
@@ -119,7 +116,7 @@
                         <div class="item-content">
                             <div class="item-media"><i class="icon icon-form-gender"></i></div>
                             <div class="item-inner">
-                                <div class="item-title label">@Html.DisplayNameFor(m => m.Amount) @Html.ValidationMessageFor(m => m.Amount, "＊")</div>
+                                <div class="item-title label">@Html.ValidationMessageFor(m => m.Amount, "•") @Html.DisplayNameFor(m => m.Amount)</div>
                                 <div class="item-input">
                                     @Html.TextBox(@Html.IdFor(m => m.Amount).ToString(), "", new { @readonly = "readonly" })
                                 </div>
@@ -134,13 +131,19 @@
                     <div class="col-50"><a href="#" class="button button-big button-fill button-success" onclick="$(this).parents('form').eq(0).submit()">提交</a></div>
                 </div>
             </div>
-}
+        }
     </div>
 </div>
 <script>
     $(function () {
-        $("#form0").submit(function () {
-            return $(this).validate().checkForm();
+        $("#form_additem").submit(function () {
+            var b = $(this).validate().checkForm();
+            if (!b)
+                return false;
+            else {
+
+                return true;
+            }
         })
     })
 </script>

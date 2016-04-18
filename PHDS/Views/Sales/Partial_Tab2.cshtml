@@ -8,7 +8,7 @@
                 <div class="item-content">
                     <div class="item-media"><i class="icon icon-form-email"></i></div>
                     <div class="item-inner">
-                        <div class="item-title label">@Html.DisplayNameFor(m => m.CustomerId) @Html.ValidationMessageFor(m => m.CustomerId, "＊")</div>
+                        <div class="item-title label">@Html.ValidationMessageFor(m => m.CustomerId, "•") @Html.DisplayNameFor(m => m.CustomerId)</div>
                         <div class="item-input">
                             @Html.TextBoxFor(m => m.CustomerId, new { @readonly = "readonly" })
                         </div>
@@ -19,7 +19,7 @@
                 <div class="item-content">
                     <div class="item-media"><i class="icon icon-form-name"></i></div>
                     <div class="item-inner">
-                        <div class="item-title label">@Html.DisplayNameFor(m => m.CustomerName) @Html.ValidationMessageFor(m => m.CustomerName, "＊")</div>
+                        <div class="item-title label">@Html.ValidationMessageFor(m => m.CustomerName, "•") @Html.DisplayNameFor(m => m.CustomerName)</div>
                         <div class="item-input">
                             @Html.TextBoxFor(m => m.CustomerName, new { @readonly = "readonly" })
                         </div>
@@ -42,7 +42,7 @@
                 <div class="item-content">
                     <div class="item-media"><i class="icon icon-form-calendar"></i></div>
                     <div class="item-inner">
-                        <div class="item-title label">@Html.DisplayNameFor(m => m.SalesDate) @Html.ValidationMessageFor(m => m.SalesDate, "＊")</div>
+                        <div class="item-title label">@Html.ValidationMessageFor(m => m.SalesDate, "•") @Html.DisplayNameFor(m => m.SalesDate)</div>
                         <div class="item-input">
                             @Html.TextBox(@Html.IdFor(m => m.SalesDate).ToString(), "", new { @readonly = "readonly" })
                         </div>
@@ -53,7 +53,7 @@
                 <div class="item-content">
                     <div class="item-media"><i class="icon icon-form-comment"></i></div>
                     <div class="item-inner">
-                        <div class="item-title label">@Html.DisplayNameFor(m => m.SalesTypeId) @Html.ValidationMessageFor(m => m.SalesTypeId, "＊")</div>
+                        <div class="item-title label">@Html.ValidationMessageFor(m => m.SalesTypeId, "•") @Html.DisplayNameFor(m => m.SalesTypeId)</div>
                         <div class="item-input">
                             @Html.EditorFor(m => m.SalesTypeId)
                         </div>
@@ -64,7 +64,7 @@
                 <div class="item-content">
                     <div class="item-media"><i class="icon icon-form-comment"></i></div>
                     <div class="item-inner">
-                        <div class="item-title label">@Html.DisplayNameFor(m => m.SalesTypeDescription) @Html.ValidationMessageFor(m => m.SalesTypeDescription, "＊")</div>
+                        <div class="item-title label"> @Html.ValidationMessageFor(m => m.SalesTypeDescription, "•")@Html.DisplayNameFor(m => m.SalesTypeDescription)</div>
                         <div class="item-input">
                             @Html.EditorFor(m => m.SalesTypeDescription)
                         </div>
@@ -77,7 +77,7 @@
                     <div class="item-inner">
                         <div class="item-title label">@Html.DisplayNameFor(m => m.SalesComment)</div>
                         <div class="item-input">
-                            @Html.TextAreaFor(m => m.SalesComment)
+                            @Html.EditorFor(m => m.SalesComment)
                         </div>
                     </div>
                 </div>

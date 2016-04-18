@@ -77,6 +77,11 @@ namespace PHDS.Controllers
                 }
             }
         }
-
+        
+        public ActionResult 保存单据(PHDS.Models.SalesModels.OrderDetialModel model)
+        {
+            System.Diagnostics.Debug.WriteLine(model.Description);
+            return new EmptyResult();
+        }
     }
 }

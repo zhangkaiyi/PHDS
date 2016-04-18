@@ -61,20 +61,25 @@ namespace PHDS.Models
 
             [Required]
             [Display(Name = "片数")]
-            public int PCS { get; set; }
+            [RegularExpression(@"^(([0-9]*)|([0-9]*\.[0-9]*))$")]
+            public string PCS { get; set; }
 
             [Required]
             [Display(Name = "单位数量")]
-            public decimal UnitQuantity { get; set; }
+            [RegularExpression(@"^(([0-9]*)|([0-9]*\.[0-9]*))$")]
+            public string UnitQuantity { get; set; }
 
+            [Required]
             [Display(Name = "计价单位")]
             public string ChargeUnit { get; set; }
             
             [Display(Name = "单价")]
-            public decimal Price { get; set; }
+            [RegularExpression(@"^(([0-9]*)|([0-9]*\.[0-9]*))$")]
+            public string Price { get; set; }
 
             [Display(Name = "金额")]
-            public decimal Amount { get; set; }
+            [RegularExpression(@"^(([0-9]*)|([0-9]*\.[0-9]*))$")]
+            public string Amount { get; set; }
 
             [Display(Name = "木种")]
             public string WoodSpecies { get; set; }
