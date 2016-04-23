@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QyWeixin", "WxEnt\QyWeixin.csproj", "{59AF916F-3F9C-4677-A291-1DE673D73F7A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PHDS", "PHDS\PHDS.csproj", "{268738BC-AE4D-4C3F-9FDC-1D8AD6FB0E52}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PHDS.Web", "PHDS.Web\PHDS.Web.csproj", "{F7FC8B9F-69F4-41E8-9314-9C686F985F98}"
 EndProject
@@ -21,10 +19,6 @@ Global
 		{59AF916F-3F9C-4677-A291-1DE673D73F7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59AF916F-3F9C-4677-A291-1DE673D73F7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59AF916F-3F9C-4677-A291-1DE673D73F7A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{268738BC-AE4D-4C3F-9FDC-1D8AD6FB0E52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{268738BC-AE4D-4C3F-9FDC-1D8AD6FB0E52}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{268738BC-AE4D-4C3F-9FDC-1D8AD6FB0E52}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{268738BC-AE4D-4C3F-9FDC-1D8AD6FB0E52}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F7FC8B9F-69F4-41E8-9314-9C686F985F98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F7FC8B9F-69F4-41E8-9314-9C686F985F98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7FC8B9F-69F4-41E8-9314-9C686F985F98}.Release|Any CPU.ActiveCfg = Release|Any CPU
