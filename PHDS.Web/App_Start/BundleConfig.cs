@@ -27,6 +27,22 @@ namespace PHDS.Web
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
 
+            bundles.Add(new StyleBundle("~/Content/Mvc4/css").Include("~/Content/Mvc4/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/Mvc4/themes/base/css").Include(
+                        "~/Content/Mvc4/themes/base/jquery.ui.core.css",
+                        "~/Content/Mvc4/themes/base/jquery.ui.resizable.css",
+                        "~/Content/Mvc4/themes/base/jquery.ui.selectable.css",
+                        "~/Content/Mvc4/themes/base/jquery.ui.accordion.css",
+                        "~/Content/Mvc4/themes/base/jquery.ui.autocomplete.css",
+                        "~/Content/Mvc4/themes/base/jquery.ui.button.css",
+                        "~/Content/Mvc4/themes/base/jquery.ui.dialog.css",
+                        "~/Content/Mvc4/themes/base/jquery.ui.slider.css",
+                        "~/Content/Mvc4/themes/base/jquery.ui.tabs.css",
+                        "~/Content/Mvc4/themes/base/jquery.ui.datepicker.css",
+                        "~/Content/Mvc4/themes/base/jquery.ui.progressbar.css",
+                        "~/Content/Mvc4/themes/base/jquery.ui.theme.css"));
+
             bundles.Add(new StyleBundle("~/Assets/light7/dist/css/include").Include("~/Assets/light7/dist/css/light7.css"));
             bundles.Add(new ScriptBundle("~/Assets/light7/dist/js/include").Include("~/Assets/light7/dist/js/light7.js",
                 "~/Assets/light7/dist/js/i18n/cn.js"));

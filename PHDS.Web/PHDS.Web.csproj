@@ -20,6 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -157,6 +158,40 @@
     <Content Include="Assets\light7\dist\js\light7.min.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Mvc4\Site.css" />
+    <Content Include="Content\Mvc4\themes\base\accordion.css" />
+    <Content Include="Content\Mvc4\themes\base\all.css" />
+    <Content Include="Content\Mvc4\themes\base\autocomplete.css" />
+    <Content Include="Content\Mvc4\themes\base\base.css" />
+    <Content Include="Content\Mvc4\themes\base\button.css" />
+    <Content Include="Content\Mvc4\themes\base\core.css" />
+    <Content Include="Content\Mvc4\themes\base\datepicker.css" />
+    <Content Include="Content\Mvc4\themes\base\dialog.css" />
+    <Content Include="Content\Mvc4\themes\base\draggable.css" />
+    <Content Include="Content\Mvc4\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\Mvc4\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\Mvc4\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\Mvc4\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\Mvc4\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\Mvc4\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\Mvc4\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\Mvc4\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\Mvc4\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\Mvc4\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\Mvc4\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\Mvc4\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\Mvc4\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\Mvc4\themes\base\menu.css" />
+    <Content Include="Content\Mvc4\themes\base\progressbar.css" />
+    <Content Include="Content\Mvc4\themes\base\resizable.css" />
+    <Content Include="Content\Mvc4\themes\base\selectable.css" />
+    <Content Include="Content\Mvc4\themes\base\selectmenu.css" />
+    <Content Include="Content\Mvc4\themes\base\slider.css" />
+    <Content Include="Content\Mvc4\themes\base\sortable.css" />
+    <Content Include="Content\Mvc4\themes\base\spinner.css" />
+    <Content Include="Content\Mvc4\themes\base\tabs.css" />
+    <Content Include="Content\Mvc4\themes\base\theme.css" />
+    <Content Include="Content\Mvc4\themes\base\tooltip.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -185,12 +220,12 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout_Default.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_Layout_Light7.cshtml" />
     <Content Include="Views\Sales\Index.cshtml" />
     <Content Include="Views\Sales\Partial_Popups.cshtml" />
     <Content Include="Views\Sales\Partial_Tab1.cshtml" />

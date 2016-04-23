@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>@ViewBag.Title</title>
+
+    @Styles.Render("~/Content/Mvc4/css")
+    @Styles.Render("~/Assets/light7/dist/css/include")
+
+    @RenderSection("style", false)
+
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Assets/light7/dist/js/include")
+</head>
+<body>
+    @RenderBody()
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
