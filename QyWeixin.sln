@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QyWeixin", "WxEnt\QyWeixin.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PHDS", "PHDS\PHDS.csproj", "{268738BC-AE4D-4C3F-9FDC-1D8AD6FB0E52}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PHDS.Web", "PHDS.Web\PHDS.Web.csproj", "{F7FC8B9F-69F4-41E8-9314-9C686F985F98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PHDS.Entities", "PHDS.Entities\PHDS.Entities.csproj", "{7FB31917-A1C5-4DA1-A4DD-5CEDEB7FF52C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{268738BC-AE4D-4C3F-9FDC-1D8AD6FB0E52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{268738BC-AE4D-4C3F-9FDC-1D8AD6FB0E52}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{268738BC-AE4D-4C3F-9FDC-1D8AD6FB0E52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7FC8B9F-69F4-41E8-9314-9C686F985F98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7FC8B9F-69F4-41E8-9314-9C686F985F98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7FC8B9F-69F4-41E8-9314-9C686F985F98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7FC8B9F-69F4-41E8-9314-9C686F985F98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FB31917-A1C5-4DA1-A4DD-5CEDEB7FF52C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FB31917-A1C5-4DA1-A4DD-5CEDEB7FF52C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FB31917-A1C5-4DA1-A4DD-5CEDEB7FF52C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FB31917-A1C5-4DA1-A4DD-5CEDEB7FF52C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
