@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "收货";
+}
+
+<h1>@ViewBag.Title</h1>
+
+<table class="table table-bordered table-hover table-striped">
+    <thead>
+        <tr>
+            <th>head1</th>
+            <th>head2</th>
+            <th>head3</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (var index = 0; index != 10; index++)
+        {
+            <tr>
+                <td>row:@index,col:0</td>
+                <td>row:@index,col:1</td>
+                <td>row:@index,col:2</td>
+            </tr>
+        }
+    </tbody>
+</table>

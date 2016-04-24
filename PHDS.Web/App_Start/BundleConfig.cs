@@ -46,6 +46,15 @@ namespace PHDS.Web
             bundles.Add(new StyleBundle("~/Assets/light7/dist/css/include").Include("~/Assets/light7/dist/css/light7.css"));
             bundles.Add(new ScriptBundle("~/Assets/light7/dist/js/include").Include("~/Assets/light7/dist/js/light7.js",
                 "~/Assets/light7/dist/js/i18n/cn.js"));
+
+            bundles.Add(new StyleBundle("~/Content/DataTables/css/datatables").Include(
+                //"~/Content/DataTables/css/jquery.dataTables.css",
+                "~/Content/DataTables/css/dataTables.bootstrap.css"
+                ));
+            bundles.Add(new ScriptBundle("~/Scripts/DataTables/datatables").Include(
+                "~/Scripts/DataTables/jquery.dataTables.js",
+                "~/Scripts/DataTables/dataTables.bootstrap.min.js"
+                ));
         }
     }
 }

@@ -1,0 +1,43 @@
+﻿@model IEnumerable<PHDS.Entities.Edmx.发货>
+@{
+    var json = Newtonsoft.Json.JsonConvert.SerializeObject(Model, new Newtonsoft.Json.Converters.IsoDateTimeConverter { DateTimeFormat= "yyyy/MM/dd" });
+}
+@{
+    ViewBag.Title = "发货";
+}
+
+<h1>@ViewBag.Title</h1>
+
+<table id="datatables" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+
+</table>
+
+
+@section styles{
+    @Styles.Render("~/Content/DataTables/css/datatables")
+}
+@section scripts{
+    @Scripts.Render("~/Scripts/DataTables/datatables")
+
+    <script>
+        $(document).ready(function() {
+            $('#datatables').dataTable({
+                data: @(new MvcHtmlString(json)),
+                autoWidth: true,
+                ordering: false,
+                paging: true,
+                columns:
+                    [
+                        { data: "客户编号", title: "客户编号", },
+                        { data: "送货单号", title: "送货单号", },
+                        { data: "送货日期" , title: "送货日期", },
+                        { data: "客户" , title: "客户" , },
+                        { data: "地址" , title: "地址" },
+                        { data: "备注" , title: "备注" ,visible:false},
+                        { data: "业务类型" , title: "业务类型", width:"80px", visible:false},
+                        { data: "业务描述" , title: "业务描述", width:"100px", visible:true },
+                    ]
+            });
+        });
+    </script>
+}
