@@ -19,7 +19,7 @@ namespace PHDS.Web.Models
             public string OrderId { get; set; }
 
             [Display(Name = "销售日期")]
-            public DateTime SalesDate { get; set; }
+            public DateTime? SalesDate { get; set; }
 
             [Display(Name = "客户编号")]
             public string CustomerId { get; set; }
@@ -38,7 +38,9 @@ namespace PHDS.Web.Models
 
             [Display(Name = "备注")]
             public string SalesComment { get; set; }
-            public List<OrderDetialModel> Details { get; set; }
+
+            [Display(Name = "金额")]
+            public decimal SalesAmount { get; set; }
         }
 
         public class OrderDetialModel

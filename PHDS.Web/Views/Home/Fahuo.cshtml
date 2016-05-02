@@ -1,43 +1,111 @@
-﻿@model IEnumerable<PHDS.Entities.Edmx.发货>
+﻿@model IEnumerable<PHDS.Web.Models.SalesModels.OrdersModel>
 @{
-    var json = Newtonsoft.Json.JsonConvert.SerializeObject(Model, new Newtonsoft.Json.Converters.IsoDateTimeConverter { DateTimeFormat= "yyyy/MM/dd" });
+    var json = Newtonsoft.Json.JsonConvert.SerializeObject(Model, new Newtonsoft.Json.Converters.IsoDateTimeConverter { DateTimeFormat = "yyyy/MM/dd" });
 }
 @{
     ViewBag.Title = "发货";
 }
+<br />
 
-<h1>@ViewBag.Title</h1>
-
-<table id="datatables" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
-
-</table>
-
+<!-- Table -->
+<table id="datatables" class="table table-striped table-bordered table-hover" cellspacing="0"></table>
 
 @section styles{
     @Styles.Render("~/Content/DataTables/css/datatables")
+    <style>
+        body, button, input, select, textarea, h1, h2, h3, h4, h5, h6 {
+            font-family: Microsoft YaHei,'宋体', Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;
+        }
+    </style>
 }
 @section scripts{
     @Scripts.Render("~/Scripts/DataTables/datatables")
 
     <script>
         $(document).ready(function() {
-            $('#datatables').dataTable({
+            thisTable = $('#datatables').DataTable({
                 data: @(new MvcHtmlString(json)),
                 autoWidth: true,
+                lengthChange: false,
+                searching:true,
                 ordering: false,
                 paging: true,
+                deferRender:true,
+                oLanguage: {//国际语言转化
+                    oAria: {
+                        sSortAscending: " - click/return to sort ascending",
+                        sSortDescending: " - click/return to sort descending"
+                    },
+                    sLengthMenu: "显示 _MENU_ 记录",
+                    sZeroRecords: "对不起，查询不到任何相关数据",
+                    sEmptyTable: "未有相关数据",
+                    sLoadingRecords: "正在加载数据-请等待...",
+                    sInfo: "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录。",
+                    sInfoEmpty: "当前显示0到0条，共0条记录",
+                    sInfoFiltered: "（数据库中共为 _MAX_ 条记录）",
+                    sProcessing: "<img src='../resources/user_share/row_details/select2-spinner.gif'/> 正在加载数据...",
+                    sSearch: "模糊查询：",
+                    sUrl: "",
+                    //多语言配置文件，可将oLanguage的设置放在一个txt文件中，例：Javascript/datatable/dtCH.txt
+                    oPaginate: {
+                        sFirst: "首页",
+                        sPrevious: " 上一页 ",
+                        sNext: " 下一页 ",
+                        sLast: " 尾页 "
+                    },
+                },
                 columns:
                     [
-                        { data: "客户编号", title: "客户编号", },
-                        { data: "送货单号", title: "送货单号", },
-                        { data: "送货日期" , title: "送货日期", },
-                        { data: "客户" , title: "客户" , },
-                        { data: "地址" , title: "地址" },
-                        { data: "备注" , title: "备注" ,visible:false},
-                        { data: "业务类型" , title: "业务类型", width:"80px", visible:false},
-                        { data: "业务描述" , title: "业务描述", width:"100px", visible:true },
+                        {
+                            class: 'details-control',
+                            data: null,
+                            width: '1em',
+                            defaultContent: '<i class="glyphicon glyphicon-plus btn-primary btn-xs"></i>'
+                        },
+                        { data: "CustomerId", title: "客户编号", width:"8em", visible:false },
+                        { data: "OrderId", title: "送货单号", width:"8em", },
+                        { data: "SalesDate" , title: "送货日期", },
+                        { data: "CustomerName" , title: "客户", width:"10em", },
+                        { data: "CustomerAddress" , title: "地址", },
+                        { data: "SalesComment" , title: "备注" ,visible:false},
+                        { data: "SalesAmount", title: "金额", width:"8em", },
+                        { data: "SalesTypeId" , title: "业务类型", width:"80px", visible:false},
+                        { data: "SalesTypeDescription" , title: "业务描述", width:"6em", visible:true },
                     ]
             });
+            $('.table').on('click', 'tbody td.details-control .glyphicon',
+               function() {
+                   var btn = $(this);
+                   var tr = $(this).closest('tr');
+                   var row = thisTable.row( tr );
+                   if ( row.child.isShown() ) {
+                       // This row is already open - close it
+                       row.child.hide();
+                       tr.removeClass('shown');
+                       btn.removeClass('glyphicon-minus').addClass('glyphicon-plus');
+                   }
+                   else {
+                       // Open this row
+                       row.child( format(row.data()) ).show();
+                       tr.addClass('shown');
+                       btn.removeClass('glyphicon-plus').addClass('glyphicon-minus');
+                   }
+
+               });
+            function format ( d ) {
+                // `d` is the original data object for the row
+                return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+                    '<tr>'+
+                        '<td>金额：</td>'+
+                        '<td>'+d.SalesAmount+'</td>'+
+                    '</tr>'+
+                    '<tr>'+
+                        '<td>额外：</td>'+
+                        '<td>And any further details here (images etc)...</td>'+
+                    '</tr>'+
+                '</table>';
+            }
         });
+
     </script>
 }
