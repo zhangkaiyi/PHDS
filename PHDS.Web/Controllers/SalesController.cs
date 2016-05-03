@@ -78,7 +78,7 @@ namespace PHDS.Web.Controllers
             }
         }
         
-        public ActionResult 保存单据(PHDS.Web.Models.SalesModels.OrderDetialModel model)
+        public ActionResult 保存单据(PHDS.Web.Models.SalesModels.OrderDetailModel model)
         {
             System.Diagnostics.Debug.WriteLine(model.Description);
             return new EmptyResult();

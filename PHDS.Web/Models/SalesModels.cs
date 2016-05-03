@@ -43,11 +43,11 @@ namespace PHDS.Web.Models
             public decimal SalesAmount { get; set; }
         }
 
-        public class OrderDetialModel
+        public class OrderDetailModel
         {
             [Required]
             [Display(Name = "行号")]
-            public int RN { get; set; }
+            public int? RN { get; set; }
 
             [Required]
             [Display(Name = "编号")]

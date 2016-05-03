@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<PHDS.Web.Models.SalesModels.OrdersModel>
 @{
-    var json = Newtonsoft.Json.JsonConvert.SerializeObject(Model, new Newtonsoft.Json.Converters.IsoDateTimeConverter { DateTimeFormat = "yyyy/MM/dd" });
+    var orders = Newtonsoft.Json.JsonConvert.SerializeObject(Model, new Newtonsoft.Json.Converters.IsoDateTimeConverter { DateTimeFormat = "yyyy/MM/dd" });
 }
 @{
     ViewBag.Title = "发货";
@@ -23,15 +23,21 @@
 
     <script>
         $(document).ready(function() {
+            var json = @(new MvcHtmlString(orders));
+            for(var item in json)
+            {
+                json[item].SalesAmount = json[item].SalesAmount.toFixed(2);
+            }
+
             thisTable = $('#datatables').DataTable({
-                data: @(new MvcHtmlString(json)),
+                data: json,
                 autoWidth: true,
                 lengthChange: false,
                 searching:true,
                 ordering: false,
                 paging: true,
                 deferRender:true,
-                oLanguage: {//国际语言转化
+                language: {//国际语言转化
                     oAria: {
                         sSortAscending: " - click/return to sort ascending",
                         sSortDescending: " - click/return to sort descending"
@@ -68,7 +74,7 @@
                         { data: "CustomerName" , title: "客户", width:"10em", },
                         { data: "CustomerAddress" , title: "地址", },
                         { data: "SalesComment" , title: "备注" ,visible:false},
-                        { data: "SalesAmount", title: "金额", width:"8em", },
+                        { data: "SalesAmount", title: "金额", width:"8em", className:"text-right" },
                         { data: "SalesTypeId" , title: "业务类型", width:"80px", visible:false},
                         { data: "SalesTypeDescription" , title: "业务描述", width:"6em", visible:true },
                     ]
@@ -89,9 +95,16 @@
                        row.child( format(row.data()) ).show();
                        tr.addClass('shown');
                        btn.removeClass('glyphicon-plus').addClass('glyphicon-minus');
+                       orderdetial(row.data());
                    }
 
                });
+            function orderdetial(data)
+            {
+                $.getJSON("@Url.Action("FahuoDetail")",{RCID:data.RCID},function(data){
+                    alert(data[0].Amount)
+                })
+            }
             function format ( d ) {
                 // `d` is the original data object for the row
                 return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
