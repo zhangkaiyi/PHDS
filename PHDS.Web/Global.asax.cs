@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace PHDS.Web
 {
@@ -30,6 +32,45 @@ namespace PHDS.Web
                 var objectContext = ((System.Data.Entity.Infrastructure.IObjectContextAdapter)dbcontext).ObjectContext;
                 var mappingCollection = (System.Data.Entity.Core.Mapping.StorageMappingItemCollection)objectContext.MetadataWorkspace.GetItemCollection(System.Data.Entity.Core.Metadata.Edm.DataSpace.CSSpace);
                 mappingCollection.GenerateViews(new List<System.Data.Entity.Core.Metadata.Edm.EdmSchemaError>());
+            }
+        }
+    }
+    public class JsonNetResult : ActionResult
+    {
+        public Encoding ContentEncoding { get; set; }
+        public string ContentType { get; set; }
+        public object Data { get; set; }
+
+        public JsonSerializerSettings SerializerSettings { get; set; }
+        public Formatting Formatting { get; set; }
+
+        public JsonNetResult()
+        {
+            SerializerSettings = new JsonSerializerSettings();
+        }
+
+        public override void ExecuteResult(ControllerContext context)
+        {
+            if (context == null)
+                throw new ArgumentNullException("context");
+
+            HttpResponseBase response = context.HttpContext.Response;
+
+            response.ContentType = !string.IsNullOrEmpty(ContentType)
+              ? ContentType
+              : "application/json";
+
+            if (ContentEncoding != null)
+                response.ContentEncoding = ContentEncoding;
+
+            if (Data != null)
+            {
+                JsonTextWriter writer = new JsonTextWriter(response.Output) { Formatting = Formatting };
+
+                JsonSerializer serializer = JsonSerializer.Create(SerializerSettings);
+                serializer.Serialize(writer, Data);
+
+                writer.Flush();
             }
         }
     }

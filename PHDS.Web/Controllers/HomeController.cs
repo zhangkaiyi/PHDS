@@ -43,7 +43,7 @@ namespace PHDS.Web.Controllers
             }
         }
 
-        public string FahuoDetail(string RCID)
+        public ActionResult FahuoDetail(string RCID)
         {
             using (var pinhua = new PHDS.Entities.Edmx.PinhuaEntities())
             {
@@ -52,7 +52,7 @@ namespace PHDS.Web.Controllers
                           {
                               Id = p.编号,
                               Description = p.描述,
-                              规格 = p.规格,
+                              Size = p.规格,
                               PCS = (p.PCS ?? 0).ToString("0.00"),
                               ChargeUnit = p.计价单位,
                               Price = (p.单价 ?? 0).ToString("0.00"),
@@ -63,9 +63,11 @@ namespace PHDS.Web.Controllers
                               RCID = p.ExcelServerRCID,
                               RN = p.ExcelServerRN
                           };
-                var ordersdetails = Newtonsoft.Json.JsonConvert.SerializeObject(set, new Newtonsoft.Json.Converters.IsoDateTimeConverter { DateTimeFormat = "yyyy/MM/dd" });
-
-                return ordersdetails;
+                var jsonNetResult = new JsonNetResult();
+                jsonNetResult.Formatting = Newtonsoft.Json.Formatting.Indented;
+                jsonNetResult.SerializerSettings.DateFormatString = "yyyy/MM/dd";
+                jsonNetResult.Data = set.ToList();
+                return jsonNetResult;
             }
         }
 

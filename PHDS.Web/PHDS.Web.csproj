@@ -313,7 +313,7 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
-    <None Include="Scripts\jquery-2.2.3.intellisense.js" />
+    <None Include="Properties\PublishProfiles\Local.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
@@ -380,8 +380,10 @@
     <Content Include="Scripts\DataTables\responsive.foundation.min.js" />
     <Content Include="Scripts\DataTables\responsive.jqueryui.js" />
     <Content Include="Scripts\DataTables\responsive.jqueryui.min.js" />
+    <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.2.3.js" />
     <Content Include="Scripts\jquery-2.2.3.min.js" />
+    <Content Include="Scripts\jquery-2.2.3.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -412,7 +414,6 @@
     <Content Include="Views\Sales\Partial_Popups.cshtml" />
     <Content Include="Views\Sales\Partial_Tab1.cshtml" />
     <Content Include="Views\Sales\Partial_Tab2.cshtml" />
-    <Content Include="Scripts\jquery-2.2.3.min.map" />
     <Content Include="Views\Home\Fahuo.cshtml" />
     <Content Include="Views\Home\Shouhuo.cshtml" />
   </ItemGroup>

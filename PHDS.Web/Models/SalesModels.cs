@@ -59,7 +59,7 @@ namespace PHDS.Web.Models
 
             [Required]
             [Display(Name = "规格")]
-            public string 规格 { get; set; }
+            public string Size { get; set; }
 
             [Required]
             [Display(Name = "片数")]
