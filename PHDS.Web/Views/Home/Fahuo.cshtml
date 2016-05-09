@@ -83,9 +83,9 @@
                         { data: "CustomerName" , title: "客户", width:"10em", },
                         { data: "CustomerAddress" , title: "地址", },
                         { data: "SalesComment" , title: "备注" ,visible:false},
-                        { data: "SalesAmount", title: "金额", width:"8em", className:"text-right" },
                         { data: "SalesTypeId" , title: "业务类型", width:"80px", visible:false},
                         { data: "SalesTypeDescription" , title: "业务描述", width:"6em", visible:true },
+                        { data: "SalesAmount", title: "合计金额", width:"8em", className:"text-right", render:function(data, type, row, meta){return "<div style='font-weight:bold'>"+data+"</div>"}},
                     ]
             });
             $('.table').on('click', 'tbody td.details-control .glyphicon',
@@ -151,18 +151,18 @@
                     ordering: false,
                     columns:
                     [
-                        { data: "RN", title: "RN", },
-                        { data: "PCS", title: "片数", },
-                        { data: "Id" , title: "编号", },
-                        { data: "Description" , title: "描述", },
-                        { data: "Size" , title: "规格", },
-                        { data: "Price" , title: "单价" , className:"text-right",},
-                        { data: "ChargeUnit", title: "计价单位", },
-                        { data: "UnitQuantity" , title: "单位数量", className:"text-right", },
-                        { data: "Amount" , title: "金额", className:"text-right"},
+                        { data: "RN", title: "RN", width:"1em", className:"text-center" },
+                        { data: "Id" , title: "编号", width:"6em", },
+                        { data: "Description" , title: "描述", width:"auto", },
+                        { data: "Size" , title: "规格", width:"10em", },
+                        { data: "PCS", title: "片数", width:"5em", className:"text-right" },
+                        { data: "Price" , title: "单价" , width:"5em", className:"text-right",},
+                        { data: "ChargeUnit", title: "计价单位", width:"5em", className:"text-center" },
+                        { data: "UnitQuantity" , title: "单位数量", width:"5em", className:"text-right", },
+                        { data: "Amount" , title: "金额", width:"5em", className:"text-right text-info", render:function(data, type, row, meta){return "<div style='font-weight:'>"+data+"</div>"}},
                     ]
                 });
-                //alert(container.prop("outerHTML"))
+                
                 return table.prop("outerHTML");
 
             }
