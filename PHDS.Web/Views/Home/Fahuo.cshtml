@@ -35,6 +35,7 @@
             for(var item in json)
             {
                 json[item].SalesAmount = json[item].SalesAmount.toFixed(2);
+                json[item].SalesSquare = json[item].SalesSquare.toFixed(2);
             }
 
             thisTable = $('#datatables').DataTable({
@@ -79,12 +80,13 @@
                         },
                         { data: "CustomerId", title: "客户编号", width:"8em", visible:false },
                         { data: "OrderId", title: "送货单号", width:"8em", },
-                        { data: "SalesDate" , title: "送货日期", },
+                        { data: "SalesDate" , title: "送货日期", width:"8em", },
                         { data: "CustomerName" , title: "客户", width:"10em", },
-                        { data: "CustomerAddress" , title: "地址", },
-                        { data: "SalesComment" , title: "备注" ,visible:false},
+                        //{ data: "CustomerAddress" , title: "地址", },
+                        { data: "SalesComment" , title: "备注" ,width:"auto", visible:true, },
                         { data: "SalesTypeId" , title: "业务类型", width:"80px", visible:false},
                         { data: "SalesTypeDescription" , title: "业务描述", width:"6em", visible:true },
+                        { data: "SalesSquare", title: "面积", className:"text-right", },
                         { data: "SalesAmount", title: "合计金额", width:"8em", className:"text-right", render:function(data, type, row, meta){return "<div style='font-weight:bold'>"+data+"</div>"}},
                     ]
             });
@@ -120,7 +122,6 @@
                 //var table = $("<table></table>");
                 //var thead = $("<thead></thead>");
                 //var tbody = $("<tbody></tbody>");
-
                 //for(var row in data)
                 //{
                 //    thead.append("<tr></tr>");
@@ -159,7 +160,7 @@
                         { data: "Price" , title: "单价" , width:"5em", className:"text-right",},
                         { data: "ChargeUnit", title: "计价单位", width:"5em", className:"text-center" },
                         { data: "UnitQuantity" , title: "单位数量", width:"5em", className:"text-right", },
-                        { data: "Amount" , title: "金额", width:"5em", className:"text-right text-info", render:function(data, type, row, meta){return "<div style='font-weight:'>"+data+"</div>"}},
+                        { data: "Amount" , title: "金额", width:"5em", className:"text-right text-primary", render:function(data, type, row, meta){return "<div style='font-weight:'>"+data+"</div>"}},
                     ]
                 });
                 

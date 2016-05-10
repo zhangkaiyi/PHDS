@@ -17,13 +17,16 @@ namespace PHDS.Web.Controllers
         {
             using (var pinhua = new PHDS.Entities.Edmx.PinhuaEntities())
             {
-                var amounts = from p in pinhua.发货_DETAIL.AsNoTracking()
-                              group p by p.ExcelServerRCID into g
-                              let sum = g.Sum(x => x.金额 ?? 0)
-                              select new { ExcelServerRCID = g.Key, Amount = sum };
+                var set = from p in (from item in pinhua.发货_DETAIL.AsNoTracking()
+                                         join itemprop in pinhua.物料登记.AsNoTracking() on item.编号 equals itemprop.编号
+                                         select new { item, itemprop })
+                              group p by p.item.ExcelServerRCID into g
+                              let amount = g.Sum(x => x.item.金额 ?? 0)
+                              let square = g.Sum(x => x.item.PCS * x.itemprop.Length * x.itemprop.Width / 1000 / 1000)
+                              select new { ExcelServerRCID = g.Key, Amount = amount, Square = square };
 
                 var model = from p in pinhua.发货.AsNoTracking()
-                            join pd in amounts on p.ExcelServerRCID equals pd.ExcelServerRCID
+                            join p2 in set on p.ExcelServerRCID equals p2.ExcelServerRCID
                             orderby p.送货日期 descending, p.送货单号 ascending
                             select new Models.SalesModels.OrdersModel
                             {
@@ -35,7 +38,8 @@ namespace PHDS.Web.Controllers
                                 SalesDate = p.送货日期,
                                 SalesTypeId = p.业务类型,
                                 SalesTypeDescription = p.业务描述,
-                                SalesAmount = pd.Amount,
+                                SalesAmount = p2.Amount,
+                                SalesSquare = p2.Square ?? 0,
                                 RCID = p.ExcelServerRCID
                             };
 
