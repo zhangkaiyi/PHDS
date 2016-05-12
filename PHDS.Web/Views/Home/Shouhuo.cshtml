@@ -1,25 +1,120 @@
-﻿@{
-    ViewBag.Title = "收货";
+﻿@model IEnumerable<PHDS.Web.Models.SalesModels.OrdersModel>
+@{
+    var orders = Newtonsoft.Json.JsonConvert.SerializeObject(Model, new Newtonsoft.Json.Converters.IsoDateTimeConverter { DateTimeFormat = "yyyy/MM/dd" });
 }
 
-<h1>@ViewBag.Title</h1>
+@{
+    ViewBag.Title = "收货 - 订单系统";
+}
 
-<table class="table table-bordered table-hover table-striped">
-    <thead>
-        <tr>
-            <th>head1</th>
-            <th>head2</th>
-            <th>head3</th>
-        </tr>
-    </thead>
-    <tbody>
-        @for (var index = 0; index != 10; index++)
-        {
-            <tr>
-                <td>row:@index,col:0</td>
-                <td>row:@index,col:1</td>
-                <td>row:@index,col:2</td>
-            </tr>
+@section styles{
+    @Styles.Render("~/Content/DataTables/css/datatables")
+    <style>
+        body, button, input, select, textarea, h1, h2, h3, h4, h5, h6 {
+            font-family: Microsoft YaHei,'宋体', Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;
         }
-    </tbody>
-</table>
+
+        body {
+            overflow-y: scroll;
+        }
+
+        .table.table-subtable {
+            font-size: 12px;
+        }
+        tr.active > td{
+            background-color:#0075b0 !important;
+            color:#fff;
+        }
+    </style>
+}
+
+<div style="margin: 10px auto;"></div>
+<div class="panel panel-primary">
+    <div class="panel-heading">收货 - 主表</div>
+    <div class="panel-body">
+        <table class="table table-bordered table-hover table-striped" id="orders"></table>
+        <div style="margin: 10px auto;"></div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">收货 - 明细</div>
+            <table class="table table-bordered table-striped table-hover table-subtable" id="details"></table>
+        </div>
+    </div>
+
+</div>
+
+
+
+@section scripts{
+    @Scripts.Render("~/Scripts/DataTables/datatables")
+
+    <script>
+        var json = @(new MvcHtmlString(orders));
+
+        $.extend(true, $.fn.DataTable.defaults ,CONSTANT.DATA_TABLES.DEFAULT_OPTION);
+
+        thisTable = $('#orders').DataTable({
+            data: json,
+            columns:
+                [
+                    { data: "DetailsCount" , title: "项数", width:"2em", className:"text-center", render:function (data, type, row, meta){return "<span class='badge'>"+ row.DetailsCount +"</span>"}},
+                    { data: "CustomerId", title: "客户编号", width: "7em", visible: false },
+                    { data: "OrderId", title: "单据", width: "15em", render:function (data, type, row, meta){return data + " - "+ row.SalesDate}},
+                    { data: "SalesDate", title: "送货日期", width: "7em", visible:false, },
+                    { data: "CustomerName", title: "客户", width: "10em", },
+                    //{ data: "CustomerAddress" , title: "地址", },
+                    { data: "SalesComment", title: "备注", width: "auto", visible: true, },
+                    { data: "SalesTypeId", title: "业务类型", width: "6em", visible: false },
+                    { data: "SalesTypeDescription", title: "业务描述", width: "6em", visible: true },
+                    { data: "SalesSquare", title: "面积", width:"6em", className: "text-right", render: function (data, type, row, meta) { return "<span class='badge'>" + data + "</span>" } },
+                    { data: "SalesAmount", title: "合计金额", width: "6em", className: "text-right", render: function (data, type, row, meta) { return "<div style='font-weight:bold' class='badge'>" + data + "</div>" } },
+                ]
+        });
+        
+        detailTable = $('#details');
+        detailTable.html($("<table></table>").dataTable().html());
+        $('#orders.table').on('click', 'tbody td',   function() {
+            var btn = $(this);
+            var tr = $(this).closest('tr');
+            tr.addClass('active').siblings().removeClass('active');
+            var row = thisTable.row( tr );
+
+            detailTable.html(buildOrderDetailTable(row.data()));
+
+        });
+
+        function buildOrderDetailTable(d)
+        {
+            var data;
+            $.ajaxSettings.async = false;
+            $.getJSON("@Url.Action("ShouhuoDetail")",{RCID:d.RCID},function(result){
+                data = result
+            })
+            $.ajaxSettings.async = true;
+
+            var container = $("<div><table id='details' class='table table-bordered table-subtable'></table></div>");
+            var table = $("table",container);
+            var datatable = table.dataTable({
+                data: data,
+                pageLength:50,
+                columns:
+                [
+                    { data: "RN", title: "RN", width:"1em", className:"text-center" },
+                    { data: "Id" , title: "编号", width:"8em", },
+                    { data: "Description" , title: "描述", width:"auto", },
+                    { data: "Size" , title: "规格", width:"10em", },
+                    { data: "PCS", title: "片数", width:"8em", className:"text-right" },
+                    { data: "Price" , title: "单价" , width:"8em", className:"text-right",},
+                    { data: "ChargeUnit", title: "计价单位", width:"8em", className:"text-center" },
+                    { data: "UnitQuantity" , title: "单位数量", width:"8em", className:"text-right", },
+                    { data: "Amount" , title: "金额", width:"8em", className:"text-right text-primary", render:function(data, type, row, meta){return "<div style='font-weight:'>"+data+"</div>"}},
+                ]
+            });
+
+            //return table.prop("outerHTML");
+            return table.html();
+
+        }
+
+
+    </script>
+}

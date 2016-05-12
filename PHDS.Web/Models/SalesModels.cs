@@ -44,6 +44,9 @@ namespace PHDS.Web.Models
 
             [Display(Name = "面积")]
             public decimal SalesSquare { get; set; }
+
+            [Display(Name = "项数")]
+            public int DetailsCount { get; set; }
         }
 
         public class OrderDetailModel

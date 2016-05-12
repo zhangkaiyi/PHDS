@@ -53,7 +53,8 @@ namespace PHDS.Web
                 ));
             bundles.Add(new ScriptBundle("~/Scripts/DataTables/datatables").Include(
                 "~/Scripts/DataTables/jquery.dataTables.js",
-                "~/Scripts/DataTables/dataTables.bootstrap.min.js"
+                "~/Scripts/DataTables/dataTables.bootstrap.js",
+                "~/Scripts/DataTables/dataTables.constant.js"
                 ));
         }
     }

@@ -3,9 +3,13 @@
     var orders = Newtonsoft.Json.JsonConvert.SerializeObject(Model, new Newtonsoft.Json.Converters.IsoDateTimeConverter { DateTimeFormat = "yyyy/MM/dd" });
 }
 @{
-    ViewBag.Title = "发货";
+    ViewBag.Title = "发货 - 订单系统";
 }
-<br />
+<div style="margin: 10px auto;"></div>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">@ViewBag.Title</div>
+</div>
 
 <!-- Table -->
 <table id="datatables" class="table table-striped table-bordered @*table-hover*@" cellspacing="0" style="width:100%;"></table>
@@ -37,57 +41,28 @@
                 json[item].SalesAmount = json[item].SalesAmount.toFixed(2);
                 json[item].SalesSquare = json[item].SalesSquare.toFixed(2);
             }
-
+            
+            $.extend(true, $.fn.DataTable.defaults ,CONSTANT.DATA_TABLES.DEFAULT_OPTION);
             thisTable = $('#datatables').DataTable({
                 data: json,
-                autoWidth: true,
-                lengthChange: false,
-                searching:true,
-                ordering: false,
-                paging: true,
-                //sScrollY:600,
-                //bScrollCollapse:true,
-                language: {//国际语言转化
-                    oAria: {
-                        sSortAscending: " - click/return to sort ascending",
-                        sSortDescending: " - click/return to sort descending"
-                    },
-                    sLengthMenu: "显示 _MENU_ 记录",
-                    sZeroRecords: "对不起，查询不到任何相关数据",
-                    sEmptyTable: "未有相关数据",
-                    sLoadingRecords: "正在加载数据-请等待...",
-                    sInfo: "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录。",
-                    sInfoEmpty: "当前显示0到0条，共0条记录",
-                    sInfoFiltered: "（数据库中共为 _MAX_ 条记录）",
-                    sProcessing: "<img src='../resources/user_share/row_details/select2-spinner.gif'/> 正在加载数据...",
-                    sSearch: "模糊查询：",
-                    sUrl: "",
-                    //多语言配置文件，可将oLanguage的设置放在一个txt文件中，例：Javascript/datatable/dtCH.txt
-                    oPaginate: {
-                        sFirst: "首页",
-                        sPrevious: " 上一页 ",
-                        sNext: " 下一页 ",
-                        sLast: " 尾页 "
-                    },
-                },
                 columns:
                     [
                         {
-                            className: 'details-control text-center text-primary',
+                            className: 'details-control text-center',
                             data: null,
                             width: '1em',
                             defaultContent: '<i class="glyphicon glyphicon-plus btn-primary btn-xs"></i>'
                         },
-                        { data: "CustomerId", title: "客户编号", width:"8em", visible:false },
-                        { data: "OrderId", title: "送货单号", width:"8em", },
-                        { data: "SalesDate" , title: "送货日期", width:"8em", },
+                        { data: "CustomerId", title: "客户编号", width:"7em", visible:false },
+                        { data: "OrderId", title: "送货单号", width:"7em", },
+                        { data: "SalesDate" , title: "送货日期", width:"7em", },
                         { data: "CustomerName" , title: "客户", width:"10em", },
                         //{ data: "CustomerAddress" , title: "地址", },
                         { data: "SalesComment" , title: "备注" ,width:"auto", visible:true, },
                         { data: "SalesTypeId" , title: "业务类型", width:"80px", visible:false},
                         { data: "SalesTypeDescription" , title: "业务描述", width:"6em", visible:true },
-                        { data: "SalesSquare", title: "面积", className:"text-right", },
-                        { data: "SalesAmount", title: "合计金额", width:"8em", className:"text-right", render:function(data, type, row, meta){return "<div style='font-weight:bold'>"+data+"</div>"}},
+                        { data: "SalesSquare", title: "面积", className:"text-right", render:function(data, type, row, meta){return "<span class='badge'>"+data+"</span>"}},
+                        { data: "SalesAmount", title: "合计金额", width:"6em", className:"text-right", render:function(data, type, row, meta){return "<div style='font-weight:bold' class='badge'>"+data+"</div>"}},
                     ]
             });
             $('.table').on('click', 'tbody td.details-control .glyphicon',
