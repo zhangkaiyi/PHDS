@@ -28,6 +28,11 @@ namespace PHDS.Web.Controllers
 
                 var model = from p in pinhua.发货.AsNoTracking()
                             join p2 in set on p.ExcelServerRCID equals p2.ExcelServerRCID
+                            let contains = new string[]
+                            {
+                                "601", "602", "603", "604", "611", "621", "741", "742"
+                            }
+                            where contains.Contains(p.业务类型)
                             orderby p.送货日期 descending, p.送货单号 descending
                             select new Models.SalesModels.OrdersModel
                             {
@@ -54,6 +59,7 @@ namespace PHDS.Web.Controllers
             using (var pinhua = new PHDS.Entities.Edmx.PinhuaEntities())
             {
                 var set = from p in pinhua.发货_DETAIL.AsNoTracking().AsEnumerable() where p.ExcelServerRCID == RCID
+                          orderby p.ExcelServerRN ascending
                           select new Models.SalesModels.OrderDetailModel
                           {
                               Id = p.编号,
@@ -121,6 +127,7 @@ namespace PHDS.Web.Controllers
             {
                 var set = from p in pinhua.发货_DETAIL.AsNoTracking().AsEnumerable()
                           where p.ExcelServerRCID == RCID
+                          orderby p.ExcelServerRN ascending
                           select new Models.SalesModels.OrderDetailModel
                           {
                               Id = p.编号,

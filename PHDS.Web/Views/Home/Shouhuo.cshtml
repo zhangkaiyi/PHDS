@@ -18,12 +18,17 @@
             overflow-y: scroll;
         }
 
-        .table.table-subtable {
+        .table#orders{
+            font-size:12px;
+        }
+
+        .table#details {
             font-size: 12px;
         }
-        tr.active > td{
-            background-color:#0075b0 !important;
-            color:#fff;
+
+        tr.active > td {
+            background-color: #0075b0 !important;
+            color: #fff;
         }
     </style>
 }
@@ -32,11 +37,30 @@
 <div class="panel panel-primary">
     <div class="panel-heading">收货 - 主表</div>
     <div class="panel-body">
+        <div class="row">
+            <div class="col-xs-3 pull-right">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                    <input type="text" class="form-control" aria-label="..." id="filter">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">筛选 <span class="caret"></span></button>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="#">销售送货</a></li>
+                            <li><a href="#">委外送货</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
         <table class="table table-bordered table-hover table-striped" id="orders"></table>
         <div style="margin: 10px auto;"></div>
         <div class="panel panel-primary">
             <div class="panel-heading">收货 - 明细</div>
-            <table class="table table-bordered table-striped table-hover table-subtable" id="details"></table>
+            <table class="table table-bordered table-striped table-hover" id="details"></table>
         </div>
     </div>
 
@@ -50,9 +74,17 @@
     <script>
         var json = @(new MvcHtmlString(orders));
 
+        for(var item in json)
+        {
+            json[item].SalesAmount = json[item].SalesAmount.toFixed(2);
+            json[item].SalesSquare = json[item].SalesSquare.toFixed(2);
+        }
+
         $.extend(true, $.fn.DataTable.defaults ,CONSTANT.DATA_TABLES.DEFAULT_OPTION);
 
         thisTable = $('#orders').DataTable({
+            searching:true,
+            dom:'rtip',
             data: json,
             columns:
                 [
@@ -64,12 +96,12 @@
                     //{ data: "CustomerAddress" , title: "地址", },
                     { data: "SalesComment", title: "备注", width: "auto", visible: true, },
                     { data: "SalesTypeId", title: "业务类型", width: "6em", visible: false },
-                    { data: "SalesTypeDescription", title: "业务描述", width: "6em", visible: true },
-                    { data: "SalesSquare", title: "面积", width:"6em", className: "text-right", render: function (data, type, row, meta) { return "<span class='badge'>" + data + "</span>" } },
-                    { data: "SalesAmount", title: "合计金额", width: "6em", className: "text-right", render: function (data, type, row, meta) { return "<div style='font-weight:bold' class='badge'>" + data + "</div>" } },
+                    { data: "SalesTypeDescription", title: "业务类型", width: "8em", visible: true, render:function (data, type, row, meta){return data + " - " + row.SalesTypeId} },
+                    { data: "SalesSquare", title: "面积", width:"6em", className: "text-right", @*render: function (data, type, row, meta) { return "<span class='badge'>" + data + "</span>" }*@ },
+                    { data: "SalesAmount", title: "合计金额", width: "6em", className: "text-right", @*render: function (data, type, row, meta) { return "<div style='font-weight:bold' class='badge'>" + data + "</div>" }*@ },
                 ]
         });
-        
+
         detailTable = $('#details');
         detailTable.html($("<table></table>").dataTable().html());
         $('#orders.table').on('click', 'tbody td',   function() {
@@ -82,8 +114,7 @@
 
         });
 
-        function buildOrderDetailTable(d)
-        {
+        function buildOrderDetailTable(d) {
             var data;
             $.ajaxSettings.async = false;
             $.getJSON("@Url.Action("ShouhuoDetail")",{RCID:d.RCID},function(result){
@@ -110,11 +141,30 @@
                 ]
             });
 
-            //return table.prop("outerHTML");
             return table.html();
-
         }
 
+        function filterGlobal () {
+            thisTable.search(
+                $('#filter').val(),
+                false,true
+            ).draw();
+        }
+ 
+        function filterColumn ( i ) {
+            $('#example').DataTable().column( i ).search(
+                $('#col'+i+'_filter').val(),
+                $('#col'+i+'_regex').prop('checked'),
+                $('#col'+i+'_smart').prop('checked')
+            ).draw();
+        }
+
+        $(document).ready(function() {
+ 
+            $('input#filter').on( 'keyup click', function () {
+                filterGlobal();
+            } );
+        } );
 
     </script>
 }
