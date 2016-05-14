@@ -1,0 +1,125 @@
+﻿@model IEnumerable<PHDS.Web.Models.SalesModels.Customer>
+@{
+    var ranks = from p in Model
+                group p by p.Rank into g
+                select g.Key;
+}
+
+@{
+    ViewBag.Title = "对账 - 进销存系统";
+}
+
+@section styles{
+    @Styles.Render("~/Content/DataTables/css/datatables")
+    <style>
+        body, button, input, select, textarea, h1, h2, h3, h4, h5, h6 {
+            font-family: Microsoft YaHei,'宋体', Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;
+        }
+
+        body {
+            overflow-y: scroll;
+        }
+
+        .table#orders {
+            font-size: 12px;
+            margin-top: 0px !important;
+            margin-bottom: 0px !important;
+        }
+
+        .table#details {
+            font-size: 12px;
+        }
+
+        tr.active > td {
+            background-color: #0075b0 !important;
+            color: #fff;
+        }
+    </style>
+}
+
+@*<h2>@ViewBag.Title</h2>
+    <h3>@ViewBag.Message</h3>*@
+<div style="margin: 10px auto;"></div>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">@ViewBag.Title</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <p class="navbar-text">Search by Rank. </p>
+            <div class="navbar-form navbar-right">
+                @*<div class="input-group">
+                    <input type="text" class="form-control" aria-label="...">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">选择单位 <span class="caret"></span></button>
+                        <ul class="dropdown-menu dropdown-menu-right">
+
+                        </ul>
+                    </div><!-- /btn-group -->
+                </div><!-- /input-group -->*@
+
+                @foreach (var rank in ranks)
+                {
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@rank <span class="caret"></span></button>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            @foreach (var menu in Model)
+                            {
+                                if (menu.Rank == rank)
+                                {
+                                    <li><a href="#">@menu.Name</a></li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+            @*<ul class="nav navbar-nav navbar-right">
+                @foreach (var rank in ranks)
+                {
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@rank<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            @foreach (var menu in Model)
+                            {
+                                if (menu.Rank == rank)
+                                {
+                                    <li><a href="#">@menu.Name</a></li>
+                                }
+                            }
+                        </ul>
+                    </li>
+
+                }
+            </ul>*@
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">一家地板</div>
+    <div class="panel-body"></div>
+    <div class="panel-footer">合计：</div>
+</div>
+
+@section scripts {
+
+    @Scripts.Render("~/Scripts/DataTables/datatables")
+
+    <script>
+        $.extend(true, $.fn.DataTable.defaults, CONSTANT.DATA_TABLES.DEFAULT_OPTION);
+        $('#pop').DataTable({
+            autoWidth: false
+        })
+    </script>
+}

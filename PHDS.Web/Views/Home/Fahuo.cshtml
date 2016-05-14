@@ -20,6 +20,8 @@
 
         .table#orders {
             font-size: 12px;
+            margin-top: 0px !important;
+            margin-bottom: 0px !important;
         }
 
         .table#details {
@@ -34,9 +36,8 @@
 }
 
 <div style="margin: 10px auto;"></div>
-<div class="panel panel-primary">
-    <div class="panel-heading">发货 - 进销存系统</div>
-    <div class="panel-body">
+
+
         <div class="row">
             <div class="col-xs-3 pull-right">
                 <div class="input-group">
@@ -59,12 +60,10 @@
         <table class="table table-bordered table-hover table-striped" id="orders"></table>
         <div style="margin: 10px auto;"></div>
         <div class="panel panel-primary">
-            <div class="panel-heading">发货 - 明细</div>
+            <div class="panel-heading">出库 - 明细</div>
             <table class="table table-bordered table-striped table-hover" id="details"></table>
         </div>
-    </div>
 
-</div>
 
 
 
@@ -165,6 +164,14 @@
                 filterGlobal();
             } );
         } );
+
+        var tmp = $("#orders");
+        tmp.wrap("<div class='panel panel-primary'></div>")
+            .parent().prepend("<div class='panel-heading'>出库 - 主表</div>").css("margin-bottom", "10px") // panel
+            .nextAll("div").wrapAll("<div class='row'></div>").each(function(index,Element){
+                $(Element).wrap('<div class="col-xs-6"></div>')
+            });
+        tmp.parent().parent().prepend('<div style="margin: 10px auto;"></div>');
 
     </script>
 }

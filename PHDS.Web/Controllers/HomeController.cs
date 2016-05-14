@@ -195,6 +195,22 @@ namespace PHDS.Web.Controllers
             }
         }
 
+        public ActionResult Duizhang()
+        {
+            using (var pinhua = new PHDS.Entities.Edmx.PinhuaEntities())
+            {
+                var customers = from p in pinhua.往来单位
+                                orderby p.RANK descending
+                                select new Models.SalesModels.Customer
+                                {
+                                    Rank = p.RANK ?? 0,
+                                    Id = p.单位编号,
+                                    Name = p.单位名称
+                                };
+                return View(customers.ToList());
+            }
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
