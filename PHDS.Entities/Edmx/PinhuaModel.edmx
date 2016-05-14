@@ -228,6 +228,25 @@
           <Property Name="ExcelServerCHG" Type="int" />
           <Property Name="面皮厚度" Type="decimal" Precision="20" Scale="3" />
         </EntityType>
+        <EntityType Name="业务类型">
+          <Key>
+            <PropertyRef Name="业务类型" />
+          </Key>
+          <Property Name="MvP" Type="nvarchar" MaxLength="20" />
+          <Property Name="业务类型" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="类型描述" Type="nvarchar" MaxLength="100" />
+          <Property Name="性质" Type="nvarchar" MaxLength="20" />
+          <Property Name="库存计算" Type="int" />
+          <Property Name="状态" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerRCID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerRN" Type="int" />
+          <Property Name="ExcelServerCN" Type="int" />
+          <Property Name="ExcelServerRC1" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerWIID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerRTID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerCHG" Type="int" />
+          <Property Name="业务计算" Type="int" />
+        </EntityType>
         <EntityContainer Name="PinhuaModelStoreContainer">
           <EntitySet Name="ES_RepCase" EntityType="Self.ES_RepCase" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ES_Tmp" EntityType="Self.ES_Tmp" Schema="dbo" store:Type="Tables" />
@@ -238,6 +257,7 @@
           <EntitySet Name="人员档案" EntityType="Self.人员档案" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="往来单位" EntityType="Self.往来单位" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="物料登记" EntityType="Self.物料登记" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="业务类型" EntityType="Self.业务类型" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -253,6 +273,7 @@
           <EntitySet Name="发货_DETAIL" EntityType="PinhuaModel.发货_DETAIL" />
           <EntitySet Name="往来单位" EntityType="PinhuaModel.往来单位" />
           <EntitySet Name="物料登记" EntityType="PinhuaModel.物料登记" />
+          <EntitySet Name="业务类型" EntityType="PinhuaModel.业务类型" />
         </EntityContainer>
         <EntityType Name="发货">
           <Key>
@@ -476,6 +497,25 @@
           <Property Name="ExcelServerRTID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="ExcelServerCHG" Type="Int32" />
           <Property Name="面皮厚度" Type="Decimal" Precision="20" Scale="3" />
+        </EntityType>
+        <EntityType Name="业务类型">
+          <Key>
+            <PropertyRef Name="业务类型1" />
+          </Key>
+          <Property Name="MvP" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="业务类型1" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="类型描述" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="性质" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="库存计算" Type="Int32" />
+          <Property Name="状态" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRCID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRN" Type="Int32" />
+          <Property Name="ExcelServerCN" Type="Int32" />
+          <Property Name="ExcelServerRC1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerWIID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRTID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerCHG" Type="Int32" />
+          <Property Name="业务计算" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -712,6 +752,26 @@
                 <ScalarProperty Name="类型" ColumnName="类型" />
                 <ScalarProperty Name="编号" ColumnName="编号" />
                 <ScalarProperty Name="状态" ColumnName="状态" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="业务类型">
+            <EntityTypeMapping TypeName="PinhuaModel.业务类型">
+              <MappingFragment StoreEntitySet="业务类型">
+                <ScalarProperty Name="业务计算" ColumnName="业务计算" />
+                <ScalarProperty Name="ExcelServerCHG" ColumnName="ExcelServerCHG" />
+                <ScalarProperty Name="ExcelServerRTID" ColumnName="ExcelServerRTID" />
+                <ScalarProperty Name="ExcelServerWIID" ColumnName="ExcelServerWIID" />
+                <ScalarProperty Name="ExcelServerRC1" ColumnName="ExcelServerRC1" />
+                <ScalarProperty Name="ExcelServerCN" ColumnName="ExcelServerCN" />
+                <ScalarProperty Name="ExcelServerRN" ColumnName="ExcelServerRN" />
+                <ScalarProperty Name="ExcelServerRCID" ColumnName="ExcelServerRCID" />
+                <ScalarProperty Name="状态" ColumnName="状态" />
+                <ScalarProperty Name="库存计算" ColumnName="库存计算" />
+                <ScalarProperty Name="性质" ColumnName="性质" />
+                <ScalarProperty Name="类型描述" ColumnName="类型描述" />
+                <ScalarProperty Name="业务类型1" ColumnName="业务类型" />
+                <ScalarProperty Name="MvP" ColumnName="MvP" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

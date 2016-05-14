@@ -415,8 +415,9 @@
     <Content Include="Views\Sales\Partial_Popups.cshtml" />
     <Content Include="Views\Sales\Partial_Tab1.cshtml" />
     <Content Include="Views\Sales\Partial_Tab2.cshtml" />
-    <Content Include="Views\Home\Fahuo.cshtml" />
+    <Content Include="Views\Home\Fahuo2.cshtml" />
     <Content Include="Views\Home\Shouhuo.cshtml" />
+    <Content Include="Views\Home\Fahuo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

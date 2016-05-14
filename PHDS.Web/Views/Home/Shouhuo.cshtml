@@ -4,7 +4,7 @@
 }
 
 @{
-    ViewBag.Title = "收货 - 订单系统";
+    ViewBag.Title = "收货 - 进销存系统";
 }
 
 @section styles{
@@ -35,7 +35,7 @@
 
 <div style="margin: 10px auto;"></div>
 <div class="panel panel-primary">
-    <div class="panel-heading">收货 - 主表</div>
+    <div class="panel-heading">收货 - 进销存系统</div>
     <div class="panel-body">
         <div class="row">
             <div class="col-xs-3 pull-right">
@@ -96,7 +96,7 @@
                     //{ data: "CustomerAddress" , title: "地址", },
                     { data: "SalesComment", title: "备注", width: "auto", visible: true, },
                     { data: "SalesTypeId", title: "业务类型", width: "6em", visible: false },
-                    { data: "SalesTypeDescription", title: "业务类型", width: "8em", visible: true, render:function (data, type, row, meta){return data + " - " + row.SalesTypeId} },
+                    { data: "SalesTypeDescription", title: "业务类型", width: "10em", visible: true, render:function (data, type, row, meta){return data + " - " + row.SalesTypeId} },
                     { data: "SalesSquare", title: "面积", width:"6em", className: "text-right", @*render: function (data, type, row, meta) { return "<span class='badge'>" + data + "</span>" }*@ },
                     { data: "SalesAmount", title: "合计金额", width: "6em", className: "text-right", @*render: function (data, type, row, meta) { return "<div style='font-weight:bold' class='badge'>" + data + "</div>" }*@ },
                 ]
