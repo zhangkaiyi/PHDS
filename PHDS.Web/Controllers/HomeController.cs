@@ -211,6 +211,40 @@ namespace PHDS.Web.Controllers
             }
         }
 
+        public ActionResult DuizhangDetail(string Id)
+        {
+            using (var pinhua = new PHDS.Entities.Edmx.PinhuaEntities())
+            {
+                var details = from p1 in pinhua.发货
+                                join p2 in pinhua.发货_DETAIL on p1.ExcelServerRCID equals p2.ExcelServerRCID
+                                join p3 in pinhua.业务类型 on p1.业务类型 equals p3.业务类型1
+                                where p1.客户编号 == Id
+                                orderby p1.送货日期 descending, p1.送货单号 descending
+                                select new
+                                {
+                                    p1.送货单号,
+                                    p1.送货日期,
+                                    p1.业务类型,
+                                    p1.业务描述,
+                                    p2.编号,
+                                    p2.描述,
+                                    p2.PCS,
+                                    p2.规格,
+                                    p2.单位数量,
+                                    p2.计价单位,
+                                    p2.单价,
+                                    p2.金额,
+                                    p3.业务计算,
+                                    p3.库存计算
+                                };
+                var jsonNetResult = new JsonNetResult();
+                jsonNetResult.Formatting = Newtonsoft.Json.Formatting.Indented;
+                jsonNetResult.SerializerSettings.DateFormatString = "yyyy/MM/dd";
+                jsonNetResult.Data = details.ToList();
+                return jsonNetResult;
+            }
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

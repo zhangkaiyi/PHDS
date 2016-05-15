@@ -20,14 +20,10 @@
             overflow-y: scroll;
         }
 
-        .table#orders {
+        .table#details {
             font-size: 12px;
             margin-top: 0px !important;
             margin-bottom: 0px !important;
-        }
-
-        .table#details {
-            font-size: 12px;
         }
 
         tr.active > td {
@@ -56,34 +52,25 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <p class="navbar-text">Search by Rank. </p>
             <div class="navbar-form navbar-right">
-                @*<div class="input-group">
-                    <input type="text" class="form-control" aria-label="...">
-                    <div class="input-group-btn">
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">选择单位 <span class="caret"></span></button>
-                        <ul class="dropdown-menu dropdown-menu-right">
-
-                        </ul>
-                    </div><!-- /btn-group -->
-                </div><!-- /input-group -->*@
 
                 @foreach (var rank in ranks)
                 {
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@rank <span class="caret"></span></button>
                         <ul class="dropdown-menu dropdown-menu-right">
-                            @foreach (var menu in Model)
+                            @foreach (var item in Model)
                             {
-                                if (menu.Rank == rank)
+                                if (item.Rank == rank)
                                 {
-                                    <li><a href="#">@menu.Name</a></li>
+                                    <li id="@item.Id"><a href="#">@item.Name</a></li>
                                 }
                             }
                         </ul>
                     </div>
                 }
             </div>
+            <p class="navbar-text navbar-right">Rank 分类 </p>
             @*<ul class="nav navbar-nav navbar-right">
                 @foreach (var rank in ranks)
                 {
@@ -106,20 +93,79 @@
     </div><!-- /.container-fluid -->
 </nav>
 
-<div class="panel panel-primary">
-    <div class="panel-heading">一家地板</div>
-    <div class="panel-body"></div>
-    <div class="panel-footer">合计：</div>
-</div>
+<table id="details" class="table table-hover table-striped"></table>
 
 @section scripts {
 
     @Scripts.Render("~/Scripts/DataTables/datatables")
 
     <script>
+
         $.extend(true, $.fn.DataTable.defaults, CONSTANT.DATA_TABLES.DEFAULT_OPTION);
-        $('#pop').DataTable({
-            autoWidth: false
+
+        detailTable = $('#details').DataTable({
+            ajax: {
+                url: "@Url.Action("DuizhangDetail")",
+                dataSrc:""
+            },
+            pageLength: 30,
+            dom: "frt<'row'<'col-xs-5'i><'col-xs-7'p>>",
+            columns: [
+                { data: "送货单号", title: "送货单号", visible: true },
+                { data: "送货日期", title: "送货日期", },
+                { data: "业务类型", title: "业务类型", visible: false },
+                { data: "业务描述", title: "业务描述", },
+                { data: "编号", title: "编号", },
+                { data: "描述", title: "描述", },
+                { data: "PCS", title: "PCS", },
+                { data: "规格", title: "规格", },
+                { data: "单位数量", title: "单位数量", },
+                { data: "计价单位", title: "计价单位", },
+                { data: "单价", title: "单价", },
+                { data: "金额", title: "金额", },
+                { data: "业务计算", title: "业务计算", },
+                { data: "库存计算", title: "库存计算", },
+            ],
+            drawCallback: function (settings) {
+                //var api = this.api();
+                //var rows = api.rows({
+                //    page: 'current'
+                //}).nodes();
+                //var last = null;
+
+                //api.column(0, {
+                //    page: 'current'
+                //}).data().each(function (group, i) {
+                //    if (last !== group) {
+                //        $(rows).eq(i).before('<tr class="group"><td colspan="20">' + group + '</td></tr>');
+
+                //        last = group;
+                //    }
+                //});
+                //api.column(3, {
+                //    page: 'current'
+                //}).data().each(function (group, i) {
+                //    if (last !== group) {
+                //        $(rows).eq(i).before('<tr class="group"><td colspan="20">' + group + '</td></tr>');
+
+                //        last = group;
+                //    }
+                //});
+            }
         })
+
+        $('.navbar-form .btn-group .dropdown-menu').on('click', 'li', function () {
+            detailTable.settings()[0].ajax.data = { Id: this.id }
+            detailTable.ajax.reload()
+
+        })
+
+        var tmp = $("#details");
+        tmp.wrap("<div class='panel panel-primary'></div>")
+            .parent().prepend("<div class='panel-heading'>入库 - 主表</div>").css("margin-bottom", "10px") // panel
+            //.nextAll("div").wrapAll("<div class='row'></div>").each(function (index, Element) {
+            //    $(Element).wrap('<div class="col-xs-6"></div>')
+            //});
+        //tmp.parent().parent().prepend('<div style="margin: 10px auto;"></div>');
     </script>
 }
