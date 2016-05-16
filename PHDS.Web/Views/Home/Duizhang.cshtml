@@ -33,8 +33,6 @@
     </style>
 }
 
-@*<h2>@ViewBag.Title</h2>
-    <h3>@ViewBag.Message</h3>*@
 <div style="margin: 10px auto;"></div>
 
 <nav class="navbar navbar-default">
@@ -108,23 +106,33 @@
                 url: "@Url.Action("DuizhangDetail")",
                 dataSrc:""
             },
-            pageLength: 30,
-            dom: "frt<'row'<'col-xs-5'i><'col-xs-7'p>>",
+            pageLength: 20,
+            dom: "fr<'#detailPanel.panel panel-primary'<'panel-heading'<'panel-title'>>t><'row'<'col-xs-5'i><'col-xs-7'p>>",
             columns: [
-                { data: "送货单号", title: "送货单号", visible: true },
-                { data: "送货日期", title: "送货日期", },
-                { data: "业务类型", title: "业务类型", visible: false },
-                { data: "业务描述", title: "业务描述", },
-                { data: "编号", title: "编号", },
-                { data: "描述", title: "描述", },
-                { data: "PCS", title: "PCS", },
-                { data: "规格", title: "规格", },
-                { data: "单位数量", title: "单位数量", },
-                { data: "计价单位", title: "计价单位", },
-                { data: "单价", title: "单价", },
-                { data: "金额", title: "金额", },
-                { data: "业务计算", title: "业务计算", },
-                { data: "库存计算", title: "库存计算", },
+                { data: "送货单号", title: "单号", width:"8em", visible: true },
+                { data: "送货日期", title: "日期", width: "8em", },
+                { data: "业务类型", title: "业务编号", width: "8em", visible: false },
+                { data: "业务描述", title: "业务类型", width: "8em", },
+                { data: "编号", title: "编号", width: "8em", visible: false },
+                { data: "描述", title: "描述", width: "16em", },
+                { data: "规格", title: "规格", width: "8em", },
+                { data: "PCS", title: "片数", width: "6em", },
+                { data: "单位数量", title: "单位数量", width: "6em", },
+                { data: "计价单位", title: "计价单位", width: "6em", visible: true },
+                { data: "单价", title: "单价", width: "6em", },
+                {
+                    data: "金额", title: "金额", width: "6em", render: function (data, type, row, meta) {
+                        var renderData = data * row.对账计算 == 0 ? null : data * row.对账计算;
+                        if (renderData > 0)
+                            renderData = '<div class="text-primary">' + renderData + '</div>'
+                        else if (renderData < 0)
+                            renderData = '<div class="text-danger">' + renderData + '</div>'
+                        return renderData;
+                    }
+                },
+                { data: "业务计算", title: "业务计算", width: "8em", visible: false },
+                { data: "库存计算", title: "库存计算", width: "8em", visible: false },
+                { data: "对账计算", title: "对账计算", width: "8em", visible: false },
             ],
             drawCallback: function (settings) {
                 //var api = this.api();
@@ -155,17 +163,12 @@
         })
 
         $('.navbar-form .btn-group .dropdown-menu').on('click', 'li', function () {
+            $('#detailPanel').find('.panel-title').text(this.id + ' - ' + this.innerText);
             detailTable.settings()[0].ajax.data = { Id: this.id }
             detailTable.ajax.reload()
 
         })
 
-        var tmp = $("#details");
-        tmp.wrap("<div class='panel panel-primary'></div>")
-            .parent().prepend("<div class='panel-heading'>入库 - 主表</div>").css("margin-bottom", "10px") // panel
-            //.nextAll("div").wrapAll("<div class='row'></div>").each(function (index, Element) {
-            //    $(Element).wrap('<div class="col-xs-6"></div>')
-            //});
-        //tmp.parent().parent().prepend('<div style="margin: 10px auto;"></div>');
+        $('#detailPanel').css('margin-bottom', '10px').find('.panel-title').text('@ViewBag.Title')
     </script>
 }

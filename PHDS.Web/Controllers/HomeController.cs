@@ -235,7 +235,8 @@ namespace PHDS.Web.Controllers
                                     p2.单价,
                                     p2.金额,
                                     p3.业务计算,
-                                    p3.库存计算
+                                    p3.库存计算,
+                                    p3.对账计算
                                 };
                 var jsonNetResult = new JsonNetResult();
                 jsonNetResult.Formatting = Newtonsoft.Json.Formatting.Indented;
