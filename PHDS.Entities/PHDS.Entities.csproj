@@ -41,6 +41,10 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -53,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAL\YingshouYingfu.cs" />
     <Compile Include="Edmx\EastRiverModel.Context.cs">
       <DependentUpon>EastRiverModel.Context.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -104,10 +109,22 @@
     <Compile Include="Edmx\发货_DETAIL.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Edmx\对账结算_主表.cs">
+      <DependentUpon>PinhuaModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Edmx\往来单位.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Edmx\打卡登记.cs">
+      <DependentUpon>PinhuaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Edmx\收款单.cs">
+      <DependentUpon>PinhuaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Edmx\收货.cs">
+      <DependentUpon>PinhuaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Edmx\收货_D.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Edmx\物料登记.cs">

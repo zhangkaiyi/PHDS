@@ -35,5 +35,9 @@ namespace PHDS.Entities.Edmx
         public virtual DbSet<往来单位> 往来单位 { get; set; }
         public virtual DbSet<物料登记> 物料登记 { get; set; }
         public virtual DbSet<业务类型> 业务类型 { get; set; }
+        public virtual DbSet<对账结算_主表> 对账结算_主表 { get; set; }
+        public virtual DbSet<收款单> 收款单 { get; set; }
+        public virtual DbSet<收货> 收货 { get; set; }
+        public virtual DbSet<收货_D> 收货_D { get; set; }
     }
 }

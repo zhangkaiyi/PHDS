@@ -12,10 +12,6 @@
 @section styles{
     @Styles.Render("~/Content/DataTables/css/datatables")
     <style>
-        body, button, input, select, textarea, h1, h2, h3, h4, h5, h6 {
-            font-family: Microsoft YaHei,'宋体', Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;
-        }
-
         body {
             overflow-y: scroll;
         }
@@ -109,10 +105,10 @@
             pageLength: 20,
             dom: "fr<'#detailPanel.panel panel-primary'<'panel-heading'<'panel-title'>>t><'row'<'col-xs-5'i><'col-xs-7'p>>",
             columns: [
-                { data: "送货单号", title: "单号", width:"8em", visible: true },
+                { data: "送货单号", title: "单号", width:"8em", visible: false },
                 { data: "送货日期", title: "日期", width: "8em", },
                 { data: "业务类型", title: "业务编号", width: "8em", visible: false },
-                { data: "业务描述", title: "业务类型", width: "8em", },
+                { data: "业务描述", title: "业务类型", width: "8em", visible: false },
                 { data: "编号", title: "编号", width: "8em", visible: false },
                 { data: "描述", title: "描述", width: "16em", },
                 { data: "规格", title: "规格", width: "8em", },
@@ -124,9 +120,9 @@
                     data: "金额", title: "金额", width: "6em", render: function (data, type, row, meta) {
                         var renderData = data * row.对账计算 == 0 ? null : data * row.对账计算;
                         if (renderData > 0)
-                            renderData = '<div class="text-primary">' + renderData + '</div>'
+                            renderData = '<div class="text-primary" style="font-weight:bold">' + renderData + '</div>'
                         else if (renderData < 0)
-                            renderData = '<div class="text-danger">' + renderData + '</div>'
+                            renderData = '<div class="text-danger" style="font-weight:bold">' + renderData + '</div>'
                         return renderData;
                     }
                 },
@@ -135,31 +131,22 @@
                 { data: "对账计算", title: "对账计算", width: "8em", visible: false },
             ],
             drawCallback: function (settings) {
-                //var api = this.api();
-                //var rows = api.rows({
-                //    page: 'current'
-                //}).nodes();
-                //var last = null;
+                var api = this.api();
+                var rows = api.rows({
+                    page: 'current'
+                }).nodes();
+                var last = null;
 
-                //api.column(0, {
-                //    page: 'current'
-                //}).data().each(function (group, i) {
-                //    if (last !== group) {
-                //        $(rows).eq(i).before('<tr class="group"><td colspan="20">' + group + '</td></tr>');
+                api.column(0, {
+                    page: 'current'
+                }).data().each(function (value, index) {
+                    if (last !== value) {
+                        $(rows).eq(index).before('<tr class="group"><td colspan="20" style="font-weight:bold">' + value + ' - ' + api.row(index).data().业务描述 + '</td></tr>');
 
-                //        last = group;
-                //    }
-                //});
-                //api.column(3, {
-                //    page: 'current'
-                //}).data().each(function (group, i) {
-                //    if (last !== group) {
-                //        $(rows).eq(i).before('<tr class="group"><td colspan="20">' + group + '</td></tr>');
-
-                //        last = group;
-                //    }
-                //});
-            }
+                        last = value;
+                    }
+                });
+            },
         })
 
         $('.navbar-form .btn-group .dropdown-menu').on('click', 'li', function () {

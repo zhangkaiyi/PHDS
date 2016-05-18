@@ -33,6 +33,8 @@ namespace PHDS.Web
                 var mappingCollection = (System.Data.Entity.Core.Mapping.StorageMappingItemCollection)objectContext.MetadataWorkspace.GetItemCollection(System.Data.Entity.Core.Metadata.Edm.DataSpace.CSSpace);
                 mappingCollection.GenerateViews(new List<System.Data.Entity.Core.Metadata.Edm.EdmSchemaError>());
             }
+
+            System.Diagnostics.Debug.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(PHDS.Entities.DAL.YingshouYingfu.YingShouYingFu("KH-1407-001")));
         }
     }
     public class JsonNetResult : ActionResult

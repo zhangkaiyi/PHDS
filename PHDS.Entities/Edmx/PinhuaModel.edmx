@@ -91,6 +91,24 @@
           <Property Name="审核人" Type="nvarchar" MaxLength="20" />
           <Property Name="pk" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
+        <EntityType Name="对账结算_主表">
+          <Key>
+            <PropertyRef Name="日期" />
+            <PropertyRef Name="单位编号" />
+          </Key>
+          <Property Name="日期" Type="datetime" Nullable="false" />
+          <Property Name="应收" Type="decimal" Precision="20" Scale="2" />
+          <Property Name="应付" Type="decimal" Precision="20" Scale="3" />
+          <Property Name="ExcelServerRCID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerRN" Type="int" />
+          <Property Name="ExcelServerCN" Type="int" />
+          <Property Name="ExcelServerRC1" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerWIID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerRTID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerCHG" Type="int" />
+          <Property Name="单位编号" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="单位名称" Type="nvarchar" MaxLength="20" />
+        </EntityType>
         <EntityType Name="发货">
           <Key>
             <PropertyRef Name="送货单号" />
@@ -180,6 +198,66 @@
           <Property Name="入职时间" Type="datetime" />
           <Property Name="考勤班次" Type="nvarchar" MaxLength="20" />
         </EntityType>
+        <EntityType Name="收货">
+          <Key>
+            <PropertyRef Name="单号" />
+          </Key>
+          <Property Name="供应商编号" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerRCID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerRN" Type="int" />
+          <Property Name="ExcelServerCN" Type="int" />
+          <Property Name="ExcelServerRC1" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerWIID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerRTID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerCHG" Type="int" />
+          <Property Name="供应商名称" Type="nvarchar" MaxLength="100" />
+          <Property Name="单号" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="日期" Type="datetime" />
+          <Property Name="业务类型" Type="nvarchar" MaxLength="20" />
+          <Property Name="业务描述" Type="nvarchar" MaxLength="100" />
+          <Property Name="创建者" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="收货_D">
+          <Key>
+            <PropertyRef Name="PK" />
+          </Key>
+          <Property Name="编号" Type="nvarchar" MaxLength="20" />
+          <Property Name="名称" Type="nvarchar" MaxLength="100" />
+          <Property Name="类型" Type="nvarchar" MaxLength="20" />
+          <Property Name="规格" Type="nvarchar" MaxLength="100" />
+          <Property Name="PCS" Type="decimal" Precision="20" Scale="3" />
+          <Property Name="单位数量" Type="decimal" Precision="20" Scale="9" />
+          <Property Name="计价单位" Type="nvarchar" MaxLength="20" />
+          <Property Name="单价" Type="decimal" Precision="20" Scale="2" />
+          <Property Name="金额" Type="decimal" Precision="20" Scale="2" />
+          <Property Name="ExcelServerRCID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerRN" Type="int" />
+          <Property Name="ExcelServerCN" Type="int" />
+          <Property Name="ExcelServerRC1" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerWIID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerRTID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerCHG" Type="int" />
+          <Property Name="PK" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="收款单">
+          <Key>
+            <PropertyRef Name="收款单号" />
+          </Key>
+          <Property Name="收款单号" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="收款日期" Type="datetime" />
+          <Property Name="收款类型" Type="nvarchar" MaxLength="20" />
+          <Property Name="收款金额" Type="decimal" Precision="20" Scale="2" />
+          <Property Name="备注" Type="nvarchar" MaxLength="100" />
+          <Property Name="ExcelServerRCID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerRN" Type="int" />
+          <Property Name="ExcelServerCN" Type="int" />
+          <Property Name="ExcelServerRC1" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerWIID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerRTID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerCHG" Type="int" />
+          <Property Name="收款单位" Type="nvarchar" MaxLength="100" />
+          <Property Name="单位编号" Type="nvarchar" MaxLength="20" />
+        </EntityType>
         <EntityType Name="往来单位">
           <Key>
             <PropertyRef Name="单位编号" />
@@ -252,10 +330,14 @@
           <EntitySet Name="ES_RepCase" EntityType="Self.ES_RepCase" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ES_Tmp" EntityType="Self.ES_Tmp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="打卡登记" EntityType="Self.打卡登记" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="对账结算_主表" EntityType="Self.对账结算_主表" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="发货" EntityType="Self.发货" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="发货_DETAIL" EntityType="Self.发货_DETAIL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="考勤卡号变动" EntityType="Self.考勤卡号变动" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="人员档案" EntityType="Self.人员档案" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="收货" EntityType="Self.收货" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="收货_D" EntityType="Self.收货_D" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="收款单" EntityType="Self.收款单" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="往来单位" EntityType="Self.往来单位" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="物料登记" EntityType="Self.物料登记" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="业务类型" EntityType="Self.业务类型" Schema="dbo" store:Type="Tables" />
@@ -275,6 +357,10 @@
           <EntitySet Name="往来单位" EntityType="PinhuaModel.往来单位" />
           <EntitySet Name="物料登记" EntityType="PinhuaModel.物料登记" />
           <EntitySet Name="业务类型" EntityType="PinhuaModel.业务类型" />
+          <EntitySet Name="对账结算_主表" EntityType="PinhuaModel.对账结算_主表" />
+          <EntitySet Name="收款单" EntityType="PinhuaModel.收款单" />
+          <EntitySet Name="收货" EntityType="PinhuaModel.收货" />
+          <EntitySet Name="收货_D" EntityType="PinhuaModel.收货_D" />
         </EntityContainer>
         <EntityType Name="发货">
           <Key>
@@ -518,6 +604,84 @@
           <Property Name="ExcelServerCHG" Type="Int32" />
           <Property Name="业务计算" Type="Int32" />
           <Property Name="对账计算" Type="Int32" />
+        </EntityType>
+        <EntityType Name="对账结算_主表">
+          <Key>
+            <PropertyRef Name="日期" />
+            <PropertyRef Name="单位编号" />
+          </Key>
+          <Property Name="日期" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="应收" Type="Decimal" Precision="20" Scale="2" />
+          <Property Name="应付" Type="Decimal" Precision="20" Scale="3" />
+          <Property Name="ExcelServerRCID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRN" Type="Int32" />
+          <Property Name="ExcelServerCN" Type="Int32" />
+          <Property Name="ExcelServerRC1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerWIID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRTID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerCHG" Type="Int32" />
+          <Property Name="单位编号" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="单位名称" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="收款单">
+          <Key>
+            <PropertyRef Name="收款单号" />
+          </Key>
+          <Property Name="收款单号" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="收款日期" Type="DateTime" Precision="3" />
+          <Property Name="收款类型" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="收款金额" Type="Decimal" Precision="20" Scale="2" />
+          <Property Name="备注" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRCID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRN" Type="Int32" />
+          <Property Name="ExcelServerCN" Type="Int32" />
+          <Property Name="ExcelServerRC1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerWIID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRTID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerCHG" Type="Int32" />
+          <Property Name="收款单位" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="单位编号" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="收货">
+          <Key>
+            <PropertyRef Name="单号" />
+          </Key>
+          <Property Name="供应商编号" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRCID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRN" Type="Int32" />
+          <Property Name="ExcelServerCN" Type="Int32" />
+          <Property Name="ExcelServerRC1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerWIID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRTID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerCHG" Type="Int32" />
+          <Property Name="供应商名称" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="单号" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="日期" Type="DateTime" Precision="3" />
+          <Property Name="业务类型" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="业务描述" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="创建者" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="收货_D">
+          <Key>
+            <PropertyRef Name="PK" />
+          </Key>
+          <Property Name="编号" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="名称" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="类型" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="规格" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PCS" Type="Decimal" Precision="20" Scale="3" />
+          <Property Name="单位数量" Type="Decimal" Precision="20" Scale="9" />
+          <Property Name="计价单位" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="单价" Type="Decimal" Precision="20" Scale="2" />
+          <Property Name="金额" Type="Decimal" Precision="20" Scale="2" />
+          <Property Name="ExcelServerRCID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRN" Type="Int32" />
+          <Property Name="ExcelServerCN" Type="Int32" />
+          <Property Name="ExcelServerRC1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerWIID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRTID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerCHG" Type="Int32" />
+          <Property Name="PK" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -775,6 +939,87 @@
                 <ScalarProperty Name="类型描述" ColumnName="类型描述" />
                 <ScalarProperty Name="业务类型1" ColumnName="业务类型" />
                 <ScalarProperty Name="MvP" ColumnName="MvP" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="对账结算_主表">
+            <EntityTypeMapping TypeName="PinhuaModel.对账结算_主表">
+              <MappingFragment StoreEntitySet="对账结算_主表">
+                <ScalarProperty Name="单位名称" ColumnName="单位名称" />
+                <ScalarProperty Name="单位编号" ColumnName="单位编号" />
+                <ScalarProperty Name="ExcelServerCHG" ColumnName="ExcelServerCHG" />
+                <ScalarProperty Name="ExcelServerRTID" ColumnName="ExcelServerRTID" />
+                <ScalarProperty Name="ExcelServerWIID" ColumnName="ExcelServerWIID" />
+                <ScalarProperty Name="ExcelServerRC1" ColumnName="ExcelServerRC1" />
+                <ScalarProperty Name="ExcelServerCN" ColumnName="ExcelServerCN" />
+                <ScalarProperty Name="ExcelServerRN" ColumnName="ExcelServerRN" />
+                <ScalarProperty Name="ExcelServerRCID" ColumnName="ExcelServerRCID" />
+                <ScalarProperty Name="应付" ColumnName="应付" />
+                <ScalarProperty Name="应收" ColumnName="应收" />
+                <ScalarProperty Name="日期" ColumnName="日期" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="收款单">
+            <EntityTypeMapping TypeName="PinhuaModel.收款单">
+              <MappingFragment StoreEntitySet="收款单">
+                <ScalarProperty Name="单位编号" ColumnName="单位编号" />
+                <ScalarProperty Name="收款单位" ColumnName="收款单位" />
+                <ScalarProperty Name="ExcelServerCHG" ColumnName="ExcelServerCHG" />
+                <ScalarProperty Name="ExcelServerRTID" ColumnName="ExcelServerRTID" />
+                <ScalarProperty Name="ExcelServerWIID" ColumnName="ExcelServerWIID" />
+                <ScalarProperty Name="ExcelServerRC1" ColumnName="ExcelServerRC1" />
+                <ScalarProperty Name="ExcelServerCN" ColumnName="ExcelServerCN" />
+                <ScalarProperty Name="ExcelServerRN" ColumnName="ExcelServerRN" />
+                <ScalarProperty Name="ExcelServerRCID" ColumnName="ExcelServerRCID" />
+                <ScalarProperty Name="备注" ColumnName="备注" />
+                <ScalarProperty Name="收款金额" ColumnName="收款金额" />
+                <ScalarProperty Name="收款类型" ColumnName="收款类型" />
+                <ScalarProperty Name="收款日期" ColumnName="收款日期" />
+                <ScalarProperty Name="收款单号" ColumnName="收款单号" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="收货">
+            <EntityTypeMapping TypeName="PinhuaModel.收货">
+              <MappingFragment StoreEntitySet="收货">
+                <ScalarProperty Name="创建者" ColumnName="创建者" />
+                <ScalarProperty Name="业务描述" ColumnName="业务描述" />
+                <ScalarProperty Name="业务类型" ColumnName="业务类型" />
+                <ScalarProperty Name="日期" ColumnName="日期" />
+                <ScalarProperty Name="单号" ColumnName="单号" />
+                <ScalarProperty Name="供应商名称" ColumnName="供应商名称" />
+                <ScalarProperty Name="ExcelServerCHG" ColumnName="ExcelServerCHG" />
+                <ScalarProperty Name="ExcelServerRTID" ColumnName="ExcelServerRTID" />
+                <ScalarProperty Name="ExcelServerWIID" ColumnName="ExcelServerWIID" />
+                <ScalarProperty Name="ExcelServerRC1" ColumnName="ExcelServerRC1" />
+                <ScalarProperty Name="ExcelServerCN" ColumnName="ExcelServerCN" />
+                <ScalarProperty Name="ExcelServerRN" ColumnName="ExcelServerRN" />
+                <ScalarProperty Name="ExcelServerRCID" ColumnName="ExcelServerRCID" />
+                <ScalarProperty Name="供应商编号" ColumnName="供应商编号" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="收货_D">
+            <EntityTypeMapping TypeName="PinhuaModel.收货_D">
+              <MappingFragment StoreEntitySet="收货_D">
+                <ScalarProperty Name="PK" ColumnName="PK" />
+                <ScalarProperty Name="ExcelServerCHG" ColumnName="ExcelServerCHG" />
+                <ScalarProperty Name="ExcelServerRTID" ColumnName="ExcelServerRTID" />
+                <ScalarProperty Name="ExcelServerWIID" ColumnName="ExcelServerWIID" />
+                <ScalarProperty Name="ExcelServerRC1" ColumnName="ExcelServerRC1" />
+                <ScalarProperty Name="ExcelServerCN" ColumnName="ExcelServerCN" />
+                <ScalarProperty Name="ExcelServerRN" ColumnName="ExcelServerRN" />
+                <ScalarProperty Name="ExcelServerRCID" ColumnName="ExcelServerRCID" />
+                <ScalarProperty Name="金额" ColumnName="金额" />
+                <ScalarProperty Name="单价" ColumnName="单价" />
+                <ScalarProperty Name="计价单位" ColumnName="计价单位" />
+                <ScalarProperty Name="单位数量" ColumnName="单位数量" />
+                <ScalarProperty Name="PCS" ColumnName="PCS" />
+                <ScalarProperty Name="规格" ColumnName="规格" />
+                <ScalarProperty Name="类型" ColumnName="类型" />
+                <ScalarProperty Name="名称" ColumnName="名称" />
+                <ScalarProperty Name="编号" ColumnName="编号" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
