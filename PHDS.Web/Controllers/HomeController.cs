@@ -195,7 +195,7 @@ namespace PHDS.Web.Controllers
             }
         }
 
-        public ActionResult Duizhang()
+        public ActionResult Wanglai()
         {
             using (var pinhua = new PHDS.Entities.Edmx.PinhuaEntities())
             {
@@ -211,7 +211,7 @@ namespace PHDS.Web.Controllers
             }
         }
 
-        public ActionResult DuizhangDetail(string Id)
+        public ActionResult WanglaiDetail(string Id)
         {
             using (var pinhua = new PHDS.Entities.Edmx.PinhuaEntities())
             {
@@ -244,6 +244,81 @@ namespace PHDS.Web.Controllers
                 jsonNetResult.Data = details.ToList();
                 return jsonNetResult;
             }
+        }
+
+        public ActionResult Yingshou()
+        {
+            using (var pinhua = new PHDS.Entities.Edmx.PinhuaEntities())
+            {
+                var customers = from p in pinhua.往来单位
+                                orderby p.RANK descending
+                                select new Models.SalesModels.Customer
+                                {
+                                    Rank = p.RANK ?? 0,
+                                    Id = p.单位编号,
+                                    Name = p.单位名称
+                                };
+                return View(customers.ToList());
+            }
+        }
+
+        public ActionResult YingshouDetail(string Id)
+        {
+            var jsonNetResult = new JsonNetResult();
+            jsonNetResult.Formatting = Newtonsoft.Json.Formatting.Indented;
+            jsonNetResult.SerializerSettings.DateFormatString = "yyyy/MM/dd";
+            jsonNetResult.Data = Entities.DAL.YingShouYingFu.应收及明细(Id);
+            return jsonNetResult;
+        }
+
+        public ActionResult Yingfu()
+        {
+            using (var pinhua = new PHDS.Entities.Edmx.PinhuaEntities())
+            {
+                var customers = from p in pinhua.往来单位
+                                orderby p.RANK descending
+                                select new Models.SalesModels.Customer
+                                {
+                                    Rank = p.RANK ?? 0,
+                                    Id = p.单位编号,
+                                    Name = p.单位名称
+                                };
+                return View(customers.ToList());
+            }
+        }
+
+        public ActionResult YingfuDetail(string Id)
+        {
+            var jsonNetResult = new JsonNetResult();
+            jsonNetResult.Formatting = Newtonsoft.Json.Formatting.Indented;
+            jsonNetResult.SerializerSettings.DateFormatString = "yyyy/MM/dd";
+            jsonNetResult.Data = Entities.DAL.YingShouYingFu.应付及明细(Id);
+            return jsonNetResult;
+        }
+
+        public ActionResult YingshouYingfu()
+        {
+            using (var pinhua = new PHDS.Entities.Edmx.PinhuaEntities())
+            {
+                var customers = from p in pinhua.往来单位
+                                orderby p.RANK descending
+                                select new Models.SalesModels.Customer
+                                {
+                                    Rank = p.RANK ?? 0,
+                                    Id = p.单位编号,
+                                    Name = p.单位名称
+                                };
+                return View(customers.ToList());
+            }
+        }
+
+        public ActionResult YingshouYingfuDetail(string Id)
+        {
+            var jsonNetResult = new JsonNetResult();
+            jsonNetResult.Formatting = Newtonsoft.Json.Formatting.Indented;
+            jsonNetResult.SerializerSettings.DateFormatString = "yyyy/MM/dd";
+            jsonNetResult.Data = Entities.DAL.YingShouYingFu.应收应付及明细(Id);
+            return jsonNetResult;
         }
 
         public ActionResult About()

@@ -418,7 +418,10 @@
     <Content Include="Views\Home\Fahuo2.cshtml" />
     <Content Include="Views\Home\Shouhuo.cshtml" />
     <Content Include="Views\Home\Fahuo.cshtml" />
-    <Content Include="Views\Home\Duizhang.cshtml" />
+    <Content Include="Views\Home\Wanglai.cshtml" />
+    <Content Include="Views\Home\Yingshou.cshtml" />
+    <Content Include="Views\Home\Yingfu.cshtml" />
+    <Content Include="Views\Home\YingshouYingfu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

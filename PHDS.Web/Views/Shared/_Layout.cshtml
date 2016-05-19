@@ -36,14 +36,15 @@
                             <li>@Html.ActionLink("发货", "Fahuo", "Home")</li>
                             <li>@Html.ActionLink("收货", "Shouhuo", "Home")</li>
                             <li class="divider"></li>
-                            <li>@Html.ActionLink("对账", "Duizhang", "Home")</li>
+                            <li>@Html.ActionLink("往来", "Wanglai", "Home")</li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         @Html.ActionLink("应收应付", "Index", "Home", new { data_toggle = "dropdown", @class = "dropdown-toggle" })
                         <ul class="dropdown-menu" role="menu">
-                            <li>@Html.ActionLink("应收", "Fahuo", "Home")</li>
-                            <li>@Html.ActionLink("应付", "Contact", "Home")</li>
+                            <li>@Html.ActionLink("应收", "Yingshou", "Home")</li>
+                            <li>@Html.ActionLink("应付", "Yingfu", "Home")</li>
+                            <li>@Html.ActionLink("应收应付", "YingshouYingfu", "Home")</li>
                         </ul>
                     </li>
                     <li>@Html.ActionLink("人事", "Contact", "Home")</li>

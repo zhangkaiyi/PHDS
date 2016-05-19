@@ -66,23 +66,23 @@
             </div>
             <p class="navbar-text navbar-right">Rank 分类 </p>
             @*<ul class="nav navbar-nav navbar-right">
-                @foreach (var rank in ranks)
-                {
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@rank<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            @foreach (var menu in Model)
-                            {
-                                if (menu.Rank == rank)
+                    @foreach (var rank in ranks)
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@rank<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                @foreach (var menu in Model)
                                 {
-                                    <li><a href="#">@menu.Name</a></li>
+                                    if (menu.Rank == rank)
+                                    {
+                                        <li><a href="#">@menu.Name</a></li>
+                                    }
                                 }
-                            }
-                        </ul>
-                    </li>
+                            </ul>
+                        </li>
 
-                }
-            </ul>*@
+                    }
+                </ul>*@
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
@@ -99,54 +99,56 @@
 
         detailTable = $('#details').DataTable({
             ajax: {
-                url: "@Url.Action("DuizhangDetail")",
-                dataSrc:""
+                url: "@Url.Action("YingfuDetail")",
+                dataSrc: "明细"
             },
             pageLength: 20,
             dom: "fr<'#detailPanel.panel panel-primary'<'panel-heading'<'panel-title'>>t><'row'<'col-xs-5'i><'col-xs-7'p>>",
             columns: [
-                { data: "送货单号", title: "单号", width:"8em", visible: false },
-                { data: "送货日期", title: "日期", width: "8em", },
-                { data: "业务类型", title: "业务编号", width: "8em", visible: false },
-                { data: "业务描述", title: "业务类型", width: "8em", visible: false },
-                { data: "编号", title: "编号", width: "8em", visible: false },
-                { data: "描述", title: "描述", width: "16em", },
-                { data: "规格", title: "规格", width: "8em", },
-                { data: "PCS", title: "片数", width: "6em", },
-                { data: "单位数量", title: "单位数量", width: "6em", },
-                { data: "计价单位", title: "计价单位", width: "6em", visible: true },
-                { data: "单价", title: "单价", width: "6em", },
-                {
-                    data: "金额", title: "金额", width: "6em", render: function (data, type, row, meta) {
-                        var renderData = data * row.对账计算 == 0 ? null : data * row.对账计算;
-                        if (renderData > 0)
-                            renderData = '<div class="text-primary" style="font-weight:bold">' + renderData + '</div>'
-                        else if (renderData < 0)
-                            renderData = '<div class="text-danger" style="font-weight:bold">' + renderData + '</div>'
-                        return renderData;
-                    }
-                },
-                { data: "业务计算", title: "业务计算", width: "8em", visible: false },
-                { data: "库存计算", title: "库存计算", width: "8em", visible: false },
-                { data: "对账计算", title: "对账计算", width: "8em", visible: false },
+                                { data: "业务类型", title: "单号", width: "8em", visible: true },
+                { data: "业务描述", title: "日期", width: "8em", },
+                { data: "日期", title: "单号", width: "8em", visible: true },
+                { data: "单号", title: "日期", width: "8em", },
+                { data: "产品编号", title: "业务编号", width: "8em", visible: true },
+                { data: "产品描述", title: "业务类型", width: "8em", visible: true },
+                { data: "规格", title: "编号", width: "8em", visible: true },
+                { data: "片数", title: "描述", width: "16em", },
+                { data: "单位数量", title: "规格", width: "8em", },
+                { data: "计价单位", title: "片数", width: "6em", },
+                { data: "单价", title: "单位数量", width: "6em", },
+                { data: "应付", title: "计价单位", width: "6em", visible: true },
+                //{ data: "单价", title: "单价", width: "6em", },
+                //{
+                //    data: "金额", title: "金额", width: "6em", render: function (data, type, row, meta) {
+                //        var renderData = data * row.对账计算 == 0 ? null : data * row.对账计算;
+                //        if (renderData > 0)
+                //            renderData = '<div class="text-primary" style="font-weight:bold">' + renderData + '</div>'
+                //        else if (renderData < 0)
+                //            renderData = '<div class="text-danger" style="font-weight:bold">' + renderData + '</div>'
+                //        return renderData;
+                //    }
+                //},
+                //{ data: "业务计算", title: "业务计算", width: "8em", visible: false },
+                //{ data: "库存计算", title: "库存计算", width: "8em", visible: false },
+                //{ data: "对账计算", title: "对账计算", width: "8em", visible: false },
             ],
-            drawCallback: function (settings) {
-                var api = this.api();
-                var rows = api.rows({
-                    page: 'current'
-                }).nodes();
-                var last = null;
+            //drawCallback: function (settings) {
+            //    var api = this.api();
+            //    var rows = api.rows({
+            //        page: 'current'
+            //    }).nodes();
+            //    var last = null;
 
-                api.column(0, {
-                    page: 'current'
-                }).data().each(function (value, index) {
-                    if (last !== value) {
-                        $(rows).eq(index).before('<tr class="group"><td colspan="20" style="font-weight:bold">' + value + ' - ' + api.row(index).data().业务描述 + '</td></tr>');
+            //    api.column(0, {
+            //        page: 'current'
+            //    }).data().each(function (value, index) {
+            //        if (last !== value) {
+            //            $(rows).eq(index).before('<tr class="group"><td colspan="20" style="font-weight:bold">' + value + ' - ' + api.row(index).data().业务描述 + '</td></tr>');
 
-                        last = value;
-                    }
-                });
-            },
+            //            last = value;
+            //        }
+            //    });
+            //},
         })
 
         $('.navbar-form .btn-group .dropdown-menu').on('click', 'li', function () {

@@ -1,0 +1,163 @@
+﻿@model IEnumerable<PHDS.Web.Models.SalesModels.Customer>
+@{
+    var ranks = from p in Model
+                group p by p.Rank into g
+                select g.Key;
+}
+
+@{
+    ViewBag.Title = "对账 - 进销存系统";
+}
+
+@section styles{
+    @Styles.Render("~/Content/DataTables/css/datatables")
+    <style>
+        body {
+            overflow-y: scroll;
+        }
+
+        .table#details {
+            font-size: 12px;
+            margin-top: 0px !important;
+            margin-bottom: 0px !important;
+        }
+
+        tr.active > td {
+            background-color: #0075b0 !important;
+            color: #fff;
+        }
+    </style>
+}
+
+<div style="margin: 10px auto;"></div>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">@ViewBag.Title</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <div class="navbar-form navbar-right">
+
+                @foreach (var rank in ranks)
+                {
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@rank <span class="caret"></span></button>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            @foreach (var item in Model)
+                            {
+                                if (item.Rank == rank)
+                                {
+                                    <li id="@item.Id"><a href="#">@item.Name</a></li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+            <p class="navbar-text navbar-right">Rank 分类 </p>
+            @*<ul class="nav navbar-nav navbar-right">
+                @foreach (var rank in ranks)
+                {
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@rank<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            @foreach (var menu in Model)
+                            {
+                                if (menu.Rank == rank)
+                                {
+                                    <li><a href="#">@menu.Name</a></li>
+                                }
+                            }
+                        </ul>
+                    </li>
+
+                }
+            </ul>*@
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+<table id="details" class="table table-hover table-striped"></table>
+
+@section scripts {
+
+    @Scripts.Render("~/Scripts/DataTables/datatables")
+
+    <script>
+
+        $.extend(true, $.fn.DataTable.defaults, CONSTANT.DATA_TABLES.DEFAULT_OPTION);
+
+        detailTable = $('#details').DataTable({
+            ajax: {
+                url: "@Url.Action("YingshouDetail")",
+                dataSrc: "明细"
+            },
+            pageLength: 20,
+            dom: "fr<'#detailPanel.panel panel-primary'<'panel-heading'<'panel-title'>>t><'row'<'col-xs-5'i><'col-xs-7'p>>",
+            columns: [
+                                { data: "业务类型", title: "单号", width: "8em", visible: true },
+                { data: "业务描述", title: "日期", width: "8em", },
+                { data: "日期", title: "单号", width: "8em", visible: true },
+                { data: "单号", title: "日期", width: "8em", },
+                { data: "产品编号", title: "业务编号", width: "8em", visible: true },
+                { data: "产品描述", title: "业务类型", width: "8em", visible: true },
+                { data: "规格", title: "编号", width: "8em", visible: true },
+                { data: "片数", title: "描述", width: "16em", },
+                { data: "单位数量", title: "规格", width: "8em", },
+                { data: "计价单位", title: "片数", width: "6em", },
+                { data: "单价", title: "单位数量", width: "6em", },
+                { data: "应收", title: "计价单位", width: "6em", visible: true },
+                //{ data: "单价", title: "单价", width: "6em", },
+                //{
+                //    data: "金额", title: "金额", width: "6em", render: function (data, type, row, meta) {
+                //        var renderData = data * row.对账计算 == 0 ? null : data * row.对账计算;
+                //        if (renderData > 0)
+                //            renderData = '<div class="text-primary" style="font-weight:bold">' + renderData + '</div>'
+                //        else if (renderData < 0)
+                //            renderData = '<div class="text-danger" style="font-weight:bold">' + renderData + '</div>'
+                //        return renderData;
+                //    }
+                //},
+                //{ data: "业务计算", title: "业务计算", width: "8em", visible: false },
+                //{ data: "库存计算", title: "库存计算", width: "8em", visible: false },
+                //{ data: "对账计算", title: "对账计算", width: "8em", visible: false },
+            ],
+            //drawCallback: function (settings) {
+            //    var api = this.api();
+            //    var rows = api.rows({
+            //        page: 'current'
+            //    }).nodes();
+            //    var last = null;
+
+            //    api.column(0, {
+            //        page: 'current'
+            //    }).data().each(function (value, index) {
+            //        if (last !== value) {
+            //            $(rows).eq(index).before('<tr class="group"><td colspan="20" style="font-weight:bold">' + value + ' - ' + api.row(index).data().业务描述 + '</td></tr>');
+
+            //            last = value;
+            //        }
+            //    });
+            //},
+        })
+
+        $('.navbar-form .btn-group .dropdown-menu').on('click', 'li', function () {
+            $('#detailPanel').find('.panel-title').text(this.id + ' - ' + this.innerText);
+            detailTable.settings()[0].ajax.data = { Id: this.id }
+            detailTable.ajax.reload()
+
+        })
+
+        $('#detailPanel').css('margin-bottom', '10px').find('.panel-title').text('@ViewBag.Title')
+    </script>
+}

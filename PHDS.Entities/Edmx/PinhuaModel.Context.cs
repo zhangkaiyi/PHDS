@@ -39,5 +39,6 @@ namespace PHDS.Entities.Edmx
         public virtual DbSet<收款单> 收款单 { get; set; }
         public virtual DbSet<收货> 收货 { get; set; }
         public virtual DbSet<收货_D> 收货_D { get; set; }
+        public virtual DbSet<付款单> 付款单 { get; set; }
     }
 }

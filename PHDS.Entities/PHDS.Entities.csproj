@@ -57,7 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DAL\YingshouYingfu.cs" />
+    <Compile Include="DAL\YingShouYingFu.cs" />
     <Compile Include="Edmx\EastRiverModel.Context.cs">
       <DependentUpon>EastRiverModel.Context.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -101,6 +101,9 @@
       <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Edmx\人员档案.cs">
+      <DependentUpon>PinhuaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Edmx\付款单.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Edmx\发货.cs">

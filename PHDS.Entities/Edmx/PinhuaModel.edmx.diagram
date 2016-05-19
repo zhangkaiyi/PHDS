@@ -20,6 +20,7 @@
         <EntityTypeShape EntityType="PinhuaModel.收款单" Width="1.5" PointX="13.75" PointY="4.125" />
         <EntityTypeShape EntityType="PinhuaModel.收货" Width="1.5" PointX="6.375" PointY="5.75" />
         <EntityTypeShape EntityType="PinhuaModel.收货_D" Width="1.5" PointX="8.375" PointY="5.75" />
+        <EntityTypeShape EntityType="PinhuaModel.付款单" Width="1.5" PointX="2.375" PointY="6.875" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
