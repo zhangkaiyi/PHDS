@@ -292,7 +292,7 @@ namespace PHDS.Entities.DAL
             var yingShouWithDetails = new 结构体.应收应付
             {
                 单位编号 = Id,
-                明细 = yingShou.OrderByDescending(x => x.日期).ThenBy(x => x.单号).ToList(),
+                明细 = yingShou.OrderByDescending(x => x.日期).ThenByDescending(x => x.单号).ToList(),
                 应收合计 = yingShou.Sum(x => x.应收)
             };
 
@@ -347,7 +347,7 @@ namespace PHDS.Entities.DAL
             var yingFuWithDetails = new 结构体.应收应付
             {
                 单位编号 = Id,
-                明细 = yingFu.OrderByDescending(x => x.日期).ThenBy(x => x.单号).ToList(),
+                明细 = yingFu.OrderByDescending(x => x.日期).ThenByDescending(x => x.单号).ToList(),
                 应付合计 = yingFu.Sum(x => x.应付)
             };
 
@@ -364,7 +364,7 @@ namespace PHDS.Entities.DAL
                 单位编号 = Id,
                 应收合计 = yingShou.应收合计,
                 应付合计 = yingFu.应付合计,
-                明细 = yingShou.明细.Union(yingFu.明细).OrderByDescending(x => x.日期).ThenBy(x => x.单号).ToList()
+                明细 = yingShou.明细.Union(yingFu.明细).OrderByDescending(x => x.日期).ThenByDescending(x => x.单号).ToList()
             };
             
             if (yingShou.明细.Any())
