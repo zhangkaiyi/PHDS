@@ -22,6 +22,7 @@ namespace PHDS.Entities.DAL
             {         
                 public string 业务类型 { get; set; }
                 public string 业务描述 { get; set; }
+                public int? 借贷方向 { get; set; }
                 public DateTime? 日期 { get; set; }
                 public string 单号 { get; set; }
                 public string 产品编号 { get; set; }
@@ -47,6 +48,7 @@ namespace PHDS.Entities.DAL
                 public DateTime? 送货日期 { get; set; }
                 public string 业务类型 { get; set; }
                 public string 业务描述 { get; set; }
+                public int? 借贷方向 { get; set; }
             }
             public class 出入库单_RecordDetail
             {
@@ -110,7 +112,8 @@ namespace PHDS.Entities.DAL
                                           单号 = p1.送货单号,
                                           送货日期 = p1.送货日期,
                                           业务类型 = p1.业务类型,
-                                          业务描述 = p1.业务描述,
+                                          业务描述 = p3.类型描述,
+                                          借贷方向 = p3.对账计算
                                       },
                                       RecordDetail = new 结构体.出入库单_RecordDetail
                                       {
@@ -121,7 +124,7 @@ namespace PHDS.Entities.DAL
                                           计价单位 = p2.计价单位,
                                           单位数量 = p2.单位数量,
                                           单价 = p2.单价,
-                                          金额 = p2.金额
+                                          金额 = p2.金额 * p3.业务计算
                                       }
                                   };
                 return detailsOfFa.ToList();
@@ -145,7 +148,8 @@ namespace PHDS.Entities.DAL
                                              单号 = p1.送货单号,
                                              送货日期 = p1.送货日期,
                                              业务类型 = p1.业务类型,
-                                             业务描述 = p1.业务描述,
+                                             业务描述 = p3.类型描述,
+                                             借贷方向 = p3.对账计算
                                          },
                                          RecordDetail = new 结构体.出入库单_RecordDetail
                                          {
@@ -156,7 +160,7 @@ namespace PHDS.Entities.DAL
                                              计价单位 = p2.计价单位,
                                              单位数量 = p2.单位数量,
                                              单价 = p2.单价,
-                                             金额 = p2.金额
+                                             金额 = p2.金额 * p3.业务计算
                                          }
                                      };
                 var detailsOfShou2 = from p1 in pinhua.收货.AsNoTracking()
@@ -172,7 +176,8 @@ namespace PHDS.Entities.DAL
                                              单号 = p1.单号,
                                              送货日期 = p1.日期,
                                              业务类型 = p1.业务类型,
-                                             业务描述 = p1.业务描述,
+                                             业务描述 = p3.类型描述,
+                                             借贷方向 = p3.对账计算
                                          },
                                          RecordDetail = new 结构体.出入库单_RecordDetail
                                          {
@@ -254,6 +259,7 @@ namespace PHDS.Entities.DAL
                     日期 = x.日期,
                     应收 = x.应收,
                     业务描述 = "上期结算",
+                    单号 = "Settlement"
                 }); // 最新对账金额
 
             // 对账后的收发详情
@@ -266,7 +272,8 @@ namespace PHDS.Entities.DAL
                                 {
                                     日期 = p.收款日期,
                                     应收 = -p.收款金额,
-                                    业务描述 = "收款"
+                                    业务描述 = "收款",
+                                    单号 = "ShouRu"
                                 };
 
             var yingShou = (from p in listOf出库After
@@ -274,6 +281,7 @@ namespace PHDS.Entities.DAL
                             {
                                 业务类型 = p.Record.业务类型,
                                 业务描述 = p.Record.业务描述,
+                                借贷方向 = p.Record.借贷方向,
                                 日期 = p.Record.送货日期,
                                 单号 = p.Record.单号,
                                 产品编号 = p.RecordDetail.编号,
@@ -309,6 +317,7 @@ namespace PHDS.Entities.DAL
                     日期 = x.日期,
                     应付 = x.应付,
                     业务描述 = "上期结算",
+                    单号= "Settlement"
                 }); // 最新对账金额
 
             // 对账后的收发详情
@@ -321,7 +330,8 @@ namespace PHDS.Entities.DAL
                                 {
                                     日期 = p.付款日期,
                                     应付 = -p.付款金额,
-                                    业务描述 = "付款"
+                                    业务描述 = "付款",
+                                    单号 = "ZhiChu"
                                 };
 
             var yingFu = (from p in listOf入库After
@@ -329,6 +339,7 @@ namespace PHDS.Entities.DAL
                             {
                                 业务类型 = p.Record.业务类型,
                                 业务描述 = p.Record.业务描述,
+                                借贷方向 = p.Record.借贷方向,
                                 日期 = p.Record.送货日期,
                                 单号 = p.Record.单号,
                                 产品编号 = p.RecordDetail.编号,
@@ -367,11 +378,10 @@ namespace PHDS.Entities.DAL
                 明细 = yingShou.明细.Union(yingFu.明细).OrderByDescending(x => x.日期).ThenByDescending(x => x.单号).ToList()
             };
             
-            if (yingShou.明细.Any())
+            if (yingShou.明细.FindAll(x => x.业务描述 == "上期结算").Any() && yingFu.明细.FindAll(x => x.业务描述 == "上期结算").Any())
             {
                 var row = yingShou.明细.Find(x => x.业务描述 == "上期结算");
-                if (yingFu.明细.FindAll(x => x.业务描述 == "上期结算").Count() > 0)
-                    row.应付 = yingFu.明细.Find(x => x.业务描述 == "上期结算").应付;
+                row.应付 = yingFu.明细.Find(x => x.业务描述 == "上期结算").应付;
                 yingShouYingFu.明细.RemoveAll(x => x.业务描述 == "上期结算");
                 yingShouYingFu.明细.Add(row);
             }
