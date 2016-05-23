@@ -10,6 +10,24 @@ namespace PHDS.Entities.DAL
     {
         public class 结构体
         {
+            private interface I应收
+            {
+                string 单位编号 { get; set; }
+                decimal? 应收合计 { get; set; }
+            }
+            private interface I应付
+            {
+                string 单位编号 { get; set; }
+                decimal? 应付合计 { get; set; }
+            }
+            private interface I应收明细
+            {
+
+            }
+            private interface I应付明细
+            {
+
+            }
             public class 应收应付
             {
                 public string 单位编号 { get; set; }
@@ -100,9 +118,9 @@ namespace PHDS.Entities.DAL
             using (var pinhua = new Edmx.PinhuaEntities())
             {
                 var detailsOfFa = from p1 in pinhua.发货.AsNoTracking()
-                                  join p2 in pinhua.发货_DETAIL.AsNoTracking()
-                                  on p1.ExcelServerRCID equals p2.ExcelServerRCID
+                                  join p2 in pinhua.发货_DETAIL.AsNoTracking() on p1.ExcelServerRCID equals p2.ExcelServerRCID
                                   join p3 in pinhua.业务类型.AsNoTracking() on p1.业务类型 equals p3.业务类型1
+                                  join p4 in pinhua.物料登记.AsNoTracking() on p2.编号 equals p4.编号
                                   where p1.客户编号 == Id && p3.MvP == "GI"
                                   select new 结构体.出入库单
                                   {
@@ -118,7 +136,7 @@ namespace PHDS.Entities.DAL
                                       RecordDetail = new 结构体.出入库单_RecordDetail
                                       {
                                           编号 = p2.编号,
-                                          描述 = p2.描述,
+                                          描述 = p4.描述,
                                           规格 = p2.规格,
                                           片数 = p2.PCS,
                                           计价单位 = p2.计价单位,
@@ -136,9 +154,9 @@ namespace PHDS.Entities.DAL
             using (var pinhua = new Edmx.PinhuaEntities())
             {
                 var detailsOfShou1 = from p1 in pinhua.发货.AsNoTracking()
-                                     join p2 in pinhua.发货_DETAIL.AsNoTracking()
-                                     on p1.ExcelServerRCID equals p2.ExcelServerRCID
+                                     join p2 in pinhua.发货_DETAIL.AsNoTracking() on p1.ExcelServerRCID equals p2.ExcelServerRCID
                                      join p3 in pinhua.业务类型.AsNoTracking() on p1.业务类型 equals p3.业务类型1
+                                     join p4 in pinhua.物料登记.AsNoTracking() on p2.编号 equals p4.编号
                                      where p1.客户编号 == Id && p3.MvP == "GR"
                                      select new 结构体.出入库单
                                      {
@@ -154,7 +172,7 @@ namespace PHDS.Entities.DAL
                                          RecordDetail = new 结构体.出入库单_RecordDetail
                                          {
                                              编号 = p2.编号,
-                                             描述 = p2.描述,
+                                             描述 = p4.描述,
                                              规格 = p2.规格,
                                              片数 = p2.PCS,
                                              计价单位 = p2.计价单位,

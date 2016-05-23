@@ -1,16 +1,70 @@
 ﻿@model IEnumerable<PHDS.Web.Models.SalesModels.Customer>
-    @{
+@{
     var ranks = from p in Model
-    group p by p.Rank into g
-    select g.Key;
-    }
+                group p by p.Rank into g
+                select g.Key;
 
-    @{
-    ViewBag.Title = "应收应付 - 账务系统";
+    ViewBag.Title = setTitle();
+}
+@functions{ 
+    bool isYingshou() {
+        var actionName = @ViewContext.RouteData.Values["action"].ToString().ToLower();
+        return actionName == "yingshou" || actionName == "yingshouyingfu";
     }
+    bool isYingfu()
+    {
+        var actionName = @ViewContext.RouteData.Values["action"].ToString().ToLower();
+        return actionName == "yingfu" || actionName == "yingshouyingfu";
+    }
+    string setTitle()
+    {
+        var actionName = @ViewContext.RouteData.Values["action"].ToString().ToLower();
+        switch (actionName)
+        {
+            case "yingshou":
+                return "应收 - 账务系统";
+            case "yingfu":
+                return "应付 - 账务系统";
+            case "yingshouyingfu":
+                return "应收应付 - 账务系统";
+            default:
+                return "拼花大师 - 账务系统";
+        }
+    }
+    IHtmlString setFooter()
+    {
+        var actionName = @ViewContext.RouteData.Values["action"].ToString().ToLower();
+        switch (actionName)
+        {
+            case "yingshou":
+                return new MvcHtmlString("'应收合计：' + api.ajax.json().应收合计");
+            case "yingfu":
+                return new MvcHtmlString("'应付合计：' + api.ajax.json().应付合计");
+            case "yingshouyingfu":
+                return new MvcHtmlString("'应收合计：' + api.ajax.json().应收合计 + '，' + '应付合计：' + api.ajax.json().应付合计");
+            default:
+                return new MvcHtmlString("'暂无数据'");
+        }
+    }
+    string setAjaxUrl()
+    {
+        var actionName = @ViewContext.RouteData.Values["action"].ToString().ToLower();
+        switch (actionName)
+        {
+            case "yingshou":
+                return Url.Action("YingshouDetail");
+            case "yingfu":
+                return Url.Action("YingfuDetail");
+            case "yingshouyingfu":
+                return Url.Action("YingshouYingfuDetail");
+            default:
+                return Url.Action("Index");
+        }
+    }
+}
 
     @section styles{
-    @Styles.Render("~/Content/DataTables/css/datatables")
+        @Styles.Render("~/Content/DataTables/css/datatables")
     <style>
         body {
             overflow-y: scroll;
@@ -27,26 +81,26 @@
             color: #fff;
         }
     </style>
-    }
+}
 
-    <div style="margin: 10px auto;"></div>
+<div style="margin: 10px auto;"></div>
 
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">@ViewBag.Title</a>
-            </div>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">@setTitle()</a>
+        </div>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                @*<div class="navbar-form navbar-right">
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            @*<div class="navbar-form navbar-right">
 
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">高 <span class="caret"></span></button>
@@ -96,65 +150,65 @@
                             }
                         </ul>
                     </div>
-                    
+
                 </div>*@
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">高<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            @foreach (var menu in Model)
-                            {
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">高<span class="caret"></span></a>
+                    <ul class="dropdown-menu dropdown-menu-left">
+                        @foreach (var menu in Model)
+                        {
                             if (100 >= menu.Rank && menu.Rank >= 90)
                             {
-                            <li id="@menu.Id"><a href="#">@menu.Name</a></li>
+                                <li id="@menu.Id"><a href="#">@menu.Name</a></li>
                             }
-                            }
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">中<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            @foreach (var menu in Model)
-                            {
+                        }
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">中<span class="caret"></span></a>
+                    <ul class="dropdown-menu dropdown-menu-left">
+                        @foreach (var menu in Model)
+                        {
                             if (90 > menu.Rank && menu.Rank >= 60)
                             {
-                            <li id="@menu.Id"><a href="#">@menu.Name</a></li>
+                                <li id="@menu.Id"><a href="#">@menu.Name</a></li>
                             }
-                            }
-                        </ul>
-                    </li>
+                        }
+                    </ul>
+                </li>
 
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">低<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            @foreach (var menu in Model)
-                            {
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">低<span class="caret"></span></a>
+                    <ul class="dropdown-menu dropdown-menu-left">
+                        @foreach (var menu in Model)
+                        {
                             if (60 > menu.Rank && menu.Rank >= 30)
                             {
-                            <li id="@menu.Id"><a href="#">@menu.Name</a></li>
+                                <li id="@menu.Id"><a href="#">@menu.Name</a></li>
                             }
-                            }
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">其他<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            @foreach (var menu in Model)
-                            {
+                        }
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">其他<span class="caret"></span></a>
+                    <ul class="dropdown-menu dropdown-menu-left">
+                        @foreach (var menu in Model)
+                        {
                             if (30 > menu.Rank && menu.Rank >= 0)
                             {
-                            <li id="@menu.Id"><a href="#">@menu.Name</a></li>
+                                <li id="@menu.Id"><a href="#">@menu.Name</a></li>
                             }
-                            }
-                        </ul>
-                    </li>
-                </ul>
-                <p class="navbar-text navbar-right">优先级分类：　</p>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
-    </nav>
-    <div class="row">
-        @*<div class="col-xs-2">
+                        }
+                    </ul>
+                </li>
+            </ul>
+            <p class="navbar-text navbar-right">优先级分类：　</p>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<div class="row">
+    @*<div class="col-xs-2">
             <div class="list-group">
 
                 @foreach (var item in Model)
@@ -167,15 +221,15 @@
 
         </div>*@
 
-        <div class="col-xs-12">
-            <table id="details" class="table table-hover table-bordered table-striped">
-                <thead></thead>
-                <tbody></tbody>
-                <tfoot></tfoot>
-            </table>
-        </div>
+    <div class="col-xs-12">
+        <table id="details" class="table table-hover table-bordered table-striped">
+            <thead></thead>
+            <tbody></tbody>
+            <tfoot></tfoot>
+        </table>
     </div>
-    @section scripts {
+</div>
+@section scripts {
 
     @Scripts.Render("~/Scripts/DataTables/datatables")
 
@@ -185,7 +239,7 @@
 
         detailTable = $('#details').DataTable({
             ajax: {
-                url: "@Url.Action("YingshouYingfuDetail")",
+                url: "@setAjaxUrl()",
                 dataSrc: "明细"
             },
             pageLength: -1,
@@ -204,6 +258,8 @@
                 { data: "单位数量", title: "单位数量", width: "5em", },
                 { data: "计价单位", title: "计价单位", width: "5em", },
                 { data: "单价", title: "单价", width: "5em", },
+@{if (isYingshou()) {
+<text>
                 {
                     data: "应收", title: "应收", width: "6em", visible: true, render: function (data, type, row, meta) {
                         var renderData = data || 0;
@@ -216,6 +272,10 @@
                         return renderData;
                     }
                 },
+</text>}}
+
+@{if (isYingfu()) { 
+<text>
                 {
                     data: "应付", title: "应付", width: "6em", visible: true, render: function (data, type, row, meta) {
                         var renderData = data || 0;
@@ -228,31 +288,32 @@
                         return renderData;
                     }
                 },
+</text>}}
             ],
             drawCallback: function (settings) {
-                var api = this.api();
-                var rows = api.rows({
-                    page: 'current'
-                }).nodes();
-                var last = null;
-                api.column(4, {
-                    page: 'current'
-                }).data().each(function (value, index) {
-                    if (last !== value) {
-                        if ($.inArray(api.row(index).data().单号, ['ShouRu', "ZhiChu", "Settlement"]) == -1)
+                        var api = this.api();
+                        var rows = api.rows({
+                            page: 'current'
+                        }).nodes();
+                        var last = null;
+                        api.column(4, {
+                            page: 'current'
+                        }).data().each(function (value, index) {
+                            if (last !== value) {
+                                if ($.inArray(api.row(index).data().单号, ['ShouRu', "ZhiChu", "Settlement"]) == -1)
                             $(rows).eq(index).before('<tr class="group"><td colspan="20" style="font-weight:bold">' + api.row(index).data().日期 + ' - ' + api.row(index).data().单号 + ' - ' + api.row(index).data().业务描述 + '</td></tr>');
                         else
                             $(rows).eq(index).before('<tr class="group"><td colspan="20" class="text-danger" style="font-weight:bold">' + api.row(index).data().单号 + ' - ' + api.row(index).data().业务描述 + '</td></tr>');
-                        last = value;
-                    }
-                });
-                if (api.ajax.json()) {
-                    var footer = '<div class="row" style="font-size:12px"><div class="col-xs-12 text-right">' + '应收合计：' + api.ajax.json().应收合计 + '，' + '应付合计：' + api.ajax.json().应付合计 + '</div></div>'
+                                last = value;
+                            }
+                        });
+                        if (api.ajax.json()) {
+                            var footer = '<div class="row" style="font-size:12px"><div class="col-xs-12 text-right">' + @setFooter() + '</div></div>'
                     $('.panel-footer').html(footer);
-                    //$(api.column(-1).footer()).html("fdasfdsafdasfda")
-                }
+                            //$(api.column(-1).footer()).html("fdasfdsafdasfda")
+                        }
 
-            },
+                    },
         })
 
 
@@ -264,4 +325,4 @@
 
         $('#detailPanel').css('margin-bottom', '10px').find('.panel-title').text('选择单位')
     </script>
-    }
+}

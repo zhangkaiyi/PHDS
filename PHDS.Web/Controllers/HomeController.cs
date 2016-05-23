@@ -258,7 +258,7 @@ namespace PHDS.Web.Controllers
                                     Id = p.单位编号,
                                     Name = p.单位名称
                                 };
-                return View(customers.ToList());
+                return View("YingshouYingfu", customers.ToList());
             }
         }
 
@@ -283,7 +283,7 @@ namespace PHDS.Web.Controllers
                                     Id = p.单位编号,
                                     Name = p.单位名称
                                 };
-                return View(customers.ToList());
+                return View("YingshouYingfu", customers.ToList());
             }
         }
 
@@ -308,7 +308,7 @@ namespace PHDS.Web.Controllers
                                     Id = p.单位编号,
                                     Name = p.单位名称
                                 };
-                return View(customers.ToList());
+                return View("YingshouYingfu", customers.ToList());
             }
         }
 
