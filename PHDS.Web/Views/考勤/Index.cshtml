@@ -1,0 +1,131 @@
+﻿@model List<PHDS.Entities.Edmx.考勤期间>
+@{
+    ViewBag.Title = "考勤";
+
+    var years = from p in Model
+                group p by p.年 into g
+                select g.Key;
+    var count = years.Count();
+}
+
+@section styles{
+    @Styles.Render("~/Content/DataTables/css/datatables")
+    <style>
+        body {
+            overflow-y: scroll;
+        }
+
+        .table#details {
+            font-size: 12px;
+            margin-top: 0px !important;
+            margin-bottom: 0px !important;
+        }
+
+        tr.active > td {
+            background-color: #0075b0 !important;
+            color: #fff;
+        }
+    </style>
+}
+
+<div style="margin: 10px auto;"></div>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">@ViewBag.Title</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                @foreach (var year in years)
+                {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@year<span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-left">
+                                @foreach (var item in Model)
+                                {
+                                    if (year == item.年)
+                                    {
+                                        <li id="@item.ExcelServerRCID"><a href="#">@(item.年)年 - @item.月.ToString("D2")</a></li>
+                                    }
+                                }
+                            </ul>
+                        </li>
+                }
+                </ul>
+                <p class="navbar-text navbar-right">考勤区间：　</p>
+</div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<div class="row">
+    @*<div class="col-md-2">
+
+        <div class="panel panel-default">
+            <ul class="nav nav-pills">
+                @foreach (var item in Model)
+            {
+                    <li role="presentation">
+                        <a href="javascript:;" id="@item.ExcelServerRCID">@item.年 年 - @item.月.ToString("D2") 月</a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>*@
+    <div class="col-md-12">
+        <table id="details" class="table table-hover table-bordered table-striped">
+            <thead></thead>
+            <tbody></tbody>
+            <tfoot>
+                <tr></tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+@section scripts {
+
+    @Scripts.Render("~/Scripts/DataTables/datatables")
+
+    <script>
+
+        $.extend(true, $.fn.DataTable.defaults, CONSTANT.DATA_TABLES.DEFAULT_OPTION);
+
+        aTable = $('#details').dataTable({
+            ajax: {
+                url: "@Url.Action("Details")",
+                dataSrc: ""
+            },
+            pageLength: -1,
+
+            dom: "fr<'#detailPanel.panel panel-primary'<'panel-heading'<'row'<'col-xs-5'<'panel-title'>><'col-xs-7'>>>t<'panel-footer'>><'row'<'col-xs-5'i><'col-xs-7'p>>",
+            columns: [
+                { data: "人员编号", title: "人员编号", width: "6em", visible: true },
+                { data: "姓名", title: "姓名", width: "6em", visible: true },
+                { data: "日期", title: "日期", width: "6em", visible: true },
+                { data: "状态", title: "状态", width: "6em", visible: true },
+                { data: "上班1", title: "上班1", width: "6em", visible: true },
+                { data: "下班1", title: "下班1", width: "6em", visible: true },
+                { data: "上班2", title: "上班2", width: "6em", visible: true },
+                { data: "下班2", title: "下班2", width: "6em", visible: true },
+                { data: "上班3", title: "上班3", width: "6em", },
+                { data: "下班3", title: "下班3", width: "6em", },
+                { data: "正常出勤", title: "正常出勤", width: "6em", },
+                { data: "加班", title: "加班", width: "6em", },
+            ],
+    })
+        $('.nav .dropdown-menu').on('click', 'li', function () {
+            aTable.api().settings()[0].ajax.data = { RCID: this.id }
+            aTable.api().ajax.reload()
+        })
+
+        $('#detailPanel').css('margin-bottom', '10px').find('.panel-title').text('考勤明细')
+    </script>
+}

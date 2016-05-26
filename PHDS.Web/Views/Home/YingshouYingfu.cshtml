@@ -4,9 +4,10 @@
                 group p by p.Rank into g
                 select g.Key;
 
-    ViewBag.Title = setTitle();
+    ViewBag.Title = Title();
 }
 @functions{ 
+
     bool isYingshou() {
         var actionName = @ViewContext.RouteData.Values["action"].ToString().ToLower();
         return actionName == "yingshou" || actionName == "yingshouyingfu";
@@ -16,7 +17,7 @@
         var actionName = @ViewContext.RouteData.Values["action"].ToString().ToLower();
         return actionName == "yingfu" || actionName == "yingshouyingfu";
     }
-    string setTitle()
+    string Title()
     {
         var actionName = @ViewContext.RouteData.Values["action"].ToString().ToLower();
         switch (actionName)
@@ -31,22 +32,22 @@
                 return "拼花大师 - 账务系统";
         }
     }
-    IHtmlString setFooter()
+    IHtmlString footerHTML()
     {
         var actionName = @ViewContext.RouteData.Values["action"].ToString().ToLower();
         switch (actionName)
         {
             case "yingshou":
-                return new MvcHtmlString("'应收合计：' + api.ajax.json().应收合计");
+                return new MvcHtmlString("'<b>应收合计：' + api.ajax.json().应收合计.toFixed(2)+'</b>'");
             case "yingfu":
-                return new MvcHtmlString("'应付合计：' + api.ajax.json().应付合计");
+                return new MvcHtmlString("'<b>应付合计：' + api.ajax.json().应付合计.toFixed(2)+'</b>'");
             case "yingshouyingfu":
-                return new MvcHtmlString("'应收合计：' + api.ajax.json().应收合计 + '，' + '应付合计：' + api.ajax.json().应付合计");
+                return new MvcHtmlString("'<b>应收合计：' + api.ajax.json().应收合计.toFixed(2) + '，' + '应付合计：' + api.ajax.json().应付合计.toFixed(2)+'</b>'");
             default:
                 return new MvcHtmlString("'暂无数据'");
         }
     }
-    string setAjaxUrl()
+    string ajaxUrl()
     {
         var actionName = @ViewContext.RouteData.Values["action"].ToString().ToLower();
         switch (actionName)
@@ -95,7 +96,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">@setTitle()</a>
+            <a class="navbar-brand" href="#">@Title()</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -225,7 +226,9 @@
         <table id="details" class="table table-hover table-bordered table-striped">
             <thead></thead>
             <tbody></tbody>
-            <tfoot></tfoot>
+            <tfoot>
+                <tr></tr>
+            </tfoot>
         </table>
     </div>
 </div>
@@ -239,29 +242,29 @@
 
         detailTable = $('#details').DataTable({
             ajax: {
-                url: "@setAjaxUrl()",
+                url: "@ajaxUrl()",
                 dataSrc: "明细"
             },
             pageLength: -1,
             //scrollY:'600',
-            dom: "fr<'#detailPanel.panel panel-primary'<'panel-heading'<'panel-title'>>t<'panel-footer'>><'row'<'col-xs-5'i><'col-xs-7'p>>",
+            dom: "fr<'#detailPanel.panel panel-primary'<'panel-heading'<'row'<'col-xs-5'<'panel-title'>><'col-xs-7'>>>t<'panel-footer'>><'row'<'col-xs-5'i><'col-xs-7'p>>",
             columns: [
                 { data: "业务类型", title: "业务类型", width: "6em", visible: false },
                 { data: "业务描述", title: "业务描述", width: "6em", visible: false },
                 { data: "借贷方向", title: "借贷方向", width: "6em", visible: false },
-                { data: "日期", title: "日期", width: "6em", visible: true },
+                { data: "日期", title: "日期", width: "6em", visible: true},
                 { data: "单号", title: "单号", width: "8em", visible: false },
                 { data: "产品编号", title: "产品编号", width: "8em", visible: false },
-                { data: "产品描述", title: "产品描述", width: "auto", visible: true },
-                { data: "规格", title: "规格", width: "8em", visible: true },
-                { data: "片数", title: "片数", width: "5em", },
-                { data: "单位数量", title: "单位数量", width: "5em", },
-                { data: "计价单位", title: "计价单位", width: "5em", },
-                { data: "单价", title: "单价", width: "5em", },
+                { data: "产品描述", title: "产品描述", width: "20em", visible: true },
+                { data: "规格", title: "规格", width: "6em", visible: true },
+                { data: "片数", title: "片数", width: "4em", },
+                { data: "单位数量", title: "数量", width: "4em", },
+                { data: "计价单位", title: "单位", width: "4em", },
+                { data: "单价", title: "单价", width: "4em", },
 @{if (isYingshou()) {
 <text>
                 {
-                    data: "应收", title: "应收", width: "6em", visible: true, render: function (data, type, row, meta) {
+                    data: "应收", title: "应收", width: "5em", visible: true, render: function (data, type, row, meta) {
                         var renderData = data || 0;
                         if (renderData > 0)
                             renderData = '<div class="text-primary" style="font-weight:bold">' + renderData + '</div>'
@@ -277,7 +280,7 @@
 @{if (isYingfu()) { 
 <text>
                 {
-                    data: "应付", title: "应付", width: "6em", visible: true, render: function (data, type, row, meta) {
+                    data: "应付", title: "应付", width: "5em", visible: true, render: function (data, type, row, meta) {
                         var renderData = data || 0;
                         if (renderData < 0)
                             renderData = '<div class="text-primary" style="font-weight:bold">' + renderData + '</div>'
@@ -308,12 +311,23 @@
                             }
                         });
                         if (api.ajax.json()) {
-                            var footer = '<div class="row" style="font-size:12px"><div class="col-xs-12 text-right">' + @setFooter() + '</div></div>'
-                    $('.panel-footer').html(footer);
+                            var footer = '<div class="row" style="font-size:12px"><div class="col-xs-12 text-right">' + @footerHTML() + '</div></div>'
+                            $('.panel-footer').html(footer);
+                            $('#detailPanel .panel-heading .col-xs-7').html(footer)
+
                             //$(api.column(-1).footer()).html("fdasfdsafdasfda")
+                            //alert(detailTable.table().footer())
                         }
 
-                    },
+            },
+            //footerCallback: function (tfoot, data, start, end, display) {
+            //    var api = this.api();
+            //    if (api.ajax.json()) {
+            //        var strFoot = '<th colspan="' + ($('thead th', details).length - 2) + '">合计</th><th colspan="1" class="text-primary">' + api.ajax.json().应收合计 + '</th><th colspan="1" class="text-danger">' + api.ajax.json().应付合计 + '</th>';
+                    
+            //        $(tfoot).html($(strFoot)).addClass('')
+            //    }
+            //},
         })
 
 

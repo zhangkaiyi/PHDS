@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAL\Kaoqin.cs" />
     <Compile Include="DAL\YingShouYingFu.cs" />
     <Compile Include="Edmx\EastRiverModel.Context.cs">
       <DependentUpon>EastRiverModel.Context.tt</DependentUpon>
@@ -134,6 +135,12 @@
       <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Edmx\考勤卡号变动.cs">
+      <DependentUpon>PinhuaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Edmx\考勤明细.cs">
+      <DependentUpon>PinhuaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Edmx\考勤期间.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

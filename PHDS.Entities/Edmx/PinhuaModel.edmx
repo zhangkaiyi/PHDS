@@ -193,6 +193,49 @@
           <Property Name="截止日期" Type="datetime" />
           <Property Name="pk" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
+        <EntityType Name="考勤明细">
+          <Key>
+            <PropertyRef Name="人员编号" />
+            <PropertyRef Name="日期" />
+          </Key>
+          <Property Name="人员编号" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="姓名" Type="nvarchar" MaxLength="20" />
+          <Property Name="日期" Type="datetime" Nullable="false" />
+          <Property Name="正常出勤" Type="decimal" Precision="20" Scale="3" />
+          <Property Name="加班" Type="decimal" Precision="20" Scale="3" />
+          <Property Name="上班1" Type="nvarchar" MaxLength="20" />
+          <Property Name="下班1" Type="nvarchar" MaxLength="20" />
+          <Property Name="上班2" Type="nvarchar" MaxLength="20" />
+          <Property Name="下班2" Type="nvarchar" MaxLength="20" />
+          <Property Name="上班3" Type="nvarchar" MaxLength="20" />
+          <Property Name="下班3" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerRCID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerRN" Type="int" />
+          <Property Name="ExcelServerCN" Type="int" />
+          <Property Name="ExcelServerRC1" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerWIID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerRTID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerCHG" Type="int" />
+          <Property Name="状态" Type="nvarchar" MaxLength="20" />
+          <Property Name="当日工龄" Type="int" />
+          <Property Name="上月工龄" Type="int" />
+          <Property Name="首打日期" Type="datetime" />
+        </EntityType>
+        <EntityType Name="考勤期间">
+          <Key>
+            <PropertyRef Name="年" />
+            <PropertyRef Name="月" />
+          </Key>
+          <Property Name="年" Type="int" Nullable="false" />
+          <Property Name="月" Type="int" Nullable="false" />
+          <Property Name="ExcelServerRCID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerRN" Type="int" />
+          <Property Name="ExcelServerCN" Type="int" />
+          <Property Name="ExcelServerRC1" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerWIID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerRTID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerCHG" Type="int" />
+        </EntityType>
         <EntityType Name="人员档案">
           <Key>
             <PropertyRef Name="人员编号" />
@@ -354,6 +397,8 @@
           <EntitySet Name="发货_DETAIL" EntityType="Self.发货_DETAIL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="付款单" EntityType="Self.付款单" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="考勤卡号变动" EntityType="Self.考勤卡号变动" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="考勤明细" EntityType="Self.考勤明细" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="考勤期间" EntityType="Self.考勤期间" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="人员档案" EntityType="Self.人员档案" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="收货" EntityType="Self.收货" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="收货_D" EntityType="Self.收货_D" Schema="dbo" store:Type="Tables" />
@@ -382,6 +427,8 @@
           <EntitySet Name="收货" EntityType="PinhuaModel.收货" />
           <EntitySet Name="收货_D" EntityType="PinhuaModel.收货_D" />
           <EntitySet Name="付款单" EntityType="PinhuaModel.付款单" />
+          <EntitySet Name="考勤期间" EntityType="PinhuaModel.考勤期间" />
+          <EntitySet Name="考勤明细" EntityType="PinhuaModel.考勤明细" />
         </EntityContainer>
         <EntityType Name="发货">
           <Key>
@@ -722,6 +769,49 @@
           <Property Name="ExcelServerWIID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="ExcelServerRTID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="ExcelServerCHG" Type="Int32" />
+        </EntityType>
+        <EntityType Name="考勤期间">
+          <Key>
+            <PropertyRef Name="年" />
+            <PropertyRef Name="月" />
+          </Key>
+          <Property Name="年" Type="Int32" Nullable="false" />
+          <Property Name="月" Type="Int32" Nullable="false" />
+          <Property Name="ExcelServerRCID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRN" Type="Int32" />
+          <Property Name="ExcelServerCN" Type="Int32" />
+          <Property Name="ExcelServerRC1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerWIID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRTID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerCHG" Type="Int32" />
+        </EntityType>
+        <EntityType Name="考勤明细">
+          <Key>
+            <PropertyRef Name="人员编号" />
+            <PropertyRef Name="日期" />
+          </Key>
+          <Property Name="人员编号" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="姓名" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="日期" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="正常出勤" Type="Decimal" Precision="20" Scale="3" />
+          <Property Name="加班" Type="Decimal" Precision="20" Scale="3" />
+          <Property Name="上班1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="下班1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="上班2" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="下班2" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="上班3" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="下班3" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRCID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRN" Type="Int32" />
+          <Property Name="ExcelServerCN" Type="Int32" />
+          <Property Name="ExcelServerRC1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerWIID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRTID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerCHG" Type="Int32" />
+          <Property Name="状态" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="当日工龄" Type="Int32" />
+          <Property Name="上月工龄" Type="Int32" />
+          <Property Name="首打日期" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1080,6 +1170,49 @@
                 <ScalarProperty Name="单位编号" ColumnName="单位编号" />
                 <ScalarProperty Name="付款单位" ColumnName="付款单位" />
                 <ScalarProperty Name="付款单号" ColumnName="付款单号" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="考勤期间">
+            <EntityTypeMapping TypeName="PinhuaModel.考勤期间">
+              <MappingFragment StoreEntitySet="考勤期间">
+                <ScalarProperty Name="ExcelServerCHG" ColumnName="ExcelServerCHG" />
+                <ScalarProperty Name="ExcelServerRTID" ColumnName="ExcelServerRTID" />
+                <ScalarProperty Name="ExcelServerWIID" ColumnName="ExcelServerWIID" />
+                <ScalarProperty Name="ExcelServerRC1" ColumnName="ExcelServerRC1" />
+                <ScalarProperty Name="ExcelServerCN" ColumnName="ExcelServerCN" />
+                <ScalarProperty Name="ExcelServerRN" ColumnName="ExcelServerRN" />
+                <ScalarProperty Name="ExcelServerRCID" ColumnName="ExcelServerRCID" />
+                <ScalarProperty Name="月" ColumnName="月" />
+                <ScalarProperty Name="年" ColumnName="年" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="考勤明细">
+            <EntityTypeMapping TypeName="PinhuaModel.考勤明细">
+              <MappingFragment StoreEntitySet="考勤明细">
+                <ScalarProperty Name="首打日期" ColumnName="首打日期" />
+                <ScalarProperty Name="上月工龄" ColumnName="上月工龄" />
+                <ScalarProperty Name="当日工龄" ColumnName="当日工龄" />
+                <ScalarProperty Name="状态" ColumnName="状态" />
+                <ScalarProperty Name="ExcelServerCHG" ColumnName="ExcelServerCHG" />
+                <ScalarProperty Name="ExcelServerRTID" ColumnName="ExcelServerRTID" />
+                <ScalarProperty Name="ExcelServerWIID" ColumnName="ExcelServerWIID" />
+                <ScalarProperty Name="ExcelServerRC1" ColumnName="ExcelServerRC1" />
+                <ScalarProperty Name="ExcelServerCN" ColumnName="ExcelServerCN" />
+                <ScalarProperty Name="ExcelServerRN" ColumnName="ExcelServerRN" />
+                <ScalarProperty Name="ExcelServerRCID" ColumnName="ExcelServerRCID" />
+                <ScalarProperty Name="下班3" ColumnName="下班3" />
+                <ScalarProperty Name="上班3" ColumnName="上班3" />
+                <ScalarProperty Name="下班2" ColumnName="下班2" />
+                <ScalarProperty Name="上班2" ColumnName="上班2" />
+                <ScalarProperty Name="下班1" ColumnName="下班1" />
+                <ScalarProperty Name="上班1" ColumnName="上班1" />
+                <ScalarProperty Name="加班" ColumnName="加班" />
+                <ScalarProperty Name="正常出勤" ColumnName="正常出勤" />
+                <ScalarProperty Name="日期" ColumnName="日期" />
+                <ScalarProperty Name="姓名" ColumnName="姓名" />
+                <ScalarProperty Name="人员编号" ColumnName="人员编号" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
