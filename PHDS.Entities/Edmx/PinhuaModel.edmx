@@ -387,6 +387,7 @@
           <Property Name="ExcelServerCHG" Type="int" />
           <Property Name="业务计算" Type="int" />
           <Property Name="对账计算" Type="int" />
+          <Property Name="在途计算" Type="int" />
         </EntityType>
         <EntityContainer Name="PinhuaModelStoreContainer">
           <EntitySet Name="ES_RepCase" EntityType="Self.ES_RepCase" Schema="dbo" store:Type="Tables" />
@@ -672,6 +673,7 @@
           <Property Name="ExcelServerCHG" Type="Int32" />
           <Property Name="业务计算" Type="Int32" />
           <Property Name="对账计算" Type="Int32" />
+          <Property Name="在途计算" Type="Int32" />
         </EntityType>
         <EntityType Name="对账结算_主表">
           <Key>
@@ -1054,6 +1056,7 @@
           <EntitySetMapping Name="业务类型">
             <EntityTypeMapping TypeName="PinhuaModel.业务类型">
               <MappingFragment StoreEntitySet="业务类型">
+                <ScalarProperty Name="在途计算" ColumnName="在途计算" />
                 <ScalarProperty Name="对账计算" ColumnName="对账计算" />
                 <ScalarProperty Name="业务计算" ColumnName="业务计算" />
                 <ScalarProperty Name="ExcelServerCHG" ColumnName="ExcelServerCHG" />

@@ -29,5 +29,6 @@ namespace PHDS.Entities.Edmx
         public Nullable<int> ExcelServerCHG { get; set; }
         public Nullable<int> 业务计算 { get; set; }
         public Nullable<int> 对账计算 { get; set; }
+        public Nullable<int> 在途计算 { get; set; }
     }
 }

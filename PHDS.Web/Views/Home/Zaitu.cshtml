@@ -1,16 +1,17 @@
-﻿
+﻿@model List<PHDS.Web.Controllers.结构体.在途>
 @{
-    ViewBag.Title = "考勤";
+    ViewBag.Title = "在途物料";
 
     var json = Newtonsoft.Json.JsonConvert.SerializeObject(Model);
+    var customers = Model.Select(e => new { e.单位编号, e.单位名称 }).Distinct();
 
     <script>
         viewJsonData = @Html.Raw(json);
     </script>
 }
 
-@section styles{
-    @Styles.Render("~/Content/DataTables/css/datatables")
+    @section styles{
+        @Styles.Render("~/Content/DataTables/css/datatables")
     <style>
         body {
             overflow-y: scroll;
@@ -46,10 +47,25 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
-        </div><!-- /.navbar-collapse -->
+        
+            <div class="navbar-form navbar-right">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">选择单位 <span class="caret"></span></button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        @foreach (var customer in customers)
+                        {
+                            <li><a href="javascript:;" class="customer-selector" id="@customer.单位编号">@customer.单位名称</a></li>
+                        }
+                    </ul>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary navbar-btn navbar-right customer-selector" id="All">显示全部</button>
+                </div>
+            </div>
+            </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
+
 <div class="row">
     <div class="col-md-12">
         <table id="details" class="table table-hover table-bordered table-striped">
@@ -61,6 +77,7 @@
         </table>
     </div>
 </div>
+
 @section scripts {
 
     @Scripts.Render("~/Scripts/DataTables/datatables")
@@ -70,17 +87,21 @@
         $.extend(true, $.fn.DataTable.defaults, CONSTANT.DATA_TABLES.DEFAULT_OPTION);
 
         aTable = $('#details').dataTable({
+            ajax: {
+                url: "@Url.Action("ZaituDetail")",
+                dataSrc: ""
+            },
             data: viewJsonData,
             pageLength: -1,
 
             dom: "fr<'#detailPanel.panel panel-primary'<'panel-heading'<'row'<'col-xs-5'<'panel-title'>><'col-xs-7'>>>t<'panel-footer'>><'row'<'col-xs-5'i><'col-xs-7'p>>",
             columns: [
-                { data: "CustomerId", name:"CustomerId", title: "客户编号", width: "6em", visible: false },
-                { data: "单位名称", name:"CustomerName", title: "单位名称", width: "6em", visible: false },
-                { data: "ItemId", title: "物料编号", width: "6em", visible: true },
-                { data: "描述", name:"描述", title: "描述", width: "6em", visible: true },
+                { data: "单位编号", name:"单位编号", title: "客户编号", width: "6em", visible: false },
+                { data: "单位名称", name:"单位名称", title: "单位名称", width: "6em", visible: false },
+                { data: "产品编号" ,name:"产品编号", title: "产品编号", width: "6em", visible: true },
+                { data: "产品描述", name:"产品描述", title: "描述", width: "6em", visible: true },
                 { data: "规格", name:"规格", title: "规格", width: "6em", visible: true },
-                { data: "Count", title: "数量", width: "6em", visible: true },
+                { data: "数量", title: "数量", width: "6em", visible: true },
             ],
             drawCallback: function (settings) {
                 var api = this.api();
@@ -89,26 +110,26 @@
                 }).nodes();
                 var last = null;
 
-                api.column('CustomerId:name', {
+                api.column('单位编号:name', {
                     page: 'current'
                 }).data().each(function (value, index) {
                     if (last !== value) {
 
-                        $(rows).eq(index).before('<tr class="group"><td colspan="20" style="font-weight:bold">' + api.row(index).data().CustomerId  +' - '+api.row(index).data().单位名称+ '</td></tr>');
+                        $(rows).eq(index).before('<tr class="group"><td colspan="20" style="font-weight:bold">' + api.row(index).data().单位编号  +' - '+api.row(index).data().单位名称+ '</td></tr>');
 
                         last = value;
                     }
                 });
             }
-
         }
     )
-
-        $('.nav .dropdown-menu').on('click', 'li', function () {
-            aTable.api().settings()[0].ajax.data = { RCID: this.id }
+        
+        $('.customer-selector').on('click', function () {
+            aTable.api().settings()[0].ajax.data = { Id: this.id }
             aTable.api().ajax.reload()
+            $('#detailPanel').css('margin-bottom', '10px').find('.panel-title').text('在途物料 - '+ this.innerText)
         })
 
-        $('#detailPanel').css('margin-bottom', '10px').find('.panel-title').text('考勤明细')
+        $('#detailPanel').css('margin-bottom', '10px').find('.panel-title').text('在途物料 - 显示全部')
     </script>
 }

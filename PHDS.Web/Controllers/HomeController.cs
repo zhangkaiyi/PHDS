@@ -6,6 +6,19 @@ using System.Web.Mvc;
 
 namespace PHDS.Web.Controllers
 {
+    public class 结构体
+    {
+        public class 在途
+        {
+            public string 单位编号 { get; set; }
+            public string 单位名称 { get; set; }
+            public string 产品编号 { get; set; }
+            public string 产品描述 { get; set; }
+            public string 规格 { get; set; }
+            public decimal 数量 { get; set; }
+
+        }
+    }
     public class HomeController : Controller
     {
         public ActionResult Index()
@@ -330,12 +343,12 @@ namespace PHDS.Web.Controllers
                            on p1.ExcelServerRCID equals p2.ExcelServerRCID
                            join p3 in pinhua.业务类型.AsNoTracking()
                            on p1.业务类型 equals p3.业务类型1
-                           where p1.业务类型 == "741" || p1.业务类型 == "171"
+                           where p1.业务类型.Contains("74") || p1.业务类型 == "171"
                            select new
                            {
                                p1.客户编号,
                                p2.编号,
-                               数量 = p2.PCS * p3.库存计算
+                               数量 = p2.PCS * p3.在途计算
                            };
                 var set1 = from p in song
                           group p by new { p.客户编号, p.编号 } into g
@@ -344,7 +357,7 @@ namespace PHDS.Web.Controllers
                           {
                               CustomerId = g.Key.客户编号,
                               ItemId = g.Key.编号,
-                              Count = -g.Sum(e => e.数量)
+                              Count = g.Sum(e => e.数量)
                           };
 
                 var set = from p1 in set1
@@ -352,18 +365,75 @@ namespace PHDS.Web.Controllers
                           on p1.CustomerId equals p2.单位编号
                           join p3 in pinhua.物料登记.AsNoTracking()
                           on p1.ItemId equals p3.编号
-                          orderby p2.RANK descending,p1.CustomerId
-                          select new
+                          where p1.Count != 0
+                          orderby p2.RANK descending, p1.CustomerId
+                          select new 结构体.在途
                           {
-                              p1.CustomerId,
-                              p1.ItemId,
-                              p1.Count,
-                              p2.单位名称,
-                              p3.描述,
-                              p3.规格,
+                              单位编号 = p1.CustomerId,
+                              单位名称 = p2.单位名称,
+                              产品编号 = p1.ItemId,
+                              产品描述 = p3.描述,
+                              规格 = p3.规格,
+                              数量 = p1.Count ?? 0,
                           };
-                
-            return View(set.ToList());
+
+                return View(set.ToList());
+            }
+        }
+
+        public ActionResult ZaituDetail(string Id)
+        {
+            using (var pinhua = new Entities.Edmx.PinhuaEntities())
+            {
+                var song = from p1 in pinhua.发货.AsNoTracking()
+                           join p2 in pinhua.发货_DETAIL.AsNoTracking()
+                           on p1.ExcelServerRCID equals p2.ExcelServerRCID
+                           join p3 in pinhua.业务类型.AsNoTracking()
+                           on p1.业务类型 equals p3.业务类型1
+                           where p1.业务类型.Contains("74") || p1.业务类型 == "171"
+                           select new
+                           {
+                               p1.客户编号,
+                               p2.编号,
+                               数量 = p2.PCS * p3.在途计算
+                           };
+                var set1 = from p in song
+                           group p by new { p.客户编号, p.编号 } into g
+                           orderby g.Key.客户编号 ascending
+                           select new
+                           {
+                               CustomerId = g.Key.客户编号,
+                               ItemId = g.Key.编号,
+                               Count = g.Sum(e => e.数量)
+                           };
+
+                var set2 = from p1 in set1
+                          join p2 in pinhua.往来单位.AsNoTracking()
+                          on p1.CustomerId equals p2.单位编号
+                          join p3 in pinhua.物料登记.AsNoTracking()
+                          on p1.ItemId equals p3.编号
+                          where p1.Count != 0
+                          orderby p2.RANK descending, p1.CustomerId
+                          select new 结构体.在途
+                          {
+                              单位编号 = p1.CustomerId,
+                              单位名称 = p2.单位名称,
+                              产品编号 = p1.ItemId,
+                              产品描述 = p3.描述,
+                              规格 = p3.规格,
+                              数量 = p1.Count ?? 0,
+                          };
+                var set = new List<结构体.在途>();
+                if (Id == "All")
+                    set = set2.ToList();
+                else
+                    set = set2.Where(e => e.单位编号 == Id).ToList();
+
+                var jsonNetResult = new JsonNetResult();
+                jsonNetResult.Formatting = Newtonsoft.Json.Formatting.Indented;
+                jsonNetResult.SerializerSettings.DateFormatString = "yyyy/MM/dd";
+                jsonNetResult.Data = set.ToList();
+                return jsonNetResult;
             }
         }
 
