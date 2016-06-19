@@ -6,9 +6,10 @@
 
     ViewBag.Title = Title();
 }
-@functions{ 
+@functions{
 
-    bool isYingshou() {
+    bool isYingshou()
+    {
         var actionName = @ViewContext.RouteData.Values["action"].ToString().ToLower();
         return actionName == "yingshou" || actionName == "yingshouyingfu";
     }
@@ -64,8 +65,8 @@
     }
 }
 
-    @section styles{
-        @Styles.Render("~/Content/DataTables/css/datatables")
+@section styles{
+    @Styles.Render("~/Content/DataTables/css/datatables")
     <style>
         body {
             overflow-y: scroll;
@@ -251,9 +252,8 @@
             columns: [
                 { data: "业务类型", title: "业务类型", width: "6em", visible: false },
                 { data: "业务描述", title: "业务描述", width: "6em", visible: false },
-                { data: "借贷方向", title: "借贷方向", width: "6em", visible: false },
-                { data: "日期", title: "日期", width: "6em", visible: true},
-                { data: "单号", title: "单号", width: "8em", visible: false },
+                { data: "日期", title: "日期", width: "6em", visible: true },
+                { data: "单号", name:"单号", title: "单号", width: "8em", visible: false },
                 { data: "产品编号", title: "产品编号", width: "8em", visible: false },
                 { data: "产品描述", title: "产品描述", width: "20em", visible: true },
                 { data: "规格", title: "规格", width: "6em", visible: true },
@@ -261,10 +261,11 @@
                 { data: "单位数量", title: "数量", width: "4em", },
                 { data: "计价单位", title: "单位", width: "4em", },
                 { data: "单价", title: "单价", width: "4em", },
+               // { data: "备注", title: "备注", width: "6em", visible: true },
 @{if (isYingshou()) {
 <text>
                 {
-                    data: "应收", title: "应收", width: "5em", visible: true, render: function (data, type, row, meta) {
+                    data: "应收", name:"应收", title: "应收", width: "5em", visible: true, render: function (data, type, row, meta) {
                         var renderData = data || 0;
                         if (renderData > 0)
                             renderData = '<div class="text-primary" style="font-weight:bold">' + renderData + '</div>'
@@ -277,7 +278,7 @@
                 },
 </text>}}
 
-@{if (isYingfu()) { 
+@{if (isYingfu()) {
 <text>
                 {
                     data: "应付", title: "应付", width: "5em", visible: true, render: function (data, type, row, meta) {
@@ -294,39 +295,45 @@
 </text>}}
             ],
             drawCallback: function (settings) {
-                        var api = this.api();
-                        var rows = api.rows({
-                            page: 'current'
-                        }).nodes();
-                        var last = null;
-                        api.column(4, {
-                            page: 'current'
-                        }).data().each(function (value, index) {
-                            if (last !== value) {
-                                if ($.inArray(api.row(index).data().单号, ['ShouRu', "ZhiChu", "Settlement"]) == -1)
-                            $(rows).eq(index).before('<tr class="group"><td colspan="20" style="font-weight:bold">' + api.row(index).data().日期 + ' - ' + api.row(index).data().单号 + ' - ' + api.row(index).data().业务描述 + '</td></tr>');
-                        else
-                            $(rows).eq(index).before('<tr class="group"><td colspan="20" class="text-danger" style="font-weight:bold">' + api.row(index).data().单号 + ' - ' + api.row(index).data().业务描述 + '</td></tr>');
-                                last = value;
-                            }
-                        });
-                        if (api.ajax.json()) {
-                            var footer = '<div class="row" style="font-size:12px"><div class="col-xs-12 text-right">' + @footerHTML() + '</div></div>'
-                            $('.panel-footer').html(footer);
-                            $('#detailPanel .panel-heading .col-xs-7').html(footer)
-
-                            //$(api.column(-1).footer()).html("fdasfdsafdasfda")
-                            //alert(detailTable.table().footer())
+                var api = this.api();
+                var rows = api.rows({
+                    page: 'current'
+                }).nodes();
+                var last = null;
+                api.column('单号:name', {
+                    page: 'current'
+                }).data().each(function (value, index) {
+                    if (last !== value) {
+                        var beizhu = api.row(index).data().备注 || "";
+                        if (beizhu) {
+                            beizhu = ' - 备注：' + beizhu;
+                            beizhu = '<span class="text-success" style="font-weight:bold">' + beizhu + '</span>';
                         }
+                        if ($.inArray(api.row(index).data().单号, ['ShouRu', "ZhiChu", "Settlement"]) == -1)
+                            $(rows).eq(index).before('<tr class="group"><td colspan="20"><b>' + api.row(index).data().日期 + ' - ' + api.row(index).data().单号 + ' - ' + api.row(index).data().业务描述 + '</b>' + beizhu + '</td></tr>');
+                        else
+                            $(rows).eq(index).before('<tr class="group"><td colspan="20" class="text-danger"><b>' + api.row(index).data().单号 + ' - ' + api.row(index).data().业务描述 + '</b>' + beizhu + '</td></tr>');
+                        last = value;
+                    }
+                });
+                if (api.ajax.json()) {
+                    var footer = '<div class="row" style="font-size:12px"><div class="col-xs-12 text-right">' + @footerHTML() + '</div></div>'
+                    $('.panel-footer').html(footer);
+                    $('#detailPanel .panel-heading .col-xs-7').html(footer)
+
+                    //$(api.column(-1).footer()).html("fdasfdsafdasfda")
+                    //alert(detailTable.table().footer())
+                }
 
             },
             //footerCallback: function (tfoot, data, start, end, display) {
             //    var api = this.api();
-            //    if (api.ajax.json()) {
-            //        var strFoot = '<th colspan="' + ($('thead th', details).length - 2) + '">合计</th><th colspan="1" class="text-primary">' + api.ajax.json().应收合计 + '</th><th colspan="1" class="text-danger">' + api.ajax.json().应付合计 + '</th>';
-                    
-            //        $(tfoot).html($(strFoot)).addClass('')
-            //    }
+            //    api
+            //        .column('应收:name')
+            //    .data()
+            //    .reduce(function (a, b) {
+            //        alert(b)
+            //    },0)
             //},
         })
 

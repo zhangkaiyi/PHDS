@@ -4,83 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PHDS.Entities.DAL
+namespace PHDS.Entities.DAL.应收应付
 {
-    public class YingShouYingFu
+    public class Api
     {
-        public class 结构体
-        {
-            private interface I应收
-            {
-                string 单位编号 { get; set; }
-                decimal? 应收合计 { get; set; }
-            }
-            private interface I应付
-            {
-                string 单位编号 { get; set; }
-                decimal? 应付合计 { get; set; }
-            }
-            private interface I应收明细
-            {
-
-            }
-            private interface I应付明细
-            {
-
-            }
-            public class 应收应付
-            {
-                public string 单位编号 { get; set; }
-                public decimal? 应收合计 { get; set; }
-                public decimal? 应付合计 { get; set; }
-                public List<应收应付明细> 明细 { get; set; }
-            }
-
-            public class 应收应付明细
-            {         
-                public string 业务类型 { get; set; }
-                public string 业务描述 { get; set; }
-                public int? 借贷方向 { get; set; }
-                public DateTime? 日期 { get; set; }
-                public string 单号 { get; set; }
-                public string 产品编号 { get; set; }
-                public string 产品描述 { get; set; }
-                public string 规格 { get; set; }
-                public decimal? 片数 { get; set; }
-                public decimal? 单位数量 { get; set; }
-                public string 计价单位 { get; set; }
-                public decimal? 单价 { get; set; }
-                public decimal? 应收 { get; set; }
-                public decimal? 应付 { get; set; }
-            }
-
-            public class 出入库单
-            {
-                public 出入库单_Record Record { get; set; }
-                public 出入库单_RecordDetail RecordDetail { get; set; }
-            }
-            public class 出入库单_Record
-            {
-                public string 单号 { get; set; }
-                public string 客户编号 { get; set; }
-                public DateTime? 送货日期 { get; set; }
-                public string 业务类型 { get; set; }
-                public string 业务描述 { get; set; }
-                public int? 借贷方向 { get; set; }
-            }
-            public class 出入库单_RecordDetail
-            {
-                public string 编号 { get; set; }
-                public string 描述 { get; set; }
-                public string 规格 { get; set; }
-                public decimal? 片数 { get; set; }
-                public string 计价单位 { get; set; }
-                public decimal? 单位数量 { get; set; }
-                public decimal? 单价 { get; set; }
-                public decimal? 金额 { get; set; }
-            }
-        }
-
         private static IEnumerable<Edmx.对账结算_主表> listOf对账结算(string Id) // 对应Id的对账结算数据
         {
             using (var pinhua = new Edmx.PinhuaEntities())
@@ -113,7 +40,7 @@ namespace PHDS.Entities.DAL
             }
         }
 
-        private static IEnumerable<结构体.出入库单> listOf出库(string Id) // 对应Id的发货详情
+        private static IEnumerable<Models.Model出库入库> listOf出库(string Id) // 对应Id的发货详情
         {
             using (var pinhua = new Edmx.PinhuaEntities())
             {
@@ -122,18 +49,18 @@ namespace PHDS.Entities.DAL
                                   join p3 in pinhua.业务类型.AsNoTracking() on p1.业务类型 equals p3.业务类型1
                                   join p4 in pinhua.物料登记.AsNoTracking() on p2.编号 equals p4.编号
                                   where p1.客户编号 == Id && p3.MvP == "GI"
-                                  select new 结构体.出入库单
+                                  select new Models.Model出库入库
                                   {
-                                      Record = new 结构体.出入库单_Record
+                                      Record = new Models.Model出库入库条目
                                       {
                                           客户编号 = p1.客户编号,
                                           单号 = p1.送货单号,
                                           送货日期 = p1.送货日期,
                                           业务类型 = p1.业务类型,
                                           业务描述 = p3.类型描述,
-                                          借贷方向 = p3.对账计算
+                                          备注 = p1.备注
                                       },
-                                      RecordDetail = new 结构体.出入库单_RecordDetail
+                                      RecordDetail = new Models.Model出库入库明细
                                       {
                                           编号 = p2.编号,
                                           描述 = p4.描述,
@@ -149,7 +76,7 @@ namespace PHDS.Entities.DAL
             }
         }
 
-        private static IEnumerable<结构体.出入库单> listOf入库(string Id) // 对应Id的收货详情
+        private static IEnumerable<Models.Model出库入库> listOf入库(string Id) // 对应Id的收货详情
         {
             using (var pinhua = new Edmx.PinhuaEntities())
             {
@@ -158,18 +85,18 @@ namespace PHDS.Entities.DAL
                                      join p3 in pinhua.业务类型.AsNoTracking() on p1.业务类型 equals p3.业务类型1
                                      join p4 in pinhua.物料登记.AsNoTracking() on p2.编号 equals p4.编号
                                      where p1.客户编号 == Id && p3.MvP == "GR"
-                                     select new 结构体.出入库单
+                                     select new Models.Model出库入库
                                      {
-                                         Record = new 结构体.出入库单_Record
+                                         Record = new Models.Model出库入库条目
                                          {
                                              客户编号 = p1.客户编号,
                                              单号 = p1.送货单号,
                                              送货日期 = p1.送货日期,
                                              业务类型 = p1.业务类型,
                                              业务描述 = p3.类型描述,
-                                             借贷方向 = p3.对账计算
+                                             备注 = p1.备注
                                          },
-                                         RecordDetail = new 结构体.出入库单_RecordDetail
+                                         RecordDetail = new Models.Model出库入库明细
                                          {
                                              编号 = p2.编号,
                                              描述 = p4.描述,
@@ -186,18 +113,18 @@ namespace PHDS.Entities.DAL
                                      on p1.ExcelServerRCID equals p2.ExcelServerRCID
                                      join p3 in pinhua.业务类型.AsNoTracking() on p1.业务类型 equals p3.业务类型1
                                      where p1.供应商编号 == Id && p3.MvP == "GR"
-                                     select new 结构体.出入库单
+                                     select new Models.Model出库入库
                                      {
-                                         Record = new 结构体.出入库单_Record
+                                         Record = new Models.Model出库入库条目
                                          {
                                              客户编号 = p1.供应商编号,
                                              单号 = p1.单号,
                                              送货日期 = p1.日期,
                                              业务类型 = p1.业务类型,
                                              业务描述 = p3.类型描述,
-                                             借贷方向 = p3.对账计算
+                                             备注 = ""
                                          },
-                                         RecordDetail = new 结构体.出入库单_RecordDetail
+                                         RecordDetail = new Models.Model出库入库明细
                                          {
                                              编号 = p2.编号,
                                              描述 = p2.名称,
@@ -215,7 +142,7 @@ namespace PHDS.Entities.DAL
             }
         }
 
-        public static IEnumerable<结构体.应收应付> 应收(string Id)
+        public static IEnumerable<Models.Model应收应付> 应收(string Id)
         {
             var lastDate = listOf对账结算(Id).Max(x => x.日期); // 最新对账日期
             var lastAmount = listOf对账结算(Id).Where(x => x.日期 == lastDate); // 最新对账金额
@@ -230,14 +157,14 @@ namespace PHDS.Entities.DAL
                            let GI = from pp in listOfFaAfter
                                     where pp.Record.单号 == p.Record.单号
                                     select pp
-                           select new 结构体.应收应付
+                           select new Models.Model应收应付
                            {
                                应收合计 = GI.Sum(x => x.RecordDetail.金额),
                            };
 
             return yingShou;
         }
-        public static IEnumerable<结构体.应收应付> 应付(string Id)
+        public static IEnumerable<Models.Model应收应付> 应付(string Id)
         {
             var lastDate = listOf对账结算(Id).Max(x => x.日期); // 最新对账日期
             var lastAmount = listOf对账结算(Id).Where(x => x.日期 == lastDate); // 最新对账金额
@@ -252,14 +179,14 @@ namespace PHDS.Entities.DAL
                          let GR = from pp in listOfShouAfter
                                   where pp.Record.单号 == p.Record.单号
                                   select pp
-                         select new 结构体.应收应付
+                         select new Models.Model应收应付
                          {
                              应付合计 = GR.Sum(x => x.RecordDetail.金额)
                          };
 
             return yingFu;
         }
-        public static IEnumerable<结构体.应收应付> 应收应付(string Id)
+        public static IEnumerable<Models.Model应收应付> 应收应付清单(string Id)
         {
             var finalYingShouYingFu = 应收(Id).Concat(应付(Id));
 
@@ -267,12 +194,12 @@ namespace PHDS.Entities.DAL
 
         }
 
-        public static 结构体.应收应付 应收及明细(string Id)
+        public static Models.Model应收应付 应收及明细(string Id)
         {
             var last日期 = listOf对账结算(Id).Any() ? listOf对账结算(Id).Max(x => x.日期) : new DateTime(1900,1,1); // 最新对账日期
             var last金额 = listOf对账结算(Id)
                 .Where(x => x.日期 == last日期)
-                .Select(x => new 结构体.应收应付明细
+                .Select(x => new Models.Model应收应付明细
                 {
                     日期 = x.日期,
                     应收 = x.应收,
@@ -286,20 +213,20 @@ namespace PHDS.Entities.DAL
             // 对账后的收款详情
             var listOf收款After = from p in listOf收款(Id)
                                 where p.收款日期 > last日期
-                                select new 结构体.应收应付明细
+                                select new Models.Model应收应付明细
                                 {
                                     日期 = p.收款日期,
                                     应收 = -p.收款金额,
+                                    备注 = p.备注,
                                     业务描述 = "收款",
                                     单号 = "ShouRu"
                                 };
 
             var yingShou = (from p in listOf出库After
-                            select new 结构体.应收应付明细
+                            select new Models.Model应收应付明细
                             {
                                 业务类型 = p.Record.业务类型,
                                 业务描述 = p.Record.业务描述,
-                                借贷方向 = p.Record.借贷方向,
                                 日期 = p.Record.送货日期,
                                 单号 = p.Record.单号,
                                 产品编号 = p.RecordDetail.编号,
@@ -309,13 +236,14 @@ namespace PHDS.Entities.DAL
                                 单位数量 = p.RecordDetail.单位数量,
                                 计价单位 = p.RecordDetail.计价单位,
                                 单价 = p.RecordDetail.单价,
-                                应收 = p.RecordDetail.金额
+                                应收 = p.RecordDetail.金额,
+                                备注 = p.Record.备注
                             })
                            .Union(listOf收款After)
                            .Union(last金额);
 
             // 应收与明细
-            var yingShouWithDetails = new 结构体.应收应付
+            var yingShouWithDetails = new Models.Model应收应付
             {
                 单位编号 = Id,
                 明细 = yingShou.OrderByDescending(x => x.日期).ThenByDescending(x => x.单号).ToList(),
@@ -325,12 +253,12 @@ namespace PHDS.Entities.DAL
             return yingShouWithDetails;
         }
 
-        public static 结构体.应收应付 应付及明细(string Id)
+        public static Models.Model应收应付 应付及明细(string Id)
         {
             var last日期 = listOf对账结算(Id).Any() ? listOf对账结算(Id).Max(x => x.日期) : new DateTime(1900, 1, 1); // 最新对账日期
             var last金额 = listOf对账结算(Id)
                 .Where(x => x.日期 == last日期)
-                .Select(x => new 结构体.应收应付明细
+                .Select(x => new Models.Model应收应付明细
                 {
                     日期 = x.日期,
                     应付 = x.应付,
@@ -344,20 +272,20 @@ namespace PHDS.Entities.DAL
             // 对账后的收款详情
             var listOf付款After = from p in listOf付款(Id)
                                 where p.付款日期 > last日期
-                                select new 结构体.应收应付明细
+                                select new Models.Model应收应付明细
                                 {
                                     日期 = p.付款日期,
                                     应付 = -p.付款金额,
+                                    备注 = p.备注,
                                     业务描述 = "付款",
-                                    单号 = "ZhiChu"
+                                    单号 = "ZhiChu",
                                 };
 
             var yingFu = (from p in listOf入库After
-                            select new 结构体.应收应付明细
+                            select new Models.Model应收应付明细
                             {
                                 业务类型 = p.Record.业务类型,
                                 业务描述 = p.Record.业务描述,
-                                借贷方向 = p.Record.借贷方向,
                                 日期 = p.Record.送货日期,
                                 单号 = p.Record.单号,
                                 产品编号 = p.RecordDetail.编号,
@@ -373,7 +301,7 @@ namespace PHDS.Entities.DAL
                            .Union(last金额);
 
             // 应收与明细
-            var yingFuWithDetails = new 结构体.应收应付
+            var yingFuWithDetails = new Models.Model应收应付
             {
                 单位编号 = Id,
                 明细 = yingFu.OrderByDescending(x => x.日期).ThenByDescending(x => x.单号).ToList(),
@@ -383,12 +311,12 @@ namespace PHDS.Entities.DAL
             return yingFuWithDetails;
         }
 
-        public static 结构体.应收应付 应收应付及明细(string Id)
+        public static Models.Model应收应付 应收应付及明细(string Id)
         {
             var yingShou = 应收及明细(Id);
             var yingFu = 应付及明细(Id);
 
-            var yingShouYingFu = new 结构体.应收应付
+            var yingShouYingFu = new Models.Model应收应付
             {
                 单位编号 = Id,
                 应收合计 = yingShou.应收合计,

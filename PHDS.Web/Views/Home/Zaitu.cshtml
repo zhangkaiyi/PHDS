@@ -1,4 +1,4 @@
-﻿@model List<PHDS.Web.Controllers.结构体.在途>
+﻿@model List<PHDS.Entities.DAL.出库入库.Models.在途物料>
 @{
     ViewBag.Title = "在途物料";
 
@@ -59,7 +59,13 @@
                     </ul>
                 </div>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-primary navbar-btn navbar-right customer-selector" id="All">显示全部</button>
+                    <button type="button" class="btn btn-primary customer-selector" id="All">显示全部</button>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" id="btn-simple-search"><span class="caret"></span></button>
+                    <button type="button" class="btn btn-default" title="高级查询" id="toggle-advanced-search">
+                        <span class="caret"></span>
+                    </button>
                 </div>
             </div>
             </div><!-- /.navbar-collapse -->

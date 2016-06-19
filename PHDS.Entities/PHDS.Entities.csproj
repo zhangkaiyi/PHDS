@@ -58,7 +58,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAL\Kaoqin.cs" />
-    <Compile Include="DAL\YingShouYingFu.cs" />
+    <Compile Include="DAL\出库入库\Api.cs" />
+    <Compile Include="DAL\出库入库\Models.cs" />
+    <Compile Include="DAL\应收应付\Api.cs" />
+    <Compile Include="DAL\应收应付\Models.cs" />
     <Compile Include="Edmx\EastRiverModel.Context.cs">
       <DependentUpon>EastRiverModel.Context.tt</DependentUpon>
       <AutoGen>True</AutoGen>
