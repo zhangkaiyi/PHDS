@@ -1,4 +1,4 @@
-﻿/// <reference path="jquery-2.2.3.js" />
+﻿/// <reference path="jquery-2.2.4.js" />
 /// <reference path="../Assets/light7/dist/js/light7.js" />
 /// <reference path="../Assets/light7/dist/js/light7-city-picker.js" />
 /// <reference path="../Assets/light7/dist/js/light7-swipeout.js" />

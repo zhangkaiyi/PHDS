@@ -7,6 +7,8 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Newtonsoft.Json;
 using System.Text;
+using PHDS.Identity.DAL;
+using System.Data.Entity;
 
 namespace PHDS.Web
 {

@@ -32,6 +32,8 @@ namespace PHDS.Entities.DAL.应收应付
             public decimal? 应收 { get; set; }
             public decimal? 应付 { get; set; }
             public string 备注 { get; set; }
+            public decimal? 单据应收合计 { get; set; }
+            public decimal? 单据应付合计 { get; set; }
         }
 
         public class Model出库入库

@@ -86,8 +86,8 @@
 }
 
 <div style="margin: 10px auto;"></div>
-
-<nav class="navbar navbar-default">
+@if (Request.IsAuthenticated)
+{<nav class="navbar navbar-default">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -232,7 +232,7 @@
             </tfoot>
         </table>
     </div>
-</div>
+</div>}
 @section scripts {
 
     @Scripts.Render("~/Scripts/DataTables/datatables")
@@ -309,8 +309,18 @@
                             beizhu = ' - 备注：' + beizhu;
                             beizhu = '<span class="text-success" style="font-weight:bold">' + beizhu + '</span>';
                         }
+                        var yingshouheji = api.row(index).data().单据应收合计 || "";
+                        if (yingshouheji) {
+                            yingshouheji = ' - 应收合计：' + yingshouheji;
+                            yingshouheji = '<span class="text-primary" style="font-weight:bold">' + yingshouheji + '</span>';
+                        }
+                        var yingfuheji = api.row(index).data().单据应付合计 || "";
+                        if (yingfuheji) {
+                            yingfuheji = ' - 应收合计：' + yingfuheji;
+                            yingfuheji = '<span class="text-danger" style="font-weight:bold">' + yingfuheji + '</span>';
+                        }
                         if ($.inArray(api.row(index).data().单号, ['ShouRu', "ZhiChu", "Settlement"]) == -1)
-                            $(rows).eq(index).before('<tr class="group"><td colspan="20"><b>' + api.row(index).data().日期 + ' - ' + api.row(index).data().单号 + ' - ' + api.row(index).data().业务描述 + '</b>' + beizhu + '</td></tr>');
+                            $(rows).eq(index).before('<tr class="group"><td colspan="20"><b>' + api.row(index).data().日期 + ' - ' + api.row(index).data().单号 + ' - ' + api.row(index).data().业务描述 + '</b>' + beizhu + yingshouheji + yingfuheji + '</td></tr>');
                         else
                             $(rows).eq(index).before('<tr class="group"><td colspan="20" class="text-danger"><b>' + api.row(index).data().单号 + ' - ' + api.row(index).data().业务描述 + '</b>' + beizhu + '</td></tr>');
                         last = value;

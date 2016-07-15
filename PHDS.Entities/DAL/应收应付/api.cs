@@ -221,8 +221,13 @@ namespace PHDS.Entities.DAL.应收应付
                                     业务描述 = "收款",
                                     单号 = "ShouRu"
                                 };
-
+            var hello = from p in listOf出库After group p by p.Record.单号 into g select new
+            {
+                g.Key,
+                单据应收合计 = g.Sum(e=>e.RecordDetail.金额)
+            };
             var yingShou = (from p in listOf出库After
+                            join p2 in hello on p.Record.单号 equals p2.Key
                             select new Models.Model应收应付明细
                             {
                                 业务类型 = p.Record.业务类型,
@@ -237,7 +242,8 @@ namespace PHDS.Entities.DAL.应收应付
                                 计价单位 = p.RecordDetail.计价单位,
                                 单价 = p.RecordDetail.单价,
                                 应收 = p.RecordDetail.金额,
-                                备注 = p.Record.备注
+                                备注 = p.Record.备注,
+                                单据应收合计 = p2.单据应收合计
                             })
                            .Union(listOf收款After)
                            .Union(last金额);
@@ -280,8 +286,16 @@ namespace PHDS.Entities.DAL.应收应付
                                     业务描述 = "付款",
                                     单号 = "ZhiChu",
                                 };
+            var hello = from p in listOf入库After
+                        group p by p.Record.单号 into g
+                        select new
+                        {
+                            g.Key,
+                            单据应付合计 = g.Sum(e => e.RecordDetail.金额)
+                        };
 
             var yingFu = (from p in listOf入库After
+                          join p2 in hello on p.Record.单号 equals p2.Key
                             select new Models.Model应收应付明细
                             {
                                 业务类型 = p.Record.业务类型,
@@ -295,7 +309,8 @@ namespace PHDS.Entities.DAL.应收应付
                                 单位数量 = p.RecordDetail.单位数量,
                                 计价单位 = p.RecordDetail.计价单位,
                                 单价 = p.RecordDetail.单价,
-                                应付 = p.RecordDetail.金额
+                                应付 = p.RecordDetail.金额,
+                                单据应付合计=p2.单据应付合计
                             })
                            .Union(listOf付款After)
                            .Union(last金额);
