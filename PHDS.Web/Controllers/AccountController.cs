@@ -138,9 +138,20 @@ namespace PHDS.Web.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
+        [Authorize(Roles="管理员")]
         public ActionResult Register()
         {
+            using (var db = new PHDS.Entities.Edmx.PinhuaEntities())
+            {
+                var result = from p in db.往来单位
+                             orderby p.RANK descending
+                             select new SelectListItem
+                             {
+                                 Text = p.单位名称,
+                                 Value = p.单位编号
+                             };
+                ViewBag.Affiliation = result.ToList();
+            }
             return View();
         }
 
@@ -153,7 +164,7 @@ namespace PHDS.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Affiliation = model.Affiliation };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -169,7 +180,17 @@ namespace PHDS.Web.Controllers
                 }
                 AddErrors(result);
             }
-
+            using (var db = new PHDS.Entities.Edmx.PinhuaEntities())
+            {
+                var result = from p in db.往来单位
+                             orderby p.RANK descending
+                             select new SelectListItem
+                             {
+                                 Text = p.单位名称,
+                                 Value = p.单位编号
+                             };
+                ViewBag.Affiliation = result.ToList();
+            }
             // 如果我们进行到这一步时某个地方出错，则重新显示表单
             return View(model);
         }

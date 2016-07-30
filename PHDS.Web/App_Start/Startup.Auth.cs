@@ -21,7 +21,7 @@ namespace PHDS.Web
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
             app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
-            System.Diagnostics.Debug.WriteLine("\r\n\r\n\r\n\r\nTestTestTestTest\r\n\r\n\r\n\r\n");
+            
             // 使应用程序可以使用 Cookie 来存储已登录用户的信息
             // 并使用 Cookie 来临时存储有关使用第三方登录提供程序登录的用户的信息
             // 配置登录 Cookie

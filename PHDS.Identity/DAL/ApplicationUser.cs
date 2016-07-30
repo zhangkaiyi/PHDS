@@ -13,10 +13,9 @@ namespace PHDS.Identity.DAL
     {
         //在这个类扩展自定义字段
         /// <summary>
-        /// 头像URL
+        /// 所属公司
         /// </summary>
-        public string headImage { get; set; }
-        public string Parents { get; set; }
+        public string Affiliation { get; set; }
 
         //添加一个方法 后面会用到
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)

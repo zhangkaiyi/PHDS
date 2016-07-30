@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using PHDS.Identity.BLL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -6,8 +9,36 @@ using System.Web.Mvc;
 
 namespace PHDS.Web.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set
+            {
+                _signInManager = value;
+            }
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View();
@@ -301,15 +332,23 @@ namespace PHDS.Web.Controllers
         {
             using (var pinhua = new PHDS.Entities.Edmx.PinhuaEntities())
             {
-                var customers = from p in pinhua.往来单位
-                                orderby p.RANK descending
-                                select new Models.SalesModels.Customer
-                                {
-                                    Rank = p.RANK ?? 0,
-                                    Id = p.单位编号,
-                                    Name = p.单位名称
-                                };
-                return View("YingshouYingfu", customers.ToList());
+                var bRole = UserManager.IsInRole(User.Identity.GetUserId(), "管理员") || UserManager.IsInRole(User.Identity.GetUserId(), "访客");
+                if (bRole)
+                {
+                    var customers = from p in pinhua.往来单位
+                                    orderby p.RANK descending
+                                    select new Models.SalesModels.Customer
+                                    {
+                                        Rank = p.RANK ?? 0,
+                                        Id = p.单位编号,
+                                        Name = p.单位名称
+                                    };
+                    return View("YingshouYingfu", customers.ToList());
+                }
+                else
+                {
+                    return View("YingshouYingfu", new List<Models.SalesModels.Customer>());
+                }
             }
         }
 

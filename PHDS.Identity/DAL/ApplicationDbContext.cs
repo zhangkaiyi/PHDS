@@ -15,7 +15,7 @@ namespace PHDS.Identity.DAL
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("IdentityConnection", throwIfV1Schema: false)
+            : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
 
@@ -44,15 +44,22 @@ namespace PHDS.Identity.DAL
             var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var roleManager = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
             const string name = "116307766@qq.com";
-            const string password = "Benny0922!";
-            const string roleName = "Admin";
+            const string password = "benny0922";
+            const string roleName1 = "管理员";
+            const string roleName2 = "对账员";
 
             //Create Role Admin if it does not exist
-            var role = roleManager.FindByName(roleName);
-            if (role == null)
+            var role1 = roleManager.FindByName(roleName1);
+            if (role1 == null)
             {
-                role = new ApplicationRole(roleName);
-                var roleresult = roleManager.Create(role);
+                role1 = new ApplicationRole(roleName1);
+                var roleresult = roleManager.Create(role1);
+            }
+            var role2 = roleManager.FindByName(roleName2);
+            if (role2 == null)
+            {
+                role2 = new ApplicationRole(roleName2);
+                var roleresult = roleManager.Create(role2);
             }
 
             var user = userManager.FindByName(name);
@@ -65,9 +72,9 @@ namespace PHDS.Identity.DAL
 
             // Add user admin to Role Admin if not already added
             var rolesForUser = userManager.GetRoles(user.Id);
-            if (!rolesForUser.Contains(role.Name))
+            if (!rolesForUser.Contains(role1.Name))
             {
-                var result = userManager.AddToRole(user.Id, role.Name);
+                var result = userManager.AddToRole(user.Id, role1.Name);
             }
         }
     }

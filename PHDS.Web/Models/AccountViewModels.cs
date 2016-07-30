@@ -79,6 +79,10 @@ namespace PHDS.Web.Models
         [Display(Name = "确认密码")]
         [Compare("Password", ErrorMessage = "密码和确认密码不匹配。")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "所属公司")]
+        public string Affiliation { get; set; }
     }
 
     public class ResetPasswordViewModel
