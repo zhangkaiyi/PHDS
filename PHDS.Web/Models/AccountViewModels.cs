@@ -80,7 +80,7 @@ namespace PHDS.Web.Models
         [Compare("Password", ErrorMessage = "密码和确认密码不匹配。")]
         public string ConfirmPassword { get; set; }
 
-        [Required]
+        //[Required]
         [Display(Name = "所属公司")]
         public string Affiliation { get; set; }
     }
