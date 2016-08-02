@@ -58,6 +58,8 @@
                         
                             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">后台管理 <span class="caret"></span></a>
                             <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("账号管理", "Users", "RolesManage")</li>
+                                <li>@Html.ActionLink("角色管理", "Roles", "RolesManage")</li>
                                 <li>@Html.ActionLink("登记管理员", "RegisterGuanLiYuan", "Account")</li>
                                 <li>@Html.ActionLink("登记对账员", "RegisterDuiZhangYuan", "Account")</li>
                             </ul>

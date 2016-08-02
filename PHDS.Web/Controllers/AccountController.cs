@@ -19,15 +19,17 @@ namespace PHDS.Web.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationRoleManager _roleManager;
 
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, ApplicationRoleManager roleManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            RoleManager = roleManager;
         }
 
         public ApplicationSignInManager SignInManager
@@ -51,6 +53,18 @@ namespace PHDS.Web.Controllers
             private set
             {
                 _userManager = value;
+            }
+        }
+
+        public ApplicationRoleManager RoleManager
+        {
+            get
+            {
+                return _roleManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+            }
+            private set
+            {
+                _roleManager = value;
             }
         }
 
@@ -198,7 +212,7 @@ namespace PHDS.Web.Controllers
         [HttpPost]
         [Authorize(Roles = "管理员")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> RegisterDuiZhangYuan(RegisterViewModel model)
+        public async Task<ActionResult> RegisterDuiZhangYuan(RegisterDuiZhangYuanViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -280,6 +294,64 @@ namespace PHDS.Web.Controllers
             // 如果我们进行到这一步时某个地方出错，则重新显示表单
             return View(model);
         }
+
+        //
+        // GET: /Account/Register
+        [Authorize(Roles = "管理员")]
+        public ActionResult Roles()
+        {
+            return View(RoleManager.Roles.ToList());
+        }
+
+        public class RoleModificationModel
+        {
+            public string RoleName { get; set; }
+            public string[] IdsToAdd { get; set; }
+            public string[] IdsToDelete { get; set; }
+        }
+
+
+        //
+        // GET: /Account/Register
+        [Authorize(Roles = "管理员")]
+        public ActionResult EditRole(string Id)
+        {
+            if (Id == null)
+            {
+                return View("Error");
+            }
+            return View(RoleManager.FindById(Id));
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "管理员")]
+        public async Task<ActionResult> EditRole(RoleModificationModel model)
+        {
+            IdentityResult result;
+            if (ModelState.IsValid)
+            {
+                foreach (string userId in model.IdsToAdd ?? new string[] { })
+                {
+                    result = await UserManager.AddToRoleAsync(userId, model.RoleName);
+                    if (!result.Succeeded)
+                    {
+                        return View("Error", result.Errors);
+                    }
+                }
+                foreach (string userId in model.IdsToDelete ?? new string[] { })
+                {
+                    result = await UserManager.RemoveFromRoleAsync(userId,
+                       model.RoleName);
+                    if (!result.Succeeded)
+                    {
+                        return View("Error", result.Errors);
+                    }
+                }
+                return RedirectToAction("Roles");
+            }
+            return View("Error", new string[] { "Role Not Found" });
+        }
+
 
         //
         // GET: /Account/ConfirmEmail
