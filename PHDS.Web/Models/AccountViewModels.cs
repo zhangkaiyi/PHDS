@@ -49,8 +49,7 @@ namespace PHDS.Web.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "电子邮件")]
-        [EmailAddress]
+        [Display(Name = "用户名或邮箱")]
         public string Email { get; set; }
 
         [Required]
@@ -64,6 +63,9 @@ namespace PHDS.Web.Models
 
     public class RegisterViewModel
     {
+        [Required]
+        [Display(Name = "用户名")]
+        public string UserName { get; set; }
         [Required]
         [EmailAddress]
         [Display(Name = "电子邮件")]

@@ -11,15 +11,24 @@ using Microsoft.Owin.Security;
 using PHDS.Identity.BLL;
 using PHDS.Web.Models;
 using PHDS.Identity.DAL;
+using System.ComponentModel.DataAnnotations;
 
 namespace PHDS.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "管理员")]
     public class RolesManageController : Controller
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private ApplicationRoleManager _roleManager;
+
+        private void AddErrorsFromResult(IdentityResult result)
+        {
+            foreach (string error in result.Errors)
+            {
+                ModelState.AddModelError("", error);
+            }
+        }
 
         public RolesManageController()
         {
@@ -70,15 +79,37 @@ namespace PHDS.Web.Controllers
 
         //
         // GET: /Account/Register
-        [Authorize(Roles = "管理员")]
         public ActionResult Roles()
         {
             return View(RoleManager.Roles.ToList());
         }
-        
+
+        public ActionResult CreateRole()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateRole(string name)
+        {
+            if (ModelState.IsValid)
+            {
+                IdentityResult result
+                   = await RoleManager.CreateAsync(new ApplicationRole(name));
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Roles");
+                }
+                else
+                {
+                    AddErrorsFromResult(result);
+                }
+            }
+            return View(name as object);
+        }
+
         //
         // GET: /Account/Register
-        [Authorize(Roles = "管理员")]
         public ActionResult EditRole(string Id)
         {
             if (Id == null)
@@ -89,7 +120,6 @@ namespace PHDS.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "管理员")]
         public async Task<ActionResult> EditRole(RoleModificationModel model)
         {
             IdentityResult result;
@@ -117,17 +147,62 @@ namespace PHDS.Web.Controllers
             return View("Error", new string[] { "Role Not Found" });
         }
 
+        [HttpPost]
+        public async Task<ActionResult> DeleteRole(string id)
+        {
+            ApplicationRole role = await RoleManager.FindByIdAsync(id);
+            if (role != null)
+            {
+                IdentityResult result = await RoleManager.DeleteAsync(role);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Roles");
+                }
+                else
+                {
+                    return View("Error", result.Errors);
+                }
+            }
+            else
+            {
+                return View("Error", new string[] { "Role Not Found" });
+            }
+        }
+
+
         //
         // GET: /Account/Register
-        [Authorize(Roles = "管理员")]
         public ActionResult Users()
         {
             return View(UserManager.Users.ToList());
         }
 
+        public ActionResult CreateUser()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateUser(string name)
+        {
+            if (ModelState.IsValid)
+            {
+                IdentityResult result
+                   = await RoleManager.CreateAsync(new ApplicationRole(name));
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Roles");
+                }
+                else
+                {
+                    AddErrorsFromResult(result);
+                }
+            }
+            return View(name as object);
+        }
+
         //
         // GET: /Account/Register
-        [Authorize(Roles = "管理员")]
         public ActionResult EditUser(string Id)
         {
             if (Id == null)
@@ -138,7 +213,6 @@ namespace PHDS.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "管理员")]
         public async Task<ActionResult> EditUser(UserModificationModel model)
         {
             IdentityResult result;
@@ -164,6 +238,29 @@ namespace PHDS.Web.Controllers
             }
             return View("Error", new string[] { "User Not Found" });
         }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteUser(string id)
+        {
+            ApplicationUser user = await UserManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                IdentityResult result = await UserManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Users");
+                }
+                else
+                {
+                    return View("Error", result.Errors);
+                }
+            }
+            else
+            {
+                return View("Error", new string[] { "User Not Found" });
+            }
+        }
+
 
         public class RoleModificationModel
         {

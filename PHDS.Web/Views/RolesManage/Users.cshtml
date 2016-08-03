@@ -3,15 +3,35 @@
 @using Microsoft.AspNet.Identity.Owin
 @model IEnumerable<PHDS.Identity.DAL.ApplicationUser>
 @{
-    ViewBag.Title = "角色管理";
+    ViewBag.Title = "Users";
 }
+@functions{
+    string GetRoleNameById(string Id)
+    {
+        return HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>().FindById(Id).Name;
+    }
+}
+<div style="margin: 10px auto;"></div>
 
-<h2>@ViewBag.Title。</h2>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">@ViewBag.Title</a>
+        </div>
+    </div><!-- /.container-fluid -->
+</nav>
 
 <div class="panel panel-primary">
-    <div class="panel-heading">Users</div>
+    <div class="panel-heading">User Based</div>
     <table class="table table-striped">
-        <tr><th>ID</th><th>Name</th><th>Roles</th><th></th></tr>
+        <tr><th>ID</th><th>账户</th><th>所属角色</th><th></th></tr>
         @if (Model.Count() == 0)
         {
             <tr><td colspan="4" class="text-center">No Users</td></tr>
@@ -21,9 +41,9 @@
             foreach (var user in Model)
             {
                 <tr>
-                    <td>@user.Id</td>
-                    <td>@user.UserName</td>
-                    <td>
+                    <td class="col-xs-4">@user.Id</td>
+                    <td class="col-xs-2">@user.UserName</td>
+                    <td class="col-xs-4">
                         @if (user.Roles == null || user.Roles.Count == 0)
                         {
                             @: No Roles
@@ -31,15 +51,15 @@
                         else
                         {
                             <p>
-                                @string.Join(", ", user.Roles.Select(x => HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>().FindById(x.RoleId).Name))
+                                @string.Join(", ", user.Roles.Select(x => GetRoleNameById(x.RoleId)))
                             </p>
                         }
                     </td>
-                    <td>
+                    <td class="col-xs-2">
                         @using (Html.BeginForm("DeleteUser", "RolesManage", new { id = user.Id }))
                         {
                             @Html.ActionLink("Edit", "EditUser", new { id = user.Id }, new { @class = "btn btn-primary btn-xs" })
-                            <button class="btn btn-danger btn-xs" type="submit">Delete</button>
+                            <button class="btn btn-danger btn-xs" type="submit" onclick="return confirm('确定是否删除此笔记录?');">Delete</button>
                         }
                     </td>
                 </tr>
@@ -47,9 +67,7 @@
         }
     </table>
 </div>
-@Html.ActionLink("Create", "Create", null, new { @class = "btn btn-primary" })
-
-
+@Html.ActionLink("Create", "CreateUser", null, new { @class = "btn btn-primary" })
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

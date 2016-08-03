@@ -1,3 +1,21 @@
 ﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!User.Identity.IsAuthenticated)
+    {
+        Layout = "~/Views/Shared/_Layout_Guest.cshtml";
+    }
+    else
+    {
+        if (User.IsInRole("管理员"))
+        {
+            Layout = "~/Views/Shared/_Layout_Administrator.cshtml";
+        }
+        else if(User.IsInRole("对账员"))
+        {
+            Layout = "~/Views/Shared/_Layout_Treasurer.cshtml";
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout_Guest.cshtml";
+        }
+    }
 }

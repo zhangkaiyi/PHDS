@@ -14,15 +14,15 @@
 {
     <input type="hidden" name="userId" value="@Model.Id" />
     <div class="panel panel-primary">
-        <div class="panel-heading">Add To @Model.UserName</div>
+        <div class="panel-heading">为 @(Model.UserName)(@Model.Email) 授权新角色</div>
         <table class="table table-striped">
             @if (nonMembers.Count() == 0)
             {
-                <tr><td colspan="2">All Users Are Members</td></tr>
+                <tr><td colspan="2">该账户具有所有角色的授权</td></tr>
             }
             else
             {
-                <tr><td>User ID</td><td>Add To Role</td></tr>
+                <tr><td>角色</td><td>是否授权</td></tr>
                 foreach (var user in nonMembers2)
                 {
                     <tr>
@@ -36,15 +36,15 @@
         </table>
     </div>
     <div class="panel panel-primary">
-        <div class="panel-heading">Remove from @Model.UserName</div>
+        <div class="panel-heading">为 @(Model.UserName)(@Model.Email) 移除现有角色</div>
         <table class="table table-striped">
             @if (Model.Roles.Count() == 0)
             {
-                <tr><td colspan="2">No Users Are Members</td></tr>
+                <tr><td colspan="2">该账户尚没有角色授权</td></tr>
             }
             else
             {
-                <tr><td>User ID</td><td>Remove From Role</td></tr>
+                <tr><td>角色</td><td>是否移除</td></tr>
                 foreach (var user in Model.Roles)
                 {
                     <tr>
@@ -58,5 +58,5 @@
         </table>
     </div>
     <button type="submit" class="btn btn-primary">Save</button>
-    @Html.ActionLink("Cancel", "Roles", null, new { @class = "btn btn-default" })
+    @Html.ActionLink("Cancel", "Users", null, new { @class = "btn btn-default" })
 }

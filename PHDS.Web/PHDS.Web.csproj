@@ -514,6 +514,10 @@
     <Content Include="Views\RolesManage\EditRole.cshtml" />
     <Content Include="Views\RolesManage\Users.cshtml" />
     <Content Include="Views\RolesManage\EditUser.cshtml" />
+    <Content Include="Views\Shared\_Layout_Administrator.cshtml" />
+    <Content Include="Views\Shared\_Layout_Guest.cshtml" />
+    <Content Include="Views\Shared\_Layout_Treasurer.cshtml" />
+    <Content Include="Views\RolesManage\CreateRole.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
