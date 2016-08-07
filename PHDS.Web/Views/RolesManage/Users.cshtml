@@ -4,6 +4,9 @@
 @model IEnumerable<PHDS.Identity.DAL.ApplicationUser>
 @{
     ViewBag.Title = "Users";
+
+    var UserManager = HttpContext.Current.GetOwinContext().Get<ApplicationUserManager>();
+    var RoleManager = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
 }
 @functions{
     string GetRoleNameById(string Id)
@@ -43,7 +46,7 @@
                 <tr>
                     <td class="col-xs-4">@user.Id</td>
                     <td class="col-xs-2">@user.UserName</td>
-                    <td class="col-xs-4">
+                    <td class="col-xs-3">
                         @if (user.Roles == null || user.Roles.Count == 0)
                         {
                             @: No Roles
@@ -55,11 +58,15 @@
                             </p>
                         }
                     </td>
-                    <td class="col-xs-2">
+                    <td class="col-xs-3">
                         @using (Html.BeginForm("DeleteUser", "RolesManage", new { id = user.Id }))
                         {
                             @Html.ActionLink("Edit", "EditUser", new { id = user.Id }, new { @class = "btn btn-primary btn-xs" })
                             <button class="btn btn-danger btn-xs" type="submit" onclick="return confirm('确定是否删除此笔记录?');">Delete</button>
+                            if (UserManager.IsInRole(user.Id, "对账员"))
+                            {
+                                @Html.ActionLink("EditAffiliation", "EditAffiliation", "Account", new { id = user.Id }, new { @class = "btn btn-primary btn-xs" })
+                            }
                         }
                     </td>
                 </tr>

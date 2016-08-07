@@ -180,6 +180,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\对账员\对账员Controller.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Controllers\考勤Controller.cs" />
@@ -518,6 +519,7 @@
     <Content Include="Views\Shared\_Layout_Guest.cshtml" />
     <Content Include="Views\Shared\_Layout_Treasurer.cshtml" />
     <Content Include="Views\RolesManage\CreateRole.cshtml" />
+    <Content Include="Views\Account\EditAffiliation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

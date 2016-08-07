@@ -153,6 +153,32 @@ namespace PHDS.Web.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
+        public ActionResult EditAffiliation(string Id)
+        {
+            if (Id == null)
+            {
+                return View("Error");
+            }
+            return View(UserManager.FindById(Id));
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult EditAffiliation(string UserName, string[] Affiliations)
+        {
+            if (ModelState.IsValid)
+            {
+                var affiliations = string.Join(",", Affiliations);
+                var user = UserManager.FindByName(UserName);
+                user.Affiliation = affiliations;
+                UserManager.Update(user);
+                return RedirectToAction("Users", "RolesManage");
+            }
+            return View(UserManager.FindByName(UserName));
+        }
+
+        //
+        // GET: /Account/Register
+        [AllowAnonymous]
         public ActionResult Register()
         {
             return View();
