@@ -152,7 +152,7 @@ namespace PHDS.Web.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
+        [Authorize(Roles = "管理员")]
         public ActionResult EditAffiliation(string Id)
         {
             if (Id == null)
@@ -162,7 +162,7 @@ namespace PHDS.Web.Controllers
             return View(UserManager.FindById(Id));
         }
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "管理员")]
         public ActionResult EditAffiliation(string UserName, string[] Affiliations)
         {
             if (ModelState.IsValid)

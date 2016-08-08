@@ -3,7 +3,7 @@
 @using Microsoft.AspNet.Identity.Owin
 @model PHDS.Identity.DAL.ApplicationUser
 @{
-    ViewBag.Title = "编辑";
+    ViewBag.Title = "配置对账单位";
     var UserManager = HttpContext.Current.GetOwinContext().Get<ApplicationUserManager>();
     var Affiliations = (UserManager.FindByName(Model.UserName).Affiliation ?? string.Empty).Split(',');
 
@@ -17,49 +17,62 @@
     }
 }
 
+@section styles{
+    @Styles.Render("~/Content/DataTables/css/datatables")
+    <style>
+        body {
+            overflow-y: scroll;
+        }
+
+        .table {
+            font-size: 14px;
+            margin-top: 0px !important;
+            margin-bottom: 0px !important;
+        }
+
+        tr.active > td {
+            background-color: #0075b0 !important;
+            color: #fff;
+        }
+    </style>
+}
+
 <h2>@ViewBag.Title。</h2>
 
 @using (Html.BeginForm("EditAffiliation", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    <h4>创建新帐户。</h4>
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
-        @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
+            @Html.HiddenFor(x=>x.UserName)
             <div class="panel panel-primary">
-                <div class="panel-heading">User Based</div>
+                <div class="panel-heading"><h4>@Model.UserName - @Model.Email</h4></div>
                 <table class="table table-striped">
-                    <tr><th>单位ID</th><th>单位名称</th><th>选择</th></tr>
-                    @foreach(var item in Units)
+                    <tr><th>单位名称</th><th>选择</th><th>单位名称</th><th>选择</th></tr>
+                    @foreach (var item in Units)
                     {
-                        <tr>
-                            <td>@item.单位编号</td>
-                            <td>@item.单位名称</td>
-                            <td><input type="checkbox" name="Affiliations" value="@item.单位编号" checked="@(Affiliations.Contains(item.单位编号)?true:false)" /></td>
-                        </tr>
+                        if (Units.IndexOf(item) % 2 == 0)
+                        {
+                            <tr>
+                                @foreach (var item2 in Units.GetRange(Units.IndexOf(item), Units.Count - Units.IndexOf(item) - 1 > 0 ? 2 : 1))
+                                {
+                                    <td class="col-md-3">@item2.单位名称</td>
+                                    <td class="col-md-2"><input type="checkbox" name="Affiliations" value="@item2.单位编号" checked="@(Affiliations.Contains(item2.单位编号) ? true : false)" /></td>
+                                }
+                            </tr>
+                        }
                     }
                 </table>
             </div>
         </div>
     </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" class="btn btn-default" value="注册" />
-            </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="submit" class="btn btn-default" value="保存" />
         </div>
+    </div>
 }
 
 @section Scripts {

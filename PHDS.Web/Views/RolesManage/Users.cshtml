@@ -61,11 +61,11 @@
                     <td class="col-xs-3">
                         @using (Html.BeginForm("DeleteUser", "RolesManage", new { id = user.Id }))
                         {
-                            @Html.ActionLink("Edit", "EditUser", new { id = user.Id }, new { @class = "btn btn-primary btn-xs" })
-                            <button class="btn btn-danger btn-xs" type="submit" onclick="return confirm('确定是否删除此笔记录?');">Delete</button>
+                            @Html.ActionLink("编辑", "EditUser", new { id = user.Id }, new { @class = "btn btn-primary btn-xs" })
+                            <button class="btn btn-danger btn-xs" type="submit" onclick="return confirm('确定是否删除此笔记录?');">删除</button>
                             if (UserManager.IsInRole(user.Id, "对账员"))
                             {
-                                @Html.ActionLink("EditAffiliation", "EditAffiliation", "Account", new { id = user.Id }, new { @class = "btn btn-primary btn-xs" })
+                                @Html.ActionLink("配置对账单位", "EditAffiliation", "Account", new { id = user.Id }, new { @class = "btn btn-primary btn-xs" })
                             }
                         }
                     </td>
