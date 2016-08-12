@@ -18,5 +18,10 @@ namespace PHDS.Identity.DAL
         /// </summary>
         [DisplayName("角色描述")]
         public string Description { get; set; }
+
+        /// <summary>
+        /// 权限列表
+        /// </summary>
+        public ICollection<ApplicationRolePermission> Permissions { get; set; }
     }
 }

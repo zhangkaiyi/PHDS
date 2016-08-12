@@ -62,20 +62,54 @@ namespace PHDS.Web.Controllers
             }
         }
 
-        public ActionResult Yingshou()
+        public ActionResult Receivables()
         {
             using (var pinhua = new PHDS.Entities.Edmx.PinhuaEntities())
             {
                 var customers = from p in pinhua.往来单位
                                 where Affiliations.Contains(p.单位编号)
-                                orderby p.RANK descending,p.单位编号 ascending
+                                orderby p.RANK descending, p.单位编号 ascending
                                 select new Models.SalesModels.Customer
                                 {
                                     Rank = p.RANK ?? 0,
                                     Id = p.单位编号,
                                     Name = p.单位名称
                                 };
-                return View("~/Views/Home/YingshouYingfu.cshtml", customers.ToList());
+                return View("Statement", customers.ToList());
+            }
+        }
+
+        public ActionResult Payables()
+        {
+            using (var pinhua = new PHDS.Entities.Edmx.PinhuaEntities())
+            {
+                var customers = from p in pinhua.往来单位
+                                where Affiliations.Contains(p.单位编号)
+                                orderby p.RANK descending, p.单位编号 ascending
+                                select new Models.SalesModels.Customer
+                                {
+                                    Rank = p.RANK ?? 0,
+                                    Id = p.单位编号,
+                                    Name = p.单位名称
+                                };
+                return View("Statement", customers.ToList());
+            }
+        }
+
+        public ActionResult Both()
+        {
+            using (var pinhua = new PHDS.Entities.Edmx.PinhuaEntities())
+            {
+                var customers = from p in pinhua.往来单位
+                                where Affiliations.Contains(p.单位编号)
+                                orderby p.RANK descending, p.单位编号 ascending
+                                select new Models.SalesModels.Customer
+                                {
+                                    Rank = p.RANK ?? 0,
+                                    Id = p.单位编号,
+                                    Name = p.单位名称
+                                };
+                return View("Statement", customers.ToList());
             }
         }
 
@@ -88,23 +122,6 @@ namespace PHDS.Web.Controllers
             return jsonNetResult;
         }
 
-        public ActionResult Yingfu()
-        {
-            using (var pinhua = new PHDS.Entities.Edmx.PinhuaEntities())
-            {
-                var customers = from p in pinhua.往来单位
-                                where Affiliations.Contains(p.单位编号)
-                                orderby p.RANK descending, p.单位编号 ascending
-                                select new Models.SalesModels.Customer
-                                {
-                                    Rank = p.RANK ?? 0,
-                                    Id = p.单位编号,
-                                    Name = p.单位名称
-                                };
-                return View("~/Views/Home/YingshouYingfu.cshtml", customers.ToList());
-            }
-        }
-
         public ActionResult YingfuDetail(string Id)
         {
             var jsonNetResult = new JsonNetResult();
@@ -112,23 +129,6 @@ namespace PHDS.Web.Controllers
             jsonNetResult.SerializerSettings.DateFormatString = "yyyy/MM/dd";
             jsonNetResult.Data = Entities.DAL.应收应付.Api.应付及明细(Id);
             return jsonNetResult;
-        }
-
-        public ActionResult YingshouYingfu()
-        {
-            using (var pinhua = new PHDS.Entities.Edmx.PinhuaEntities())
-            {
-                var customers = from p in pinhua.往来单位
-                                where Affiliations.Contains(p.单位编号)
-                                orderby p.RANK descending, p.单位编号 ascending
-                                select new Models.SalesModels.Customer
-                                {
-                                    Rank = p.RANK ?? 0,
-                                    Id = p.单位编号,
-                                    Name = p.单位名称
-                                };
-                return View("~/Views/Home/YingshouYingfu.cshtml", customers.ToList());
-            }
         }
 
         public ActionResult YingshouYingfuDetail(string Id)

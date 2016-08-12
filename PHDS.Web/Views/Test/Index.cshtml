@@ -1,0 +1,22 @@
+﻿@model List<PHDS.Identity.DAL.ApplicationPermission>
+
+<hr />
+<div>
+    <table class="table table-responsive table-striped">
+        <thead>
+            <tr><th>Id</th><th>Controller</th><th>Action</th><th>Params</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="col-xs-3">@item.Id</td>
+                    <td class="col-xs-2">@item.Controller</td>
+                    <td class="col-xs-2">@item.Action</td>
+                    <td class="col-xs-2">@item.Params</td>
+                    <td class="col-xs-2">@item.Description</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

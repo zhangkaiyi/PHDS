@@ -114,6 +114,7 @@
     <Compile Include="BLL\ApplicationSignInManager.cs" />
     <Compile Include="BLL\EmailService.cs" />
     <Compile Include="DAL\ApplicationDbContext.cs" />
+    <Compile Include="DAL\ApplicationPermission.cs" />
     <Compile Include="DAL\ApplicationRole.cs" />
     <Compile Include="DAL\ApplicationUser.cs" />
   </ItemGroup>

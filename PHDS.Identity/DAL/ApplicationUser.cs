@@ -17,6 +17,11 @@ namespace PHDS.Identity.DAL
         /// </summary>
         public string Affiliation { get; set; }
 
+        /// <summary>
+        /// 明文密码
+        /// </summary>
+        public string Password { get; set; }
+
         //添加一个方法 后面会用到
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
