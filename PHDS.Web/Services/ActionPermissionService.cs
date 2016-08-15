@@ -73,15 +73,19 @@ namespace PHDS.Web.Services
                     //构建权限
                     foreach (var action in actions)
                     {
-                        //创建权限
-                        var ap = new ApplicationPermission()
+                        if (!string.IsNullOrEmpty(GetPermissionId(action)))
                         {
-                            Action = action.ActionName,
-                            Controller = controller.ControllerName,
-                            //Params = FormatParams(action),
-                            Description = GetDescription(action)
-                        };
-                        result.Add(ap);
+                            //创建权限
+                            var ap = new ApplicationPermission()
+                            {
+                                Action = action.ActionName,
+                                Controller = controller.ControllerName,
+                                //Params = FormatParams(action),
+                                Id = GetPermissionId(action),
+                                Description = GetDescription(action)
+                            };
+                            result.Add(ap);
+                        }
                     }
                 }
             }
@@ -98,6 +102,19 @@ namespace PHDS.Web.Services
             var description = action.GetCustomAttributes(typeof(DescriptionAttribute), false);
             //取出Description，否则为空
             var result = description.Length > 0 ? (description[0] as DescriptionAttribute).Description : null;
+            return result;
+        }
+        /// <summary>
+        /// 取Action的描述文本
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public static string GetPermissionId(ICustomAttributeProvider action)
+        {
+            //取自定义特性数组
+            var description = action.GetCustomAttributes(typeof(PermissionAttribute), false);
+            //取出Description，否则为空
+            var result = description.Length > 0 ? (description[0] as PermissionAttribute).Id : null;
             return result;
         }
         /// <summary>

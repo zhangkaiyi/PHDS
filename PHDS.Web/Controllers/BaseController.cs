@@ -50,6 +50,19 @@ namespace PHDS.Web.Controllers
             }
         }
 
+        private ApplicationRoleManager signInManager;
+        protected ApplicationRoleManager _signInManager
+        {
+            get
+            {
+                return signInManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+            }
+            private set
+            {
+                signInManager = value;
+            }
+        }
+
         private ApplicationDbContext db;
         protected ApplicationDbContext _db
         {

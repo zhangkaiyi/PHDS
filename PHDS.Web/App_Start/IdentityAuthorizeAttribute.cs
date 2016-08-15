@@ -7,9 +7,20 @@ using System.ComponentModel;
 using PHDS.Identity.DAL;
 using PHDS.Web.Services;
 using PHDS.Identity.BLL;
+using System;
 
 namespace PHDS.Web
 {
+    public class PermissionAttribute : Attribute
+    {
+        public PermissionAttribute(string guid)
+        {
+            Id = Guid.Parse(guid).ToString();
+        }
+
+        public string Id { get; private set; }
+    }
+
     /// <summary>
     /// 访问授权验证
     /// </summary>

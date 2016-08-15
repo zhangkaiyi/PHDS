@@ -177,6 +177,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\SuperAdmin\Controllers\PermissionsAdminController.cs" />
+    <Compile Include="Areas\SuperAdmin\SuperAdminAreaRegistration.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\RolesManageController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -184,6 +186,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\对账员\对账员Controller.cs" />
+    <Compile Include="Models\AdminViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Controllers\考勤Controller.cs" />
@@ -383,6 +386,13 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Areas\SuperAdmin\Views\web.config" />
+    <Content Include="Areas\SuperAdmin\Views\PermissionsAdmin\Create.cshtml" />
+    <Content Include="Areas\SuperAdmin\Views\PermissionsAdmin\Delete.cshtml" />
+    <Content Include="Areas\SuperAdmin\Views\PermissionsAdmin\Details.cshtml" />
+    <Content Include="Areas\SuperAdmin\Views\PermissionsAdmin\Edit.cshtml" />
+    <Content Include="Areas\SuperAdmin\Views\PermissionsAdmin\Index.cshtml" />
+    <Content Include="Areas\SuperAdmin\Views\_ViewStart.cshtml" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -529,6 +539,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\SuperAdmin\Models\" />
+    <Folder Include="Areas\SuperAdmin\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
