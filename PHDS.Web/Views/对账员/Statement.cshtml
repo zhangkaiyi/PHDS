@@ -47,17 +47,18 @@
     string ajaxUrl()
     {
         var actionName = @ViewContext.RouteData.Values["action"].ToString().ToLower();
-        switch (actionName)
-        {
-            case "receivables":
-                return Url.Action("YingshouDetail");
-            case "payables":
-                return Url.Action("YingfuDetail");
-            case "both":
-                return Url.Action("YingshouYingfuDetail");
-            default:
-                return Url.Action("Index");
-        }
+        //switch (actionName)
+        //{
+        //    case "receivables":
+        //        return Url.Action("YingshouDetail");
+        //    case "payables":
+        //        return Url.Action("YingfuDetail");
+        //    case "both":
+        //        return Url.Action("YingshouYingfuDetail");
+        //    default:
+        //        return Url.Action("Index");
+        //}
+        return actionName;
     }
 }
 
@@ -146,7 +147,8 @@
         detailTable = $('#details').DataTable({
             ajax: {
                 url: "@ajaxUrl()",
-                dataSrc: "明细"
+                type: "post",
+                dataSrc: "明细",
             },
             pageLength: -1,
             //scrollY:'600',

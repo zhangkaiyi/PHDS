@@ -10,7 +10,7 @@ namespace PHDS.Identity.DAL
     {
         public ApplicationPermission()
         {
-            Id = Guid.NewGuid().ToString();
+            //Id = Guid.NewGuid().ToString();
             Roles = new List<ApplicationRolePermission>();
         }
         /// <summary>
@@ -51,10 +51,10 @@ namespace PHDS.Identity.DAL
                 return true;
             }
             //而后比较Controller,Action,Description和Params
-            if (x.Controller == y.Controller || x.Action == y.Action || x.Description == y.Description)
-            {
-                return true;
-            }
+            //if (x.Controller == y.Controller || x.Action == y.Action || x.Description == y.Description)
+            //{
+            //    return true;
+            //}
             else
             {
                 return false;

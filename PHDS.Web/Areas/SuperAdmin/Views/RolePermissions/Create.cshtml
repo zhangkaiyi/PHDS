@@ -1,0 +1,47 @@
+﻿@using PHDS.Identity.BLL
+@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.Owin
+
+@model IQueryable<PHDS.Web.Models.PermissionViewModel>
+
+@{
+    ViewBag.Title = "Create";
+
+    var UserManager = HttpContext.Current.GetOwinContext().Get<ApplicationUserManager>();
+    var RoleManager = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
+}
+
+<div style="margin: 10px auto;"></div>
+@using (Html.BeginForm())
+{
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="javascript:;">Add Permissions to @RoleManager.FindById(((SelectList)ViewBag.RoleID).SelectedValue.ToString()).Name</a>
+            <div class="navbar-form navbar-left"><button type="submit" class="btn btn-default">保存</button></div>
+        </div>
+    </div><!-- /.container-fluid -->
+</nav>
+
+    @Html.AntiForgeryToken()
+<div class="form-horizontal">
+    <div class="form-group">
+        <div class="col-md-12">
+            <table class="table table-bordered table-hover table-striped">
+                @Html.EditorForModel()
+            </table>
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("返回角色权限列表", "Index", new { roleId = ((SelectList)ViewBag.RoleID).SelectedValue })
+</div>

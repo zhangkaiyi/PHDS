@@ -1,0 +1,69 @@
+﻿@using PHDS.Identity.BLL
+@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.Owin
+@model List<PHDS.Web.Models.PermissionViewModel>
+@{
+    ViewBag.Title = "Index";
+
+    var UserManager = HttpContext.Current.GetOwinContext().Get<ApplicationUserManager>();
+    var RoleManager = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
+}
+
+<div style="margin: 10px auto;"></div>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="javascript:;">RolePermissions</a>
+        </div>
+    </div><!-- /.container-fluid -->
+</nav>
+
+<div class="row">
+    <div class="col-md-2">
+        <ul class="nav nav-pills nav-stacked">
+            @foreach (var role in RoleManager.Roles)
+            {
+                <li role="presentation" class="@(role.Id==(ViewBag.RoleID as SelectList).SelectedValue.ToString()?"active":"")">@Html.ActionLink(role.Name, "Index", new { roleId = role.Id })</li>
+            }
+        </ul>
+    </div>
+    <div class="col-md-10">
+        <div id="views">
+            <table class="table table-bordered table-hover table-striped">
+                <tr>
+                    <th>Action</th>
+                    <th>Controller</th>
+                    <th>Description</th>
+                    <th>@Html.ActionLink("添加", "Create", new { roleId = ((SelectList)ViewBag.RoleID).SelectedValue })</th>
+                </tr>
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td>
+                            @Html.HiddenFor(modelItem => item.Id, new { @id = "permissionId" })@Html.DisplayFor(modelItem => item.Action)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Controller)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.ActionLink("详情", "Details", new { roleId = item.RoleId, permissionId = item.Id }) |
+                            @Html.ActionLink("删除", "Delete", new { roleId = ((SelectList)ViewBag.RoleID).SelectedValue, permissionId = item.Id })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+</div>

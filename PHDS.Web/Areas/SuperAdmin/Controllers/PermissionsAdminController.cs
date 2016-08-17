@@ -24,10 +24,10 @@ namespace PHDS.Web.Areas.SuperAdmin.Controllers
             {
                 var view = new PermissionViewModel
                 {
+                    Id = t.Id,
                     Action = t.Action,
                     Controller = t.Controller,
                     Description = t.Description,
-                    Id = t.Id,
                 };
                 permissionViews.Add(view);
             }
@@ -37,22 +37,28 @@ namespace PHDS.Web.Areas.SuperAdmin.Controllers
             return View(permissionViews);
         }
 
-        //// GET: PermissionsAdmin/Details/5
-        //[Description("权限详情")]
-        //public ActionResult Details(string id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    ApplicationPermission applicationPermission = _db.Permissions.Find(id);
-        //    if (applicationPermission == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    var view = Mapper.Map<PermissionViewModel>(applicationPermission);
-        //    return View(view);
-        //}
+        // GET: PermissionsAdmin/Details/5
+        [Description("权限详情")]
+        public ActionResult Details(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ApplicationPermission applicationPermission = _db.Permissions.Find(id);
+            if (applicationPermission == null)
+            {
+                return HttpNotFound();
+            }
+            var view = new PermissionViewModel
+            {
+                Id=applicationPermission.Id,
+                Action=applicationPermission.Action,
+                Controller=applicationPermission.Controller,
+                Description=applicationPermission.Description,
+            };
+            return View(view);
+        }
 
         // GET: PermissionsAdmin/Create
         [Description("新建权限，列表")]
@@ -80,31 +86,40 @@ namespace PHDS.Web.Areas.SuperAdmin.Controllers
             }
             //排序
             permissionViews.Sort(new PermissionViewModelComparer());
-            return View(permissionViews.AsQueryable());
+            return View(permissionViews);
         }
 
-        //[Description("新建权限，保存")]
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> Create(IEnumerable<PermissionViewModel> data)
-        //{
-        //    if (data == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "参数不能为空");
-        //    }
-        //    foreach (var item in data)
-        //    {
-        //        //创建权限
-        //        var permission = Mapper.Map<ApplicationPermission>(item);
-        //        _db.Permissions.Add(permission);
-        //    }
-        //    //保存
-        //    await _db.SaveChangesAsync();
-        //    //方法2，使用Newtonsoft.Json序列化结果对象
-        //    //格式为json字符串，客户端需要解析，即反序列化
-        //    var result = JsonConvert.SerializeObject(new { Success = true });
-        //    return new JsonResult { Data = result };
-        //}
+        [Description("新建权限，保存")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create(IEnumerable<PermissionViewModel> data)
+        {
+            if (data == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "参数不能为空");
+            }
+            foreach (var item in data)
+            {
+                if (item.Selected)
+                {
+                    //创建权限
+                    var permission = new ApplicationPermission
+                    {
+                        Id = item.Id,
+                        Action = item.Action,
+                        Controller = item.Controller,
+                        Description = item.Description,
+                    };
+                    _db.Permissions.Add(permission);
+                }
+            }
+            //保存
+            await _db.SaveChangesAsync();
+            //方法2，使用Newtonsoft.Json序列化结果对象
+            //格式为json字符串，客户端需要解析，即反序列化
+            //var result = JsonConvert.SerializeObject(new { Success = true });
+            return RedirectToAction("Index");
+        }
 
         //// GET: PermissionsAdmin/Edit/5
         //[Description("编辑权限")]

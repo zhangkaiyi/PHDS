@@ -10,7 +10,6 @@ using System.Web.Mvc;
 
 namespace PHDS.Web.Controllers
 {
-    [IdentityAuthorize(Roles = "对账员")]
     public class 对账员Controller : BaseController
     {
         public string[] Affiliations
@@ -22,7 +21,7 @@ namespace PHDS.Web.Controllers
         }
 
         [Permission("E1126F3D-688A-459E-A84D-F9F9B04057E3")]
-        [Description("对账员专用 - 应收款查询")]
+        [Description("对账员 - 应收查询")]
         public ActionResult Receivables()
         {
             using (var pinhua = new PHDS.Entities.Edmx.PinhuaEntities())
@@ -41,7 +40,7 @@ namespace PHDS.Web.Controllers
         }
 
         [Permission("41EEF1E2-8127-4D07-85CC-98594E49A9DD")]
-        [Description("对账员专用 - 应付款查询")]
+        [Description("对账员 - 应付查询")]
         public ActionResult Payables()
         {
             using (var pinhua = new PHDS.Entities.Edmx.PinhuaEntities())
@@ -60,7 +59,7 @@ namespace PHDS.Web.Controllers
         }
 
         [Permission("23126B5B-17C8-4E42-93C2-A16E5916D587")]
-        [Description("对账员专用 - 应收应付联合查询")]
+        [Description("对账员 - 联合查询")]
         public ActionResult Both()
         {
             using (var pinhua = new PHDS.Entities.Edmx.PinhuaEntities())
@@ -79,8 +78,9 @@ namespace PHDS.Web.Controllers
         }
 
         [Permission("CDBA9DF2-11A4-4AA1-AB07-F22349C3C62B")]
-        [Description("对账员专用 - 应收明细JSON")]
-        public ActionResult YingshouDetail(string Id)
+        [Description("对账员 - 应收查询，Ajax")]
+        [HttpPost]
+        public ActionResult Receivables(string Id)
         {
             var jsonNetResult = new JsonNetResult();
             jsonNetResult.Formatting = Newtonsoft.Json.Formatting.Indented;
@@ -90,8 +90,9 @@ namespace PHDS.Web.Controllers
         }
 
         [Permission("CDD456C6-8B21-4774-A68B-8C0BFFA6639D")]
-        [Description("对账员专用 - 应付明细JSON")]
-        public ActionResult YingfuDetail(string Id)
+        [Description("对账员 - 应付查询，Ajax")]
+        [HttpPost]
+        public ActionResult Payables(string Id)
         {
             var jsonNetResult = new JsonNetResult();
             jsonNetResult.Formatting = Newtonsoft.Json.Formatting.Indented;
@@ -101,8 +102,9 @@ namespace PHDS.Web.Controllers
         }
 
         [Permission("6834D32F-C838-4278-94C4-68A8BC399AB2")]
-        [Description("对账员专用 - 应收应付联合明细JSON")]
-        public ActionResult YingshouYingfuDetail(string Id)
+        [Description("对账员 - 联合查询，Ajax")]
+        [HttpPost]
+        public ActionResult Both(string Id)
         {
             var jsonNetResult = new JsonNetResult();
             jsonNetResult.Formatting = Newtonsoft.Json.Formatting.Indented;

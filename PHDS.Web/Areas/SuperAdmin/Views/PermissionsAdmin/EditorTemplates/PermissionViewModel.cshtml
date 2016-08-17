@@ -1,0 +1,9 @@
+﻿@model PHDS.Web.Models.PermissionViewModel
+
+<tr>
+    <td>@Html.CheckBoxFor(m => m.Selected)</td>
+    <td>@Html.HiddenFor(m => m.Id)@Html.DisplayFor(m => m.Id)</td>
+    <td>@Html.HiddenFor(m => m.Action)@Html.DisplayFor(m => m.Action)</td>
+    <td>@Html.HiddenFor(m => m.Controller)@Html.DisplayFor(m => m.Controller)</td>
+    <td>@Html.HiddenFor(m => m.Description)@Html.DisplayFor(m => m.Description)</td>
+</tr>

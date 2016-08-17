@@ -1,45 +1,33 @@
-﻿@model IQueryable<PHDS.Web.Models.PermissionViewModel>
+﻿@model IEnumerable<PHDS.Web.Models.PermissionViewModel>
 
 @{
     ViewBag.Title = "Create";
 }
 
 <h2>Create</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
 
-<div class="form-horizontal">
+        <div class="col-md-10">
+            <input type="submit" value="保存" class="btn btn-default" />
+        </div>
 
-    <div class="col-md-10">
-        <input type="button" value="保存" onclick="getRowsInfo();" class="btn btn-default" />
-    </div>
-
-    <div id="views">
-        <table class="table table-hover table-striped">
-            <tr>
-                <th></th>
-                <th>Id</th>
-                <th>Action</th>
-                <th>Controller</th>
-                <th>Description</th>
-            </tr>
-            @foreach (var item in Model)
-            {
+        <div id="views">
+            <table class="table table-hover table-striped">
                 <tr>
-                    <td><input type="checkbox" value="@item.Id"></td>
-                    <td>@Html.DisplayFor(modelItem => item.Id)</td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Action)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Controller)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
+                    <th></th>
+                    <th>Id</th>
+                    <th>Action</th>
+                    <th>Controller</th>
+                    <th>Description</th>
                 </tr>
-            }
-        </table>
+                @Html.EditorForModel()
+            </table>
+        </div>
     </div>
-</div>
+}
 
 <div>
     @Html.ActionLink("返回权限列表", "Index")

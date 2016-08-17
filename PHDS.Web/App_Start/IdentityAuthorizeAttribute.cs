@@ -73,6 +73,7 @@ namespace PHDS.Web
             //待访问的Action的Permission
             var action = new ApplicationPermission
             {
+                Id = (filterContext.ActionDescriptor.GetCustomAttributes(typeof(PermissionAttribute), false).FirstOrDefault() as PermissionAttribute)?.Id,
                 Action = filterContext.ActionDescriptor.ActionName,
                 Controller = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName,
                 Description = ActionPermissionService.GetDescription(filterContext.ActionDescriptor)
@@ -103,7 +104,7 @@ namespace PHDS.Web
                 //取用户权限集合
                 permissions = roleManager.GetUserPermissions(username);
                 //写入缓存
-                context.Session.Add(key, permissions);
+                //context.Session.Add(key, permissions);
             }
             return permissions;
         }

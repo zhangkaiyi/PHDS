@@ -1,0 +1,9 @@
+﻿@model PHDS.Web.Models.PermissionViewModel
+
+<tr>
+    <td>@Html.CheckBoxFor(m => m.Selected)</td>
+    <td>@Html.TextBoxFor(m => m.Id)</td>
+    <td>@Html.TextBoxFor(m => m.Action)</td>
+    <td>@Html.TextBoxFor(m => m.Controller)</td>
+    <td>@Html.TextBoxFor(m => m.Description)</td>
+</tr>
