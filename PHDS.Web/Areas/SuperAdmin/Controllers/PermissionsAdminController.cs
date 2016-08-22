@@ -158,34 +158,41 @@ namespace PHDS.Web.Areas.SuperAdmin.Controllers
         //    return View(view);
         //}
 
-        //// GET: PermissionsAdmin/Delete/5
-        //[Description("删除权限")]
-        //public ActionResult Delete(string id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    ApplicationPermission applicationPermission = _db.Permissions.Find(id);
-        //    if (applicationPermission == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    var view = Mapper.Map<PermissionViewModel>(applicationPermission);
-        //    return View(view);
-        //}
+        // GET: PermissionsAdmin/Delete/5
+        [Description("删除权限")]
+        public ActionResult Delete(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ApplicationPermission applicationPermission = _db.Permissions.Find(id);
+            if (applicationPermission == null)
+            {
+                return HttpNotFound();
+            }
+            var view = new PermissionViewModel
+            {
+                Id = applicationPermission.Id,
+                Action = applicationPermission.Action,
+                Controller = applicationPermission.Controller,
+                Description = applicationPermission.Description,
+            };
+                //Mapper.Map<PermissionViewModel>(applicationPermission);
+            return View(view);
+        }
 
-        //// POST: PermissionsAdmin/Delete/5
-        //[Description("删除权限，保存")]
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(string id)
-        //{
-        //    ApplicationPermission applicationPermission = _db.Permissions.Find(id);
-        //    _db.Permissions.Remove(applicationPermission);
-        //    _db.SaveChanges();
-        //    return RedirectToAction("Index");
-        //}
+        // POST: PermissionsAdmin/Delete/5
+        [Description("删除权限，保存")]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(string id)
+        {
+            ApplicationPermission applicationPermission = _db.Permissions.Find(id);
+            _db.Permissions.Remove(applicationPermission);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
 
 
     }

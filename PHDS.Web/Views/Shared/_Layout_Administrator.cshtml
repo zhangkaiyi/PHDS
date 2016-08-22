@@ -64,6 +64,10 @@
                                 <li class="dropdown-header">注册</li>
                                 <li>@Html.ActionLink("管理员", "RegisterGuanLiYuan", "Account")</li>
                                 <li>@Html.ActionLink("对账员", "RegisterDuiZhangYuan", "Account")</li>
+                                <li class="dropdown-header">PermissionsAdmin</li>
+                                <li>@Html.ActionLink("Index", "Index", "PermissionsAdmin", new { Area = "SuperAdmin" }, null)</li>
+                                <li class="dropdown-header">RolePermissions</li>
+                                <li>@Html.ActionLink("Index", "Index", "RolePermissions", new { Area = "SuperAdmin" }, null)</li>
                             </ul>
                         
                     </li>

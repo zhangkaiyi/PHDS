@@ -4,16 +4,27 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<div style="margin: 10px auto;"></div>
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="javascript:;">添加权限</a>
+                <div class="navbar-form navbar-left"><input type="submit" value="保存" class="btn btn-default" /></div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </nav>
     <div class="form-horizontal">
-
-        <div class="col-md-10">
-            <input type="submit" value="保存" class="btn btn-default" />
-        </div>
-
         <div id="views">
             <table class="table table-hover table-striped">
                 <tr>

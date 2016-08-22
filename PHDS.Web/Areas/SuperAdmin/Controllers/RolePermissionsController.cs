@@ -144,55 +144,62 @@ namespace PHDS.Web.Areas.SuperAdmin.Controllers
             return RedirectToAction("Index");
         }
 
-        //// GET: RolePermissions/Delete/5
-        //[Description("删除角色-权限")]
-        //public async Task<ActionResult> Delete(string roleId, string permissionId)
-        //{
-        //    if (string.IsNullOrWhiteSpace(roleId) || string.IsNullOrWhiteSpace(permissionId))
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    ApplicationPermission applicationPermission = _db.Permissions.Find(permissionId);
-        //    var role = await _roleManager.FindByIdAsync(roleId);
-        //    if (applicationPermission == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    //创建viewModel
-        //    var view = Mapper.Map<PermissionViewModel>(applicationPermission);
-        //    view.RoleId = roleId;
-        //    view.RoleName = role.Name;
+        // GET: RolePermissions/Delete/5
+        [Description("删除角色-权限")]
+        public async Task<ActionResult> Delete(string roleId, string permissionId)
+        {
+            if (string.IsNullOrWhiteSpace(roleId) || string.IsNullOrWhiteSpace(permissionId))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ApplicationPermission applicationPermission = _db.Permissions.Find(permissionId);
+            var role = await _roleManager.FindByIdAsync(roleId);
+            if (applicationPermission == null)
+            {
+                return HttpNotFound();
+            }
+            //创建viewModel
+            var view = new PermissionViewModel
+            {
+                Id = applicationPermission.Id,
+                Action = applicationPermission.Action,
+                Controller = applicationPermission.Controller,
+                Description = applicationPermission.Description,
+            };
 
-        //    return View(view);
-        //}
+            view.RoleId = roleId;
+            view.RoleName = role.Name;
 
-        //// POST: RolePermissions/Delete/5
-        //[Description("删除角色-权限，保存")]
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> DeleteConfirmed(string roleId, string permissionId)
-        //{
-        //    if (string.IsNullOrWhiteSpace(roleId) || string.IsNullOrWhiteSpace(permissionId))
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    if (ModelState.IsValid)
-        //    {
-        //        //验证role与permission
-        //        var role = await _roleManager.FindByIdAsync(roleId);
-        //        var permission = _db.Permissions.Find(permissionId);
-        //        if (role == null || permission == null)
-        //        {
-        //            return HttpNotFound();
-        //        }
-        //        //删除Permission
-        //        var entity = new ApplicationRolePermission { RoleId = roleId, PermissionId = permissionId };
-        //        _db.Set<ApplicationRolePermission>().Attach(entity);
-        //        _db.Entry(entity).State = EntityState.Deleted;
+            return View(view);
+        }
 
-        //        var result = await _db.SaveChangesAsync();
-        //    }
-        //    return RedirectToAction("Index", new { roleId = roleId });
-        //}
+        // POST: RolePermissions/Delete/5
+        [Description("删除角色-权限，保存")]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteConfirmed(string roleId, string permissionId)
+        {
+            if (string.IsNullOrWhiteSpace(roleId) || string.IsNullOrWhiteSpace(permissionId))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            if (ModelState.IsValid)
+            {
+                //验证role与permission
+                var role = await _roleManager.FindByIdAsync(roleId);
+                var permission = _db.Permissions.Find(permissionId);
+                if (role == null || permission == null)
+                {
+                    return HttpNotFound();
+                }
+                //删除Permission
+                var entity = new ApplicationRolePermission { RoleId = roleId, PermissionId = permissionId };
+                _db.Set<ApplicationRolePermission>().Attach(entity);
+                _db.Entry(entity).State = EntityState.Deleted;
+
+                var result = await _db.SaveChangesAsync();
+            }
+            return RedirectToAction("Index", new { roleId = roleId });
+        }
     }
 }
