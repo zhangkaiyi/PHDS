@@ -2,8 +2,8 @@
 @using Microsoft.AspNet.Identity
 @using Microsoft.AspNet.Identity.Owin
 @{
-    var UserManager = HttpContext.Current.GetOwinContext().Get<ApplicationUserManager>();
-    var RoleManager = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
+    //var UserManager = HttpContext.Current.GetOwinContext().Get<ApplicationUserManager>();
+    //var RoleManager = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
 
     if (!User.Identity.IsAuthenticated)
     {
@@ -11,11 +11,13 @@
     }
     else
     {
-        if (UserManager.IsInRole(User.Identity.GetUserId(),"管理员"))
+        //if (UserManager.IsInRole(User.Identity.GetUserId(),"管理员"))
+        if (User.IsInRole("管理员"))
         {
             Layout = "~/Views/Shared/_Layout_Administrator.cshtml";
         }
-        else if(UserManager.IsInRole(User.Identity.GetUserId(), "对账员"))
+        //else if(UserManager.IsInRole(User.Identity.GetUserId(), "对账员"))
+        else if (User.IsInRole("对账员"))
         {
             Layout = "~/Views/Shared/_Layout_Treasurer.cshtml";
         }

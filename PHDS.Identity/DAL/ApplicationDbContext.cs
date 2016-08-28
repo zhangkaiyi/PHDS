@@ -2,11 +2,14 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using PHDS.Identity.BLL;
+using PHDS.Identity.Interface;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -25,6 +28,24 @@ namespace PHDS.Identity.DAL
             Database.SetInitializer<ApplicationDbContext>(new ApplicationDbInitializer());
         }
 
+        private static ICollection<IEntityMapper> GetAllEntityMapper()
+        {
+            ICollection<Assembly> EntityMapperAssemblies = EntityMapperAssemblies = new[]
+                        {
+                            Assembly.LoadFrom(Path.Combine(AppDomain.CurrentDomain.RelativeSearchPath, "PHDS.Identity.dll"))
+                            //Assembly.Load(Assembly.GetExecutingAssembly().FullName)
+                        };
+            if (EntityMapperAssemblies.Count == 0)
+            {
+                throw new InvalidOperationException("上下文“{0}”初始化失败，请添加实体映射程序集");
+            }
+            Type baseType = typeof(IEntityMapper);
+            Type[] mapperTypes = EntityMapperAssemblies.SelectMany(assembly => assembly.GetTypes())
+                .Where(type => baseType.IsAssignableFrom(type) && type != baseType && !type.IsAbstract).ToArray();
+            ICollection<IEntityMapper> result = mapperTypes.Select(type => Activator.CreateInstance(type) as IEntityMapper).ToList();
+            return result;
+        }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
 
@@ -35,14 +56,28 @@ namespace PHDS.Identity.DAL
 
             base.OnModelCreating(modelBuilder);
 
-            //配置permission与rolePermission的1对多关系
-            EntityTypeConfiguration<ApplicationPermission> configuration = modelBuilder.Entity<ApplicationPermission>().ToTable("ApplicationPermissions");
-            configuration.HasMany<ApplicationRolePermission>(u => u.Roles).WithRequired().HasForeignKey(k => k.PermissionId);
-            //配置role与persmission的映射表RolePermission的键
-            modelBuilder.Entity<ApplicationRolePermission>().HasKey(r => new { PermissionId = r.PermissionId, RoleId = r.RoleId }).ToTable("RolePermissions");
-            //配置role与RolePermission的1对多关系
-            EntityTypeConfiguration<ApplicationRole> configuration2 = modelBuilder.Entity<ApplicationRole>();
-            configuration2.HasMany<ApplicationRolePermission>(r => r.Permissions).WithRequired().HasForeignKey(k => k.RoleId);
+            ////配置permission与rolePermission的1对多关系
+            //EntityTypeConfiguration<ApplicationPermission> configuration = modelBuilder.Entity<ApplicationPermission>().ToTable("ApplicationPermissions");
+            //configuration.HasMany<ApplicationRolePermission>(u => u.Roles).WithRequired().HasForeignKey(k => k.PermissionId);
+            ////配置role与persmission的映射表RolePermission的键
+            //modelBuilder.Entity<ApplicationRolePermission>().HasKey(r => new { PermissionId = r.PermissionId, RoleId = r.RoleId }).ToTable("RolePermissions");
+            ////配置role与RolePermission的1对多关系
+            //EntityTypeConfiguration<ApplicationRole> configuration2 = modelBuilder.Entity<ApplicationRole>();
+            //configuration2.HasMany<ApplicationRolePermission>(r => r.Permissions).WithRequired().HasForeignKey(k => k.RoleId);
+
+            //modelBuilder.Configurations.Add(new Configurations.PermissionConfiguration());
+            //modelBuilder.Configurations.Add(new Configurations.RolePermissionConfiguration());
+            //modelBuilder.Configurations.Add(new Configurations.RoleConfiguration());
+
+            IEnumerable<IEntityMapper> EntityMappers = GetAllEntityMapper();
+            if (EntityMappers == null)
+            {
+                return;
+            }
+            foreach (var mapper in EntityMappers)
+            {
+                mapper.RegistTo(modelBuilder.Configurations);
+            }
         }
 
         public static ApplicationDbContext Create()

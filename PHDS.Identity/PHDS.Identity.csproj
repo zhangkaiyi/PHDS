@@ -117,6 +117,10 @@
     <Compile Include="DAL\ApplicationPermission.cs" />
     <Compile Include="DAL\ApplicationRole.cs" />
     <Compile Include="DAL\ApplicationUser.cs" />
+    <Compile Include="DAL\Configurations\RoleConfiguration.cs" />
+    <Compile Include="DAL\Configurations\RolePermissionsConfiguration.cs" />
+    <Compile Include="DAL\Configurations\PermissionConfiguration.cs" />
+    <Compile Include="Interface\IEntityMapper.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
