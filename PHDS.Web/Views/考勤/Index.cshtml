@@ -67,6 +67,22 @@
     </div><!-- /.container-fluid -->
 </nav>
 <div class="row">
+    <div class="col-xs-3 pull-right">
+        <div class="btn-group pull-right">
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    筛选 
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu" id="filterdropdown">
+                </ul>
+            </div>
+            <button type="button" class="btn btn-primary" id="filterall">显示全部</button>
+        </div>
+    </div>
+</div>
+<div style="margin: 10px auto;"></div>
+<div class="row">
     @*<div class="col-md-2">
 
         <div class="panel panel-default">
@@ -103,9 +119,10 @@
                 url: "@Url.Action("Details")",
                 dataSrc: ""
             },
+            searching: true,
             pageLength: -1,
 
-            dom: "fr<'#detailPanel.panel panel-primary'<'panel-heading'<'row'<'col-xs-5'<'panel-title'>><'col-xs-7'>>>t<'panel-footer'>><'row'<'col-xs-5'i><'col-xs-7'p>>",
+            dom: "r<'#detailPanel.panel panel-primary'<'panel-heading'<'row'<'col-xs-5'<'panel-title'>><'col-xs-7'>>>t<'panel-footer'>><'row'<'col-xs-5'i><'col-xs-7'p>>",
             columns: [
                 { data: "人员编号", title: "人员编号", width: "6em", visible: true },
                 { data: "姓名", title: "姓名", width: "6em", visible: true },
@@ -120,10 +137,32 @@
                 { data: "正常出勤", title: "正常出勤", width: "6em", },
                 { data: "加班", title: "加班", width: "6em", },
             ],
-    })
+            drawCallback: function (settings) {
+                var api = this.api();
+                // 输出当前页的数据到浏览器控制台
+                console.log(api.rows({ page: 'current' }).data());
+                var str = "";
+                var id = "";
+                var json = api.ajax.json();
+                for (var i in json) {
+                    if (id !== json[i].人员编号) {
+                        str += "<li id='" + json[i].人员编号 + "'><a href='javascript:;'>" + json[i].姓名 + "</li>";
+                        id = json[i].人员编号
+                    }
+                }
+                $("#filterdropdown").empty().html(str).on("click", "li", function () {
+                    aTable.api().search(this.id, false, true).draw();
+                });
+            }
+        })
+
+        $("#filterall").on("click", function () {
+            aTable.api().search("", false, true).draw();
+        })
+
         $('.nav .dropdown-menu').on('click', 'li', function () {
             aTable.api().settings()[0].ajax.data = { RCID: this.id }
-            aTable.api().ajax.reload()
+            aTable.api().ajax.reload();
         })
 
         $('#detailPanel').css('margin-bottom', '10px').find('.panel-title').text('考勤明细')

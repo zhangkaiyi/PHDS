@@ -6,7 +6,7 @@
     @*<meta name="viewport" content="width=device-width, initial-scale=1.0">*@
     <meta name="viewport" content="width=992px">
     <title>@ViewBag.Title - 我的 ASP.NET 应用程序</title>
-    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/bootstrap")
 
     <style>
         body, button, input, select, textarea, h1, h2, h3, h4, h5, h6 {
@@ -30,24 +30,26 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("返回前台", "Index", "Home", new { area = "" }, null)</li>
+                    <li>@Html.ActionLink("首页", "Index", "Home")</li>
+                    <li>@Html.ActionLink("用户", "Users", "RolesManage")</li>
+                    <li>@Html.ActionLink("角色", "Roles", "RolesManage")</li>
+                    <li>@Html.ActionLink("权限", "Index", "PermissionsAdmin")</li>
+                    <li>@Html.ActionLink("授权", "Index", "RolePermissions")</li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">后台管理 <span class="caret"></span></a>
+                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">账号  <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li class="dropdown-header">权限</li>
-                            <li>@Html.ActionLink("Users", "Users", "RolesManage")</li>
-                            <li>@Html.ActionLink("Roles", "Roles", "RolesManage")</li>
-                            <li class="dropdown-header">注册</li>
-                            <li>@Html.ActionLink("管理员", "RegisterGuanLiYuan", "Account")</li>
-                            <li>@Html.ActionLink("对账员", "RegisterDuiZhangYuan", "Account")</li>
-                            <li class="dropdown-header">PermissionsAdmin</li>
-                            <li>@Html.ActionLink("Index", "Index", "PermissionsAdmin", new { Area = "SuperAdmin" }, null)</li>
-                            <li class="dropdown-header">RolePermissions</li>
-                            <li>@Html.RouteLink("Index", "SuperAdmin_default", new { controller = "RolePermissions", Action = "Index" })</li>
+                            <li class="dropdown-header">创建</li>
+                            <li>@Html.ActionLink("管理员", "RegisterGuanLiYuan", "Home")</li>
+                            <li>@Html.ActionLink("对账员", "RegisterDuiZhangYuan", "Home")</li>
                         </ul>
                     </li>
                 </ul>
-                @Html.Partial("_LoginPartial")
+                <ul class="nav navbar-nav navbar-right">
+                    <li>@Html.ActionLink("退出后台", "Index", "Home", new { area = "" }, null)</li>
+                    <li>
+                        @Html.ActionLink("你好，" + User.Identity.Name + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                    </li>
+                </ul>
             </div>
 
         </div>

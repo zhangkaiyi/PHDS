@@ -17,7 +17,8 @@ namespace PHDS.Web.Areas.SuperAdmin
             context.MapRoute(
                 "SuperAdmin_default",
                 "SuperAdmin/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                new string[] { "PHDS.Web.Areas.SuperAdmin.Controllers" }
             );
         }
     }

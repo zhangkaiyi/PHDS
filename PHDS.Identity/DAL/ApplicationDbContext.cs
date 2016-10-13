@@ -110,6 +110,7 @@ namespace PHDS.Identity.DAL
                 new InitModel { Name="沈嘉欢",Password="sjh690221SJH",Email="294128225@qq.com"},
                 new InitModel { Name="唐丽娜",Password="woaitln88A",Email="9433985@qq.com"},
                 new InitModel { Name="李",Password="890989l",Email="libo880630@126.com"},
+                new InitModel { Name="peijinhui123",Password="peijinhui123",Email="583288238@qq.com"},
             };
             const string roleName1 = "管理员";
             const string roleName2 = "对账员";

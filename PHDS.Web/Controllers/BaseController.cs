@@ -50,16 +50,24 @@ namespace PHDS.Web.Controllers
             }
         }
 
-        private ApplicationRoleManager signInManager;
-        protected ApplicationRoleManager _signInManager
+        private ApplicationSignInManager signInManager;
+        protected ApplicationSignInManager _signInManager
         {
             get
             {
-                return signInManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+                return signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
             private set
             {
                 signInManager = value;
+            }
+        }
+
+        protected Microsoft.Owin.Security.IAuthenticationManager _authManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().Authentication;
             }
         }
 

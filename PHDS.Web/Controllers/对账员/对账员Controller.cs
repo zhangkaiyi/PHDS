@@ -112,5 +112,12 @@ namespace PHDS.Web.Controllers
             jsonNetResult.Data = Entities.DAL.应收应付.Api.应收应付及明细(Id);
             return jsonNetResult;
         }
+
+        [Permission("83BC9A9F-48FB-428D-AE10-4256E8D619E2")]
+        [Description("对账员 - 测试")]
+        public ActionResult Test()
+        {
+            return View();
+        }
     }
 }

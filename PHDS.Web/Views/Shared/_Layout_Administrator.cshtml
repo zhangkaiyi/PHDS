@@ -6,7 +6,7 @@
     @*<meta name="viewport" content="width=device-width, initial-scale=1.0">*@
     <meta name="viewport" content="width=992px">
     <title>@ViewBag.Title - 我的 ASP.NET 应用程序</title>
-    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/bootstrap")
 
     <style>
         body, button, input, select, textarea, h1, h2, h3, h4, h5, h6 {
@@ -31,7 +31,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
-                        @Html.ActionLink("进销存系统", "Index", "Home", new { data_toggle = "dropdown", @class = "dropdown-toggle" })
+                        <a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle">进销存系统</a>
                         <ul class="dropdown-menu" role="menu">
                             <li>@Html.ActionLink("发货", "Fahuo", "Home")</li>
                             <li>@Html.ActionLink("收货", "Shouhuo", "Home")</li>
@@ -42,7 +42,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        @Html.ActionLink("账务系统", "Index", "Home", new { data_toggle = "dropdown", @class = "dropdown-toggle" })
+                        <a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle">账务系统</a>
                         <ul class="dropdown-menu" role="menu">
                             <li>@Html.ActionLink("应收", "Yingshou", "Home")</li>
                             <li>@Html.ActionLink("应付", "Yingfu", "Home")</li>
@@ -51,10 +51,18 @@
                         </ul>
                     </li>
                     <li>@Html.ActionLink("人事", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("考勤", "Index", "考勤")</li>
-                    <li>@Html.ActionLink("工资", "Contact", "Home")</li>
-                    @if (User.IsInRole("管理员")) {
                     <li class="dropdown">
+                        <a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle">考勤</a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("月视图", "Index", "考勤")</li>
+                            <li>@Html.ActionLink("打卡记录", "Index", "考勤")</li>
+                        </ul>
+                    </li>
+                    <li>@Html.ActionLink("工资", "Contact", "Home")</li>
+                    @if (User.IsInRole("管理员"))
+                    {
+                        <li>@Html.ActionLink("后台管理", "Index", "Home", new { Area = "SuperAdmin" }, null)</li>
+                    @*<li class="dropdown">
                         
                             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">后台管理 <span class="caret"></span></a>
                             <ul class="dropdown-menu">
@@ -70,7 +78,7 @@
                                 <li>@Html.ActionLink("Index", "Index", "RolePermissions", new { Area = "SuperAdmin" }, null)</li>
                             </ul>
                         
-                    </li>
+                    </li>*@
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")

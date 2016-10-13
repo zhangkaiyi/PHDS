@@ -9,7 +9,9 @@ namespace PHDS.Web
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/jQueryTools/jquery.PrintArea.js",
+                        "~/Scripts/jQueryTools/printThis.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -26,6 +28,8 @@ namespace PHDS.Web
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/bootstrap").Include("~/Content/bootstrap.css"));
 
             bundles.Add(new StyleBundle("~/Content/Mvc4/css").Include("~/Content/Mvc4/site.css"));
 
@@ -46,6 +50,10 @@ namespace PHDS.Web
             bundles.Add(new StyleBundle("~/Assets/light7/dist/css/include").Include("~/Assets/light7/dist/css/light7.css"));
             bundles.Add(new ScriptBundle("~/Assets/light7/dist/js/include").Include("~/Assets/light7/dist/js/light7.js",
                 "~/Assets/light7/dist/js/i18n/cn.js"));
+
+            bundles.Add(new StyleBundle("~/Content/AdminLTE/dist/css/include").Include("~/Content/AdminLTE/dist/css/AdminLTE.css",
+                "~/Content/AdminLTE/dist/css/skins/skin-blue.min.css"));
+            bundles.Add(new ScriptBundle("~/Content/AdminLTE/dist/js/include").Include("~/Content/AdminLTE/dist/js/app.js"));
 
             bundles.Add(new StyleBundle("~/Content/DataTables/css/datatables").Include(
                 //"~/Content/DataTables/css/jquery.dataTables.css",

@@ -6,8 +6,8 @@
     @*<meta name="viewport" content="width=device-width, initial-scale=1.0">*@
     <meta name="viewport" content="width=992px">
     <title>@ViewBag.Title - 我的 ASP.NET 应用程序</title>
-    @Styles.Render("~/Content/css")
-
+    @Styles.Render("~/Content/bootstrap")
+    @Styles.Render("~/Content/AdminLTE/dist/css/include")
     <style>
         body, button, input, select, textarea, h1, h2, h3, h4, h5, h6 {
             font-family: Microsoft YaHei,'宋体', Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;
@@ -55,6 +55,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Content/AdminLTE/dist/js/include")
     @RenderSection("scripts", required: false)
 </body>
 </html>
