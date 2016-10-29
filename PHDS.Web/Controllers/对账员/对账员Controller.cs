@@ -117,7 +117,38 @@ namespace PHDS.Web.Controllers
         [Description("对账员 - 测试")]
         public ActionResult Test()
         {
-            return View();
+            using (var pinhua = new PHDS.Entities.Edmx.PinhuaEntities())
+            {
+                var customers = from p in pinhua.往来单位
+                                where Affiliations.Contains(p.单位编号)
+                                orderby p.RANK descending, p.单位编号 ascending
+                                select new Models.SalesModels.Customer
+                                {
+                                    Rank = p.RANK ?? 0,
+                                    Id = p.单位编号,
+                                    Name = p.单位名称
+                                };
+                return View("Test", customers.ToList());
+            }
+        }
+
+        [Permission("83BC9A9F-48FB-428D-AE10-4256E8D619E2")]
+        [Description("对账员 - 测试")]
+        public ActionResult Index()
+        {
+            using (var pinhua = new PHDS.Entities.Edmx.PinhuaEntities())
+            {
+                var customers = from p in pinhua.往来单位
+                                where Affiliations.Contains(p.单位编号)
+                                orderby p.RANK descending, p.单位编号 ascending
+                                select new Models.SalesModels.Customer
+                                {
+                                    Rank = p.RANK ?? 0,
+                                    Id = p.单位编号,
+                                    Name = p.单位名称
+                                };
+                return View(customers.ToList());
+            }
         }
     }
 }

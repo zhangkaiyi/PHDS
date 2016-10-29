@@ -54,6 +54,7 @@ namespace PHDS.Web
             bundles.Add(new StyleBundle("~/Content/AdminLTE/dist/css/include").Include("~/Content/AdminLTE/dist/css/AdminLTE.css",
                 "~/Content/AdminLTE/dist/css/skins/skin-blue.min.css"));
             bundles.Add(new ScriptBundle("~/Content/AdminLTE/dist/js/include").Include("~/Content/AdminLTE/dist/js/app.js"));
+            bundles.Add(new ScriptBundle("~/Content/AdminLTE/plugins/chartjs/include").Include("~/Content/AdminLTE/plugins/chartjs/Chart.js"));
 
             bundles.Add(new StyleBundle("~/Content/DataTables/css/datatables").Include(
                 //"~/Content/DataTables/css/jquery.dataTables.css",

@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNet.Identity
 @using Microsoft.AspNet.Identity.Owin
 @using PHDS.Identity.BLL
-@{ 
+@{
     var UserManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
 }
 
@@ -15,9 +15,9 @@
     <title>@ViewBag.Title - 我的 ASP.NET 应用程序</title>
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Content/font-awesome.min.css">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">*@
 
     @Styles.Render("~/Content/bootstrap")
     @Styles.Render("~/Content/AdminLTE/dist/css/include")
@@ -41,7 +41,7 @@
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b>PHM</b></span>
                 <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg"><b>Pinhua</b>Master<i class="fa fa-registered"></i></span>
+                <span class="logo-lg"><b>Pinhua</b>Master</span>
             </a>
 
             <!-- Header Navbar -->
@@ -130,14 +130,14 @@
                         <img src="~/Content/AdminLTE/dist/img/avatar5.png" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
-                        <p>@User.Identity.Name</p>
+                        <a href="javascript:;"><i class="fa fa-comment"></i> @User.Identity.Name</a><p></p>
                         <!-- Status -->
-                        <a href="#"><i class="fa fa-envelope"></i> @UserManager.FindById(User.Identity.GetUserId()).Email</a>
+                        <a href="javascript:;"><i class="fa fa-envelope"></i> @UserManager.FindById(User.Identity.GetUserId()).Email</a>
                     </div>
                 </div>
 
                 <!-- search form (Optional) -->
-                <form action="#" method="get" class="sidebar-form">
+                @*<form action="#" method="get" class="sidebar-form">
                     <div class="input-group">
                         <input type="text" name="q" class="form-control" placeholder="Search...">
                         <span class="input-group-btn">
@@ -146,15 +146,36 @@
                             </button>
                         </span>
                     </div>
-                </form>
+                </form>*@
                 <!-- /.search form -->
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu">
                     <li class="header">MAIN NAVIGATION</li>
                     <!-- Optionally, you can add icons to the links -->
-                    <li><a href="@Url.Action("Receivables", "对账员")"><i class="fa fa-link"></i> <span> 应收查询</span></a></li>
-                    <li><a href="@Url.Action("Payables", "对账员")"><i class="fa fa-link"></i> <span> 应付查询</span></a></li>
-                    <li><a href="@Url.Action("Both", "对账员")"><i class="fa fa-link"></i> <span> 应收应付查询</span></a></li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-th"></i> <span>Invoice</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="@Url.Action("Receivables", "对账员")"><i class="fa fa-circle-o"></i> <span> 发货</span></a></li>
+                            <li><a href="@Url.Action("Payables", "对账员")"><i class="fa fa-circle-o"></i> <span> 收货</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="treeview active">
+                        <a href="#">
+                            <i class="fa fa-bar-chart"></i> <span>Finance</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="@Url.Action("Index", "对账员")"><i class="fa fa-circle-o"></i> <span> 概览</span></a></li>
+                            <li><a href="@Url.Action("Both", "对账员")"><i class="fa fa-circle-o"></i> <span> 查账</span></a></li>
+                        </ul>
+                    </li>
                 </ul>
                 <!-- /.sidebar-menu -->
             </section>
