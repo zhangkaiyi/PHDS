@@ -38,7 +38,7 @@ namespace PHDS.Web.Controllers
             }
         }
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public ActionResult Index()
         {
             return View();

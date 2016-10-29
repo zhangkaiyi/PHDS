@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    @*<meta name="viewport" content="width=device-width, initial-scale=1.0">*@
+    <meta name="viewport" content="width=992px">
+    <title>@ViewBag.Title - 我的 ASP.NET 应用程序</title>
+    @Styles.Render("~/Content/bootstrap")
+
+    <style>
+        body, button, input, select, textarea, h1, h2, h3, h4, h5, h6 {
+            font-family: Microsoft YaHei,'宋体', Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;
+        }
+    </style>
+
+    @RenderSection("styles", required: false)
+    @*@Scripts.Render("~/bundles/modernizr")*@
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("拼花大师™地板", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle">进销存系统</a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("发货", "Fahuo", "Home")</li>
+                            <li>@Html.ActionLink("收货", "Shouhuo", "Home")</li>
+                            <li class="divider"></li>
+                            <li>@Html.ActionLink("在途物料", "Zaitu", "Home")</li>
+                            <li class="divider"></li>
+                            <li>@Html.ActionLink("往来", "Wanglai", "Home")</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle">账务系统</a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("应收", "Yingshou", "Home")</li>
+                            <li>@Html.ActionLink("应付", "Yingfu", "Home")</li>
+                            <li class="divider"></li>
+                            <li>@Html.ActionLink("应收应付", "YingshouYingfu", "Home")</li>
+                        </ul>
+                    </li>
+                    <li>@Html.ActionLink("人事", "Contact", "Home")</li>
+                    <li class="dropdown">
+                        <a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle">考勤</a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("月视图", "Index", "考勤")</li>
+                            <li>@Html.ActionLink("打卡记录", "Index", "考勤")</li>
+                        </ul>
+                    </li>
+                    <li>@Html.ActionLink("工资", "Contact", "Home")</li>
+                    @if (User.IsInRole("管理员"))
+                    {
+                        <li>@Html.ActionLink("后台管理", "Index", "Home", new { Area = "SuperAdmin" }, null)</li>
+                    @*<li class="dropdown">
+                        
+                            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">后台管理 <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-header">权限</li>
+                                <li>@Html.ActionLink("Users", "Users", "RolesManage")</li>
+                                <li>@Html.ActionLink("Roles", "Roles", "RolesManage")</li>
+                                <li class="dropdown-header">注册</li>
+                                <li>@Html.ActionLink("管理员", "RegisterGuanLiYuan", "Account")</li>
+                                <li>@Html.ActionLink("对账员", "RegisterDuiZhangYuan", "Account")</li>
+                                <li class="dropdown-header">PermissionsAdmin</li>
+                                <li>@Html.ActionLink("Index", "Index", "PermissionsAdmin", new { Area = "SuperAdmin" }, null)</li>
+                                <li class="dropdown-header">RolePermissions</li>
+                                <li>@Html.ActionLink("Index", "Index", "RolePermissions", new { Area = "SuperAdmin" }, null)</li>
+                            </ul>
+                        
+                    </li>*@
+                    }
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+            
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - 拼花大师地板</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

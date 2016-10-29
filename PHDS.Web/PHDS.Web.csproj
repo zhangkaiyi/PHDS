@@ -1501,6 +1501,8 @@
     <Content Include="Views\对账员\Statement.cshtml" />
     <Content Include="Views\Shared\_Layout_Test.cshtml" />
     <Content Include="Views\对账员\Index.cshtml" />
+    <Content Include="Views\Shared\_Layout_Administrator - 复制.cshtml" />
+    <Content Include="Views\Account\Login - 复制.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
