@@ -3,6 +3,29 @@
 @using PHDS.Identity.BLL
 @{
     var UserManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+    var controllerName = @ViewContext.RouteData.Values["controller"].ToString();
+    var actionName = @ViewContext.RouteData.Values["action"].ToString();
+}
+
+@functions{
+    IHtmlString activeByControllerName(string targetController)
+    {
+        var controllerName = @ViewContext.RouteData.Values["controller"].ToString();
+        if (controllerName.ToLower() == targetController.ToLower())
+        {
+            return Html.Raw("active");
+        }
+        return Html.Raw("");
+    }
+    IHtmlString activeByActionName(string targetAction)
+    {
+        var actionName = @ViewContext.RouteData.Values["action"].ToString();
+        if (actionName.ToLower() == targetAction.ToLower())
+        {
+            return Html.Raw("active");
+        }
+        return Html.Raw("");
+    }
 }
 
 <!DOCTYPE html>
@@ -11,8 +34,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     @*<meta name="viewport" content="width=device-width, initial-scale=1.0">*@
-    <meta name="viewport" content="width=992px">
-    <title>@ViewBag.Title - 我的 ASP.NET 应用程序</title>
+    <meta name="viewport" content="width=1200px">
+    <title>@ViewBag.Title - 应用管理系统</title>
 
     @Styles.Render("~/Content/bootstrap")
 
@@ -22,11 +45,11 @@
     <link rel="stylesheet" href="~/Content/AdminLTE/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="~/Content/AdminLTE/dist/css/skins/skin-blue.min.css">
 
-    <style>
+    @*<style>
         body, button, input, select, textarea, h1, h2, h3, h4, h5, h6 {
             font-family: Microsoft YaHei,'宋体', Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;
         }
-    </style>
+    </style>*@
 
     @RenderSection("styles", required: false)
     @*@Scripts.Render("~/bundles/modernizr")*@
@@ -153,7 +176,7 @@
                 <ul class="sidebar-menu">
                     <li class="header">MAIN NAVIGATION</li>
                     <!-- Optionally, you can add icons to the links -->
-                    <li class="treeview">
+                    <li class="treeview @activeByControllerName("Stockout")">
                         <a href="#">
                             <i class="fa fa-th"></i> <span>进销存系统</span>
                             <span class="pull-right-container">
@@ -161,13 +184,13 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="@Url.Action("Fahuo", "Home")"><i class="fa fa-circle-o"></i> <span> 发货</span></a></li>
-                            <li><a href="@Url.Action("Shouhuo", "Home")"><i class="fa fa-circle-o"></i> <span> 收货</span></a></li>
+                            <li class="@activeByActionName("Index")"><a href="@Url.Action("Index", "Stockout")"><i class="fa fa-circle-o"></i> <span> 发货单</span></a></li>
+                            <li><a href="@Url.Action("Shouhuo", "Home")"><i class="fa fa-circle-o"></i> <span> 收货单</span></a></li>
                             <li><a href="@Url.Action("Zaitu", "Home")"><i class="fa fa-circle-o"></i> <span> 在途物料</span></a></li>
                             <li><a href="@Url.Action("Wanglai", "Home")"><i class="fa fa-circle-o"></i> <span> 往来</span></a></li>
                         </ul>
                     </li>
-                    <li class="treeview active">
+                    <li class="treeview @activeByControllerName("Home")">
                         <a href="#">
                             <i class="fa fa-bar-chart"></i> <span>账务系统</span>
                             <span class="pull-right-container">
@@ -180,7 +203,7 @@
                             <li><a href="@Url.Action("YingshouYingfu", "Home")"><i class="fa fa-circle-o"></i> <span> 应收应付</span></a></li>
                         </ul>
                     </li>
-                    <li class="treeview">
+                    <li class="treeview @activeByControllerName("考勤")">
                         <a href="#">
                             <i class="fa fa-calendar"></i> <span>考勤系统</span>
                             <span class="pull-right-container">
@@ -192,6 +215,14 @@
                             <li><a href="@Url.Action("Index", "考勤")"><i class="fa fa-circle-o"></i> <span> 打卡记录</span></a></li>
                         </ul>
                     </li>
+                    <li class="header">LABELS</li>
+                    @if (Request.IsAuthenticated)
+                    {
+                        if (User.IsInRole("管理员"))
+                        {
+                            <li><a href="@Url.Action("Index", "Home", new { area = "SuperAdmin" })"><i class="fa fa-circle-o text-red"></i> <span>超级管理员</span></a></li>
+                        }
+                    }
                 </ul>
                 <!-- /.sidebar-menu -->
             </section>
@@ -207,8 +238,8 @@
                         <small>Optional description</small>
                     </h1>
                     <ol class="breadcrumb">
-                        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                        <li class="active">Here</li>
+                        <li><a href="#"><i class="fa fa-dashboard"></i> @controllerName</a></li>
+                        <li class="active">@actionName</li>
                     </ol>
                 </section>
 

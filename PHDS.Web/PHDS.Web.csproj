@@ -188,6 +188,8 @@
     <Compile Include="Controllers\ClockController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\StockinController.cs" />
+    <Compile Include="Controllers\StockoutController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\对账员\对账员Controller.cs" />
     <Compile Include="Models\AdminViewModels.cs" />
@@ -1503,10 +1505,13 @@
     <Content Include="Views\对账员\Index.cshtml" />
     <Content Include="Views\Shared\_Layout_Administrator - 复制.cshtml" />
     <Content Include="Views\Account\Login - 复制.cshtml" />
+    <Content Include="Views\Stockout\Index.cshtml" />
+    <Content Include="Views\Stockout\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Clock\" />
+    <Folder Include="Views\Stockin\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
