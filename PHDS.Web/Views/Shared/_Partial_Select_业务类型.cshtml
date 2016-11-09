@@ -1,0 +1,28 @@
+﻿
+@{
+    var database = new PHDS.Entities.Edmx.PinhuaEntities();
+
+    var bussinessTypes = from p in database.业务类型.ToList()
+                         where p.状态 == "Yes" && p.MvP == "GI"
+                         select p;
+    var groupKeys = from p in bussinessTypes
+                    group p by p.MvP into g
+                    select g.Key;
+}
+
+<select class="form-control" name="业务类型">
+
+    @foreach (var key in groupKeys)
+    {
+        <optgroup label="@key">
+            @foreach (var option in bussinessTypes)
+            {
+                if (option.MvP == key)
+                {
+                    <option value="@option.业务类型1">@option.业务类型1 - @option.类型描述</option>
+                }
+            }
+        </optgroup>
+    }
+
+</select>

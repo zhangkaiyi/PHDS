@@ -66,18 +66,18 @@ namespace PHDS.Web.Controllers
                             orderby p.送货日期 descending, p.送货单号 descending
                             select new Models.SalesModels.OrdersModel
                             {
-                                CustomerId = p.客户编号,
-                                CustomerName = p.客户,
-                                CustomerAddress = p.地址,
-                                OrderId = p.送货单号,
-                                SalesComment = p.备注,
-                                SalesDate = p.送货日期,
-                                SalesTypeId = p.业务类型,
-                                SalesTypeDescription = p3.类型描述,
-                                SalesAmount = p2.Amount,
-                                SalesSquare = p2.Square ?? 0,
-                                DetailsCount = p2.Count,
-                                RCID = p.ExcelServerRCID
+                                customerId = p.客户编号,
+                                customerName = p.客户,
+                                customerAddress = p.地址,
+                                orderId = p.送货单号,
+                                stockoutComment = p.备注,
+                                stockoutDate = p.送货日期,
+                                stockoutType = p.业务类型,
+                                stockoutTypeDescription = p3.类型描述,
+                                stockoutAmount = p2.Amount,
+                                stockoutSquare = p2.Square ?? 0,
+                                itemsCount = p2.Count,
+                                rcId = p.ExcelServerRCID
                             };
 
                 return View(model.ToList());
@@ -109,18 +109,18 @@ namespace PHDS.Web.Controllers
                             orderby p.送货日期 descending, p.送货单号 descending
                             select new Models.SalesModels.OrdersModel
                             {
-                                CustomerId = p.客户编号,
-                                CustomerName = p.客户,
-                                CustomerAddress = p.地址,
-                                OrderId = p.送货单号,
-                                SalesComment = p.备注,
-                                SalesDate = p.送货日期,
-                                SalesTypeId = p.业务类型,
-                                SalesTypeDescription = p3.类型描述,
-                                SalesAmount = p2.Amount,
-                                SalesSquare = p2.Square ?? 0,
-                                DetailsCount = p2.Count,
-                                RCID = p.ExcelServerRCID
+                                customerId = p.客户编号,
+                                customerName = p.客户,
+                                customerAddress = p.地址,
+                                orderId = p.送货单号,
+                                stockoutComment = p.备注,
+                                stockoutDate = p.送货日期,
+                                stockoutType = p.业务类型,
+                                stockoutTypeDescription = p3.类型描述,
+                                stockoutAmount = p2.Amount,
+                                stockoutSquare = p2.Square ?? 0,
+                                itemsCount = p2.Count,
+                                rcId = p.ExcelServerRCID
                             };
 
                 return View(model.ToList());
@@ -179,18 +179,18 @@ namespace PHDS.Web.Controllers
                             orderby p.送货日期 descending, p.送货单号 descending
                             select new Models.SalesModels.OrdersModel
                             {
-                                CustomerId = p.客户编号,
-                                CustomerName = p.客户,
-                                CustomerAddress = p.地址,
-                                OrderId = p.送货单号,
-                                SalesComment = p.备注,
-                                SalesDate = p.送货日期,
-                                SalesTypeId = p.业务类型,
-                                SalesTypeDescription = p3.类型描述,
-                                SalesAmount = p2.Amount,
-                                SalesSquare = p2.Square ?? 0,
-                                DetailsCount = p2.Count,
-                                RCID = p.ExcelServerRCID
+                                customerId = p.客户编号,
+                                customerName = p.客户,
+                                customerAddress = p.地址,
+                                orderId = p.送货单号,
+                                stockoutComment = p.备注,
+                                stockoutDate = p.送货日期,
+                                stockoutType = p.业务类型,
+                                stockoutTypeDescription = p3.类型描述,
+                                stockoutAmount = p2.Amount,
+                                stockoutSquare = p2.Square ?? 0,
+                                itemsCount = p2.Count,
+                                rcId = p.ExcelServerRCID
                             };
 
                 return View(model.ToList());

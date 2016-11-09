@@ -1,0 +1,68 @@
+﻿@*@{
+    var database = new PHDS.Entities.Edmx.PinhuaEntities();
+
+    var items = from p in database.物料登记.ToList()
+                select new
+                {
+                    p.编号,
+                    p.类型,
+                    p.描述,
+                    p.规格
+                };
+
+    var types = from p in items
+                group p by p.类型 into g
+                select g.Key;
+
+    }*@
+
+@{
+    var database = new PHDS.Entities.Edmx.PinhuaEntities();
+
+    var items = from p in database.物料登记.ToList()
+                select new
+                {
+                    p.编号,
+                    p.类型,
+                    p.描述,
+                    p.规格,
+                    p.木种,
+                    p.工艺,
+                    p.Length,
+                    p.Width,
+                    p.Height,
+                };
+    var json = Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(items));
+}
+
+<div class="modal fade" id="itemsModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">物料清单</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-4 pull-right">
+                        <div class="input-group input-group-sm">
+                            <input type="text" id="items_search" class="form-control pull-right" placeholder="Search">
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px;">
+                    <div class="col-xs-12">
+                        <table class="table table-striped table-bordered" id="itemList" style="font-size:12px;margin-top:0px !important; margin-bottom:0px !important;"></table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

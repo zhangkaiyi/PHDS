@@ -29,14 +29,14 @@ namespace PHDS.Web.Controllers
                 var set = from p in pinhua.发货.AsNoTracking()
                           select new Models.SalesModels.OrdersModel
                           {
-                              RCID = p.ExcelServerRCID,
-                              OrderId = p.送货单号,
-                              CustomerId = p.客户编号,
-                              CustomerName = p.客户,
-                              SalesDate = p.送货日期.Value,
-                              CustomerAddress = p.地址,
-                              SalesTypeId = p.业务类型,
-                              SalesTypeDescription = p.业务描述,
+                              rcId = p.ExcelServerRCID,
+                              orderId = p.送货单号,
+                              customerId = p.客户编号,
+                              customerName = p.客户,
+                              stockoutDate = p.送货日期.Value,
+                              customerAddress = p.地址,
+                              stockoutType = p.业务类型,
+                              stockoutTypeDescription = p.业务描述,
                           };
 
                 return View(set.ToList());

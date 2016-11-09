@@ -33,8 +33,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
-    @*<meta name="viewport" content="width=device-width, initial-scale=1.0">*@
-    <meta name="viewport" content="width=1200px">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @*<meta name="viewport" content="width=1200px">*@
     <title>@ViewBag.Title - 应用管理系统</title>
 
     @Styles.Render("~/Content/bootstrap")
@@ -138,6 +138,9 @@
                         <li>
                             <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
                         </li>
+                        <li>
+                            <a href="javascript:setViewport();"><i class="fa fa-exchange"> @*<small>Viewport</small>*@</i></a>
+                        </li>
                     </ul>
                 </div>
             </nav>
@@ -230,7 +233,7 @@
         </aside>
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
+        <div class="content-wrapper" style="min-height:1280px">
             <!-- Content Header (Page header) -->
             <section class="content-header">
                     <h1>
@@ -346,10 +349,25 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     
+    <!-- Vue -->
+    @Scripts.Render("~/bundles/vue")
+
     <!-- AdminLTE -->
     <script src="~/Content/AdminLTE/dist/js/app.min.js"></script>
     <script src="~/Content/AdminLTE/plugins/chartjs/Chart.min.js"></script>
 
     @RenderSection("scripts", required: false)
+    <script>
+        function setViewport()
+        {
+            var viewport = document.querySelector("meta[name=viewport]");
+            var content1 = "width=device-width, initial-scale=1.0";
+            var content2 = "width=1200px";
+            if (viewport.getAttribute('content') == content1)
+                viewport.setAttribute('content', content2);
+            else if (viewport.getAttribute('content') == content2)
+                viewport.setAttribute('content', content1);
+        }
+    </script>
 </body>
 </html>

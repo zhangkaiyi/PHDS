@@ -1,0 +1,29 @@
+﻿
+@{
+    var database = new PHDS.Entities.Edmx.PinhuaEntities();
+
+    var customers = from p in database.往来单位.ToList()
+                    select p;
+
+    var groupKeys = from p in customers
+                    orderby p.RANK descending
+                    group p by p.RANK into g
+                    select g.Key;
+}
+
+<select class="form-control" name="客户单位">
+
+    @foreach (var key in groupKeys)
+    {
+        <optgroup label="Rank: @key">
+            @foreach (var customer in customers)
+            {
+                if (customer.RANK == key)
+                {
+                    <option value="@customer.单位编号">@customer.单位编号 - @customer.单位名称</option>
+                }
+            }
+        </optgroup>
+    }
+
+</select>

@@ -200,6 +200,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\StockoutModels.cs" />
     <Compile Include="Models\SalesModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ActionPermissionService.cs" />
@@ -1438,6 +1439,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\vue.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -1507,6 +1509,9 @@
     <Content Include="Views\Account\Login - 复制.cshtml" />
     <Content Include="Views\Stockout\Index.cshtml" />
     <Content Include="Views\Stockout\Create.cshtml" />
+    <Content Include="Views\Shared\_Partial_Select_业务类型.cshtml" />
+    <Content Include="Views\Shared\_Partial_Select_客户单位.cshtml" />
+    <Content Include="Views\Shared\_Partial_Modal_物料清单.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

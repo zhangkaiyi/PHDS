@@ -1,6 +1,4 @@
-﻿@using System.Web.Mvc
-
-@model IEnumerable<PHDS.Web.Models.SalesModels.OrdersModel>
+﻿@model IEnumerable<PHDS.Web.Models.StockoutModels.StockoutOrder>
 @{
     var orders = Newtonsoft.Json.JsonConvert.SerializeObject(Model, new Newtonsoft.Json.Converters.IsoDateTimeConverter { DateTimeFormat = "yyyy/MM/dd" });
 }
@@ -34,15 +32,10 @@
 }
 
 <div class="row">
-    <div class="col-xs-9">
-        <div class="btn-group">
-            @*<a class="btn btn-flat btn-app btn-danger"><i class="fa fa-plus"></i> 新增</a>
-            <a class="btn btn-flat btn-app btn-primary"><i class="fa fa-edit"></i> 编辑</a>
-            <a class="btn btn-flat btn-app btn-primary"><i class="fa fa-trash"></i> 删除</a>*@
-            <a href="@Url.Action("Create")" class="btn btn-primary btn-flat btn-app"><i class="fa fa-plus"></i> 新增</a>
-        </div>
+    <div class="col-xs-4 col-sm-3 col-md-2 col-lg-1">
+            <a href="@Url.Action("Create")" class="btn btn-danger btn-block btn-flat"><i class="fa fa-plus"></i>　新增</a>
     </div>
-    <div class="col-xs-3 pull-right">
+    <div class="col-xs-8 col-sm-7 col-md-5 col-lg-3 pull-right">
         <div class="input-group">
             <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
             <input type="text" class="form-control" aria-label="..." id="filter">
@@ -59,6 +52,7 @@
         </div>
     </div>
 </div>
+
 <div style="margin: 10px auto;"></div>
 <div class="box box-primary">
     <div class="box-header with-border">
@@ -97,8 +91,8 @@
 
         for(var item in json)
         {
-            json[item].SalesAmount = json[item].SalesAmount.toFixed(2);
-            json[item].SalesSquare = json[item].SalesSquare.toFixed(2);
+            json[item].stockoutAmount = json[item].stockoutAmount.toFixed(2);
+            json[item].stockoutSquare = json[item].stockoutSquare.toFixed(2);
         }
 
         $.extend(true, $.fn.DataTable.defaults ,CONSTANT.DATA_TABLES.DEFAULT_OPTION);
@@ -109,17 +103,17 @@
             data: json,
             columns:
                 [
-                    { data: "DetailsCount" , title: "项数", width:"2em", className:"text-center", render:function (data, type, row, meta){return "<span class='badge'>"+ row.DetailsCount +"</span>"}},
-                    { data: "CustomerId", title: "客户编号", width: "7em", visible: false },
-                    { data: "OrderId", title: "单据", width: "15em", render:function (data, type, row, meta){return data + " - "+ row.SalesDate}},
-                    { data: "SalesDate", title: "送货日期", width: "7em", visible:false, },
-                    { data: "CustomerName", title: "客户", width: "10em", },
-                    //{ data: "CustomerAddress" , title: "地址", },
-                    { data: "SalesComment", title: "备注", width: "auto", visible: true, },
-                    { data: "SalesTypeId", title: "业务类型", width: "6em", visible: false },
-                    { data: "SalesTypeDescription", title: "业务类型", width: "10em", visible: true, render:function (data, type, row, meta){return data + " - " + row.SalesTypeId} },
-                    { data: "SalesSquare", title: "面积", width:"6em", className: "text-right", @*render: function (data, type, row, meta) { return "<span class='badge'>" + data + "</span>" }*@ },
-                    { data: "SalesAmount", title: "合计金额", width: "6em", className: "text-right", @*render: function (data, type, row, meta) { return "<div style='font-weight:bold' class='badge'>" + data + "</div>" }*@ },
+                    { data: "itemsCount" , title: "项数", width:"3em", className:"text-center", render:function (data, type, row, meta){return "<span class='badge'>"+ row.itemsCount +"</span>"}},
+                    { data: "customerId", title: "客户编号", width: "7em", visible: false },
+                    { data: "orderId", title: "单据", width: "15em", render:function (data, type, row, meta){return data + " - "+ row.stockoutDate}},
+                    { data: "stockoutDate", title: "送货日期", width: "7em", visible:false, },
+                    { data: "customerName", title: "客户", width: "10em", },
+                    //{ data: "customerAddress" , title: "地址", },
+                    { data: "stockoutComment", title: "备注", width: "auto", visible: true, },
+                    { data: "stockoutType", title: "业务类型", width: "6em", visible: false },
+                    { data: "stockoutTypeDescription", title: "业务类型", width: "10em", visible: true, render:function (data, type, row, meta){return data + " - " + row.stockoutType} },
+                    { data: "stockoutSquare", title: "面积", width:"6em", className: "text-right", @*render: function (data, type, row, meta) { return "<span class='badge'>" + data + "</span>" }*@ },
+                    { data: "stockoutAmount", title: "合计金额", width: "6em", className: "text-right", @*render: function (data, type, row, meta) { return "<div style='font-weight:bold' class='badge'>" + data + "</div>" }*@ },
                 ]
         });
 
@@ -138,7 +132,7 @@
         function buildOrderDetailTable(d) {
             var data;
             $.ajaxSettings.async = false;
-            $.getJSON("@Url.Action("FahuoDetail")",{RCID:d.RCID},function(result){
+            $.getJSON("@Url.Action("FahuoDetail")",{RCID:d.rcId},function(result){
                 data = result
             })
             $.ajaxSettings.async = true;

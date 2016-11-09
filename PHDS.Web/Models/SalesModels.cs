@@ -12,41 +12,41 @@ namespace PHDS.Web.Models
         public class OrdersModel
         {
             [Required]
-            [Display(Name = "RCID")]
-            public string RCID { get; set; }
+            [Display(Name = "rcId")]
+            public string rcId { get; set; }
 
-            [Display(Name = "订单编号")]
-            public string OrderId { get; set; }
+            [Display(Name = "单据编号")]
+            public string orderId { get; set; }
 
-            [Display(Name = "销售日期")]
-            public DateTime? SalesDate { get; set; }
+            [Display(Name = "出库日期")]
+            public DateTime? stockoutDate { get; set; }
 
             [Display(Name = "客户编号")]
-            public string CustomerId { get; set; }
+            public string customerId { get; set; }
 
             [Display(Name = "客户名称")]
-            public string CustomerName { get; set; }
+            public string customerName { get; set; }
 
             [Display(Name = "客户地址")]
-            public string CustomerAddress { get; set; }
+            public string customerAddress { get; set; }
 
-            [Display(Name = "销售类型")]
-            public string SalesTypeId { get; set; }
+            [Display(Name = "业务类型")]
+            public string stockoutType { get; set; }
 
             [Display(Name = "类型描述")]
-            public string SalesTypeDescription { get; set; }
+            public string stockoutTypeDescription { get; set; }
 
             [Display(Name = "备注")]
-            public string SalesComment { get; set; }
+            public string stockoutComment { get; set; }
 
             [Display(Name = "金额")]
-            public decimal SalesAmount { get; set; }
+            public decimal stockoutAmount { get; set; }
 
             [Display(Name = "面积")]
-            public decimal SalesSquare { get; set; }
+            public decimal stockoutSquare { get; set; }
 
             [Display(Name = "项数")]
-            public int DetailsCount { get; set; }
+            public int itemsCount { get; set; }
         }
 
         public class OrderDetailModel
