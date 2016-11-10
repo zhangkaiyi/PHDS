@@ -1,31 +1,5 @@
-﻿@model List<PHDS.Web.Models.StockoutModels.StockoutOrder>
-@{ 
-    var orderId = string.Empty;
-    var rcId = string.Empty;
-    var rtId = string.Empty;
-    using (var database = new PHDS.Entities.Edmx.PinhuaEntities())
-    {
-        var year = DateTime.UtcNow.ToString("yy");
-        var today = DateTime.UtcNow.ToString("yyyyMMdd");
-
-        var exsistedIds = (from p in database.发货
-                           where p.送货单号.Substring(0, 5) == "OUT" + year
-                           orderby p.送货单号 descending
-                           select p.送货单号)
-                         .ToList();
-                         //.Where(x => x.Substring(3, 4) == DateTime.Now.ToString("yyyy"));
-        var orderIndex = int.Parse(exsistedIds.Count() == 0 ? "0" : exsistedIds.First().Substring(7)) + 1;
-        orderId = "OUT"+ year + orderIndex.ToString("D5");
-
-        var exsistedRcids = (from p in database.ES_RepCase
-                             where p.rcId.Substring(0, 10) == "rc" + today
-                             orderby p.rcId descending
-                             select p.rcId)
-                            .ToList();
-        var rcidIndex = int.Parse(exsistedRcids.Count() == 0 ? "0" : exsistedRcids.First().Substring(12)) + 1;
-        rcId = "rc" + DateTime.UtcNow.ToString("yyyyMMdd") + rcidIndex.ToString("D5");
-    }
-}
+﻿@using PHDS.Web.Controllers
+@model PHDS.Web.Models.StockoutModels.CreateModel
 
 <section class="invoice" id="invoice">
     <div class="row">
@@ -61,18 +35,21 @@
                     </div>
                 </div>
                 <div class="form-group has-error">
-                    <label class="control-label" for="inputSuccess"><i class="fa fa-angle-double-right"></i> 出库日期</label>
+                    <label class="control-label" for="@Html.IdFor(x => x.stockoutDate)"><i class="fa fa-angle-double-right"></i> 出库日期</label>
                     <div class="input-group">
-                        <input type="text" class="form-control pull-right" id="datepicker" data-provide="datepicker" data-date-format="yyyy-mm-dd" value="@DateTime.UtcNow.ToString("yyyy-MM-dd")"  name="出库日期" readonly>
+                        @Html.TextBoxFor(x => x.stockoutDate, new { data_provide = "datepicker", data_date_format = "yyyy-mm-dd", @readonly = "readonly", @class = "form-control pull-right" })
+                        @*<input type="text" class="form-control pull-right" id="datepicker" data-provide="datepicker" data-date-format="yyyy-mm-dd" value="@DateTime.UtcNow.ToString("yyyy-MM-dd")"  name="出库日期" readonly>*@
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-danger btn-flat" style="width:40px"><i class="fa fa-calendar-o"></i></button>
                         </span>
                     </div>
+                    <span class="help-block">@Html.ValidationMessageFor(x=>x.stockoutDate)</span>
                 </div>
                 <div class="form-group has-error">
-                    <label class="control-label" for="inputSuccess"><i class="fa fa-angle-double-right"></i> 地址</label>
+                    <label class="control-label" for="@Html.NameFor(x=>x.地址)"><i class="fa fa-angle-double-right"></i> 地址</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="inputSuccess" placeholder="Enter ..." name="地址">
+                        @Html.TextBoxFor(x=>x.地址, new { @class="form-control", placeholder="Enter ..."})
+                        @*<input type="text" class="form-control" id="inputSuccess" placeholder="Enter ..." name="地址">*@
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-danger btn-flat" style="width:40px"><i class="fa fa-map-o"></i></button>
                         </span>
@@ -82,29 +59,32 @@
             <!-- /.col -->
             <div class="col-sm-4 invoice-col">
                 <div class="form-group has-warning">
-                    <label class="control-label" for="inputSuccess"><i class="fa fa-angle-double-right"></i> 联系人</label>
+                    <label class="control-label" for="@Html.NameFor(x=>x.联系人)"><i class="fa fa-angle-double-right"></i> 联系人</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="inputSuccess" placeholder="Enter ..." name="联系人">
+                        @Html.TextBoxFor(x=>x.联系人,new { @class = "form-control", placeholder = "Enter ..." })
+                        @*<input type="text" class="form-control" id="inputSuccess" placeholder="Enter ..." name="联系人">*@
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-warning btn-flat" style="width:40px"><i class="fa fa-user"></i></button>
                         </span>
                     </div>
                 </div>
                 <div class="form-group has-warning">
-                    <label class="control-label" for="inputSuccess"><i class="fa fa-angle-double-right"></i> 联系电话</label>
+                    <label class="control-label" for="@Html.NameFor(x=>x.联系电话)"><i class="fa fa-angle-double-right"></i> 联系电话</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="inputSuccess" placeholder="Enter ..." name="联系电话">
+                        @Html.TextBoxFor(x => x.联系电话, new { @class = "form-control", placeholder = "Enter ..." })
+                        @*<input type="text" class="form-control" id="inputSuccess" placeholder="Enter ..." name="联系电话">*@
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-warning btn-flat" style="width:40px"><i class="fa fa-phone"></i></button>
                         </span>
                     </div>
                 </div>
                 <div class="form-group has-warning">
-                    <label class="control-label" for="inputWarning">
+                    <label class="control-label" for="@Html.NameFor(x=>x.备注)">
                         <i class="fa fa-bell-o"></i> 备注
                     </label>
                     <div class="input-group">
-                        <textarea class="form-control" rows="3" id="inputWarning" placeholder="Enter ..." name="备注"></textarea>
+                        @Html.TextAreaFor(x=>x.备注,new { @class="form-control", rows="3", placeholder="Enter ..."})
+                        @*<textarea class="form-control" rows="3" id="inputWarning" placeholder="Enter ..." name="备注"></textarea>*@
                         <span class="input-group-addon"><i class="fa fa-commenting"></i></span>
                     </div>
                     <span class="help-block">在此输入你的备注信息</span>
@@ -112,8 +92,8 @@
             </div>
             <!-- /.col -->
             <div class="col-sm-4 invoice-col">
-                <b>单号:</b> @orderId<input type="hidden" value="@orderId" name="orderId"/><br>
-                <b>系统关联编号:</b> @rcId<input type="hidden" value="@rcId" name="rcId" /><br>
+                <b>单号:</b> @StockoutHelper.OrderId<input type="hidden" value="@StockoutHelper.OrderId" name="orderId"/><br>
+                <b>系统关联编号:</b> @StockoutHelper.rcId<input type="hidden" value="@StockoutHelper.rcId" name="rcId" /><br>
             </div>
             <!-- /.col -->
         </div>
@@ -321,4 +301,6 @@
         });
 
     </script>
+
+@Scripts.Render("~/bundles/jqueryval")
 }

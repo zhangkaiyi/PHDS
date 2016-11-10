@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PHDS.Web.Models.StockoutModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -18,13 +19,14 @@ namespace PHDS.Web.Controllers
                                          join itemprop in pinhua.物料登记.AsNoTracking() on item.编号 equals itemprop.编号
                                          select new { item, itemprop })
                               group p by p.item.ExcelServerRCID into g
-                              let amount = g.Sum(x => x.item.金额 ?? 0)
+                              let amount = g.Sum(x => x.item.金额)
                               let square = g.Sum(x => x.item.PCS * x.itemprop.Length * x.itemprop.Width / 1000 / 1000)
                               let count = g.Count(x => string.IsNullOrEmpty(x.item.ExcelServerRCID) == false)
                               select new { ExcelServerRCID = g.Key, Amount = amount, Square = square, Count = count };
 
                     var model = from p in pinhua.发货.AsNoTracking()
-                                join p2 in set on p.ExcelServerRCID equals p2.ExcelServerRCID
+                                join p2 in set on p.ExcelServerRCID equals p2.ExcelServerRCID into leftjion
+                                from pleft in leftjion.DefaultIfEmpty()
                                 join p3 in pinhua.业务类型.AsNoTracking() on p.业务类型 equals p3.业务类型1
                                 //let contains = new string[] {"171","172"}
                                 //where contains.Contains(p.业务类型)
@@ -40,12 +42,32 @@ namespace PHDS.Web.Controllers
                                     stockoutDate = p.送货日期,
                                     stockoutType = p.业务类型,
                                     stockoutTypeDescription = p3.类型描述,
-                                    stockoutAmount = p2.Amount,
-                                    stockoutSquare = p2.Square ?? 0,
-                                    itemsCount = p2.Count,
+                                    stockoutAmount = pleft.Amount ?? 0,
+                                    stockoutSquare = pleft.Square ?? 0,
+                                    itemsCount = (int?)pleft.Count ?? 0,
                                     rcId = p.ExcelServerRCID
                                 };
                     return model.ToList();
+                }
+            }
+        }
+        static public string OrderId
+        {
+            get
+            {
+                using (var database = new PHDS.Entities.Edmx.PinhuaEntities())
+                {
+                    var year = DateTime.UtcNow.ToString("yy");
+                    var today = DateTime.UtcNow.ToString("yyyyMMdd");
+
+                    var exsistedIds = (from p in database.发货
+                                       where p.送货单号.Substring(0, 5) == "OUT" + year
+                                       orderby p.送货单号 descending
+                                       select p.送货单号)
+                                     .ToList();
+                    //.Where(x => x.Substring(3, 4) == DateTime.Now.ToString("yyyy"));
+                    var orderIndex = int.Parse(exsistedIds.Count() == 0 ? "0" : exsistedIds.First().Substring(7)) + 1;
+                    return "OUT" + year + orderIndex.ToString("D5");
                 }
             }
         }
@@ -111,25 +133,15 @@ namespace PHDS.Web.Controllers
 
         public ActionResult Create()
         {
-            return View();
+            var model = new CreateModel
+            {
+                rcId = StockoutHelper.rcId,
+                orderId = StockoutHelper.OrderId,
+                stockoutDate = DateTime.UtcNow.ToString("yyyy-MM-dd")
+            };
+            return View(model);
         }
-        public class CreateModel
-        {
-            public string rcId { get; set; }
-            public string orderId { get; set; }
-            public string 业务类型 { get; set; }
-            public string 客户单位 { get; set; }
-            public string 出库日期 { get; set; }
-            public string 地址 { get; set; }
-            public string 备注 { get; set; }
-            public List<ItemModel> Items { get; set; }
-        }
-        public class ItemModel
-        {
-            public string 编号 { get; set; }
-            public string 描述 { get; set; }
-            public string 规格 { get; set; }
-        }
+
         [HttpPost]
         public ActionResult Create(CreateModel model)
         {
@@ -154,7 +166,7 @@ namespace PHDS.Web.Controllers
                 送货单号 = model.orderId,
                 地址 = model.地址,
                 备注 = model.备注,
-                送货日期 = DateTime.Parse(model.出库日期),
+                送货日期 = DateTime.Parse(model.stockoutDate),
             };
 
             using (var database = new PHDS.Entities.Edmx.PinhuaEntities())

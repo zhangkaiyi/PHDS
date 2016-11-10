@@ -48,7 +48,7 @@ namespace PHDS.Web.Models.StockoutModels
         public int itemsCount { get; set; }
     }
 
-    public class OrderDetailModel
+    public class StockoutItem
     {
         [Required]
         [Display(Name = "行号")]
@@ -102,5 +102,31 @@ namespace PHDS.Web.Models.StockoutModels
         public int Rank { get; set; }
         public string Id { get; set; }
         public string Name { get; set; }
+    }
+
+    public class CreateModel
+    {
+        [Required]
+        public string rcId { get; set; }
+        [Required]
+        public string orderId { get; set; }
+        [Required]
+        public string 业务类型 { get; set; }
+        [Required]
+        public string 客户单位 { get; set; }
+        [Required]
+        [Display(Name="日期")]
+        public string stockoutDate { get; set; }
+        public string 地址 { get; set; }
+        public string 备注 { get; set; }
+        public string 联系人 { get; set; }
+        public string 联系电话 { get; set; }
+        public List<ItemModel> Items { get; set; }
+    }
+    public class ItemModel
+    {
+        public string 编号 { get; set; }
+        public string 描述 { get; set; }
+        public string 规格 { get; set; }
     }
 }
