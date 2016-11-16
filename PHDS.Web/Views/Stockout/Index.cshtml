@@ -26,29 +26,22 @@
 
         tr.active > td {
             background-color: #0075b0 !important;
+            color: #fff !important;
+        }
+        tr.active > td > a {
             color: #fff;
         }
     </style>
 }
 
 <div class="row">
-    <div class="col-xs-4 col-sm-3 col-md-2 col-lg-1">
-            <a href="@Url.Action("Create")" class="btn btn-danger btn-block btn-flat"><i class="fa fa-plus"></i>　新增</a>
+    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-1">
+            <a href="@Url.Action("Create")" class="btn btn-danger btn-block btn-flat" style="min-width:100px"><i class="fa fa-plus"></i>&nbsp;新增</a>
     </div>
     <div class="col-xs-8 col-sm-7 col-md-5 col-lg-3 pull-right">
         <div class="input-group">
             <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
             <input type="text" class="form-control" aria-label="..." id="filter">
-            <div class="input-group-btn">
-                <button type="button" class="btn btn-primary btn-flat dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">筛选 <span class="caret"></span></button>
-                <ul class="dropdown-menu dropdown-menu-right">
-                    <li><a href="#">销售送货</a></li>
-                    <li><a href="#">委外送货</a></li>
-                    <li><a href="#">Something else here</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#">Separated link</a></li>
-                </ul>
-            </div>
         </div>
     </div>
 </div>
@@ -108,12 +101,13 @@
                     { data: "orderId", title: "单据", width: "15em", render:function (data, type, row, meta){return data + " - "+ row.stockoutDate}},
                     { data: "stockoutDate", title: "送货日期", width: "7em", visible:false, },
                     { data: "customerName", title: "客户", width: "10em", },
-                    //{ data: "customerAddress" , title: "地址", },
+                    { data: "customerAddress" , title: "地址", },
                     { data: "stockoutComment", title: "备注", width: "auto", visible: true, },
                     { data: "stockoutType", title: "业务类型", width: "6em", visible: false },
                     { data: "stockoutTypeDescription", title: "业务类型", width: "10em", visible: true, render:function (data, type, row, meta){return data + " - " + row.stockoutType} },
-                    { data: "stockoutSquare", title: "面积", width:"6em", className: "text-right", @*render: function (data, type, row, meta) { return "<span class='badge'>" + data + "</span>" }*@ },
-                    { data: "stockoutAmount", title: "合计金额", width: "6em", className: "text-right", @*render: function (data, type, row, meta) { return "<div style='font-weight:bold' class='badge'>" + data + "</div>" }*@ },
+                    { data: "stockoutSquare", title: "面积", width:"6em", className: "text-right" },
+                    { data: "stockoutAmount", title: "合计金额", width: "6em", className: "text-right" },
+                    { title:"",render:function (data, type, row, meta){return '<a href="@Url.Action("Edit")/'+row.orderId+'">编辑</a> | <a href="@Url.Action("Delete")/'+row.orderId+'">删除</a>'}},
                 ]
         });
 
@@ -132,7 +126,7 @@
         function buildOrderDetailTable(d) {
             var data;
             $.ajaxSettings.async = false;
-            $.getJSON("@Url.Action("FahuoDetail")",{RCID:d.rcId},function(result){
+            $.post("@Url.Action()",{RCID:d.rcId},function(result){
                 data = result
             })
             $.ajaxSettings.async = true;

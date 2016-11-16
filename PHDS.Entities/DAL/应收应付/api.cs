@@ -219,7 +219,8 @@ namespace PHDS.Entities.DAL.应收应付
                                     应收 = -p.收款金额,
                                     备注 = p.备注,
                                     业务描述 = "收款",
-                                    单号 = "ShouRu"
+                                    单号 = "ShouRu",
+                                    rcId = p.ExcelServerRCID
                                 };
             var hello = from p in listOf出库After group p by p.Record.单号 into g select new
             {

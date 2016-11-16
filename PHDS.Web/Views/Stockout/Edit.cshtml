@@ -1,0 +1,244 @@
+﻿@model PHDS.Web.Models.StockoutModels.CreateModel
+
+@{
+    ViewBag.Title = "Edit";
+
+    var modelJson = Newtonsoft.Json.JsonConvert.SerializeObject(Model);
+}
+
+<div class="alert alert-warning @*alert-dismissible*@">
+    @*<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>*@
+    <h4><i class="icon fa fa-warning"></i> 提示！</h4>
+    <p>您可以在下方表单中编辑您需要修改的内容，并于核实后提交！</p>
+    <p>
+        <button type="button" class="btn btn-danger btn-flat" id="ok"><i class="fa fa-check"></i>&nbsp;确认修改</button>
+        <button type="button" class="btn btn-default btn-flat" id="cancel"><i class="fa fa-close"></i>&nbsp;放弃</button>
+    </p>
+</div>
+<section class="invoice" id="invoice" style="margin: 0px 0px;">
+    <div class="row">
+        <div class="col-xs-12">
+            <h2 class="page-header">
+                <i class="fa fa-globe"></i> 胜美木业, Inc.
+                <small class="pull-right">Date:  @DateTime.UtcNow.ToString("yyyy/M/d")</small>
+            </h2>
+        </div>
+        <!-- /.col -->
+    </div>
+    @using (Html.BeginForm("Edit", "Stockout", FormMethod.Post, new { id = "EditForm" })) 
+    {
+        @Html.HiddenFor(x => x.orderId)
+        @Html.HiddenFor(x => x.rcId)
+
+        <div class="row invoice-info">
+            <div class="col-sm-4 invoice-col">
+                <div class="form-group">
+                    <label class="control-label" for="@Html.IdFor(x=>x.stockoutType)"><i class="fa fa-angle-double-right"></i> @Html.DisplayNameFor(x => x.stockoutType)</label>
+                    <div class="input-group">
+                        @Html.Partial("_Partial_Select_业务类型", model: Model.stockoutType)
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default btn-flat" style="width:40px"><i class="fa fa-bars"></i></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="@Html.IdFor(x=>x.customerId)"><i class="fa fa-angle-double-right"></i> @Html.DisplayNameFor(x => x.customerId)</label>
+                    <div class="input-group">
+                        @Html.Partial("_Partial_Select_客户单位", model: Model.customerId)
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default btn-flat" style="width:40px"><i class="fa fa-truck"></i></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="@Html.IdFor(x => x.stockoutDate)"><i class="fa fa-angle-double-right"></i> @Html.DisplayNameFor(x => x.stockoutDate)</label>
+                    <div class="input-group">
+                        @Html.TextBoxFor(x => x.stockoutDate, new
+                   {
+                       data_provide = "datepicker",
+                       data_date_format = "yyyy-mm-dd",
+                       @readonly = "readonly",
+                       @class = "form-control pull-right"
+                   })
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default btn-flat" style="width:40px"><i class="fa fa-calendar-o"></i></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="@Html.NameFor(x=>x.stockoutAddress)"><i class="fa fa-angle-double-right"></i> 地址</label>
+                    <div class="input-group">
+                        @Html.TextBoxFor(x => x.stockoutAddress, new { @class = "form-control", placeholder = "Enter ..." })
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default btn-flat" style="width:40px"><i class="fa fa-map-o"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-4 invoice-col">
+                <div class="form-group">
+                    <label class="control-label" for="@Html.IdFor(x=>x.stockoutContact)"><i class="fa fa-angle-double-right"></i> @Html.DisplayNameFor(x => x.stockoutContact)</label>
+                    <div class="input-group">
+                        @Html.TextBoxFor(x => x.stockoutContact, new { @class = "form-control", placeholder = "Enter ..." })
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default btn-flat" style="width:40px"><i class="fa fa-user"></i></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="@Html.NameFor(x=>x.stockoutContactNumber)"><i class="fa fa-angle-double-right"></i> @Html.DisplayNameFor(x => x.stockoutContactNumber)</label>
+                    <div class="input-group">
+                        @Html.TextBoxFor(x => x.stockoutContactNumber, new { @class = "form-control", placeholder = "Enter ..." })
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default btn-flat" style="width:40px"><i class="fa fa-phone"></i></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="@Html.IdFor(x=>x.stockoutRemarks)">
+                        <i class="fa fa-bell-o"></i> @Html.DisplayNameFor(x => x.stockoutRemarks)
+                    </label>
+                    <div class="input-group">
+                        @Html.TextAreaFor(x => x.stockoutRemarks, new { @class = "form-control", rows = "3", placeholder = "Enter ..." })
+                        <span class="input-group-addon"><i class="fa fa-commenting"></i></span>
+                    </div>
+                    <span class="help-block">在此输入你的备注信息</span>
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>
+    <!-- info row -->
+        <div style="margin: 10px auto;"></div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-default" id="formBox">
+                    <div class="box-header">
+                        <div class="box-title">出库清单</div>
+                    </div>
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped" style="min-width:800px">
+                                <tr id="ths">
+                                    <th>编号</th>
+                                    <th>描述</th>
+                                    <th>规格</th>
+                                    <th>个数</th>
+                                    <th>数量</th>
+                                    <th>单位</th>
+                                    <th>单价</th>
+                                    <th>金额</th>
+                                </tr>
+                                <tr v-for="(tr,index) in modelData.@Html.NameFor(x=>x.stockoutItems)">
+                                    <td>{{tr.编号}}<input type="hidden" v-model="tr.编号" :name="inputName+'['+index+'].编号'" /></td>
+                                    <td>{{tr.描述}}<input type="hidden" v-model="tr.描述" :name="inputName+'['+index+'].描述'" /></td>
+                                    <td>{{tr.规格}}<input type="hidden" v-model="tr.规格" :name="inputName+'['+index+'].规格'" /></td>
+                                    <td><input type="number" v-model="tr.个数" :name="inputName+'['+index+'].个数'" /></td>
+                                    <td>{{compute数量(tr)}}<input type="hidden" v-model="tr.数量" :name="inputName+'['+index+'].数量'" /></td>
+                                    <td>
+                                        <select v-model="tr.单位" name="inputName+'['+index+'].单位'">
+                                            <option>PCS</option>
+                                            <option>平方米</option>
+                                            <option>延长米</option>
+                                            <option>立方米</option>
+                                            <option>套</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="number" v-model.number="tr.单价" :name="inputName+'['+index+'].单价'" /></td>
+                                    <td>{{compute金额(tr)}}<input type="hidden" v-model="tr.金额" :name="inputName+'['+index+'].金额'" /></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</section>
+
+@section styles
+{
+    @*@Styles.Render("~/Content/DataTables/css/datatables")*@
+    <link rel="stylesheet" href="~/Content/AdminLTE/plugins/datepicker/datepicker3.css">
+
+    <style>
+        #ths > th {
+            min-width:80px;
+        }
+    </style>
+}
+
+@section scripts{
+    <script src="~/Content/AdminLTE/plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="~/Content/AdminLTE/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js"></script>
+    <script>
+        $.fn.datepicker.defaults.language = 'zh-CN';
+        $.fn.datepicker.defaults.todayHighlight = true;
+        $.fn.datepicker.defaults.autoclose = true;
+
+        $('#EditForm').submit(function(){
+            if(confirm('确认提交修改吗？'))
+                return true;
+            else
+                return false;
+        })
+        $('#ok').on('click', function(){
+            $('#EditForm').submit()
+        })
+        $('#cancel').on('click', function(){
+            location.href='@Url.Action("Index")';
+        })
+    </script>
+
+    <script>
+        var vm = new Vue({
+            el: '#formBox',
+            data: {
+                modelData: @Html.Raw(modelJson),
+                inputName : '@Html.NameFor(x => x.stockoutItems)' ,
+            },
+            computed:{
+                visible: function(){
+                    return this.todos.length > 0
+                }
+            },
+            methods: {
+                addTodo: function () {
+                    var text = this.newTodo.trim()
+                    if (text) {
+                        this.todos.push({ text: text})
+                        this.newTodo = ''
+                    }
+                },
+                removeTodo: function (index) {
+                    this.todos.splice(index, 1)
+                },
+                // 计算单位数量
+                compute数量: function (item)
+                {
+                    var split1 = item.规格.split("/");
+                    var split2 = split1[0].split("*");
+                    var Length = split2[0];
+                    var Width = split2[1];
+                    var Height = split2[2];
+                    var result = 0
+                    if(item.单位 == 'PCS')
+                        result = item.个数
+                    else if(item.单位 == '平方米')
+                        result = item.个数*Length*Width/1000/1000
+                    else if(item.单位 == '延长米')
+                        result = item.个数*Height/1000
+                    result = result || ""
+                    result = new Number(result).toFixed(4)
+                    item.数量 = result;
+                    return result;
+                },
+                compute金额: function (item){
+                    var result = parseFloat(item.数量 * item.单价).toFixed(2)
+                    item.金额 = result;
+                    return result;
+                },
+            }
+        })
+    </script>
+}

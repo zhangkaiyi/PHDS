@@ -5,7 +5,6 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="de10393d5b874910bdc4766fbcdeddcf" Name="Diagram1" ZoomLevel="100" >
-        <EntityTypeShape EntityType="PinhuaModel.发货" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="PinhuaModel.人员档案" Width="1.5" PointX="2.375" PointY="0.75" />
         <EntityTypeShape EntityType="PinhuaModel.考勤卡号变动" Width="1.5" PointX="4" PointY="0.75" />
         <AssociationConnector Association="PinhuaModel.人员档案考勤卡号变动" />
@@ -22,6 +21,7 @@
         <EntityTypeShape EntityType="PinhuaModel.收货_D" Width="1.5" PointX="8.375" PointY="5.75" />
         <EntityTypeShape EntityType="PinhuaModel.付款单" Width="1.5" PointX="2.375" PointY="6.875" />
         <EntityTypeShape EntityType="PinhuaModel.考勤期间" Width="1.5" PointX="4.375" PointY="10.75" />
+        <EntityTypeShape EntityType="PinhuaModel.发货" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="false" />
         <EntityTypeShape EntityType="PinhuaModel.考勤明细" Width="1.5" PointX="10.375" PointY="5.75" />
       </Diagram>
     </edmx:Diagrams>

@@ -1,4 +1,4 @@
-﻿
+﻿@model string
 @{
     var database = new PHDS.Entities.Edmx.PinhuaEntities();
 
@@ -11,7 +11,7 @@
                     select g.Key;
 }
 
-<select class="form-control" name="客户单位">
+<select class="form-control" name="customerId">
 
     @foreach (var key in groupKeys)
     {
@@ -20,7 +20,9 @@
             {
                 if (customer.RANK == key)
                 {
-                    <option value="@customer.单位编号">@customer.单位编号 - @customer.单位名称</option>
+                    <option @if (Model == customer.单位编号) { @Html.Raw("selected") } value="@customer.单位编号">
+                        @customer.单位编号 - @customer.单位名称
+                    </option>
                 }
             }
         </optgroup>

@@ -107,26 +107,56 @@ namespace PHDS.Web.Models.StockoutModels
     public class CreateModel
     {
         [Required]
+        [Display(Name = "关联号")]
         public string rcId { get; set; }
         [Required]
+        [Display(Name = "单号")]
         public string orderId { get; set; }
         [Required]
-        public string 业务类型 { get; set; }
+        [Display(Name = "客户单位")]
+        public string customerId { get; set; }
+        [Display(Name = "客户单位名称")]
+        public string customerName { get; set; }
         [Required]
-        public string 客户单位 { get; set; }
+        [Display(Name = "业务类型")]
+        public string stockoutType { get; set; }
+        [Display(Name = "业务类型")]
+        public string stockoutTypeDescription { get; set; }
         [Required]
-        [Display(Name="日期")]
+        [Display(Name = "日期")]
         public string stockoutDate { get; set; }
-        public string 地址 { get; set; }
-        public string 备注 { get; set; }
-        public string 联系人 { get; set; }
-        public string 联系电话 { get; set; }
-        public List<ItemModel> Items { get; set; }
+        [Display(Name = "地址")]
+        public string stockoutAddress { get; set; }
+        [Display(Name = "备注")]
+        public string stockoutRemarks { get; set; }
+        [Display(Name = "联系人")]
+        public string stockoutContact { get; set; }
+        [Display(Name = "联系电话")]
+        public string stockoutContactNumber { get; set; }
+        public List<ItemModel> stockoutItems { get; set; }
     }
     public class ItemModel
     {
         public string 编号 { get; set; }
         public string 描述 { get; set; }
         public string 规格 { get; set; }
+        public decimal? 个数 { get; set; }
+        public decimal? 数量 { get; set; }
+        public string 单位 { get; set; }
+        public decimal? 单价 { get; set; }
+        public decimal? 金额 { get; set; }
+        public decimal? Length { get; set; }
+        public decimal? Width { get; set; }
+        public decimal? Height { get; set; }
+    }
+
+    public class EditModel
+    {
+
+    }
+
+    public class DeleteModel
+    {
+        public string Id { get; set; }
     }
 }

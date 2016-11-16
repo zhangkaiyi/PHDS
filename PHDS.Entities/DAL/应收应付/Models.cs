@@ -18,6 +18,7 @@ namespace PHDS.Entities.DAL.应收应付
 
         public class Model应收应付明细
         {
+            public string rcId { get; set; }
             public string 业务类型 { get; set; }
             public string 业务描述 { get; set; }
             public DateTime? 日期 { get; set; }

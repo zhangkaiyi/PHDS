@@ -31,7 +31,7 @@ namespace PHDS.Web.Controllers
                                 //let contains = new string[] {"171","172"}
                                 //where contains.Contains(p.业务类型)
                                 where p3.MvP == "GI"
-                                orderby p.送货日期 descending, p.送货单号 descending
+                                orderby p.送货日期 descending, p.ExcelServerRCID descending
                                 select new Models.StockoutModels.StockoutOrder
                                 {
                                     customerId = p.客户编号,
@@ -57,8 +57,8 @@ namespace PHDS.Web.Controllers
             {
                 using (var database = new PHDS.Entities.Edmx.PinhuaEntities())
                 {
-                    var year = DateTime.UtcNow.ToString("yy");
-                    var today = DateTime.UtcNow.ToString("yyyyMMdd");
+                    var year = DateTime.Now.ToString("yy");
+                    var today = DateTime.Now.ToString("yyyyMMdd");
 
                     var exsistedIds = (from p in database.发货
                                        where p.送货单号.Substring(0, 5) == "OUT" + year
@@ -78,7 +78,7 @@ namespace PHDS.Web.Controllers
             {
                 using (var database = new PHDS.Entities.Edmx.PinhuaEntities())
                 {
-                    var today = DateTime.UtcNow.ToString("yyyyMMdd");
+                    var today = DateTime.Now.ToString("yyyyMMdd");
 
                     var exsistedRcids = (from p in database.ES_RepCase
                                          where p.rcId.Substring(0, 10) == "rc" + today
@@ -86,7 +86,7 @@ namespace PHDS.Web.Controllers
                                          select p.rcId)
                                         .ToList();
                     var rcidIndex = int.Parse(exsistedRcids.Count() == 0 ? "0" : exsistedRcids.First().Substring(12)) + 1;
-                    return "rc" + DateTime.UtcNow.ToString("yyyyMMdd") + rcidIndex.ToString("D5");
+                    return "rc" + today + rcidIndex.ToString("D5");
                 }
             }
         }
@@ -101,7 +101,8 @@ namespace PHDS.Web.Controllers
             return View(StockoutHelper.Orders);
         }
 
-        public ActionResult FahuoDetail(string RCID)
+        [HttpPost]
+        public ActionResult Index(string RCID)
         {
             using (var pinhua = new PHDS.Entities.Edmx.PinhuaEntities())
             {
@@ -157,25 +158,30 @@ namespace PHDS.Web.Controllers
                 //wiId = "",
                 //state = 1,
             };
-            var order = new PHDS.Entities.Edmx.发货
-            {
-                ExcelServerRCID = model.rcId,
-                ExcelServerRTID = rtId,
-                客户编号 = model.客户单位,
-                业务类型 = model.业务类型,
-                送货单号 = model.orderId,
-                地址 = model.地址,
-                备注 = model.备注,
-                送货日期 = DateTime.Parse(model.stockoutDate),
-            };
 
             using (var database = new PHDS.Entities.Edmx.PinhuaEntities())
             {
+                var order = new PHDS.Entities.Edmx.发货
+                {
+                    ExcelServerRCID = model.rcId,
+                    ExcelServerRTID = rtId,
+                    客户编号 = model.customerId,
+                    客户 = database.往来单位.Find(model.customerId).单位名称,
+                    业务类型 = model.stockoutType,
+                    业务描述 = database.业务类型.Find(model.stockoutType).类型描述,
+                    送货单号 = model.orderId,
+                    地址 = model.stockoutAddress,
+                    备注 = model.stockoutRemarks,
+                    联系人 = model.stockoutContact,
+                    联系电话 = model.stockoutContactNumber,
+                    送货日期 = DateTime.Parse(model.stockoutDate),
+                };
+
                 database.ES_RepCase.Add(repCase);
                 database.发货.Add(order);
-                if (model.Items?.Count() > 0)
+                if (model.stockoutItems?.Count() > 0)
                 {
-                    foreach (var item in model.Items)
+                    foreach (var item in model.stockoutItems)
                     {
                         database.发货_DETAIL.Add(new Entities.Edmx.发货_DETAIL
                         {
@@ -183,14 +189,138 @@ namespace PHDS.Web.Controllers
                             ExcelServerRTID = rtId,
                             编号 = item.编号,
                             描述 = item.描述,
-                            规格 = item.规格
+                            规格 = item.规格,
+                            PCS = item.个数,
+                            单位数量 = item.数量,
+                            计价单位 = item.单位,
+                            单价 = item.单价,
+                            金额 = item.金额
                         });
                     }
                 }
                 database.SaveChanges();
             }
 
-            return View("Index", StockoutHelper.Orders);
+            return RedirectToAction("Index", StockoutHelper.Orders);
+        }
+
+        public ActionResult Edit(string Id)
+        {
+            using (var database = new PHDS.Entities.Edmx.PinhuaEntities())
+            {
+                var entity = database.发货.FirstOrDefault(x => x.送货单号 == Id);
+                if (entity == null)
+                    return RedirectToAction("Index");
+                var items = database.发货_DETAIL.Where(x => x.ExcelServerRCID == entity.ExcelServerRCID).ToList();
+                var itemList = new List<ItemModel>();
+                items.ForEach(x => itemList.Add(new ItemModel
+                {
+                    编号 = x.编号,
+                    描述 = x.描述,
+                    规格 = x.规格,
+                    个数 = x.PCS,
+                    数量 = x.单位数量,
+                    单位 = x.计价单位,
+                    单价 = x.单价,
+                    金额 = x.金额,
+                    Length = database.物料登记.FirstOrDefault(y => y.编号 == x.编号).Length,
+                    Width = database.物料登记.FirstOrDefault(y => y.编号 == x.编号).Width,
+                    Height = database.物料登记.FirstOrDefault(y => y.编号 == x.编号).Height
+                }));
+                var model = new CreateModel
+                {
+                    orderId = Id,
+                    rcId = entity.ExcelServerRCID,
+                    customerId = entity.客户编号,
+                    customerName = entity.客户,
+                    stockoutAddress = entity.地址,
+                    stockoutContact = entity.联系人,
+                    stockoutContactNumber = entity.联系电话,
+                    stockoutDate = entity.送货日期?.ToString("yyyy-MM-dd"),
+                    stockoutRemarks = entity.备注,
+                    stockoutType = entity.业务类型,
+                    //stockoutTypeDescription =,
+                    stockoutItems = itemList
+                };
+                return View(model);
+            }
+        }
+
+        [HttpPost, ActionName("Edit")]
+        public ActionResult EditConfirmed(CreateModel model)
+        {
+            var rtId = "85.1";
+
+            using (var database = new PHDS.Entities.Edmx.PinhuaEntities())
+            {
+                var orders = database.发货.Where(x => x.ExcelServerRCID == model.rcId);
+                if (orders.Count() != 1)
+                    return RedirectToAction("Index");
+
+                var order = orders.First();
+                order.客户编号 = model.customerId;
+                order.送货日期 = DateTime.Parse(model.stockoutDate);
+                order.业务类型 = model.stockoutType;
+                order.地址 = model.stockoutAddress;
+                order.备注 = model.stockoutRemarks;
+                order.联系人 = model.stockoutContact;
+                order.联系电话 = model.stockoutContactNumber;
+
+                if (model.stockoutItems?.Count > 0)
+                {
+                    var items = database.发货_DETAIL.Where(x => x.ExcelServerRCID == model.rcId);
+                    if (model.stockoutItems?.Count() > 0)
+                        database.发货_DETAIL.RemoveRange(items);
+
+                    foreach (var item in model.stockoutItems)
+                    {
+                        database.发货_DETAIL.Add(new Entities.Edmx.发货_DETAIL
+                        {
+                            ExcelServerRCID = model.rcId,
+                            ExcelServerRTID = rtId,
+                            编号 = item.编号,
+                            描述 = item.描述,
+                            规格 = item.规格,
+                            PCS = item.个数,
+                            单位数量 = item.数量,
+                            计价单位 = item.单位,
+                            单价 = item.单价,
+                            金额 = item.金额
+                        });
+                    }
+                }
+                database.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Delete(string Id)
+        {
+            var model = new CreateModel
+            {
+                orderId = Id,
+            };
+            return View(model);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeleteConfirmed(CreateModel model)
+        {
+            using (var database = new PHDS.Entities.Edmx.PinhuaEntities())
+            {
+                var rcId = database.发货.FirstOrDefault(x => x.送货单号 == model.orderId).ExcelServerRCID;
+                var a = database.ES_RepCase.FirstOrDefault(x => x.rcId == rcId);
+                if (a != null)
+                    database.ES_RepCase.Remove(a);
+                var b = database.发货.FirstOrDefault(x => x.ExcelServerRCID == rcId);
+                if (b != null)
+                    database.发货.Remove(b);
+                var c = database.发货_DETAIL.FirstOrDefault(x => x.ExcelServerRCID == rcId);
+                if (c != null)
+                    database.发货_DETAIL.Remove(c);
+                database.SaveChanges();
+            }
+            return RedirectToAction("Index");
         }
     }
 }

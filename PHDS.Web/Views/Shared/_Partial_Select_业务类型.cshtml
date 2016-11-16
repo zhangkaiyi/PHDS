@@ -1,4 +1,4 @@
-﻿
+﻿@model string
 @{
     var database = new PHDS.Entities.Edmx.PinhuaEntities();
 
@@ -10,7 +10,7 @@
                     select g.Key;
 }
 
-<select class="form-control" name="业务类型">
+<select class="form-control" name="stockoutType">
 
     @foreach (var key in groupKeys)
     {
@@ -19,7 +19,9 @@
             {
                 if (option.MvP == key)
                 {
-                    <option value="@option.业务类型1">@option.业务类型1 - @option.类型描述</option>
+                    <option @if (Model == option.业务类型1) { @Html.Raw("selected")  } value="@option.业务类型1">
+                        @option.业务类型1 - @option.类型描述
+                    </option>
                 }
             }
         </optgroup>

@@ -130,6 +130,8 @@
           <Property Name="业务描述" Type="nvarchar" MaxLength="100" />
           <Property Name="冲销理由" Type="nvarchar" MaxLength="100" />
           <Property Name="创建者" Type="nvarchar" MaxLength="20" />
+          <Property Name="联系人" Type="nvarchar" MaxLength="20" />
+          <Property Name="联系电话" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="发货_DETAIL">
           <Key>
@@ -413,7 +415,6 @@
     <edmx:ConceptualModels>
       <Schema Namespace="PinhuaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="PinhuaEntities" annotation:LazyLoadingEnabled="true" >
-          <EntitySet Name="发货" EntityType="PinhuaModel.发货" />
           <EntitySet Name="人员档案" EntityType="PinhuaModel.人员档案" />
           <EntitySet Name="考勤卡号变动" EntityType="PinhuaModel.考勤卡号变动" />
           <EntitySet Name="打卡登记" EntityType="PinhuaModel.打卡登记" />
@@ -429,30 +430,9 @@
           <EntitySet Name="收货_D" EntityType="PinhuaModel.收货_D" />
           <EntitySet Name="付款单" EntityType="PinhuaModel.付款单" />
           <EntitySet Name="考勤期间" EntityType="PinhuaModel.考勤期间" />
+          <EntitySet Name="发货" EntityType="PinhuaModel.发货" />
           <EntitySet Name="考勤明细" EntityType="PinhuaModel.考勤明细" />
         </EntityContainer>
-        <EntityType Name="发货">
-          <Key>
-            <PropertyRef Name="送货单号" />
-          </Key>
-          <Property Name="客户" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="送货单号" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="地址" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="送货日期" Type="DateTime" Precision="3" />
-          <Property Name="备注" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="客户编号" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="ExcelServerRCID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="ExcelServerRN" Type="Int32" />
-          <Property Name="ExcelServerCN" Type="Int32" />
-          <Property Name="ExcelServerRC1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="ExcelServerWIID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="ExcelServerRTID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="ExcelServerCHG" Type="Int32" />
-          <Property Name="业务类型" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="业务描述" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="冲销理由" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="创建者" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="人员档案">
           <Key>
             <PropertyRef Name="人员编号" />
@@ -787,6 +767,30 @@
           <Property Name="ExcelServerRTID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="ExcelServerCHG" Type="Int32" />
         </EntityType>
+        <EntityType Name="发货">
+          <Key>
+            <PropertyRef Name="送货单号" />
+          </Key>
+          <Property Name="客户" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="送货单号" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="地址" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="送货日期" Type="DateTime" Precision="3" />
+          <Property Name="备注" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="客户编号" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRCID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRN" Type="Int32" />
+          <Property Name="ExcelServerCN" Type="Int32" />
+          <Property Name="ExcelServerRC1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerWIID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRTID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerCHG" Type="Int32" />
+          <Property Name="业务类型" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="业务描述" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="冲销理由" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="创建者" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="联系人" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="联系电话" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="考勤明细">
           <Key>
             <PropertyRef Name="人员编号" />
@@ -821,29 +825,6 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="PinhuaModelStoreContainer" CdmEntityContainer="PinhuaEntities" >
-          <EntitySetMapping Name="发货">
-            <EntityTypeMapping TypeName="PinhuaModel.发货">
-              <MappingFragment StoreEntitySet="发货">
-                <ScalarProperty Name="创建者" ColumnName="创建者" />
-                <ScalarProperty Name="冲销理由" ColumnName="冲销理由" />
-                <ScalarProperty Name="业务描述" ColumnName="业务描述" />
-                <ScalarProperty Name="业务类型" ColumnName="业务类型" />
-                <ScalarProperty Name="ExcelServerCHG" ColumnName="ExcelServerCHG" />
-                <ScalarProperty Name="ExcelServerRTID" ColumnName="ExcelServerRTID" />
-                <ScalarProperty Name="ExcelServerWIID" ColumnName="ExcelServerWIID" />
-                <ScalarProperty Name="ExcelServerRC1" ColumnName="ExcelServerRC1" />
-                <ScalarProperty Name="ExcelServerCN" ColumnName="ExcelServerCN" />
-                <ScalarProperty Name="ExcelServerRN" ColumnName="ExcelServerRN" />
-                <ScalarProperty Name="ExcelServerRCID" ColumnName="ExcelServerRCID" />
-                <ScalarProperty Name="客户编号" ColumnName="客户编号" />
-                <ScalarProperty Name="备注" ColumnName="备注" />
-                <ScalarProperty Name="送货日期" ColumnName="送货日期" />
-                <ScalarProperty Name="地址" ColumnName="地址" />
-                <ScalarProperty Name="送货单号" ColumnName="送货单号" />
-                <ScalarProperty Name="客户" ColumnName="客户" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="人员档案">
             <EntityTypeMapping TypeName="PinhuaModel.人员档案">
               <MappingFragment StoreEntitySet="人员档案">
@@ -1188,6 +1169,31 @@
                 <ScalarProperty Name="ExcelServerRCID" ColumnName="ExcelServerRCID" />
                 <ScalarProperty Name="月" ColumnName="月" />
                 <ScalarProperty Name="年" ColumnName="年" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="发货">
+            <EntityTypeMapping TypeName="PinhuaModel.发货">
+              <MappingFragment StoreEntitySet="发货">
+                <ScalarProperty Name="联系电话" ColumnName="联系电话" />
+                <ScalarProperty Name="联系人" ColumnName="联系人" />
+                <ScalarProperty Name="创建者" ColumnName="创建者" />
+                <ScalarProperty Name="冲销理由" ColumnName="冲销理由" />
+                <ScalarProperty Name="业务描述" ColumnName="业务描述" />
+                <ScalarProperty Name="业务类型" ColumnName="业务类型" />
+                <ScalarProperty Name="ExcelServerCHG" ColumnName="ExcelServerCHG" />
+                <ScalarProperty Name="ExcelServerRTID" ColumnName="ExcelServerRTID" />
+                <ScalarProperty Name="ExcelServerWIID" ColumnName="ExcelServerWIID" />
+                <ScalarProperty Name="ExcelServerRC1" ColumnName="ExcelServerRC1" />
+                <ScalarProperty Name="ExcelServerCN" ColumnName="ExcelServerCN" />
+                <ScalarProperty Name="ExcelServerRN" ColumnName="ExcelServerRN" />
+                <ScalarProperty Name="ExcelServerRCID" ColumnName="ExcelServerRCID" />
+                <ScalarProperty Name="客户编号" ColumnName="客户编号" />
+                <ScalarProperty Name="备注" ColumnName="备注" />
+                <ScalarProperty Name="送货日期" ColumnName="送货日期" />
+                <ScalarProperty Name="地址" ColumnName="地址" />
+                <ScalarProperty Name="送货单号" ColumnName="送货单号" />
+                <ScalarProperty Name="客户" ColumnName="客户" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

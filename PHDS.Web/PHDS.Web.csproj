@@ -1512,6 +1512,10 @@
     <Content Include="Views\Shared\_Partial_Select_业务类型.cshtml" />
     <Content Include="Views\Shared\_Partial_Select_客户单位.cshtml" />
     <Content Include="Views\Shared\_Partial_Modal_物料清单.cshtml" />
+    <Content Include="Views\Stockout\Edit.cshtml" />
+    <Content Include="Views\Stockout\Delete.cshtml" />
+    <Content Include="Views\Stockout\EditorTemplates\ItemModel.cshtml" />
+    <Content Include="Views\Stockout\EditorTemplates\ItemModelList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

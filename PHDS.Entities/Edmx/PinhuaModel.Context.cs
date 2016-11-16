@@ -25,7 +25,6 @@ namespace PHDS.Entities.Edmx
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<发货> 发货 { get; set; }
         public virtual DbSet<人员档案> 人员档案 { get; set; }
         public virtual DbSet<考勤卡号变动> 考勤卡号变动 { get; set; }
         public virtual DbSet<打卡登记> 打卡登记 { get; set; }
@@ -41,6 +40,7 @@ namespace PHDS.Entities.Edmx
         public virtual DbSet<收货_D> 收货_D { get; set; }
         public virtual DbSet<付款单> 付款单 { get; set; }
         public virtual DbSet<考勤期间> 考勤期间 { get; set; }
+        public virtual DbSet<发货> 发货 { get; set; }
         public virtual DbSet<考勤明细> 考勤明细 { get; set; }
     }
 }

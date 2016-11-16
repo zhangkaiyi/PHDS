@@ -31,5 +31,7 @@ namespace PHDS.Entities.Edmx
         public string 业务描述 { get; set; }
         public string 冲销理由 { get; set; }
         public string 创建者 { get; set; }
+        public string 联系人 { get; set; }
+        public string 联系电话 { get; set; }
     }
 }
