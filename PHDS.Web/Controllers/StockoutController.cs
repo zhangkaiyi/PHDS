@@ -186,6 +186,7 @@ namespace PHDS.Web.Controllers
                         database.发货_DETAIL.Add(new Entities.Edmx.发货_DETAIL
                         {
                             ExcelServerRCID = model.rcId,
+                            ExcelServerRN = item.rN,
                             ExcelServerRTID = rtId,
                             编号 = item.编号,
                             描述 = item.描述,
@@ -215,6 +216,7 @@ namespace PHDS.Web.Controllers
                 var itemList = new List<ItemModel>();
                 items.ForEach(x => itemList.Add(new ItemModel
                 {
+                    rN = x.ExcelServerRN,
                     编号 = x.编号,
                     描述 = x.描述,
                     规格 = x.规格,
@@ -278,6 +280,7 @@ namespace PHDS.Web.Controllers
                         {
                             ExcelServerRCID = model.rcId,
                             ExcelServerRTID = rtId,
+                            ExcelServerRN = item.rN,
                             编号 = item.编号,
                             描述 = item.描述,
                             规格 = item.规格,
@@ -309,15 +312,15 @@ namespace PHDS.Web.Controllers
             using (var database = new PHDS.Entities.Edmx.PinhuaEntities())
             {
                 var rcId = database.发货.FirstOrDefault(x => x.送货单号 == model.orderId).ExcelServerRCID;
-                var a = database.ES_RepCase.FirstOrDefault(x => x.rcId == rcId);
+                var a = database.ES_RepCase.Where(x => x.rcId == rcId);
                 if (a != null)
-                    database.ES_RepCase.Remove(a);
-                var b = database.发货.FirstOrDefault(x => x.ExcelServerRCID == rcId);
+                    database.ES_RepCase.RemoveRange(a);
+                var b = database.发货.Where(x => x.ExcelServerRCID == rcId);
                 if (b != null)
-                    database.发货.Remove(b);
-                var c = database.发货_DETAIL.FirstOrDefault(x => x.ExcelServerRCID == rcId);
+                    database.发货.RemoveRange(b);
+                var c = database.发货_DETAIL.Where(x => x.ExcelServerRCID == rcId);
                 if (c != null)
-                    database.发货_DETAIL.Remove(c);
+                    database.发货_DETAIL.RemoveRange(c);
                 database.SaveChanges();
             }
             return RedirectToAction("Index");

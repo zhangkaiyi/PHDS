@@ -188,6 +188,7 @@
     <Compile Include="Controllers\ClockController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MaterialController.cs" />
     <Compile Include="Controllers\StockinController.cs" />
     <Compile Include="Controllers\StockoutController.cs" />
     <Compile Include="Controllers\TestController.cs" />
@@ -1243,6 +1244,8 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
+    <Content Include="Content\elementui\index.css" />
+    <Content Include="Content\elementui\index.js" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Mvc4\Site.css" />
@@ -1516,6 +1519,7 @@
     <Content Include="Views\Stockout\Delete.cshtml" />
     <Content Include="Views\Stockout\EditorTemplates\ItemModel.cshtml" />
     <Content Include="Views\Stockout\EditorTemplates\ItemModelList.cshtml" />
+    <Content Include="Views\Material\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

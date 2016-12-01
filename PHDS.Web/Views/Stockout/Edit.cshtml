@@ -120,6 +120,8 @@
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped" style="min-width:800px">
                                 <tr id="ths">
+                                    <th style="width:10px"></th>
+                                    <th>RN</th>
                                     <th>编号</th>
                                     <th>描述</th>
                                     <th>规格</th>
@@ -130,6 +132,8 @@
                                     <th>金额</th>
                                 </tr>
                                 <tr v-for="(tr,index) in modelData.@Html.NameFor(x=>x.stockoutItems)">
+                                    <td><button type="button" class="btn btn-xs btn-danger" v-on:click="removeTodo(index)"><i class="fa fa-close"></i></button></td>
+                                    <td>{{tr.rN}}<input type="hidden" v-model="tr.rN" :name="inputName+'['+index+'].rN'" /></td>
                                     <td>{{tr.编号}}<input type="hidden" v-model="tr.编号" :name="inputName+'['+index+'].编号'" /></td>
                                     <td>{{tr.描述}}<input type="hidden" v-model="tr.描述" :name="inputName+'['+index+'].描述'" /></td>
                                     <td>{{tr.规格}}<input type="hidden" v-model="tr.规格" :name="inputName+'['+index+'].规格'" /></td>
@@ -160,12 +164,6 @@
 {
     @*@Styles.Render("~/Content/DataTables/css/datatables")*@
     <link rel="stylesheet" href="~/Content/AdminLTE/plugins/datepicker/datepicker3.css">
-
-    <style>
-        #ths > th {
-            min-width:80px;
-        }
-    </style>
 }
 
 @section scripts{
@@ -211,7 +209,8 @@
                     }
                 },
                 removeTodo: function (index) {
-                    this.todos.splice(index, 1)
+                    if(confirm('确认删除当前项？'))
+                        this.modelData.@(Html.NameFor(x => x.stockoutItems)).splice(index, 1)
                 },
                 // 计算单位数量
                 compute数量: function (item)

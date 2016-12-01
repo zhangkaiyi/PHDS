@@ -34,7 +34,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     @*<meta name="viewport" content="width=device-width, initial-scale=1.0">*@
-    <meta name="viewport" content="width=1200px">
+    <meta name="viewport" content="width=1000px">
     <title>@ViewBag.Title - 应用管理系统</title>
 
     @Styles.Render("~/Content/bootstrap")
@@ -45,13 +45,17 @@
     <link rel="stylesheet" href="~/Content/AdminLTE/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="~/Content/AdminLTE/dist/css/skins/skin-blue.min.css">
 
-    @*<style>
+    <style>
         body, button, input, select, textarea, h1, h2, h3, h4, h5, h6 {
             font-family: Microsoft YaHei,'宋体', Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;
         }
-    </style>*@
 
-    @RenderSection("styles", required: false)
+        body {
+            overflow-y: scroll;
+        }
+    </style>
+
+  @RenderSection("styles", required: false)
     @*@Scripts.Render("~/bundles/modernizr")*@
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -191,6 +195,7 @@
                             <li><a href="@Url.Action("Shouhuo", "Home")"><i class="fa fa-circle-o"></i> <span> 收货单</span></a></li>
                             <li><a href="@Url.Action("Zaitu", "Home")"><i class="fa fa-circle-o"></i> <span> 在途物料</span></a></li>
                             <li><a href="@Url.Action("Wanglai", "Home")"><i class="fa fa-circle-o"></i> <span> 往来</span></a></li>
+                            <li><a href="@Url.Action("Index", "Material")"><i class="fa fa-circle-o"></i> <span> 物料</span></a></li>
                         </ul>
                     </li>
                     <li class="treeview @activeByControllerName("Home")">
@@ -362,7 +367,7 @@
         {
             var viewport = document.querySelector("meta[name=viewport]");
             var content1 = "width=device-width, initial-scale=1.0";
-            var content2 = "width=1200px";
+            var content2 = "width=1000px";
             if (viewport.getAttribute('content') == content1)
                 viewport.setAttribute('content', content2);
             else if (viewport.getAttribute('content') == content2)

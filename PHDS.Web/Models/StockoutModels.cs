@@ -137,6 +137,9 @@ namespace PHDS.Web.Models.StockoutModels
     }
     public class ItemModel
     {
+        [Required]
+        [Display(Name = "行号")]
+        public int? rN { get; set; }
         public string 编号 { get; set; }
         public string 描述 { get; set; }
         public string 规格 { get; set; }

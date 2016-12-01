@@ -117,11 +117,12 @@
                             </a>
                         </div>
                     </div>
-                    <div class="box-body" v-show="visible">
+                    <div class="box-body" v-if="visible">
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered" id="formTable" style="min-width:800px">
                                 <thead>
                                     <tr>
+                                        <th style="max-width:20px">RN</th>
                                         <th style="min-width:80px;">编号</th>
                                         <th style="min-width:80px;">描述</th>
                                         <th style="min-width:80px;">规格</th>
@@ -135,6 +136,7 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="(todo,index) in todos">
+                                        <td>{{ index + 1 }}<input type="hidden" v-bind:value="index + 1" v-bind:name="inputName+'['+index+'].rN'" /></td>
                                         <td>{{ todo.编号 }}<input type="hidden" v-bind:value="todo.编号" v-bind:name="inputName+'['+index+'].编号'" /></td>
                                         <td>{{ todo.描述 }}<input type="hidden" v-bind:value="todo.描述" v-bind:name="inputName+'['+index+'].描述'" /></td>
                                         <td>{{ todo.规格 }}<input type="hidden" v-bind:value="todo.规格" v-bind:name="inputName+'['+index+'].规格'" /></td>
@@ -157,7 +159,7 @@
                                             <input type="hidden" v-bind:value="parseFloat((todo.price||0) * computeQuantity(todo)).toFixed(2)" v-bind:name="inputName+'['+index+'].金额'" />
                                         </td>
                                         <td class="text-right">
-                                            <button class="btn btn-xs btn-danger" v-on:click="removeTodo($index)"><i class="fa fa-close"></i></button>
+                                            <button class="btn btn-xs btn-danger" v-on:click="removeTodo(index)"><i class="fa fa-close"></i></button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -183,10 +185,6 @@
     <link rel="stylesheet" href="~/Content/AdminLTE/plugins/datepicker/datepicker3.css">
 
     <style>
-        body {
-            overflow-y: scroll;
-        }
-
         #invoice {
             margin: 0px 0px;
         }
@@ -196,6 +194,8 @@
 
 @section scripts{
     @Scripts.Render("~/Scripts/DataTables/datatables")
+    <script src="~/Scripts/DataTables/dataTables.fixedHeader.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.fixedColumns.js"></script>
     <script src="~/Content/AdminLTE/plugins/datepicker/bootstrap-datepicker.js"></script>
     <script src="~/Content/AdminLTE/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js"></script>
     <script>
@@ -270,52 +270,53 @@
                         };
             var json = Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(items));
         }
+        $(document).ready(function(){
 
-        $.extend(true, $.fn.DataTable.defaults ,CONSTANT.DATA_TABLES.DEFAULT_OPTION);
+            $.extend(true, $.fn.DataTable.defaults ,CONSTANT.DATA_TABLES.DEFAULT_OPTION);
 
 
-        var itemsTable = $('#itemList').DataTable({
-            searching: true,
-            dom:'rtip',
-            //scrollY:'400',
-            data: @json,
-            columns:
-            [
-                { data: "编号", title:"编号", className: "hidden-xs",},
-                { data: "类型", title:"类型", className: "hidden-xs",},
-                { data: "描述", title:"描述", className: "",},
-                { data: "规格", title:"规格", className: "",},
-                { data: "木种", title:"木种", className: "",},
-                { data: "工艺", title:"工艺", className: "hidden-xs",},
-                { data: "Length", title:"Length", visible: false},
-                { data: "Width", title:"Width", visible: false},
-                { data: "Height", title:"Height", visible: false},
-                { title:"", width:"2em", className:"", render:function (data, type, row, meta){return '<button class="btn btn-xs btn-danger"><i class="fa fa-plus"></i></button>'}},
-            ]
-        });
+            var itemsTable = $('#itemList').DataTable({
+                searching: true,
+                dom:'rtip',
+                data: @json,
+                columns:
+                [
+                    { data: "编号", title:"编号", className: "hidden-xs",},
+                    { data: "类型", title:"类型", className: "hidden-xs",},
+                    { data: "描述", title:"描述", className: "",},
+                    { data: "规格", title:"规格", className: "",},
+                    { data: "木种", title:"木种", className: "",},
+                    { data: "工艺", title:"工艺", className: "hidden-xs",},
+                    { data: "Length", title:"Length", visible: false},
+                    { data: "Width", title:"Width", visible: false},
+                    { data: "Height", title:"Height", visible: false},
+                    { title:"", width:"2em", className:"", render:function (data, type, row, meta){return '<button class="btn btn-xs btn-danger"><i class="fa fa-plus"></i></button>'}},
+                ]
+            });
 
-        function filterGlobal () {
-            itemsTable.search(
-                $('#items_search').val(),
-                false,true
-            ).draw();
-        }
-        // 获取Datatables 行号
-        $('#itemList tbody').on('click', 'button', function () {
-            $(this).closest('tr').one('click', function(){
-                var index = $(this).context._DT_RowIndex;
-                var bianhao = itemsTable.row($(this).context._DT_RowIndex).data().编号;
-                var miaoshu = itemsTable.row($(this).context._DT_RowIndex).data().描述;
-                var guige = itemsTable.row($(this).context._DT_RowIndex).data().规格;
-                var length = itemsTable.row($(this).context._DT_RowIndex).data().Length;
-                var width = itemsTable.row($(this).context._DT_RowIndex).data().Width;
-                var height = itemsTable.row($(this).context._DT_RowIndex).data().Height;
-                vm.todos.push({编号:bianhao,描述:miaoshu,规格:guige, length:length, width:width, height:height,unit:'平方米',pcs:'',price:'' });
-            }).trigger('click');
-        });
-        $('input#items_search').on( 'keyup click', function () {
-            filterGlobal();
-        });
+            function filterGlobal () {
+                itemsTable.search(
+                    $('#items_search').val(),
+                    false,true
+                ).draw();
+            }
+            // 获取Datatables 行号
+            $('#itemList tbody').on('click', 'button', function () {
+                $(this).closest('tr').one('click', function(){
+                    var index = $(this).context._DT_RowIndex;
+                    var bianhao = itemsTable.row($(this).context._DT_RowIndex).data().编号;
+                    var miaoshu = itemsTable.row($(this).context._DT_RowIndex).data().描述;
+                    var guige = itemsTable.row($(this).context._DT_RowIndex).data().规格;
+                    var length = itemsTable.row($(this).context._DT_RowIndex).data().Length;
+                    var width = itemsTable.row($(this).context._DT_RowIndex).data().Width;
+                    var height = itemsTable.row($(this).context._DT_RowIndex).data().Height;
+                    vm.todos.push({编号:bianhao,描述:miaoshu,规格:guige, length:length, width:width, height:height,unit:'平方米',pcs:'',price:'' });
+                }).trigger('click');
+            });
+            $('input#items_search').on( 'keyup click', function () {
+                filterGlobal();
+            });
+        })
 
     </script>
 
