@@ -83,6 +83,9 @@
     <Compile Include="Edmx\ES_Tmp.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Edmx\GetNewId_s_Result.cs">
+      <DependentUpon>PinhuaModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Edmx\PinhuaModel.Context.cs">
       <DependentUpon>PinhuaModel.Context.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -100,6 +103,9 @@
     </Compile>
     <Compile Include="Edmx\TimeRecords.cs">
       <DependentUpon>EastRiverModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Edmx\view_发货_汇总_销售与加工.cs">
+      <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Edmx\业务类型.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>

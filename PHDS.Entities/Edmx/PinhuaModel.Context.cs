@@ -12,6 +12,8 @@ namespace PHDS.Entities.Edmx
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class PinhuaEntities : DbContext
     {
@@ -42,5 +44,19 @@ namespace PHDS.Entities.Edmx
         public virtual DbSet<考勤期间> 考勤期间 { get; set; }
         public virtual DbSet<发货> 发货 { get; set; }
         public virtual DbSet<考勤明细> 考勤明细 { get; set; }
+        public virtual DbSet<view_发货_汇总_销售与加工> view_发货_汇总_销售与加工 { get; set; }
+    
+        public virtual ObjectResult<GetNewId_s_Result> GetNewId_s(Nullable<int> idName, Nullable<int> n)
+        {
+            var idNameParameter = idName.HasValue ?
+                new ObjectParameter("idName", idName) :
+                new ObjectParameter("idName", typeof(int));
+    
+            var nParameter = n.HasValue ?
+                new ObjectParameter("n", n) :
+                new ObjectParameter("n", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetNewId_s_Result>("GetNewId_s", idNameParameter, nParameter);
+        }
     }
 }

@@ -99,7 +99,7 @@
             <div class="col-sm-4 invoice-col">
                 <br />
                 <b>@Html.LabelFor(x => x.orderId):</b> @Html.DisplayFor(x => x.orderId)<input type="hidden" value="@Html.DisplayFor(x=>x.orderId)" name="orderId" /><br>
-                <b>@Html.LabelFor(x => x.rcId):</b> @Html.DisplayFor(x => x.rcId)<input type="hidden" value="@Html.DisplayFor(x=>x.rcId)" name="rcId" /><br>
+                @*<b>@Html.LabelFor(x => x.rcId):</b> @Html.DisplayFor(x => x.rcId)<input type="hidden" value="@Html.DisplayFor(x=>x.rcId)" name="rcId" /><br>*@
             </div>
             <!-- /.col -->
         </div>
@@ -137,9 +137,9 @@
                                 <tbody>
                                     <tr v-for="(todo,index) in todos">
                                         <td>{{ index + 1 }}<input type="hidden" v-bind:value="index + 1" v-bind:name="inputName+'['+index+'].rN'" /></td>
-                                        <td>{{ todo.编号 }}<input type="hidden" v-bind:value="todo.编号" v-bind:name="inputName+'['+index+'].编号'" /></td>
-                                        <td>{{ todo.描述 }}<input type="hidden" v-bind:value="todo.描述" v-bind:name="inputName+'['+index+'].描述'" /></td>
-                                        <td>{{ todo.规格 }}<input type="hidden" v-bind:value="todo.规格" v-bind:name="inputName+'['+index+'].规格'" /></td>
+                                        <td>{{ todo.编号 }}<input type="hidden" v-model="todo.编号" v-bind:name="inputName+'['+index+'].编号'" /></td>
+                                        <td>{{ todo.描述 }}<input type="hidden" v-model="todo.描述" v-bind:name="inputName+'['+index+'].描述'" /></td>
+                                        <td>{{ todo.规格 }}<input type="hidden" v-model="todo.规格" v-bind:name="inputName+'['+index+'].规格'" /></td>
                                         <td><input v-model.number="todo.pcs" type="number" v-bind:name="inputName+'['+index+'].个数'" /></td>
                                         <td>
                                             {{computeQuantity(todo)}}<input type="hidden" v-bind:value="computeQuantity(todo)" v-bind:name="inputName+'['+index+'].数量'" />
@@ -212,46 +212,6 @@
     </script>
 
     <script>
-        var vm = new Vue({
-            el: '#formBox',
-            data: {
-                todos: [],
-                inputName : '@Html.NameFor(x => x.stockoutItems)' ,
-            },
-            computed:{
-                visible: function(){
-                    return this.todos.length > 0
-                }
-            },
-            methods: {
-                addTodo: function () {
-                    var text = this.newTodo.trim()
-                    if (text) {
-                        this.todos.push({ text: text})
-                        this.newTodo = ''
-                    }
-                },
-                removeTodo: function (index) {
-                    this.todos.splice(index, 1)
-                },
-                // 计算单位数量
-                computeQuantity: function (item)
-                {
-                    var result = 0
-                    if(item.unit == 'PCS')
-                        result = item.pcs
-                    else if(item.unit == '平方米')
-                        result = item.pcs*item.length*item.width/1000/1000
-                    else if(item.unit == '延长米')
-                        result = item.pcs*item.length/1000
-                    result = result || ""
-                    return new Number(result).toFixed(4)
-                }
-            }
-        })
-    </script>
-
-    <script>
         @{
             var database = new PHDS.Entities.Edmx.PinhuaEntities();
 
@@ -310,14 +270,60 @@
                     var length = itemsTable.row($(this).context._DT_RowIndex).data().Length;
                     var width = itemsTable.row($(this).context._DT_RowIndex).data().Width;
                     var height = itemsTable.row($(this).context._DT_RowIndex).data().Height;
-                    vm.todos.push({编号:bianhao,描述:miaoshu,规格:guige, length:length, width:width, height:height,unit:'平方米',pcs:'',price:'' });
+                    vm.todos.push({
+                        编号:bianhao,
+                        描述:miaoshu,
+                        规格:guige,
+                        length:length,
+                        width:width,
+                        height:height,
+                        unit:'平方米',
+                        pcs:'',price:''
+                    });
                 }).trigger('click');
             });
             $('input#items_search').on( 'keyup click', function () {
                 filterGlobal();
             });
-        })
 
+            var vm = new Vue({
+                el: '#formBox',
+                data: {
+                    todos: [],
+                    inputName : '@Html.NameFor(x => x.stockoutItems)' ,
+                },
+                computed:{
+                    visible: function(){
+                        return this.todos.length > 0
+                    }
+                },
+                methods: {
+                    addTodo: function () {
+                        var text = this.newTodo.trim()
+                        if (text) {
+                            this.todos.push({ text: text})
+                            this.newTodo = ''
+                        }
+                    },
+                    removeTodo: function (index) {
+                        this.todos.splice(index, 1)
+                    },
+                    // 计算单位数量
+                    computeQuantity: function (item)
+                    {
+                        var result = 0
+                        if(item.unit == 'PCS')
+                            result = item.pcs
+                        else if(item.unit == '平方米')
+                            result = item.pcs*item.length*item.width/1000/1000
+                        else if(item.unit == '延长米')
+                            result = item.pcs*item.length/1000
+                        result = result || ""
+                        return new Number(result).toFixed(4)
+                    }
+                }
+            })
+        })
     </script>
 
     @Scripts.Render("~/bundles/jqueryval")

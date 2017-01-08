@@ -79,14 +79,8 @@ namespace PHDS.Web.Controllers
                 using (var database = new PHDS.Entities.Edmx.PinhuaEntities())
                 {
                     var today = DateTime.Now.ToString("yyyyMMdd");
-
-                    var exsistedRcids = (from p in database.ES_RepCase
-                                         where p.rcId.Substring(0, 10) == "rc" + today
-                                         orderby p.rcId descending
-                                         select p.rcId)
-                                        .ToList();
-                    var rcidIndex = int.Parse(exsistedRcids.Count() == 0 ? "0" : exsistedRcids.First().Substring(12)) + 1;
-                    return "rc" + today + rcidIndex.ToString("D5");
+                    var id = database.GetNewId_s(26, 1).FirstOrDefault().newId.Value.ToString("D5");
+                    return "rc" + today + id;
                 }
             }
         }
@@ -136,7 +130,7 @@ namespace PHDS.Web.Controllers
         {
             var model = new CreateModel
             {
-                rcId = StockoutHelper.rcId,
+                //rcId = StockoutHelper.rcId,
                 orderId = StockoutHelper.OrderId,
                 stockoutDate = DateTime.UtcNow.ToString("yyyy-MM-dd")
             };
@@ -146,11 +140,12 @@ namespace PHDS.Web.Controllers
         [HttpPost]
         public ActionResult Create(CreateModel model)
         {
+            model.rcId = StockoutHelper.rcId;
             var rtId = "85.1";
             var repCase = new PHDS.Entities.Edmx.ES_RepCase
             {
                 rcId = model.rcId,
-                RtId = StockoutHelper.rtId,
+                RtId = rtId,
                 lstFiller = 2,
                 lstFillerName = User.Identity.Name,
                 lstFillDate = DateTime.UtcNow,
@@ -324,6 +319,11 @@ namespace PHDS.Web.Controllers
                 database.SaveChanges();
             }
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Report()
+        {
+            return View();
         }
     }
 }

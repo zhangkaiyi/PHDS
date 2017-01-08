@@ -5,6 +5,13 @@
 
 @{
     ViewBag.Title = "出库单 - 进销存系统";
+
+    var w = new HtmlTextWriter(new StringWriter());
+    w.RenderBeginTag(HtmlTextWriterTag.H1);
+    w.Write("Fuck your family");
+    w.RenderEndTag();
+
+
 }
 
 @section styles{
@@ -126,6 +133,7 @@
                     data:result,
                     destroy:true,
                     autoWidth: true,
+                    paging: false,
                     dom:'t',
                     scrollX:        true,
                     scrollCollapse: true,

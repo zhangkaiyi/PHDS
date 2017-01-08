@@ -391,6 +391,28 @@
           <Property Name="对账计算" Type="int" />
           <Property Name="在途计算" Type="int" />
         </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“Pinhua.dbo.view_发货_汇总_销售与加工”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="view_发货_汇总_销售与加工">
+          <Key>
+            <PropertyRef Name="年" />
+            <PropertyRef Name="月" />
+            <PropertyRef Name="销售金额" />
+            <PropertyRef Name="销售面积" />
+            <PropertyRef Name="加工金额" />
+            <PropertyRef Name="加工面积" />
+          </Key>
+          <Property Name="年" Type="int" Nullable="false" />
+          <Property Name="月" Type="int" Nullable="false" />
+          <Property Name="销售金额" Type="decimal" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="销售面积" Type="decimal" Precision="38" Scale="6" Nullable="false" />
+          <Property Name="加工金额" Type="decimal" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="加工面积" Type="decimal" Precision="38" Scale="6" Nullable="false" />
+        </EntityType>
+        <Function Name="GetNewId_s" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idName" Type="int" Mode="In" />
+          <Parameter Name="n" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="PinhuaModelStoreContainer">
           <EntitySet Name="ES_RepCase" EntityType="Self.ES_RepCase" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ES_Tmp" EntityType="Self.ES_Tmp" Schema="dbo" store:Type="Tables" />
@@ -409,6 +431,16 @@
           <EntitySet Name="往来单位" EntityType="Self.往来单位" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="物料登记" EntityType="Self.物料登记" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="业务类型" EntityType="Self.业务类型" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="view_发货_汇总_销售与加工" EntityType="Self.view_发货_汇总_销售与加工" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [view_发货_汇总_销售与加工].[年] AS [年], 
+    [view_发货_汇总_销售与加工].[月] AS [月], 
+    [view_发货_汇总_销售与加工].[销售金额] AS [销售金额], 
+    [view_发货_汇总_销售与加工].[销售面积] AS [销售面积], 
+    [view_发货_汇总_销售与加工].[加工金额] AS [加工金额], 
+    [view_发货_汇总_销售与加工].[加工面积] AS [加工面积]
+    FROM [dbo].[view_发货_汇总_销售与加工] AS [view_发货_汇总_销售与加工]</DefiningQuery>
+          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -432,6 +464,11 @@
           <EntitySet Name="考勤期间" EntityType="PinhuaModel.考勤期间" />
           <EntitySet Name="发货" EntityType="PinhuaModel.发货" />
           <EntitySet Name="考勤明细" EntityType="PinhuaModel.考勤明细" />
+          <EntitySet Name="view_发货_汇总_销售与加工" EntityType="PinhuaModel.view_发货_汇总_销售与加工" />
+          <FunctionImport Name="GetNewId_s" ReturnType="Collection(PinhuaModel.GetNewId_s_Result)">
+            <Parameter Name="idName" Mode="In" Type="Int32" />
+            <Parameter Name="n" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="人员档案">
           <Key>
@@ -819,6 +856,28 @@
           <Property Name="上月工龄" Type="Int32" />
           <Property Name="首打日期" Type="DateTime" Precision="3" />
         </EntityType>
+        <EntityType Name="view_发货_汇总_销售与加工">
+          <Key>
+            <PropertyRef Name="年" />
+            <PropertyRef Name="月" />
+            <PropertyRef Name="销售金额" />
+            <PropertyRef Name="销售面积" />
+            <PropertyRef Name="加工金额" />
+            <PropertyRef Name="加工面积" />
+          </Key>
+          <Property Name="年" Type="Int32" Nullable="false" />
+          <Property Name="月" Type="Int32" Nullable="false" />
+          <Property Name="销售金额" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
+          <Property Name="销售面积" Type="Decimal" Nullable="false" Precision="38" Scale="6" />
+          <Property Name="加工金额" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
+          <Property Name="加工面积" Type="Decimal" Nullable="false" Precision="38" Scale="6" />
+        </EntityType>
+        <ComplexType Name="GetNewId_s_Result">
+          <Property Type="Int32" Name="newId" Nullable="true" />
+          <Property Type="DateTime" Name="curDate" Nullable="false" Precision="23" />
+          <Property Type="Int16" Name="noNum" Nullable="false" />
+          <Property Type="String" Name="prefix" Nullable="true" MaxLength="20" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1225,6 +1284,28 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="view_发货_汇总_销售与加工">
+            <EntityTypeMapping TypeName="PinhuaModel.view_发货_汇总_销售与加工">
+              <MappingFragment StoreEntitySet="view_发货_汇总_销售与加工">
+                <ScalarProperty Name="加工面积" ColumnName="加工面积" />
+                <ScalarProperty Name="加工金额" ColumnName="加工金额" />
+                <ScalarProperty Name="销售面积" ColumnName="销售面积" />
+                <ScalarProperty Name="销售金额" ColumnName="销售金额" />
+                <ScalarProperty Name="月" ColumnName="月" />
+                <ScalarProperty Name="年" ColumnName="年" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetNewId_s" FunctionName="PinhuaModel.Store.GetNewId_s">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="PinhuaModel.GetNewId_s_Result">
+                <ScalarProperty Name="newId" ColumnName="newId" />
+                <ScalarProperty Name="curDate" ColumnName="curDate" />
+                <ScalarProperty Name="noNum" ColumnName="noNum" />
+                <ScalarProperty Name="prefix" ColumnName="prefix" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -32,25 +32,21 @@
 
         <div class="row invoice-info">
             <div class="col-sm-4 invoice-col">
-                <div class="form-group">
+                <div class="form-group has-warning">
                     <label class="control-label" for="@Html.IdFor(x=>x.stockoutType)"><i class="fa fa-angle-double-right"></i> @Html.DisplayNameFor(x => x.stockoutType)</label>
                     <div class="input-group">
                         @Html.Partial("_Partial_Select_业务类型", model: Model.stockoutType)
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default btn-flat" style="width:40px"><i class="fa fa-bars"></i></button>
-                        </span>
+                        <span class="input-group-addon"><i class="fa fa-bars" style="width:20px"></i></span>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group has-warning">
                     <label class="control-label" for="@Html.IdFor(x=>x.customerId)"><i class="fa fa-angle-double-right"></i> @Html.DisplayNameFor(x => x.customerId)</label>
                     <div class="input-group">
                         @Html.Partial("_Partial_Select_客户单位", model: Model.customerId)
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default btn-flat" style="width:40px"><i class="fa fa-truck"></i></button>
-                        </span>
+                        <span class="input-group-addon"><i class="fa fa-truck" style="width:20px"></i></span>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group has-warning">
                     <label class="control-label" for="@Html.IdFor(x => x.stockoutDate)"><i class="fa fa-angle-double-right"></i> @Html.DisplayNameFor(x => x.stockoutDate)</label>
                     <div class="input-group">
                         @Html.TextBoxFor(x => x.stockoutDate, new
@@ -60,48 +56,40 @@
                        @readonly = "readonly",
                        @class = "form-control pull-right"
                    })
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default btn-flat" style="width:40px"><i class="fa fa-calendar-o"></i></button>
-                        </span>
+                        <span class="input-group-addon"><i class="fa fa-calendar-o" style="width:20px"></i></span>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group has-warning">
                     <label class="control-label" for="@Html.NameFor(x=>x.stockoutAddress)"><i class="fa fa-angle-double-right"></i> 地址</label>
                     <div class="input-group">
                         @Html.TextBoxFor(x => x.stockoutAddress, new { @class = "form-control", placeholder = "Enter ..." })
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default btn-flat" style="width:40px"><i class="fa fa-map-o"></i></button>
-                        </span>
+                        <span class="input-group-addon"><i class="fa fa-map-o" style="width:20px"></i></span>
                     </div>
                 </div>
             </div>
             <!-- /.col -->
             <div class="col-sm-4 invoice-col">
-                <div class="form-group">
+                <div class="form-group has-warning">
                     <label class="control-label" for="@Html.IdFor(x=>x.stockoutContact)"><i class="fa fa-angle-double-right"></i> @Html.DisplayNameFor(x => x.stockoutContact)</label>
                     <div class="input-group">
                         @Html.TextBoxFor(x => x.stockoutContact, new { @class = "form-control", placeholder = "Enter ..." })
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default btn-flat" style="width:40px"><i class="fa fa-user"></i></button>
-                        </span>
+                        <span class="input-group-addon"><i class="fa fa-user" style="width:20px"></i></span>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group has-warning">
                     <label class="control-label" for="@Html.NameFor(x=>x.stockoutContactNumber)"><i class="fa fa-angle-double-right"></i> @Html.DisplayNameFor(x => x.stockoutContactNumber)</label>
                     <div class="input-group">
                         @Html.TextBoxFor(x => x.stockoutContactNumber, new { @class = "form-control", placeholder = "Enter ..." })
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default btn-flat" style="width:40px"><i class="fa fa-phone"></i></button>
-                        </span>
+                        <span class="input-group-addon"><i class="fa fa-phone" style="width:20px"></i></span>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group has-warning">
                     <label class="control-label" for="@Html.IdFor(x=>x.stockoutRemarks)">
                         <i class="fa fa-bell-o"></i> @Html.DisplayNameFor(x => x.stockoutRemarks)
                     </label>
                     <div class="input-group">
                         @Html.TextAreaFor(x => x.stockoutRemarks, new { @class = "form-control", rows = "3", placeholder = "Enter ..." })
-                        <span class="input-group-addon"><i class="fa fa-commenting"></i></span>
+                        <span class="input-group-addon"><i class="fa fa-commenting" style="width:20px"></i></span>
                     </div>
                     <span class="help-block">在此输入你的备注信息</span>
                 </div>
@@ -112,7 +100,7 @@
         <div style="margin: 10px auto;"></div>
         <div class="row">
             <div class="col-xs-12">
-                <div class="box box-default" id="formBox">
+                <div class="box box-warning" id="formBox">
                     <div class="box-header">
                         <div class="box-title">出库清单</div>
                     </div>
@@ -120,7 +108,7 @@
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped" style="min-width:800px">
                                 <tr id="ths">
-                                    <th style="width:10px"></th>
+                                    <th style="max-width:20px"></th>
                                     <th>RN</th>
                                     <th>编号</th>
                                     <th>描述</th>
@@ -132,15 +120,15 @@
                                     <th>金额</th>
                                 </tr>
                                 <tr v-for="(tr,index) in modelData.@Html.NameFor(x=>x.stockoutItems)">
-                                    <td><button type="button" class="btn btn-xs btn-danger" v-on:click="removeTodo(index)"><i class="fa fa-close"></i></button></td>
-                                    <td>{{tr.rN}}<input type="hidden" v-model="tr.rN" :name="inputName+'['+index+'].rN'" /></td>
-                                    <td>{{tr.编号}}<input type="hidden" v-model="tr.编号" :name="inputName+'['+index+'].编号'" /></td>
-                                    <td>{{tr.描述}}<input type="hidden" v-model="tr.描述" :name="inputName+'['+index+'].描述'" /></td>
-                                    <td>{{tr.规格}}<input type="hidden" v-model="tr.规格" :name="inputName+'['+index+'].规格'" /></td>
-                                    <td><input type="number" v-model="tr.个数" :name="inputName+'['+index+'].个数'" /></td>
-                                    <td>{{compute数量(tr)}}<input type="hidden" v-model="tr.数量" :name="inputName+'['+index+'].数量'" /></td>
+                                    <td><a href="javascript:;" v-on:click="removeTodo(index)"><i class="fa fa-close"></i></a></td>
+                                    <td>{{tr.rN}}<input type="hidden" v-model="tr.rN" v-bind:name="inputName+'['+index+'].rN'" /></td>
+                                    <td>{{tr.编号}}<input type="hidden" v-model="tr.编号" v-bind:name="inputName+'['+index+'].编号'" /></td>
+                                    <td>{{tr.描述}}<input type="hidden" v-model="tr.描述" v-bind:name="inputName+'['+index+'].描述'" /></td>
+                                    <td>{{tr.规格}}<input type="hidden" v-model="tr.规格" v-bind:name="inputName+'['+index+'].规格'" /></td>
+                                    <td><input type="number" v-model="tr.个数" v-bind:name="inputName+'['+index+'].个数'" style="max-width:80px" /></td>
+                                    <td>{{compute数量(tr)}}<input type="hidden" v-model="tr.数量" v-bind:name="inputName+'['+index+'].数量'" /></td>
                                     <td>
-                                        <select v-model="tr.单位" name="inputName+'['+index+'].单位'">
+                                        <select v-model="tr.单位" v-bind:name="inputName+'['+index+'].单位'">
                                             <option>PCS</option>
                                             <option>平方米</option>
                                             <option>延长米</option>
@@ -148,8 +136,8 @@
                                             <option>套</option>
                                         </select>
                                     </td>
-                                    <td><input type="number" v-model.number="tr.单价" :name="inputName+'['+index+'].单价'" /></td>
-                                    <td>{{compute金额(tr)}}<input type="hidden" v-model="tr.金额" :name="inputName+'['+index+'].金额'" /></td>
+                                    <td><input type="number" v-model.number="tr.单价" v-bind:name="inputName+'['+index+'].单价'" style="max-width:80px" /></td>
+                                    <td>{{compute金额(tr)}}<input type="hidden" v-model="tr.金额" v-bind:name="inputName+'['+index+'].金额'" /></td>
                                 </tr>
                             </table>
                         </div>
@@ -164,6 +152,11 @@
 {
     @*@Styles.Render("~/Content/DataTables/css/datatables")*@
     <link rel="stylesheet" href="~/Content/AdminLTE/plugins/datepicker/datepicker3.css">
+    <style>
+        .table{
+            white-space:nowrap;
+        }
+    </style>
 }
 
 @section scripts{
@@ -226,7 +219,7 @@
                     else if(item.单位 == '平方米')
                         result = item.个数*Length*Width/1000/1000
                     else if(item.单位 == '延长米')
-                        result = item.个数*Height/1000
+                        result = item.个数*Length/1000
                     result = result || ""
                     result = new Number(result).toFixed(4)
                     item.数量 = result;
