@@ -196,7 +196,7 @@
     <Compile Include="Models\AdminViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Controllers\SalesController.cs" />
-    <Compile Include="Controllers\考勤Controller.cs" />
+    <Compile Include="Controllers\KaoqinController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1470,7 +1470,7 @@
     <Content Include="Views\Home\Fahuo.cshtml" />
     <Content Include="Views\Home\Wanglai.cshtml" />
     <Content Include="Views\Home\YingshouYingfu.cshtml" />
-    <Content Include="Views\考勤\Index.cshtml" />
+    <Content Include="Views\Kaoqin\Index.cshtml" />
     <Content Include="Views\Home\Zaitu.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
@@ -1521,6 +1521,9 @@
     <Content Include="Views\Stockout\EditorTemplates\ItemModelList.cshtml" />
     <Content Include="Views\Material\Index.cshtml" />
     <Content Include="Views\Stockout\Report.cshtml" />
+    <Content Include="Views\Kaoqin\TimeRecords.cshtml" />
+    <Content Include="Views\Kaoqin\RecordDetails.cshtml" />
+    <Content Include="Views\Kaoqin\MonthReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
