@@ -1524,6 +1524,8 @@
     <Content Include="Views\Kaoqin\TimeRecords.cshtml" />
     <Content Include="Views\Kaoqin\RecordDetails.cshtml" />
     <Content Include="Views\Kaoqin\MonthReport.cshtml" />
+    <Content Include="Views\Shared\工作台导航\考勤模块.cshtml" />
+    <Content Include="Views\Shared\工作台导航\财务模块.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

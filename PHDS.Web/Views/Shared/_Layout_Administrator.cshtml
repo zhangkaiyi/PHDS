@@ -190,7 +190,7 @@
                 <!-- /.search form -->
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu">
-                    <li class="header">MAIN NAVIGATION</li>
+                    <li class="header">企业工作台</li>
                     <!-- Optionally, you can add icons to the links -->
                     <li class="treeview @activeByControllerName("Stockout")">
                         <a href="#">
@@ -209,68 +209,10 @@
                         </ul>
                     </li>
                     <li class="treeview @activeByControllerName("Home")">
-                        <a href="#">
-                            <i class="fa fa-bar-chart"></i> <span>账务系统</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="@Url.Action("Yingshou", "Home")"><i class="fa fa-circle-o"></i> <span> 应收</span></a></li>
-                            <li><a href="@Url.Action("Yingfu", "Home")"><i class="fa fa-circle-o"></i> <span> 应付</span></a></li>
-                            <li><a href="@Url.Action("YingshouYingfu", "Home")"><i class="fa fa-circle-o"></i> <span> 应收应付</span></a></li>
-                        </ul>
+                        @Html.Partial("工作台导航/财务模块")
                     </li>
                     <li class="treeview @activeByControllerName("Kaoqin")">
-                        <a href="#">
-                            <i class="fa fa-calendar"></i> <span>考勤系统</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li class="@activeByActionName("Index", "Kaoqin")"><a href="@Url.Action("Index", "Kaoqin")"><i class="fa fa-circle-o"></i> <span> 月报表</span></a></li>
-                            <li class="@activeByActionName("TimeRecords", "Kaoqin")"><a href="@Url.Action("TimeRecords", "Kaoqin")"><i class="fa fa-circle-o"></i> <span> 打卡记录</span></a></li>
-                            <li>
-                                <a href="@Url.Action("TimeRecords", "Kaoqin")">
-                                    <i class="fa fa-circle-o"></i> <span> 考勤报表</span><span class="pull-right-container">
-                                        <i class="fa fa-angle-left pull-right"></i>
-                                    </span>
-                                </a>
-                                <ul class="treeview-menu">
-                                    @{
-                                        var db = PHDS.Entities.DAL.Kaoqin.考勤区间();
-                                        var years = from p in db
-                                                    group p by p.年 into g
-                                                    select g.Key;
-                                    }
-                                    @foreach (var year in years)
-                                    {
-                                        <li>
-                                            <a href="@Url.Action("Index", "Kaoqin")">
-                                                <i class="fa fa-circle-o"></i> <span> @year 年</span><span class="pull-right-container">
-                                                    <i class="fa fa-angle-left pull-right"></i>
-                                                </span>
-                                            </a>
-                                            <ul class="treeview-menu">
-                                                @foreach (var item in db)
-                                                {
-                                                    if (item.年 == year)
-                                                    {
-                                                        <li>
-                                                            <a href="@Url.Action("MonthReport", "Kaoqin", new { year = item.年, month = item.月, rcid = item.ExcelServerRCID })">
-                                                                <i class="fa fa-circle-o"></i> <span> @item.年 - @item.月.ToString("D2")</span>
-                                                            </a>
-                                                        </li>
-                                                    }
-                                                }
-                                            </ul>
-                                        </li>
-                                    }
-                                </ul>
-                            </li>
-
-                        </ul>
+                        @Html.Partial("工作台导航/考勤模块")
                     </li>
                     <li class="header">LABELS</li>
                     @if (Request.IsAuthenticated)

@@ -8,29 +8,6 @@ namespace PHDS.Web.Controllers
 {
     public class KaoqinController : Controller
     {
-        // GET: 考勤
-        public ActionResult Index()
-        {
-            var listOf考勤期间 = Entities.DAL.Kaoqin.考勤区间();
-            return View(listOf考勤期间);
-        }
-
-        // GET: 考勤/Details/5
-        public ActionResult Details(string RCID)
-        {
-            var jsonNetResult = new JsonNetResult();
-            jsonNetResult.Formatting = Newtonsoft.Json.Formatting.Indented;
-            jsonNetResult.SerializerSettings.DateFormatString = "yyyy/MM/dd";
-            jsonNetResult.Data = Entities.DAL.Kaoqin.考勤明细(RCID);
-            return jsonNetResult;
-        }
-        
-        public ActionResult TimeRecords()
-        {
-            var listOf考勤期间 = Entities.DAL.Kaoqin.考勤区间();
-            return View(listOf考勤期间);
-        }
-
         public ActionResult RecordDetails(string id, DateTime? time)
         { 
             if (string.IsNullOrEmpty(id) || !time.HasValue)
@@ -66,17 +43,17 @@ namespace PHDS.Web.Controllers
                     return View(records.ToList());
                 }
             }
-            //dynamic xxx = new System.Dynamic.ExpandoObject();
-            //return View((object)xxx);
         }
 
-        public ActionResult MonthReport(int year, int month, string rcid)
+        public ActionResult MonthReport(string rcid, string workerid)
         {
             using (var database = new PHDS.Entities.Edmx.PinhuaEntities())
             {
                 var r1 = from p1 in database.考勤明细
                          where p1.ExcelServerRCID == rcid
                          select p1;
+                if (!string.IsNullOrEmpty(workerid))
+                    return View(r1.Where(x => x.人员编号 == workerid).ToList());
                 return View(r1.ToList());
             }
         }

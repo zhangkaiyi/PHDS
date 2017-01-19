@@ -1,0 +1,78 @@
+﻿@{
+    var controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    var actionName = ViewContext.RouteData.Values["action"].ToString();
+
+    var 考勤区间集合 = PHDS.Entities.DAL.Kaoqin.考勤区间();
+    var years = from p in 考勤区间集合
+                group p by p.年 into g
+                select g.Key;
+
+    var rcid = Request["rcid"];
+    var pinhua = new PHDS.Entities.Edmx.PinhuaEntities();
+
+    var 考勤人员集合 = (
+        from p in pinhua.考勤明细
+        select new { id = p.人员编号, name = p.姓名, year = p.日期.Year, month = p.日期.Month }
+        ).Distinct().OrderBy(i => i.id);
+
+}
+
+<a href="#">
+    <i class="fa fa-calendar"></i> <span>考勤系统</span>
+    <span class="pull-right-container">
+        <i class="fa fa-angle-left pull-right"></i>
+    </span>
+</a>
+<ul class="treeview-menu">
+    <li class="@if (actionName == "MonthReport" && controllerName == "Kaoqin") { @Html.Raw("active") } ">
+        <a href="@Url.Action("MonthReport", "Kaoqin")">
+            <i class="fa fa-circle-o"></i> <span> 考勤报表</span><span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            @foreach (var year in years)
+            {
+                <li class="@if (year.ToString()==Request["year"]) { @Html.Raw("active"); }">
+                    <a href="#">
+                        <i class="fa fa-circle-o"></i> <span> @year 年</span><span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+
+                        @foreach (var item in 考勤区间集合)
+                        {
+                            if (item.年 == year)
+                            {
+                                <li class="@if (rcid == item.ExcelServerRCID) { @Html.Raw("active"); }">
+                                    <a href="#">
+                                        <i class="fa fa-circle-o"></i> <span> @item.年 - @item.月.ToString("D2")</span><span class="pull-right-container">
+                                            <i class="fa fa-angle-left pull-right"></i>
+                                        </span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li class="@if (Request["workerid"] == null ) { @Html.Raw("active"); } ">
+                                            <a href="@Url.Action("MonthReport", "Kaoqin", new { year=item.年, month=item.月, rcid = item.ExcelServerRCID })">
+                                                <i class="fa fa-circle-o"></i> <span> 所有人</span>
+                                            </a>
+                                        </li>
+                                        @foreach (var xitem in 考勤人员集合)
+                                        {
+                                            if (xitem.year == item.年 && xitem.month == item.月)
+                                            {
+                                                <li class="@if (xitem.id == Request["workerid"]) { @Html.Raw("active"); }"><a href="@Url.Action("MonthReport", "Kaoqin", new {year=item.年, month=item.月, rcid = item.ExcelServerRCID, workerid=xitem.id })"><i class="fa fa-circle-o"></i> <span> @xitem.name</span></a></li>
+                                            }
+                                        }
+
+                                    </ul>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </li>
+            }
+        </ul>
+    </li>
+
+</ul>
