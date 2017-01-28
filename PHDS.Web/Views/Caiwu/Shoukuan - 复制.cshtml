@@ -1,0 +1,178 @@
+﻿@{
+    var pinhua = new PHDS.Entities.Edmx.PinhuaEntities();
+    var shoukuanCount = pinhua.收款单.Count();
+    var jsonString = Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(pinhua.收款单.OrderByDescending(x => x.收款日期).ThenBy(x => x.单位编号),
+        new Newtonsoft.Json.Converters.IsoDateTimeConverter { DateTimeFormat = "yyyy-MM-dd" }));
+}
+@section styles{
+    @Styles.Render("~/Content/DataTables/css/datatables")
+    <style>
+        table th, table td {
+            white-space: nowrap;
+        }
+    </style>
+}
+
+<div class="row">
+    <section class="col-sm-3">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title">功能列表</h3>
+
+                <div class="box-tools">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body no-padding">
+                <ul class="nav nav-pills nav-stacked">
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-th-large"></i> 收款清单
+                            <span class="label label-primary pull-right">@shoukuanCount</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-file-text-o"></i> 新增
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title">合作单位</h3>
+
+                <div class="box-tools">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body no-padding">
+                <ul class="nav nav-pills nav-stacked">
+                    @foreach (var single in pinhua.往来单位.OrderByDescending(x => x.RANK))
+                    {
+                        <li><a href="#"><i class="fa fa-circle-o text-red"></i> @single.RANK - @single.单位名称</a></li>
+                    }
+                </ul>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </section>
+    <section class="col-sm-9">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Recently Added Products</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <ul class="products-list product-list-in-box">
+                    @foreach (var one in pinhua.收款单.OrderByDescending(x => x.收款日期).ThenBy(x => x.单位编号).Take(10))
+                    {
+                        <li class="item">
+                            @if (one.收款类型 == "现金")
+                            {
+                                <div class="product-img bg-yellow" style="height:50px;width:50px;text-align:center;font-size:25px;line-height:50px;border-radius:2px">
+                                    <i class="glyphicon glyphicon-yen"></i>
+                                </div>
+                            }
+                            else if (one.收款类型 == "银行")
+                            {
+                                <div class="product-img bg-red" style="height:50px;width:50px;text-align:center;font-size:25px;line-height:50px;border-radius:2px">
+                                    <i class="glyphicon glyphicon-transfer"></i>
+                                </div>
+                            }
+                            else if (one.收款类型 == "刷卡")
+                            {
+                                <div class="product-img bg-red" style="height:50px;width:50px;text-align:center;font-size:25px;line-height:50px;border-radius:2px">
+                                    <i class="glyphicon glyphicon-transfer"></i>
+                                </div>
+                            }
+                            <div class="product-info">
+                                <a href="javascript:void(0)" class="product-title">
+                                    @one.收款日期.Value.ToString("yyyy-MM-dd") 收 @one.收款单位
+                                    @*<span class="label label-danger pull-right" style="font-size:14px;">@one.收款金额</span>*@
+                                    <span class="text-muted pull-right" style="font-size:12px;font-weight:400;">@one.收款单号</span>
+                                </a>
+                                <span class="product-description">
+                                    收款方式：@one.收款类型 <span class="label label-danger pull-right"><i class="glyphicon glyphicon-yen"></i> @one.收款金额</span>
+                                </span>
+                                @if (!string.IsNullOrEmpty(one.备注))
+                                {
+                                    <hr style="margin-top: 8px;margin-bottom: 8px;" />
+                                    <span class="product-description">备注：@one.备注</span>
+                                }
+                            </div>
+                        </li>
+                    <!-- /.item -->
+                    }
+                </ul>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer text-center">
+                <a href="javascript:void(0)" class="uppercase">View All Products</a>
+            </div>
+            <!-- /.box-footer -->
+        </div>
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title">收款清单</h3>
+                <div class="box-tools pull-right">
+                    <!-- Buttons, labels, and many other things can be placed here! -->
+
+
+                </div><!-- /.box-tools -->
+            </div><!-- /.box-header -->
+            <div class="box-body">
+                <div class="mailbox-controls">
+                    <!-- Check all button -->
+                    <a href="@Url.Action("ShoukuanAdd")" class="btn btn-default btn-sm"><i class="fa fa-plus"></i><span> 新增记录</span></a>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                        <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
+                        <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>
+                    </div>
+                    <!-- /.btn-group -->
+                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                </div>
+                <table id="shoukuanTable" class="table table-bordered table-striped"></table>
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+    </section>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/Scripts/DataTables/datatables")
+
+    <script>
+        $(document).ready(function () {
+
+            $.extend(true, $.fn.DataTable.defaults ,CONSTANT.DATA_TABLES.DEFAULT_OPTION);
+
+            var myTable = $('#shoukuanTable').DataTable({
+                data:@jsonString,
+                pageLength:20,
+                columns:[
+                    { data: "收款单号", title:"编号", className: "",},
+                    { data: "收款单位", title:"类型", className: "",},
+                    { data: "收款类型", title:"描述", className: "",},
+                    { data: "收款日期", title:"规格", className: "",},
+                    { data: "收款金额", title:"木种", className: "",},
+                ]
+            })
+        })
+
+    </script>
+}

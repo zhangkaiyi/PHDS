@@ -1,8 +1,16 @@
-﻿@{
+﻿@using PHDS.Web.Controllers
+@{
     var controllerName = ViewContext.RouteData.Values["controller"].ToString();
     var actionName = ViewContext.RouteData.Values["action"].ToString();
 
-    int[] ranks = { 100, 90, 60, 30, 0 };
+    int[] ranks = { 120, 90, 60, 30, 0 };
+
+    var rankList = new List<CaiwuController.RanksModel> {
+        new CaiwuController.RanksModel { RankStart=ranks[0],RankEnd=ranks[1],Title="高"},
+        new CaiwuController.RanksModel { RankStart=ranks[1],RankEnd=ranks[2],Title="中"},
+        new CaiwuController.RanksModel { RankStart=ranks[2],RankEnd=ranks[3],Title="低"},
+        new CaiwuController.RanksModel { RankStart=ranks[3],RankEnd=ranks[4],Title="其他"},
+    };
 
     var pinhua = new PHDS.Entities.Edmx.PinhuaEntities();
     var partners = from p in pinhua.往来单位
@@ -22,77 +30,39 @@
     </span>
 </a>
 <ul class="treeview-menu">
-    <li>
-        <a href="@Url.Action("Yingshou", "Home")"><i class="fa fa-circle-o"></i> <span> 应收</span></a>
-    </li>
-    <li><a href="@Url.Action("Yingfu", "Home")"><i class="fa fa-circle-o"></i> <span> 应付</span></a></li>
-    <li>
-        <a href="javascript:;"><i class="fa fa-circle-o"></i> <span> 应收应付</span></a>
+    <li><a href="@Url.Action("Shoukuan", "Caiwu")"><i class="fa fa-money"></i><span> 收款</span></a></li>
+    <li><a href="@Url.Action("Fukuan", "Caiwu")"><i class="fa fa-money"></i><span> 付款</span></a></li>
+    <li class="@if (controllerName=="Caiwu" && actionName=="ChaZhang" ) { @Html.Raw("active") } ">
+        <a href="javascript:;">
+            <i class="fa fa-money"></i> <span> 查账</span><span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
         <ul class="treeview-menu">
-            <li>
-                <a href="javascript:;">
-                    <span>高（@ranks[0] - @ranks[1]）</span><span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    @foreach (var menu in partners)
-                    {
-                        if (ranks[0] >= menu.Rank && menu.Rank >= ranks[1])
+            @foreach (var one in rankList)
+            {
+                <li class="@if (one.RankStart > int.Parse(Request["rank"]??"-1") && int.Parse(Request["rank"]??"-1")>= one.RankEnd) { @Html.Raw("active")} ">
+                    <a href="javascript:;">
+                        <i class="fa fa-star"></i>
+                        <span>@one.Title（@one.RankStart - @one.RankEnd）</span><span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        @foreach (var menu in partners)
                         {
-                            <li><a href="@Url.Action("YingshouYingfu", "Home", new { partnerId = @menu.Id})">@menu.Rank - @menu.Name</a></li>
+                            if (one.RankStart > menu.Rank && menu.Rank >= one.RankEnd)
+                            {
+                                <li class="@if (menu.Id == Request["partnerId"]) { @Html.Raw("active")} ">
+                                    <a href="@Url.Action("ChaZhang", "Caiwu" , new {rank=menu.Rank, partnerId=menu.Id})">
+                                        <i class="fa fa-circle-o"></i> @menu.Name
+                                    </a>
+                                </li>
+                            }
                         }
-                    }
-                </ul>
-            </li>
-            <li>
-                <a href="javascript:;">
-                    中（@ranks[1] - @ranks[2]）<span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    @foreach (var menu in partners)
-                    {
-                        if (ranks[1] >= menu.Rank && menu.Rank >= ranks[2])
-                        {
-                            <li><a href="@Url.Action("YingshouYingfu", "Home", new { partnerId = @menu.Id})">@menu.Rank - @menu.Name</a></li>
-                        }
-                    }
-                </ul>
-            </li>
-            <li>
-                <a href="javascript:;">
-                    低（@ranks[2] - @ranks[3]）<span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    @foreach (var menu in partners)
-                    {
-                        if (ranks[2] >= menu.Rank && menu.Rank >= ranks[3])
-                        {
-                            <li><a href="@Url.Action("YingshouYingfu", "Home", new { partnerId = @menu.Id})">@menu.Rank - @menu.Name</a></li>
-                        }
-                    }
-                </ul>
-            </li>
-            <li>
-                <a href="javascript:;">
-                    其他（@ranks[3] - @ranks[4]）<span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    @foreach (var menu in partners)
-                    {
-                        if (ranks[3] >= menu.Rank && menu.Rank >= ranks[4])
-                        {
-                            <li><a href="@Url.Action("YingshouYingfu", "Home", new { partnerId = @menu.Id})">@menu.Rank - @menu.Name</a></li>
-                        }
-                    }
-                </ul>
-            </li>
+                    </ul>
+                </li>
+            }
         </ul>
     </li>
 </ul>

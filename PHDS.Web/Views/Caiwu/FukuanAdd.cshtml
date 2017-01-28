@@ -1,0 +1,131 @@
+﻿@model PHDS.Entities.Edmx.付款单
+@{ 
+    var pinhua = new PHDS.Entities.Edmx.PinhuaEntities();
+    var partners = from p in pinhua.往来单位
+                   orderby p.RANK descending
+                   select p;
+
+    var selectGroups = from p in partners
+                       group p by p.RANK into g
+                       orderby g.Key descending
+                       select g.Key;
+}
+<div class="row">
+    <div class="col-sm-3">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title">合作伙伴</h3>
+
+                <div class="box-tools">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body no-padding" style="height:100%;overflow-y:auto">
+                <ul class="nav nav-pills nav-stacked">
+                    @foreach (var one in partners)
+                    {
+                        <li><a><i class="fa fa-user"></i> @one.单位名称</a></li>
+                    }
+                </ul>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+    <div class="col-sm-9">
+        @using (Html.BeginForm("FukuanAdd", "Caiwu", FormMethod.Post))
+        {
+            <div class="box box-solid" id="formBox">
+                <div class="box-header with-border">
+                    <h3 class="box-title">付款填报</h3>
+                    <div class="box-tools pull-right">
+                        <!-- Buttons, labels, and many other things can be placed here! -->
+
+                    </div><!-- /.box-tools -->
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    @*<div class="form-group">
+                        <label for="付款单号">单号</label>
+                        <input type="text" class="form-control" id="付款单号" name="@Html.NameFor(x=>x.付款单号)" placeholder="OrderId">
+                    </div>*@
+                    <div class="form-group">
+                        <label for="单位编号">付款单位</label>
+                        <select class="form-control" id="单位编号" name="@Html.NameFor(x => x.单位编号)">
+
+                            @foreach (var key in selectGroups)
+                            {
+                                <optgroup label="Rank: @key">
+                                    @foreach (var partner in partners)
+                                    {
+                                        if (partner.RANK == key)
+                                        {
+                                            <option value="@partner.单位编号">
+                                                @partner.单位编号 - @partner.单位名称
+                                            </option>
+                                        }
+                                    }
+                                </optgroup>
+                            }
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="付款类型">付款类型</label>
+                        <select class="form-control" id="付款类型" name="@Html.NameFor(x => x.付款类型)">
+                            <option>银行</option>
+                            <option>现金</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="付款日期">日期</label>
+                        <input type="date" class="form-control" id="付款日期" name="@Html.NameFor(x => x.付款日期)" placeholder="Date" value="@DateTime.UtcNow.ToString("yyyy-MM-dd")">
+                    </div>
+                    <div class="form-group">
+                        <label for="付款金额">付款金额</label>
+                        <input type="number" class="form-control" id="付款金额" name="@Html.NameFor(x => x.付款金额)" placeholder="输入金额...">
+                    </div>
+                    <div class="form-group">
+                        <label for="备注">备注</label>
+                        <input type="text" class="form-control" id="备注" name="@Html.NameFor(x => x.备注)" placeholder="输入备注...">
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <div class="row no-print">
+                        <div class="col-xs-12">
+                            <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> 打印</a>
+                            <button type="submit" class="btn btn-primary pull-right">
+                                <i class="fa fa-check"></i> 确认提交
+                            </button>
+                            <a href="@Url.Action("Shoukuan")" class="btn btn-danger pull-right" style="margin-right: 5px;">
+                                <i class="fa fa-reply"></i> 取消
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+</div>
+    </div>
+
+
+@section scripts{
+    <script>
+        $(document).ready(function(){
+            var vm = new Vue({
+                el: '#formBox',
+                data: {
+                    todos: [],
+                },
+                computed: {
+                    visible: function () {
+                        return this.todos.length > 0
+                    }
+                },
+                methods: {
+
+                }
+            })
+        })
+    </script>
+    }

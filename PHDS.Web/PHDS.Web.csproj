@@ -185,14 +185,15 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Areas\SuperAdmin\Controllers\RolesManageController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CaiwuController.cs" />
     <Compile Include="Controllers\ClockController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MaterialController.cs" />
     <Compile Include="Controllers\StockinController.cs" />
     <Compile Include="Controllers\StockoutController.cs" />
-    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\对账员\对账员Controller.cs" />
+    <Compile Include="Helpers\PinhuaHelper.cs" />
     <Compile Include="Models\AdminViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Controllers\SalesController.cs" />
@@ -1503,7 +1504,6 @@
     <Content Include="Areas\SuperAdmin\Views\RolesManage\CreateRole.cshtml" />
     <Content Include="Areas\SuperAdmin\Views\RolesManage\EditAffiliation.cshtml" />
     <Content Include="Views\对账员\Statement2.cshtml" />
-    <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Areas\SuperAdmin\Views\Shared\_Layout.cshtml" />
     <Content Include="Views\对账员\Statement.cshtml" />
     <Content Include="Views\Shared\_Layout_Test.cshtml" />
@@ -1526,6 +1526,14 @@
     <Content Include="Views\Kaoqin\MonthReport.cshtml" />
     <Content Include="Views\Shared\工作台导航\考勤模块.cshtml" />
     <Content Include="Views\Shared\工作台导航\财务模块.cshtml" />
+    <Content Include="Views\Caiwu\ChaZhang.cshtml" />
+    <Content Include="Views\Caiwu\Shoukuan.cshtml" />
+    <Content Include="Views\Caiwu\Fukuan.cshtml" />
+    <Content Include="Views\Caiwu\ShoukuanAdd.cshtml" />
+    <Content Include="Views\Caiwu\Shoukuan - 复制.cshtml" />
+    <Content Include="Views\Caiwu\ShoukuanEdit.cshtml" />
+    <Content Include="Views\Caiwu\FukuanAdd.cshtml" />
+    <Content Include="Views\Caiwu\FukuanEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

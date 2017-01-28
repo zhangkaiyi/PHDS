@@ -1,0 +1,134 @@
+﻿@model PHDS.Entities.DAL.应收应付.Models.Model应收应付
+@{
+    var jsonString = Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model, new Newtonsoft.Json.Converters.IsoDateTimeConverter { DateTimeFormat = "yyyy-MM-dd" }));
+}
+
+@section styles{
+    @Styles.Render("~/Content/DataTables/css/datatables")
+    <style>
+        body {
+            overflow-y: scroll;
+        }
+
+        .table#details {
+            font-size: 12px;
+            /*margin-top: 0px !important;
+            margin-bottom: 0px !important;*/
+        }
+
+        tr.active > td {
+            background-color: #0075b0 !important;
+            color: #fff;
+        }
+    </style>
+}
+
+
+
+
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">查账</h3>
+        <div class="box-tools pull-right">
+            <!-- Buttons, labels, and many other things can be placed here! -->
+            <!-- Here is a label for example -->
+            <span class="label label-primary">应收：@Model.应收合计.Value.ToString("0.00")</span>
+            <span class="label label-danger">应付：@Model.应付合计.Value.ToString("0.00")</span>
+            <span class="label label-success">合计：@((Model.应收合计-Model.应付合计).Value.ToString("0.00"))</span>
+    </div><!-- /.box-header -->
+    <div class="box-body no-padding">
+        <table id="details" class="table table-hover table-bordered table-striped">
+        </table>
+    </div><!-- /.box-body -->
+    </div>
+</div><!-- /.box -->
+
+@section scripts {
+
+    @Scripts.Render("~/Scripts/DataTables/datatables")
+
+    <script>
+
+        $.extend(true, $.fn.DataTable.defaults, CONSTANT.DATA_TABLES.DEFAULT_OPTION);
+
+        detailTable = $('#details').DataTable({
+            data:@(jsonString).明细,
+            paging: false,
+            scrollX: true,
+            //scrollY:'600',
+            columns: [
+                { data: "业务类型", title: "业务类型", width: "6em", visible: false },
+                { data: "业务描述", title: "业务描述", width: "6em", visible: false },
+                { data: "日期", title: "日期", width: "6em", visible: true },
+                { data: "单号", name:"单号", title: "单号", width: "8em", visible: false },
+                { data: "产品编号", title: "产品编号", width: "8em", visible: false },
+                { data: "产品描述", title: "产品描述", width: "20em", visible: true },
+                { data: "规格", title: "规格", width: "6em", visible: true },
+                { data: "片数", title: "片数", width: "4em", },
+                { data: "单位数量", title: "数量", width: "4em", },
+                { data: "计价单位", title: "单位", width: "4em", },
+                { data: "单价", title: "单价", width: "4em", },
+                {
+                    data: "应收", name:"应收", title: "应收", width: "5em", visible: true, render: function (data, type, row, meta) {
+                        var renderData = data || 0;
+                        if (renderData > 0)
+                            renderData = '<div class="text-primary" style="font-weight:bold">' + renderData + '</div>'
+                        else if (renderData < 0)
+                            renderData = '<div class="text-danger" style="font-weight:bold">' + renderData + '</div>'
+                        else
+                            renderData = '<div class="" style="font-weight:">' + renderData + '</div>'
+                        return renderData;
+                    }
+                },
+                {
+                    data: "应付", title: "应付", width: "5em", visible: true, render: function (data, type, row, meta) {
+                        var renderData = data || 0;
+                        if (renderData < 0)
+                            renderData = '<div class="text-primary" style="font-weight:bold">' + renderData + '</div>'
+                        else if (renderData > 0)
+                            renderData = '<div class="text-danger" style="font-weight:bold">' + renderData + '</div>'
+                        else
+                            renderData = '<div class="" style="font-weight:">' + renderData + '</div>'
+                        return renderData;
+                    }
+                },
+            ],
+            drawCallback: function (settings) {
+                var api = this.api();
+                var rows = api.rows({
+                    page: 'current'
+                }).nodes();
+                var last = null;
+                api.column('单号:name', {
+                    page: 'current'
+                }).data().each(function (value, index) {
+                    if (last !== value) {
+                        var beizhu = api.row(index).data().备注 || "";
+                        if (beizhu) {
+                            beizhu = ' - 备注：' + beizhu;
+                            beizhu = '<span class="text-success" style="font-weight:bold">' + beizhu + '</span>';
+                        }
+                        var yingshouheji = api.row(index).data().单据应收合计 || "";
+                        if (yingshouheji) {
+                            yingshouheji = ' - 应收合计：' + yingshouheji;
+                            yingshouheji = '<span class="text-primary" style="font-weight:bold">' + yingshouheji + '</span>';
+                        }
+                        var yingfuheji = api.row(index).data().单据应付合计 || "";
+                        if (yingfuheji) {
+                            yingfuheji = ' - 应付合计：' + yingfuheji;
+                            yingfuheji = '<span class="text-danger" style="font-weight:bold">' + yingfuheji + '</span>';
+                        }
+                        if ($.inArray(api.row(index).data().单号, ['ShouRu', "ZhiChu", "Settlement"]) == -1)
+                            $(rows).eq(index).before('<tr class="group"><td colspan="20"><b>' + api.row(index).data().日期 + ' - ' + api.row(index).data().单号 + ' - ' + api.row(index).data().业务描述 + '</b>' + beizhu + yingshouheji + yingfuheji + '</td></tr>');
+                        else
+                            $(rows).eq(index).before('<tr class="group"><td colspan="20" class="text-danger"><b>' + api.row(index).data().单号 + ' - ' + api.row(index).data().业务描述 + '</b>' + beizhu + '</td></tr>');
+                        last = value;
+                    }
+                });
+            },
+        })
+
+    </script>
+}
+
+

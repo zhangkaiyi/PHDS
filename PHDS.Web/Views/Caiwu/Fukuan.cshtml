@@ -1,0 +1,138 @@
+﻿@{
+    var pinhua = new PHDS.Entities.Edmx.PinhuaEntities();
+    var fukuanCount = pinhua.付款单.Count();
+    var jsonString = Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(pinhua.付款单.OrderByDescending(x => x.付款日期).ThenBy(x => x.单位编号),
+        new Newtonsoft.Json.Converters.IsoDateTimeConverter { DateTimeFormat = "yyyy-MM-dd" }));
+}
+@section styles{
+    @Styles.Render("~/Content/DataTables/css/datatables")
+    <style>
+        table th, table td {
+            white-space: nowrap;
+        }
+    </style>
+}
+
+<div class="row">
+    <section class="col-sm-3">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title">功能列表</h3>
+
+                <div class="box-tools">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body no-padding">
+                <ul class="nav nav-pills nav-stacked">
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-th-large"></i> 付款清单
+                            <span class="label label-primary pull-right">@fukuanCount</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-file-text-o"></i> 新增
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title">合作单位</h3>
+
+                <div class="box-tools">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body no-padding">
+                <ul class="nav nav-pills nav-stacked">
+                    @foreach (var single in pinhua.往来单位.OrderByDescending(x => x.RANK))
+                    {
+                        <li><a href="#"><i class="fa fa-circle-o text-red"></i> @single.RANK - @single.单位名称</a></li>
+                    }
+                </ul>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </section>
+    <section class="col-sm-9">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title">付款清单</h3>
+                <div class="box-tools pull-right">
+                    <!-- Buttons, labels, and many other things can be placed here! -->
+
+                    <div class="has-feedback">
+                        <input type="text" class="form-control input-sm" placeholder="筛选...">
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                    </div>
+
+                </div><!-- /.box-tools -->
+            </div><!-- /.box-header -->
+            <div class="box-body">
+                <div class="mailbox-controls no-padding">
+                    <!-- Check all button -->
+                    <a href="@Url.Action("FukuanAdd")" class="btn btn-default btn-sm"><i class="fa fa-plus"></i><span> 新增记录</span></a>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                        <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
+                        <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>
+                    </div>
+                    <!-- /.btn-group -->
+                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                </div>
+                <table id="fukuanTable" class="table table-bordered table-striped table-hover"></table>
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+
+        @using (Html.BeginForm("FukuanDelete", "Caiwu", FormMethod.Post, new { id = "del_form" }))
+        {
+            <input type="hidden" id="del_rcid" name="rcId" />
+        }
+    </section>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/Scripts/DataTables/datatables")
+
+    <script>
+        var myTable = $('#fukuanTable');
+
+        $(document).ready(function () {
+
+            $.extend(true, $.fn.DataTable.defaults ,CONSTANT.DATA_TABLES.DEFAULT_OPTION);
+
+            myTable.DataTable({
+                data:@jsonString,
+                pageLength:20,
+                pagingType: 'numbers',
+                columns:[
+                    { render:function (data, type, row, meta){return '<a href="@Url.Action("FukuanEdit")?orderNo='+row.付款单号+'">编辑</a> | <a href=\'javascript:delMethod("'+row.ExcelServerRCID+'")\'>删除</a></form>'}},
+                    { data: "付款单号", title:"单号", className: "",},
+                    { data: "付款单位", title:"付款单位", className: "",},
+                    { data: "付款类型", title:"方式", className: "",},
+                    { data: "付款日期", title:"日期", className: "",},
+                    { data: "付款金额", title:"金额", className: "",},
+                    //{ data: "备注", title:"备注", className: "",},
+                ]
+            })
+        })
+
+        function delMethod(rcid){
+            if(confirm('确定删除这条付款记录吗？')){
+                $('#del_rcid').val(rcid);
+                $('#del_form').submit();
+            }
+        }
+
+    </script>
+}

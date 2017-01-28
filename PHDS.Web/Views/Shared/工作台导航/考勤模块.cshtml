@@ -26,7 +26,7 @@
 <ul class="treeview-menu">
     <li class="@if (actionName == "MonthReport" && controllerName == "Kaoqin") { @Html.Raw("active") } ">
         <a href="@Url.Action("MonthReport", "Kaoqin")">
-            <i class="fa fa-circle-o"></i> <span> 考勤报表</span><span class="pull-right-container">
+            <i class="fa fa-random"></i> <span> 考勤报表</span><span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
             </span>
         </a>
@@ -35,7 +35,7 @@
             {
                 <li class="@if (year.ToString()==Request["year"]) { @Html.Raw("active"); }">
                     <a href="#">
-                        <i class="fa fa-circle-o"></i> <span> @year 年</span><span class="pull-right-container">
+                        <i class="fa fa-star"></i> <span> @year 年</span><span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
                     </a>
@@ -47,7 +47,7 @@
                             {
                                 <li class="@if (rcid == item.ExcelServerRCID) { @Html.Raw("active"); }">
                                     <a href="#">
-                                        <i class="fa fa-circle-o"></i> <span> @item.年 - @item.月.ToString("D2")</span><span class="pull-right-container">
+                                        <i class="fa fa-star-o"></i> <span> @item.年 - @item.月.ToString("D2")</span><span class="pull-right-container">
                                             <i class="fa fa-angle-left pull-right"></i>
                                         </span>
                                     </a>
@@ -61,7 +61,7 @@
                                         {
                                             if (xitem.year == item.年 && xitem.month == item.月)
                                             {
-                                                <li class="@if (xitem.id == Request["workerid"]) { @Html.Raw("active"); }"><a href="@Url.Action("MonthReport", "Kaoqin", new {year=item.年, month=item.月, rcid = item.ExcelServerRCID, workerid=xitem.id })"><i class="fa fa-circle-o"></i> <span> @xitem.name</span></a></li>
+                                                <li class="@if (xitem.id == Request["workerid"]) { @Html.Raw("active"); }"><a href="@Url.Action("MonthReport", "Kaoqin", new {year=item.年, month=item.月, rcid = item.ExcelServerRCID, workerid=xitem.id })"><i class="fa fa-user"></i> <span> @xitem.name</span></a></li>
                                             }
                                         }
 
