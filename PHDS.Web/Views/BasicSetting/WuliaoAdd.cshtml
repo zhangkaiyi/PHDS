@@ -1,0 +1,129 @@
+﻿@model PHDS.Entities.Edmx.物料登记
+@{
+    var pinhua = new PHDS.Entities.Edmx.PinhuaEntities();
+    var newitem = new PHDS.Entities.Edmx.物料登记();
+    var newitemJson = Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(newitem));
+    var itemtypes = pinhua.物料分类.AsNoTracking();
+    var itemtypesJson = Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(itemtypes));
+    var itemgroup = itemtypes.Where(x => x.级数 == 1);
+    var itemgroupJson = Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(itemgroup));
+}
+<div class="row">
+    <div class="col-sm-3">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title">合作伙伴</h3>
+
+                <div class="box-tools">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body no-padding" style="height:100%;overflow-y:auto">
+                <ul class="nav nav-pills nav-stacked"></ul>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+    <div class="col-sm-9">
+        @using (Html.BeginForm("WuliaoAdd", "BasicSetting", FormMethod.Post))
+        {
+            <div class="box box-solid" id="formBox" v-cloak>
+                <div class="box-header with-border">
+                    <h3 class="box-title">物料登记</h3>
+                    <div class="box-tools pull-right">
+                        <!-- Buttons, labels, and many other things can be placed here! -->
+
+                    </div><!-- /.box-tools -->
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <div class="form-group">
+                        <section class="row">
+                            <article class="col-xs-6">
+                                <label for="分类编号">分类</label>
+                                <select class="form-control" @Html.Vue2().vModelFor(x => x.分类编号)>
+                                    <optgroup v-for="groupitem in 物料顶级分类" v-bind:label="groupitem.全称">
+                                        <option v-for="item in innerTypes(groupitem.完整编码)" v-bind:value="item.完整编码">{{item.完整编码}} - {{item.全称}}</option>
+                                    </optgroup>
+                                </select>
+                            </article>
+                            <article class="col-xs-6">
+                                <label for="类型">类型</label>
+                                <input class="form-control" type="text" v-bind:value="类型" @Html.Vue2().vModelFor(x => x.类型) readonly />
+                            </article>
+                        </section>
+                    </div>
+                    <div class="form-group">
+                        <label for="描述">描述</label>
+                        <input type="text" class="form-control" @Html.Vue2().vModelFor(x => x.描述) placeholder="输入描述...">
+                    </div>
+                    <div class="form-group">
+                        <label for="规格">规格</label>
+                        <input type="text" class="form-control" @Html.Vue2().vModelFor(x => x.规格) placeholder="输入规格...">
+                    </div>
+                    <section class="row">
+                        <article class="col-sm-4">
+                            <div class="form-group">
+                                <label for="Length">长</label>
+                                <input type="text" class="form-control" @Html.Vue2().vModelFor(x => x.Length) placeholder="输入长...">
+                            </div>
+                            <div class="form-group">
+                                <label for="Width">宽</label>
+                                <input type="text" class="form-control" @Html.Vue2().vModelFor(x => x.Width) placeholder="输入宽...">
+                            </div>
+                            <div class="form-group">
+                                <label for="Height">高</label>
+                                <input type="text" class="form-control" @Html.Vue2().vModelFor(x => x.Height) placeholder="输入高...">
+                            </div>
+                        </article>
+                    </section>
+                </div>
+                <div class="box-footer">
+                    <div class="row no-print">
+                        <div class="col-xs-12">
+                            <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> 打印</a>
+                            <button type="submit" class="btn btn-primary pull-right">
+                                <i class="fa fa-check"></i> 确认提交
+                            </button>
+                            <a href="@Url.Action("Shoukuan")" class="btn btn-danger pull-right" style="margin-right: 5px;">
+                                <i class="fa fa-reply"></i> 取消
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+        var vm = new Vue({
+            el: '#formBox',
+            data: {
+                @Html.Vue2().modelName: @newitemJson,
+                物料顶级分类: @itemgroupJson,
+                物料所有分类: @itemtypesJson,
+            },
+            computed: {
+                类型: function(){
+                    var array = this.物料所有分类.filter(function(member){
+                        return member.完整编码 == this.mvcModel.分类编号
+                    },this)
+                    @Html.Vue2().modelDataFor(x=>x.类型) = array.length>0 ? array[0].全称 :  ""
+                }
+            },
+            methods: {
+                innerTypes:function(key){
+                    var array = $.grep(this.物料所有分类, function(item){
+                        return item.完整编码 != key && item.完整编码.indexOf(key) >= 0
+                    })
+                    //console.log(array.length)
+                    return array
+                },
+            },
+        })
+    </script>
+}

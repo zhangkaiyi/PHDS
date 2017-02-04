@@ -370,6 +370,26 @@
           <Property Name="ExcelServerCHG" Type="int" />
           <Property Name="面皮厚度" Type="decimal" Precision="20" Scale="3" />
         </EntityType>
+        <EntityType Name="物料分类">
+          <Key>
+            <PropertyRef Name="完整编码" />
+          </Key>
+          <Property Name="上级编码" Type="nvarchar" MaxLength="100" />
+          <Property Name="上级名称" Type="nvarchar" MaxLength="100" />
+          <Property Name="上级全称" Type="nvarchar" MaxLength="100" />
+          <Property Name="本级编码" Type="nvarchar" MaxLength="20" />
+          <Property Name="本级名称" Type="nvarchar" MaxLength="100" />
+          <Property Name="完整编码" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="全称" Type="nvarchar" MaxLength="100" />
+          <Property Name="ExcelServerRCID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerRN" Type="int" />
+          <Property Name="ExcelServerCN" Type="int" />
+          <Property Name="ExcelServerRC1" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerWIID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerRTID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerCHG" Type="int" />
+          <Property Name="级数" Type="int" />
+        </EntityType>
         <EntityType Name="业务类型">
           <Key>
             <PropertyRef Name="业务类型" />
@@ -430,6 +450,7 @@
           <EntitySet Name="收款单" EntityType="Self.收款单" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="往来单位" EntityType="Self.往来单位" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="物料登记" EntityType="Self.物料登记" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="物料分类" EntityType="Self.物料分类" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="业务类型" EntityType="Self.业务类型" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="view_发货_汇总_销售与加工" EntityType="Self.view_发货_汇总_销售与加工" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -469,6 +490,7 @@
             <Parameter Name="idName" Mode="In" Type="Int32" />
             <Parameter Name="n" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="物料分类" EntityType="PinhuaModel.物料分类" />
         </EntityContainer>
         <EntityType Name="人员档案">
           <Key>
@@ -878,6 +900,26 @@
           <Property Type="Int16" Name="noNum" Nullable="false" />
           <Property Type="String" Name="prefix" Nullable="true" MaxLength="20" />
         </ComplexType>
+        <EntityType Name="物料分类">
+          <Key>
+            <PropertyRef Name="完整编码" />
+          </Key>
+          <Property Name="上级编码" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="上级名称" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="上级全称" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="本级编码" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="本级名称" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="完整编码" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="全称" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRCID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRN" Type="Int32" />
+          <Property Name="ExcelServerCN" Type="Int32" />
+          <Property Name="ExcelServerRC1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerWIID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRTID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerCHG" Type="Int32" />
+          <Property Name="级数" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1306,6 +1348,27 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="物料分类">
+            <EntityTypeMapping TypeName="PinhuaModel.物料分类">
+              <MappingFragment StoreEntitySet="物料分类">
+                <ScalarProperty Name="级数" ColumnName="级数" />
+                <ScalarProperty Name="ExcelServerCHG" ColumnName="ExcelServerCHG" />
+                <ScalarProperty Name="ExcelServerRTID" ColumnName="ExcelServerRTID" />
+                <ScalarProperty Name="ExcelServerWIID" ColumnName="ExcelServerWIID" />
+                <ScalarProperty Name="ExcelServerRC1" ColumnName="ExcelServerRC1" />
+                <ScalarProperty Name="ExcelServerCN" ColumnName="ExcelServerCN" />
+                <ScalarProperty Name="ExcelServerRN" ColumnName="ExcelServerRN" />
+                <ScalarProperty Name="ExcelServerRCID" ColumnName="ExcelServerRCID" />
+                <ScalarProperty Name="全称" ColumnName="全称" />
+                <ScalarProperty Name="完整编码" ColumnName="完整编码" />
+                <ScalarProperty Name="本级名称" ColumnName="本级名称" />
+                <ScalarProperty Name="本级编码" ColumnName="本级编码" />
+                <ScalarProperty Name="上级全称" ColumnName="上级全称" />
+                <ScalarProperty Name="上级名称" ColumnName="上级名称" />
+                <ScalarProperty Name="上级编码" ColumnName="上级编码" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

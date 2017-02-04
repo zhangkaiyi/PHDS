@@ -1,0 +1,57 @@
+﻿@{
+    var pinhua = new PHDS.Entities.Edmx.PinhuaEntities();
+    var wuliao = from p in pinhua.物料登记.AsNoTracking() select p;
+    var jsonString = Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(wuliao));
+}
+
+@section styles{
+    @Styles.Render("~/Content/DataTables/css/datatables")
+    <style>
+        table th, table td {
+            white-space: nowrap;
+        }
+    </style>
+}
+
+<div class="row">
+    <section class="col-sm-12">
+        <div class="box box-solid">
+            <div class="box-header with-border"><h3> Items</h3></div>
+            <div class="box-body">
+                <div class="mailbox-controls no-padding">
+                    <a href="@Url.Action("WuliaoAdd")" class="btn btn-default btn-sm"><i class="fa fa-plus"></i><span> 新增物料</span></a>
+                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i><span> 刷新</span></button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped" id="myTable"></table>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/Scripts/DataTables/datatables")
+
+    <script>
+        $(document).ready(function () {
+            $.extend(true, $.fn.DataTable.defaults ,CONSTANT.DATA_TABLES.DEFAULT_OPTION);
+
+            var myTable = $('#myTable').DataTable({
+                data:@jsonString,
+                pageLength:20,
+                pagingType: 'numbers',
+                columns:[
+                    { render:function (data, type, row, meta){return '<a href="@Url.Action("FukuanEdit")?orderNo='+row.付款单号+'">编辑</a> | <a href=\'javascript:delMethod("'+row.ExcelServerRCID+'")\'>删除</a></form>'}},
+                    { data: "编号", title:"日期", className: "",},
+                    { data: "类型", title:"单号", className: "",},
+                    { data: "描述", title:"付款单位", className: "",},
+                    { data: "型号", title:"方式", className: "",},
+                    { data: "规格", title:"金额", className: "",},
+                    //{ data: "备注", title:"备注", className: "",},
+                ]
+
+            })
+        })
+    </script>
+}

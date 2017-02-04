@@ -140,6 +140,9 @@
     <Compile Include="Edmx\收货_D.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Edmx\物料分类.cs">
+      <DependentUpon>PinhuaModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Edmx\物料登记.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>

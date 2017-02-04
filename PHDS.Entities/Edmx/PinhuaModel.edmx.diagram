@@ -24,6 +24,7 @@
         <EntityTypeShape EntityType="PinhuaModel.发货" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="false" />
         <EntityTypeShape EntityType="PinhuaModel.考勤明细" Width="1.5" PointX="10.375" PointY="5.75" />
         <EntityTypeShape EntityType="PinhuaModel.view_发货_汇总_销售与加工" Width="1.5" PointX="6.375" PointY="10.75" />
+        <EntityTypeShape EntityType="PinhuaModel.物料分类" Width="1.5" PointX="0.75" PointY="11.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

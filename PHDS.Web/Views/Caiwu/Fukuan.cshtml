@@ -90,7 +90,9 @@
                     <!-- /.btn-group -->
                     <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
                 </div>
-                <table id="fukuanTable" class="table table-bordered table-striped table-hover"></table>
+                <div class="table-responsive" style="border:0px;">
+                    <table id="orderTable" class="table table-bordered table-striped"></table>
+                </div>
             </div><!-- /.box-body -->
         </div><!-- /.box -->
 
@@ -105,25 +107,39 @@
     @Scripts.Render("~/Scripts/DataTables/datatables")
 
     <script>
-        var myTable = $('#fukuanTable');
 
         $(document).ready(function () {
 
             $.extend(true, $.fn.DataTable.defaults ,CONSTANT.DATA_TABLES.DEFAULT_OPTION);
 
-            myTable.DataTable({
+            var myTable = $('#orderTable').DataTable({
                 data:@jsonString,
                 pageLength:20,
                 pagingType: 'numbers',
+                autoWidth: true,
                 columns:[
-                    { render:function (data, type, row, meta){return '<a href="@Url.Action("FukuanEdit")?orderNo='+row.付款单号+'">编辑</a> | <a href=\'javascript:delMethod("'+row.ExcelServerRCID+'")\'>删除</a></form>'}},
+                    { width:1, render:function (data, type, row, meta){return '<a href="javascript:;" class="child_toggle"><i class="fa fa-plus"></i></a>'}},
+                    { width:1, render:function (data, type, row, meta){return '<a href="@Url.Action("FukuanEdit")?orderNo='+row.付款单号+'">编辑</a> | <a href=\'javascript:delMethod("'+row.ExcelServerRCID+'")\'>删除</a></form>'}},
+                    { data: "付款日期", title:"日期", className: "",},
                     { data: "付款单号", title:"单号", className: "",},
                     { data: "付款单位", title:"付款单位", className: "",},
+                    { data: "付款金额", title:"金额", className: "text-primary",},
                     { data: "付款类型", title:"方式", className: "",},
-                    { data: "付款日期", title:"日期", className: "",},
-                    { data: "付款金额", title:"金额", className: "",},
                     //{ data: "备注", title:"备注", className: "",},
                 ]
+            })
+
+            $(".child_toggle").on("click", function(){
+                var row = myTable.row($(this).closest("tr"))
+                if(row.child.isShown()){
+                    row.child.hide()
+                    $("i", this).removeClass("fa-minus").addClass("fa-plus")
+                }
+                else{
+                    var tr='<span style="padding-left:25px;">备注：'+(row.data().备注||"无")+'</span>'
+                    row.child(tr).show()
+                    $("i", this).addClass("fa-minus").removeClass("fa-plus")
+                }
             })
         })
 

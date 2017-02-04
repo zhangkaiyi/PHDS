@@ -70,10 +70,10 @@
                 <div class="box-tools pull-right">
                     <!-- Buttons, labels, and many other things can be placed here! -->
 
-                        <div class="has-feedback">
-                            <input type="text" class="form-control input-sm" placeholder="筛选...">
-                            <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                        </div>
+                    <div class="has-feedback">
+                        <input type="text" class="form-control input-sm" placeholder="筛选...">
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                    </div>
 
                 </div><!-- /.box-tools -->
             </div><!-- /.box-header -->
@@ -90,13 +90,15 @@
                     <!-- /.btn-group -->
                     <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
                 </div>
-                <table id="shoukuanTable" class="table table-bordered table-striped table-hover"></table>
+                <div class="table-responsive" style="border:0px;">
+                    <table id="orderTable" class="table table-bordered table-striped"></table>
+                </div>
             </div><!-- /.box-body -->
         </div><!-- /.box -->
 
-        @using (Html.BeginForm("ShoukuanDelete", "Caiwu", FormMethod.Post, new { id="del_form"}))
+        @using (Html.BeginForm("ShoukuanDelete", "Caiwu", FormMethod.Post, new { id = "del_form" }))
         {
-            <input type="hidden" id="del_rcid" name="rcId"/>
+            <input type="hidden" id="del_rcid" name="rcId" />
         }
     </section>
 </div>
@@ -105,25 +107,37 @@
     @Scripts.Render("~/Scripts/DataTables/datatables")
 
     <script>
-        var myTable = $('#shoukuanTable');
 
         $(document).ready(function () {
 
             $.extend(true, $.fn.DataTable.defaults ,CONSTANT.DATA_TABLES.DEFAULT_OPTION);
 
-            myTable.DataTable({
+            var myTable = $('#orderTable').DataTable({
                 data:@jsonString,
                 pageLength:20,
                 pagingType: 'numbers',
                 columns:[
-                    { render:function (data, type, row, meta){return '<a href="@Url.Action("ShoukuanEdit")?orderNo='+row.收款单号+'">编辑</a> | <a href=\'javascript:delMethod("'+row.ExcelServerRCID+'")\'>删除</a></form>'}},
+                    { width:1, render:function (data, type, row, meta){return '<a href="javascript:;" class="child_toggle"><i class="fa fa-plus"></i></a>'}},
+                    { width:1, render:function (data, type, row, meta){return '<a href="@Url.Action("ShoukuanEdit")?orderNo='+row.收款单号+'">编辑</a> | <a href=\'javascript:delMethod("'+row.ExcelServerRCID+'")\'>删除</a></form>'}},
+                    { data: "收款日期", title:"日期", className: "",},
                     { data: "收款单号", title:"单号", className: "",},
                     { data: "收款单位", title:"收款单位", className: "",},
+                    { data: "收款金额", title:"金额", className: "text-danger",},
                     { data: "收款类型", title:"方式", className: "",},
-                    { data: "收款日期", title:"日期", className: "",},
-                    { data: "收款金额", title:"金额", className: "",},
                     //{ data: "备注", title:"备注", className: "",},
                 ]
+            })
+            $(".child_toggle").on("click", function(){
+                var row = myTable.row($(this).closest("tr"))
+                if(row.child.isShown()){
+                    row.child.hide()
+                    $("i", this).removeClass("fa-minus").addClass("fa-plus")
+                }
+                else{
+                    var tr='<span style="padding-left:25px;">备注：'+(row.data().备注||"无")+'</span>'
+                    row.child(tr).show()
+                    $("i", this).addClass("fa-minus").removeClass("fa-plus")
+                }
             })
         })
 

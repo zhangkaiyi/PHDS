@@ -34,8 +34,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
-    @*<meta name="viewport" content="width=device-width, initial-scale=1.0">*@
-    <meta name="viewport" content="width=1000px">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @*<meta name="viewport" content="width=1000px">*@
     <title>@ViewBag.Title - 应用管理系统</title>
 
     @Styles.Render("~/Content/bootstrap")
@@ -53,6 +53,10 @@
 
         body {
             overflow-y: scroll;
+        }
+
+        [v-cloak] {
+            display: none;
         }
     </style>
 
@@ -192,6 +196,9 @@
                 <ul class="sidebar-menu">
                     <li class="header">企业工作台</li>
                     <!-- Optionally, you can add icons to the links -->
+                    <li class="treeview @activeByControllerName("BasicSetting")">
+                        @Html.Partial("工作台导航/BasicSetting模块")
+                    </li>
                     <li class="treeview @activeByControllerName("Stockout")">
                         <a href="#">
                             <i class="fa fa-th"></i> <span>进销存系统</span>
@@ -243,7 +250,7 @@
             </section>
 
             <!-- Main content -->
-            <section class="content">
+            <section class="content" style="font-size:12px;">
 
                 <!-- Your Page Content Here -->
 
