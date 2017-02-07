@@ -55,10 +55,16 @@
             overflow-y: scroll;
         }
 
+        table th, table td {
+            white-space: nowrap;
+        }
+
         [v-cloak] {
             display: none;
         }
     </style>
+
+
 
     @RenderSection("styles", required: false)
     @*@Scripts.Render("~/bundles/modernizr")*@
@@ -250,7 +256,7 @@
             </section>
 
             <!-- Main content -->
-            <section class="content" style="font-size:12px;">
+            <section class="content" @*style="font-size:12px;"*@>
 
                 <!-- Your Page Content Here -->
 

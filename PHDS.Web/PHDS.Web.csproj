@@ -198,6 +198,9 @@
     <Compile Include="Controllers\StockinController.cs" />
     <Compile Include="Controllers\StockoutController.cs" />
     <Compile Include="Controllers\对账员\对账员Controller.cs" />
+    <Compile Include="Helpers\LambdaExpressionBuilder.cs" />
+    <Compile Include="Helpers\CommonHelper.cs" />
+    <Compile Include="Helpers\DynamicLibrary.cs" />
     <Compile Include="Helpers\Vue2Extensions.cs" />
     <Compile Include="Helpers\PinhuaHelper.cs" />
     <Compile Include="Models\AdminViewModels.cs" />
@@ -1543,6 +1546,8 @@
     <Content Include="Views\Shared\工作台导航\BasicSetting模块.cshtml" />
     <Content Include="Views\BasicSetting\Wuliao.cshtml" />
     <Content Include="Views\BasicSetting\WuliaoAdd.cshtml" />
+    <Content Include="Views\BasicSetting\WuliaoEdit.cshtml" />
+    <Content Include="Views\BasicSetting\WuliaoNavi.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

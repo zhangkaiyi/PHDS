@@ -389,6 +389,7 @@
           <Property Name="ExcelServerRTID" Type="nvarchar" MaxLength="20" />
           <Property Name="ExcelServerCHG" Type="int" />
           <Property Name="级数" Type="int" />
+          <Property Name="排序" Type="int" />
         </EntityType>
         <EntityType Name="业务类型">
           <Key>
@@ -919,6 +920,7 @@
           <Property Name="ExcelServerRTID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="ExcelServerCHG" Type="Int32" />
           <Property Name="级数" Type="Int32" />
+          <Property Name="排序" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1351,6 +1353,7 @@
           <EntitySetMapping Name="物料分类">
             <EntityTypeMapping TypeName="PinhuaModel.物料分类">
               <MappingFragment StoreEntitySet="物料分类">
+                <ScalarProperty Name="排序" ColumnName="排序" />
                 <ScalarProperty Name="级数" ColumnName="级数" />
                 <ScalarProperty Name="ExcelServerCHG" ColumnName="ExcelServerCHG" />
                 <ScalarProperty Name="ExcelServerRTID" ColumnName="ExcelServerRTID" />

@@ -12,11 +12,11 @@
         @Html.Partial("WuliaoNavi")
     </div>
     <div class="col-sm-10" style="font-size:12px;">
-        @using (Html.BeginForm("WuliaoAdd", "BasicSetting", FormMethod.Post, new { id = "myForm" }))
+        @using (Html.BeginForm("WuliaoEdit", "BasicSetting", FormMethod.Post, new { id = "myForm" }))
         {
             <div class="box box-danger" id="formBox" v-cloak>
                 <div class="box-header with-border">
-                    <h3 class="box-title">物料登记</h3>
+                    <h3 class="box-title">物料编辑</h3>
                     <div class="box-tools pull-right">
                         <!-- Buttons, labels, and many other things can be placed here! -->
 
@@ -135,7 +135,7 @@
                 @Html.Vue2().modelName: @newitemJson,
                 物料顶级分类: @itemgroupJson,
                 物料所有分类: @itemtypesJson,
-                isReadOnly: true,
+                isReadOnly: false,
                 isTrackingNoEditable: false,
             },
             computed: {

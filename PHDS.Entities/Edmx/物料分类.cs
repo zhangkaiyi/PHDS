@@ -29,5 +29,6 @@ namespace PHDS.Entities.Edmx
         public string ExcelServerRTID { get; set; }
         public Nullable<int> ExcelServerCHG { get; set; }
         public Nullable<int> 级数 { get; set; }
+        public Nullable<int> 排序 { get; set; }
     }
 }

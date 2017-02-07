@@ -50,7 +50,7 @@ namespace PHDS.Web.Controllers
                 model.收款单号 = "SK" + year + orderIndex.ToString("D6");
                 model.收款单位 = name;
 
-                Helpers.PinhuaHelper.NewRecord("收款单", model);
+                Helpers.Pinhua.NewRecord("收款单", model);
             }
 
             return RedirectToAction("Shoukuan");
@@ -79,7 +79,7 @@ namespace PHDS.Web.Controllers
                 var order = database.收款单.FirstOrDefault(x => x.ExcelServerRCID == model.ExcelServerRCID);
                 model.收款单位 = database.往来单位.FirstOrDefault(x => x.单位编号 == model.单位编号)?.单位名称;
 
-                Helpers.PinhuaHelper.Copy.ShadowCopy(model, order);
+                Helpers.Pinhua.Copy.ShadowCopy(model, order);
 
                 database.SaveChanges();
             }
@@ -133,7 +133,7 @@ namespace PHDS.Web.Controllers
                 model.付款单号 = "FK" + year + orderIndex.ToString("D6");
                 model.付款单位 = name;
 
-                Helpers.PinhuaHelper.NewRecord("付款单", model);
+                Helpers.Pinhua.NewRecord("付款单", model);
             }
 
             return RedirectToAction("Fukuan");
@@ -162,7 +162,7 @@ namespace PHDS.Web.Controllers
                 var order = database.付款单.FirstOrDefault(x => x.ExcelServerRCID == model.ExcelServerRCID);
                 model.付款单位 = database.往来单位.FirstOrDefault(x => x.单位编号 == model.单位编号)?.单位名称;
 
-                Helpers.PinhuaHelper.Copy.ShadowCopy(model, order);
+                Helpers.Pinhua.Copy.ShadowCopy(model, order);
 
                 database.SaveChanges();
             }
