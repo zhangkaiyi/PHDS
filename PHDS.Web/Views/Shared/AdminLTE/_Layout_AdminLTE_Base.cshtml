@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    @{
+        Html.RenderPartial("AdminLTE/Partial_Head");
+    }
+    @RenderSection("styles", false)
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+
+        <!-- Main Header -->
+        @{
+            Html.RenderPartial("AdminLTE/Partial_MainHeader");
+        }
+        <!-- Left side column. contains the logo and sidebar -->
+        @{
+            Html.RenderPartial("AdminLTE/Partial_SideBar");
+        }
+        <!-- Content Wrapper. Contains page content -->
+        @RenderBody()
+        <!-- /.content-wrapper -->
+        <!-- Main Footer -->
+        @{
+            Html.RenderPartial("AdminLTE/Partial_Footer");
+        }
+        <!-- Control Sidebar -->
+        @{
+            Html.RenderPartial("AdminLTE/Partial_ControlSideBar");
+        }
+        <!-- /.control-sidebar -->
+        <!-- Add the sidebar's background. This div must be placed
+             immediately after the control sidebar -->
+        <div class="control-sidebar-bg"></div>
+    </div>
+    <!-- ./wrapper -->
+
+    @{
+        Html.RenderPartial("AdminLTE/Partial_Scripts");
+    }
+    @RenderSection("scripts", required: false)
+</body>
+</html>

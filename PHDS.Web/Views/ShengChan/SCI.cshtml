@@ -1,0 +1,119 @@
+﻿@model PHDS.Entities.Edmx.生产入库
+
+@{
+    Layout = "~/Views/Shared/AdminLTE/_Layout_AdminLTE.cshtml";
+}
+
+@section styles{
+    @Styles.Render("~/Content/DataTables/css/datatables")
+}
+<div class="row">
+    <div class="col-sm-2">
+        @Html.Partial("SCINavi")
+    </div>
+    <div class="col-sm-10" style="font-size:12px;">
+        <div class="box box-danger" id="formBox">
+            <div class="box-header with-border">
+                <h3 class="box-title">物料登记</h3>
+                <div class="box-tools pull-right">
+                    <!-- Buttons, labels, and many other things can be placed here! -->
+
+                </div><!-- /.box-tools -->
+            </div><!-- /.box-header -->
+            <div class="box-body">
+                <div class="col-md-12">
+                    <div style="float:left; width:230px;margin-right:20px"><table class="table table-bordered" id="myTable"></table></div>
+                    <div class="" style="overflow:hidden;"><table class="table table-bordered" id="myTableRight"><thead><tr><th>2</th></tr></thead></table></div>
+                    @*<div class="form-horizontal" style="overflow:hidden;margin-top:6px;margin-bottom:6px;border:1px solid #f4f4f4">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Text</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control input-circle" placeholder="Enter text">
+                                <span class="help-block"> A block of help text. </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Email Address</label>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-envelope"></i>
+                                    </span>
+                                    <input type="email" class="form-control" placeholder="Email Address">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Password</label>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <input type="password" class="form-control input-circle-left" placeholder="Password">
+                                    <span class="input-group-addon input-circle-right">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Left Icon</label>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-bell-o"></i>
+                                    </div>
+                                    <input type="text" class="form-control input-circle" placeholder="Left icon">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Right Icon</label>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <input type="text" class="form-control input-circle" placeholder="Right icon">
+                                    <div class="input-group-addon"><i class="fa fa-microphone"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Input With Spinner</label>
+                            <div class="col-md-4">
+                                <input type="password" class="form-control spinner input-circle" placeholder="Password">
+                            </div>
+                        </div>
+                        <div class="form-group last">
+                            <label class="col-md-3 control-label">Static Control</label>
+                            <div class="col-md-4">
+                                <span class="form-control"> email@example.com </span>
+                            </div>
+                        </div>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/Scripts/DataTables/datatables")
+
+    <script>
+        $(document).ready(function () {
+            $.extend(true, $.fn.DataTable.defaults, CONSTANT.DATA_TABLES.DEFAULT_OPTION);
+
+            $('#myTable').DataTable({
+                dom:'t',
+                columns: [
+                    { data: "@Html.NameFor(p=>p.自增)", title: "编号", className: "", },
+                    { data: "@Html.NameFor(p=>p.日期)", title: "日期", className: "", },
+                ]
+            })
+
+            $('#myTableRight').DataTable({
+                dom: 't',
+                columns: [
+                    { data: "@Html.NameFor(p=>p.日期)", title: "日期", className: "", },
+                ]
+            })
+        });
+    </script>
+}

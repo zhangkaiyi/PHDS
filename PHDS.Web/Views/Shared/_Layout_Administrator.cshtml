@@ -221,6 +221,9 @@
                             <li><a href="@Url.Action("Index", "Material")"><i class="fa fa-circle-o"></i> <span> 物料</span></a></li>
                         </ul>
                     </li>
+                    <li class="treeview @activeByControllerName("Shengchan")">
+                        @Html.Partial("工作台导航/生产模块")
+                    </li>
                     <li class="treeview @activeByControllerName("Caiwu")">
                         @Html.Partial("工作台导航/财务模块")
                     </li>

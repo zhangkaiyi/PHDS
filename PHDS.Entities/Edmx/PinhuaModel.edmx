@@ -262,6 +262,54 @@
           <Property Name="入职时间" Type="datetime" />
           <Property Name="考勤班次" Type="nvarchar" MaxLength="20" />
         </EntityType>
+        <EntityType Name="生产入库">
+          <Key>
+            <PropertyRef Name="日期" />
+          </Key>
+          <Property Name="自增" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="日期" Type="datetime" Nullable="false" />
+          <Property Name="ExcelServerRCID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerRN" Type="int" />
+          <Property Name="ExcelServerCN" Type="int" />
+          <Property Name="ExcelServerRC1" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerWIID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerRTID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerCHG" Type="int" />
+        </EntityType>
+        <EntityType Name="生产入库_D">
+          <Key>
+            <PropertyRef Name="自增" />
+          </Key>
+          <Property Name="型号" Type="nvarchar" MaxLength="20" />
+          <Property Name="描述" Type="nvarchar" MaxLength="50" />
+          <Property Name="长" Type="decimal" Precision="20" Scale="3" />
+          <Property Name="宽" Type="decimal" Precision="20" Scale="3" />
+          <Property Name="片数" Type="int" />
+          <Property Name="平方数" Type="decimal" Precision="20" Scale="3" />
+          <Property Name="ExcelServerRCID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerRN" Type="int" />
+          <Property Name="ExcelServerCN" Type="int" />
+          <Property Name="ExcelServerRC1" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerWIID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerRTID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerCHG" Type="int" />
+          <Property Name="自增" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="生产型号">
+          <Key>
+            <PropertyRef Name="型号" />
+          </Key>
+          <Property Name="型号" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="ExcelServerRCID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerRN" Type="int" />
+          <Property Name="ExcelServerCN" Type="int" />
+          <Property Name="ExcelServerRC1" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerWIID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerRTID" Type="nvarchar" MaxLength="20" />
+          <Property Name="ExcelServerCHG" Type="int" />
+          <Property Name="自增" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="排序等级" Type="int" />
+        </EntityType>
         <EntityType Name="收货">
           <Key>
             <PropertyRef Name="单号" />
@@ -412,24 +460,6 @@
           <Property Name="对账计算" Type="int" />
           <Property Name="在途计算" Type="int" />
         </EntityType>
-        <!--生成过程中发现错误:
-警告 6002: 表/视图“Pinhua.dbo.view_发货_汇总_销售与加工”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
-        <EntityType Name="view_发货_汇总_销售与加工">
-          <Key>
-            <PropertyRef Name="年" />
-            <PropertyRef Name="月" />
-            <PropertyRef Name="销售金额" />
-            <PropertyRef Name="销售面积" />
-            <PropertyRef Name="加工金额" />
-            <PropertyRef Name="加工面积" />
-          </Key>
-          <Property Name="年" Type="int" Nullable="false" />
-          <Property Name="月" Type="int" Nullable="false" />
-          <Property Name="销售金额" Type="decimal" Precision="38" Scale="2" Nullable="false" />
-          <Property Name="销售面积" Type="decimal" Precision="38" Scale="6" Nullable="false" />
-          <Property Name="加工金额" Type="decimal" Precision="38" Scale="2" Nullable="false" />
-          <Property Name="加工面积" Type="decimal" Precision="38" Scale="6" Nullable="false" />
-        </EntityType>
         <Function Name="GetNewId_s" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idName" Type="int" Mode="In" />
           <Parameter Name="n" Type="int" Mode="In" />
@@ -446,6 +476,9 @@
           <EntitySet Name="考勤明细" EntityType="Self.考勤明细" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="考勤期间" EntityType="Self.考勤期间" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="人员档案" EntityType="Self.人员档案" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="生产入库" EntityType="Self.生产入库" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="生产入库_D" EntityType="Self.生产入库_D" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="生产型号" EntityType="Self.生产型号" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="收货" EntityType="Self.收货" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="收货_D" EntityType="Self.收货_D" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="收款单" EntityType="Self.收款单" Schema="dbo" store:Type="Tables" />
@@ -453,16 +486,6 @@
           <EntitySet Name="物料登记" EntityType="Self.物料登记" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="物料分类" EntityType="Self.物料分类" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="业务类型" EntityType="Self.业务类型" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="view_发货_汇总_销售与加工" EntityType="Self.view_发货_汇总_销售与加工" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [view_发货_汇总_销售与加工].[年] AS [年], 
-    [view_发货_汇总_销售与加工].[月] AS [月], 
-    [view_发货_汇总_销售与加工].[销售金额] AS [销售金额], 
-    [view_发货_汇总_销售与加工].[销售面积] AS [销售面积], 
-    [view_发货_汇总_销售与加工].[加工金额] AS [加工金额], 
-    [view_发货_汇总_销售与加工].[加工面积] AS [加工面积]
-    FROM [dbo].[view_发货_汇总_销售与加工] AS [view_发货_汇总_销售与加工]</DefiningQuery>
-          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -486,12 +509,14 @@
           <EntitySet Name="考勤期间" EntityType="PinhuaModel.考勤期间" />
           <EntitySet Name="发货" EntityType="PinhuaModel.发货" />
           <EntitySet Name="考勤明细" EntityType="PinhuaModel.考勤明细" />
-          <EntitySet Name="view_发货_汇总_销售与加工" EntityType="PinhuaModel.view_发货_汇总_销售与加工" />
           <FunctionImport Name="GetNewId_s" ReturnType="Collection(PinhuaModel.GetNewId_s_Result)">
             <Parameter Name="idName" Mode="In" Type="Int32" />
             <Parameter Name="n" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="物料分类" EntityType="PinhuaModel.物料分类" />
+          <EntitySet Name="生产入库" EntityType="PinhuaModel.生产入库" />
+          <EntitySet Name="生产入库_D" EntityType="PinhuaModel.生产入库_D" />
+          <EntitySet Name="生产型号" EntityType="PinhuaModel.生产型号" />
         </EntityContainer>
         <EntityType Name="人员档案">
           <Key>
@@ -879,22 +904,6 @@
           <Property Name="上月工龄" Type="Int32" />
           <Property Name="首打日期" Type="DateTime" Precision="3" />
         </EntityType>
-        <EntityType Name="view_发货_汇总_销售与加工">
-          <Key>
-            <PropertyRef Name="年" />
-            <PropertyRef Name="月" />
-            <PropertyRef Name="销售金额" />
-            <PropertyRef Name="销售面积" />
-            <PropertyRef Name="加工金额" />
-            <PropertyRef Name="加工面积" />
-          </Key>
-          <Property Name="年" Type="Int32" Nullable="false" />
-          <Property Name="月" Type="Int32" Nullable="false" />
-          <Property Name="销售金额" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
-          <Property Name="销售面积" Type="Decimal" Nullable="false" Precision="38" Scale="6" />
-          <Property Name="加工金额" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
-          <Property Name="加工面积" Type="Decimal" Nullable="false" Precision="38" Scale="6" />
-        </EntityType>
         <ComplexType Name="GetNewId_s_Result">
           <Property Type="Int32" Name="newId" Nullable="true" />
           <Property Type="DateTime" Name="curDate" Nullable="false" Precision="23" />
@@ -921,6 +930,54 @@
           <Property Name="ExcelServerCHG" Type="Int32" />
           <Property Name="级数" Type="Int32" />
           <Property Name="排序" Type="Int32" />
+        </EntityType>
+        <EntityType Name="生产入库">
+          <Key>
+            <PropertyRef Name="日期" />
+          </Key>
+          <Property Name="自增" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="日期" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ExcelServerRCID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRN" Type="Int32" />
+          <Property Name="ExcelServerCN" Type="Int32" />
+          <Property Name="ExcelServerRC1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerWIID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRTID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerCHG" Type="Int32" />
+        </EntityType>
+        <EntityType Name="生产入库_D">
+          <Key>
+            <PropertyRef Name="自增" />
+          </Key>
+          <Property Name="型号" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="描述" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="长" Type="Decimal" Precision="20" Scale="3" />
+          <Property Name="宽" Type="Decimal" Precision="20" Scale="3" />
+          <Property Name="片数" Type="Int32" />
+          <Property Name="平方数" Type="Decimal" Precision="20" Scale="3" />
+          <Property Name="ExcelServerRCID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRN" Type="Int32" />
+          <Property Name="ExcelServerCN" Type="Int32" />
+          <Property Name="ExcelServerRC1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerWIID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRTID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerCHG" Type="Int32" />
+          <Property Name="自增" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="生产型号">
+          <Key>
+            <PropertyRef Name="型号" />
+          </Key>
+          <Property Name="型号" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRCID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRN" Type="Int32" />
+          <Property Name="ExcelServerCN" Type="Int32" />
+          <Property Name="ExcelServerRC1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerWIID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerRTID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExcelServerCHG" Type="Int32" />
+          <Property Name="自增" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="排序等级" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1328,18 +1385,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="view_发货_汇总_销售与加工">
-            <EntityTypeMapping TypeName="PinhuaModel.view_发货_汇总_销售与加工">
-              <MappingFragment StoreEntitySet="view_发货_汇总_销售与加工">
-                <ScalarProperty Name="加工面积" ColumnName="加工面积" />
-                <ScalarProperty Name="加工金额" ColumnName="加工金额" />
-                <ScalarProperty Name="销售面积" ColumnName="销售面积" />
-                <ScalarProperty Name="销售金额" ColumnName="销售金额" />
-                <ScalarProperty Name="月" ColumnName="月" />
-                <ScalarProperty Name="年" ColumnName="年" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="GetNewId_s" FunctionName="PinhuaModel.Store.GetNewId_s">
             <ResultMapping>
               <ComplexTypeMapping TypeName="PinhuaModel.GetNewId_s_Result">
@@ -1369,6 +1414,57 @@
                 <ScalarProperty Name="上级全称" ColumnName="上级全称" />
                 <ScalarProperty Name="上级名称" ColumnName="上级名称" />
                 <ScalarProperty Name="上级编码" ColumnName="上级编码" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="生产入库">
+            <EntityTypeMapping TypeName="PinhuaModel.生产入库">
+              <MappingFragment StoreEntitySet="生产入库">
+                <ScalarProperty Name="ExcelServerCHG" ColumnName="ExcelServerCHG" />
+                <ScalarProperty Name="ExcelServerRTID" ColumnName="ExcelServerRTID" />
+                <ScalarProperty Name="ExcelServerWIID" ColumnName="ExcelServerWIID" />
+                <ScalarProperty Name="ExcelServerRC1" ColumnName="ExcelServerRC1" />
+                <ScalarProperty Name="ExcelServerCN" ColumnName="ExcelServerCN" />
+                <ScalarProperty Name="ExcelServerRN" ColumnName="ExcelServerRN" />
+                <ScalarProperty Name="ExcelServerRCID" ColumnName="ExcelServerRCID" />
+                <ScalarProperty Name="日期" ColumnName="日期" />
+                <ScalarProperty Name="自增" ColumnName="自增" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="生产入库_D">
+            <EntityTypeMapping TypeName="PinhuaModel.生产入库_D">
+              <MappingFragment StoreEntitySet="生产入库_D">
+                <ScalarProperty Name="自增" ColumnName="自增" />
+                <ScalarProperty Name="ExcelServerCHG" ColumnName="ExcelServerCHG" />
+                <ScalarProperty Name="ExcelServerRTID" ColumnName="ExcelServerRTID" />
+                <ScalarProperty Name="ExcelServerWIID" ColumnName="ExcelServerWIID" />
+                <ScalarProperty Name="ExcelServerRC1" ColumnName="ExcelServerRC1" />
+                <ScalarProperty Name="ExcelServerCN" ColumnName="ExcelServerCN" />
+                <ScalarProperty Name="ExcelServerRN" ColumnName="ExcelServerRN" />
+                <ScalarProperty Name="ExcelServerRCID" ColumnName="ExcelServerRCID" />
+                <ScalarProperty Name="平方数" ColumnName="平方数" />
+                <ScalarProperty Name="片数" ColumnName="片数" />
+                <ScalarProperty Name="宽" ColumnName="宽" />
+                <ScalarProperty Name="长" ColumnName="长" />
+                <ScalarProperty Name="描述" ColumnName="描述" />
+                <ScalarProperty Name="型号" ColumnName="型号" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="生产型号">
+            <EntityTypeMapping TypeName="PinhuaModel.生产型号">
+              <MappingFragment StoreEntitySet="生产型号">
+                <ScalarProperty Name="排序等级" ColumnName="排序等级" />
+                <ScalarProperty Name="自增" ColumnName="自增" />
+                <ScalarProperty Name="ExcelServerCHG" ColumnName="ExcelServerCHG" />
+                <ScalarProperty Name="ExcelServerRTID" ColumnName="ExcelServerRTID" />
+                <ScalarProperty Name="ExcelServerWIID" ColumnName="ExcelServerWIID" />
+                <ScalarProperty Name="ExcelServerRC1" ColumnName="ExcelServerRC1" />
+                <ScalarProperty Name="ExcelServerCN" ColumnName="ExcelServerCN" />
+                <ScalarProperty Name="ExcelServerRN" ColumnName="ExcelServerRN" />
+                <ScalarProperty Name="ExcelServerRCID" ColumnName="ExcelServerRCID" />
+                <ScalarProperty Name="型号" ColumnName="型号" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

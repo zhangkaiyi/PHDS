@@ -194,13 +194,14 @@
     <Compile Include="Controllers\ClockController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\MaterialController.cs" />
+    <Compile Include="Controllers\ShengChanController.cs" />
     <Compile Include="Controllers\StockinController.cs" />
     <Compile Include="Controllers\StockoutController.cs" />
     <Compile Include="Controllers\对账员\对账员Controller.cs" />
     <Compile Include="Helpers\LambdaExpressionBuilder.cs" />
     <Compile Include="Helpers\CommonHelper.cs" />
     <Compile Include="Helpers\DynamicLibrary.cs" />
+    <Compile Include="Helpers\HtmlExtensions.cs" />
     <Compile Include="Helpers\Vue2Extensions.cs" />
     <Compile Include="Helpers\PinhuaHelper.cs" />
     <Compile Include="Models\AdminViewModels.cs" />
@@ -1254,8 +1255,6 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
-    <Content Include="Content\elementui\index.css" />
-    <Content Include="Content\elementui\index.js" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Mvc4\Site.css" />
@@ -1455,6 +1454,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\vue.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\blank.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1529,7 +1529,6 @@
     <Content Include="Views\Stockout\Delete.cshtml" />
     <Content Include="Views\Stockout\EditorTemplates\ItemModel.cshtml" />
     <Content Include="Views\Stockout\EditorTemplates\ItemModelList.cshtml" />
-    <Content Include="Views\Material\Index.cshtml" />
     <Content Include="Views\Stockout\Report.cshtml" />
     <Content Include="Views\Kaoqin\TimeRecords.cshtml" />
     <Content Include="Views\Kaoqin\RecordDetails.cshtml" />
@@ -1545,9 +1544,33 @@
     <Content Include="Views\Caiwu\FukuanEdit.cshtml" />
     <Content Include="Views\Shared\工作台导航\BasicSetting模块.cshtml" />
     <Content Include="Views\BasicSetting\Wuliao.cshtml" />
-    <Content Include="Views\BasicSetting\WuliaoAdd.cshtml" />
     <Content Include="Views\BasicSetting\WuliaoEdit.cshtml" />
     <Content Include="Views\BasicSetting\WuliaoNavi.cshtml" />
+    <Content Include="Views\Shared\工作台导航\生产模块.cshtml" />
+    <Content Include="Views\ShengChan\SCINavi.cshtml" />
+    <Content Include="Views\ShengChan\SCI.cshtml" />
+    <Content Include="Views\Shared\Metronic\_Layout_Metronic.cshtml" />
+    <Content Include="Views\Shared\_Layout_Blank.cshtml" />
+    <Content Include="Views\Shared\Metronic\_Layout_Metronic_HEAD.cshtml" />
+    <Content Include="Views\Shared\Metronic\_Layout_Metronic_BODYHEADER.cshtml" />
+    <Content Include="Views\Shared\Metronic\_Layout_Metronic_BODYCONTAINER.cshtml" />
+    <Content Include="Views\Shared\Metronic\_Layout_Metronic_BODYFOOTER.cshtml" />
+    <Content Include="Views\Shared\Metronic\_Layout_Metronic_QUICKNAV.cshtml" />
+    <Content Include="Views\ShengChan\SCI2.cshtml" />
+    <Content Include="Views\Shared\Metronic\_Layout_Metronic_SCRIPTS.cshtml" />
+    <Content Include="Views\Shared\Metronic\Body\_Partial_SIDEBAR.cshtml" />
+    <Content Include="Views\Shared\Metronic\Body\_Partial_QUICKSIDEBAR.cshtml" />
+    <Content Include="Views\Shared\AdminLTE\_Layout_AdminLTE_Base.cshtml" />
+    <Content Include="Views\Shared\AdminLTE\Partial_MainHeader.cshtml" />
+    <Content Include="Views\Shared\AdminLTE\Partial_Head.cshtml" />
+    <Content Include="Views\Shared\AdminLTE\Partial_SideBar.cshtml" />
+    <Content Include="Views\Shared\AdminLTE\Partial_Footer.cshtml" />
+    <Content Include="Views\Shared\AdminLTE\Partial_ControlSideBar.cshtml" />
+    <Content Include="Views\Shared\AdminLTE\_Layout_AdminLTE.cshtml" />
+    <Content Include="Views\Shared\AdminLTE\Partial_Scripts.cshtml" />
+    <Content Include="Views\Shared\工作台导航\业务模块.cshtml" />
+    <Content Include="Views\BasicSetting\_Layout_WuliaoCRU.cshtml" />
+    <Content Include="Views\BasicSetting\WuliaoAdd.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

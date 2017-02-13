@@ -17,7 +17,7 @@ namespace Helpers
             var methodInfo = (MethodInfo)constantExpression.Value;
             return methodInfo.Name;
         }
-        public static string GetActionName<TController>(Expression<Func<TController, dynamic>> expression)
+        public static string GetActionName<TController>(Expression<Func<TController, System.Web.Mvc.ActionResult>> expression)
         {
             return ((MethodCallExpression)expression.Body).Method.Name;
         }

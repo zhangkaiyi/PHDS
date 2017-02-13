@@ -1,0 +1,33 @@
+﻿@{
+    Layout = "~/Views/Shared/AdminLTE/_Layout_AdminLTE_Base.cshtml";
+
+    var controllerName = @ViewContext.RouteData.Values["controller"].ToString();
+    var actionName = @ViewContext.RouteData.Values["action"].ToString();
+}
+@section styles{
+    @RenderSection("styles", required: false)
+}
+@section scripts{
+    @RenderSection("scripts", required: false)
+}
+
+<div class="content-wrapper" style="min-height:1280px">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            @controllerName
+            <small>@actionName</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> @controllerName</a></li>
+            <li class="active">@actionName</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content" @*style="font-size:12px;"*@>
+        <!-- Your Page Content Here -->
+        @RenderBody()
+    </section>
+    <!-- /.content -->
+</div>

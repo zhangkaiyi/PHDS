@@ -7,7 +7,7 @@ using PHDS.Entities.Edmx;
 
 namespace PHDS.Web.Controllers
 {
-    public class SalesController : Controller
+    public class SalesController : BaseController
     {
         public ActionResult Index()
         {

@@ -1,0 +1,206 @@
+﻿
+@{
+    Layout = "~/Views/Shared/Metronic/_Layout_Metronic_BODYCONTAINER.cshtml";
+
+    var pinhua = new PHDS.Entities.Edmx.PinhuaEntities();
+    var results = pinhua.发货.OrderByDescending(x => x.ExcelServerRCID).Take(10);
+    var name = Html.ControllerName<PHDS.Web.Controllers.BasicSettingController>();
+}
+@(Url.Action<PHDS.Web.Controllers.BasicSettingController>(x=>x.WuliaoDelete("abc")))
+@section styles{
+    <!-- BEGIN PAGE LEVEL STYLES -->
+    <link href="~/Content/Metronic/assets/apps/css/todo-2.min.css" rel="stylesheet" type="text/css">
+    <!-- END PAGE LEVEL STYLES -->
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="todo-ui">
+            <div class="todo-sidebar">
+                <div class="portlet light">
+                    <div class="portlet-title"><div class="caption"><span class="caption-subject font-green-sharp bold uppercase">Projects</span></div></div>
+                    <div class="portlet-body todo-project-list-content">
+                        <div class="todo-project-list">
+                            <ul class="nav nav-stacked">
+                                <li class="active">
+                                    <a href="javascript:;">
+                                        <span class="badge badge-info"> 6 </span><i class="fa fa-th-large"></i> 入库清单
+                                    </a>
+                                </li>
+                                @foreach(var item in results)
+                                {
+                                    var count = @pinhua.发货_DETAIL.Where(p => p.ExcelServerRCID == item.ExcelServerRCID).Count();
+                                    IHtmlString badgeClass = null;
+                                    if (count >= 0 && count <=2)
+                                        badgeClass = Html.Raw("");
+                                    if (count >= 3 && count <= 4)
+                                        badgeClass = Html.Raw("badge-primary");
+                                    if (count >= 5 && count <= 6)
+                                        badgeClass = Html.Raw("badge-warning");
+                                    if (count >= 7)
+                                        badgeClass = Html.Raw("badge-danger");
+                                    <li>
+                                        <a href="javascript:;">
+                                            <span class="badge @badgeClass"> @count </span><i class="fa fa-th-large"></i> @item.送货日期.Value.ToString("yyyy/MM/dd")
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>        <div class="todo-content">
+            <div class="portlet light ">
+                <!-- PROJECT HEAD -->
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-bar-chart font-green-sharp hide"></i>
+                        <span class="caption-helper">GlobalEx Tasks:</span> &nbsp;
+                        <span class="caption-subject font-green-sharp bold uppercase">Tune Website</span>
+                    </div>
+                    <div class="actions">
+                        <div class="btn-group open">
+                            <a class="btn green btn-circle btn-sm" href="javascript:;" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" aria-expanded="true">
+                                MANAGE
+                                <i class="fa fa-angle-down"></i>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                <li>
+                                    <a href="javascript:;"> New Task </a>
+                                </li>
+                                <li class="divider"> </li>
+                                <li>
+                                    <a href="javascript:;">
+                                        Pending
+                                        <span class="badge badge-danger"> 4 </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">
+                                        Completed
+                                        <span class="badge badge-success"> 12 </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">
+                                        Overdue
+                                        <span class="badge badge-warning"> 9 </span>
+                                    </a>
+                                </li>
+                                <li class="divider"> </li>
+                                <li>
+                                    <a href="javascript:;"> Delete Project </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- end PROJECT HEAD -->
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-5 col-sm-4">
+                            <div class="todo-tasklist">
+                                <div class="todo-tasklist-item todo-tasklist-item-border-green">
+                                    <img class="todo-userpic pull-left" src="../assets/pages/media/users/avatar4.jpg" width="27px" height="27px">
+                                    <div class="todo-tasklist-item-title"> PH04 <small>450x450x15 </small></div>
+                                    <div class="todo-tasklist-item-text"> PH04黄的素板 225片 552平方 </div>
+                                    <div class="todo-tasklist-controls pull-left">
+                                        <span class="todo-tasklist-date">
+                                            <i class="fa fa-calendar"></i> 21 Sep 2014
+                                        </span>
+                                        <span class="todo-tasklist-badge badge badge-roundless">@User.Identity.Name</span>
+                                    </div>
+                                </div>
+                                <div class="todo-tasklist-item todo-tasklist-item-border-red">
+                                    <img class="todo-userpic pull-left" src="../assets/pages/media/users/avatar5.jpg" width="27px" height="27px">
+                                    <div class="todo-tasklist-item-title"> Homepage Alignments to adjust </div>
+                                    <div class="todo-tasklist-item-text"> Lorem ipsum dolor sit amet, consectetuer dolore dolor sit amet. </div>
+                                    <div class="todo-tasklist-controls pull-left">
+                                        <span class="todo-tasklist-date">
+                                            <i class="fa fa-calendar"></i> 14 Sep 2014
+                                        </span>
+                                        <span class="todo-tasklist-badge badge badge-roundless">Important</span>
+                                    </div>
+                                </div>
+                                <div class="todo-tasklist-item todo-tasklist-item-border-green">
+                                    <img class="todo-userpic pull-left" src="../assets/pages/media/users/avatar9.jpg" width="27px" height="27px">
+                                    <div class="todo-tasklist-item-title"> Slider Redesign </div>
+                                    <div class="todo-tasklist-controls pull-left">
+                                        <span class="todo-tasklist-date">
+                                            <i class="fa fa-calendar"></i> 10 Feb 2015
+                                        </span>
+                                        <span class="todo-tasklist-badge badge badge-roundless">Important</span>&nbsp;
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="todo-tasklist-devider"> </div>
+                        <div class="col-md-7 col-sm-8">
+                            <form action="#" class="form-horizontal">
+                                <!-- TASK HEAD -->
+                                <div class="form">
+                                    <div class="form-group">
+                                        <div class="col-md-8 col-sm-8">
+                                            <div class="todo-taskbody-user">
+                                                <img class="todo-userpic pull-left" src="../assets/pages/media/users/avatar6.jpg" width="50px" height="50px">
+                                                <span class="todo-username pull-left">Vanessa Bond</span>
+                                                <button type="button" class="todo-username-btn btn btn-circle btn-default btn-sm">&nbsp;edit&nbsp;</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-4">
+                                            <div class="todo-taskbody-date pull-right">
+                                                <button type="button" class="todo-username-btn btn btn-circle btn-default btn-sm">&nbsp; Complete &nbsp;</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END TASK HEAD -->
+                                    <!-- TASK TITLE -->
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Task Title...">
+                                        </div>
+                                    </div>
+                                    <!-- TASK DESC -->
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <textarea class="form-control todo-taskbody-taskdesc" rows="8" placeholder="Task Description..."></textarea>
+                                        </div>
+                                    </div>
+                                    <!-- END TASK DESC -->
+                                    <!-- TASK DUE DATE -->
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="input-icon">
+                                                <i class="fa fa-calendar"></i>
+                                                <input type="text" class="form-control todo-taskbody-due" placeholder="Due Date...">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- TASK TAGS -->
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <select class="form-control todo-taskbody-tags select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                                                <option value="Pending">Pending</option>
+                                                <option value="Completed">Completed</option>
+                                                <option value="Testing">Testing</option>
+                                                <option value="Approved">Approed</option>
+                                                <option value="Rejected">Rejected</option>
+                                            </select><span class="select2 select2-container select2-container--bootstrap" dir="ltr" style="width: 442px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-j5eo-container"><span class="select2-selection__rendered" id="select2-j5eo-container" title="Pending">Pending</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                                        </div>
+                                    </div>
+                                    <!-- TASK TAGS -->
+                                    <div class="form-actions right todo-form-actions">
+                                        <button class="btn btn-circle btn-sm green">Save Changes</button>
+                                        <button class="btn btn-circle btn-sm btn-default">Cancel</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,30 @@
+﻿@*@Scripts.Render("~/bundles/jquery")*@
+<script src="~/Scripts/jquery-2.2.4.min.js"></script>
+@*@Scripts.Render("~/bundles/bootstrap")*@
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+<!-- Vue -->
+@*@Scripts.Render("~/bundles/vue")*@
+<script src="~/Scripts/vue.js"></script>
+
+<!-- AdminLTE -->
+<script src="~/Content/AdminLTE/dist/js/app.min.js"></script>
+<script src="~/Content/AdminLTE/plugins/chartjs/Chart.min.js"></script>
+
+<script>
+    var AdminLTEOptions = {
+        animationSpeed : 250
+    };
+</script>
+
+<script>
+    function setViewport() {
+        var viewport = document.querySelector("meta[name=viewport]");
+        var content1 = "width=device-width, initial-scale=1.0";
+        var content2 = "width=1000px";
+        if (viewport.getAttribute('content') == content1)
+            viewport.setAttribute('content', content2);
+        else if (viewport.getAttribute('content') == content2)
+            viewport.setAttribute('content', content1);
+    }
+</script>

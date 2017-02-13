@@ -1,0 +1,122 @@
+﻿@model PHDS.Entities.Edmx.物料登记
+@{
+    Layout = "~/Views/Shared/AdminLTE/_Layout_AdminLTE.cshtml";
+    var pinhua = new PHDS.Entities.Edmx.PinhuaEntities();
+    var newitemJson = Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model, Newtonsoft.Json.Formatting.Indented));
+    var itemtypes = pinhua.物料分类.AsNoTracking();
+    var itemtypesJson = Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(itemtypes, Newtonsoft.Json.Formatting.Indented));
+    var itemgroup = itemtypes.Where(x => x.级数 == 1).OrderBy(x => x.排序); ;
+    var itemgroupJson = Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(itemgroup, Newtonsoft.Json.Formatting.Indented));
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="my-sidebar">
+            @Html.Partial("WuliaoNavi")
+        </div>
+        <div class="my-content">
+            @RenderBody()
+        </div>
+    </div>
+</div>
+
+@section styles{
+    <style>
+        .my-sidebar {
+            position:absolute;
+            width: 230px;
+        }
+
+        .my-content {
+            margin-left: 244px;
+        }
+    </style>
+
+    <style media="(max-width: 991px)">
+        /* RESPONSIVE MODE */
+        /* 991px */
+        .my-sidebar {
+            position:relative;
+            width: 100%;
+        }
+
+        .my-content {
+            margin-left:0px;
+        }
+    </style>
+}
+
+
+@section scripts{
+    <script>
+        var vm = new Vue({
+            el: '#formBox',
+            data: {
+                @Html.Vue2().modelName: @newitemJson,
+                物料顶级分类: @itemgroupJson,
+                物料所有分类: @itemtypesJson,
+                isReadOnly: true,
+                isTrackingNoEditable: false,
+
+                classFormHorizontal:{
+                    formgroupLeft:{
+                        'col-xs-3': true,
+                        'col-sm-3': true,
+                        'col-md-2': true,
+                        'col-lg-2': true,
+                    },
+                    formgroupRight:{
+                        'col-xs-9' :true,
+                        'col-sm-9': true,
+                        'col-md-8': true,
+                        'col-lg-5': true,
+                    }
+                },
+            },
+            computed: {
+
+            },
+            methods: {
+                innerTypes:function(key){
+                    var array = $.grep(this.物料所有分类, function(item){
+                        return item.完整编码 != key && item.完整编码.indexOf(key) >= 0
+                    })
+                    return array
+                },
+                fnType: function(){
+                    var array = this.物料所有分类.filter(function(member){
+                        return member.完整编码 == this.mvcModel.分类编号
+                    },this)
+                    @Html.Vue2().modelDataFor(x=>x.类型) = array.length>0 ? array[0].全称 :  ""
+                },
+                fn规格: function(){
+                    var length = @Html.Vue2().modelDataFor(x => x.Length);
+                    var width = @Html.Vue2().modelDataFor(x => x.Width);
+                    var height = @Html.Vue2().modelDataFor(x => x.Height);
+                    if(this.isReadOnly){
+                        if(length && width && height){
+                            @Html.Vue2().modelDataFor(x=>x.规格) = [length,"*",width,"*",height].join("")
+                        }
+                        else
+                            @Html.Vue2().modelDataFor(x=>x.规格) = ""
+                    }
+                },
+                fnLengthClick: function (event) {
+                    // `event` 是原生 DOM 事件
+                    @Html.Vue2().modelDataFor(x=>x.Length) = event.target.innerText;
+                },
+                fnWidthClick: function (event) {
+                    // `event` 是原生 DOM 事件
+                    @Html.Vue2().modelDataFor(x=>x.Width) = event.target.innerText;
+                },
+                fnHeightClick: function (event) {
+                    // `event` 是原生 DOM 事件
+                    @Html.Vue2().modelDataFor(x=>x.Height) = event.target.innerText;
+                },
+                fnThicknessClick: function (event) {
+                    // `event` 是原生 DOM 事件
+                    @Html.Vue2().modelDataFor(x=>x.面皮厚度) = event.target.innerText;
+                }
+            },
+        })
+    </script>
+}

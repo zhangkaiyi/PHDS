@@ -44,8 +44,10 @@ namespace PHDS.Entities.Edmx
         public virtual DbSet<考勤期间> 考勤期间 { get; set; }
         public virtual DbSet<发货> 发货 { get; set; }
         public virtual DbSet<考勤明细> 考勤明细 { get; set; }
-        public virtual DbSet<view_发货_汇总_销售与加工> view_发货_汇总_销售与加工 { get; set; }
         public virtual DbSet<物料分类> 物料分类 { get; set; }
+        public virtual DbSet<生产入库> 生产入库 { get; set; }
+        public virtual DbSet<生产入库_D> 生产入库_D { get; set; }
+        public virtual DbSet<生产型号> 生产型号 { get; set; }
     
         public virtual ObjectResult<GetNewId_s_Result> GetNewId_s(Nullable<int> idName, Nullable<int> n)
         {

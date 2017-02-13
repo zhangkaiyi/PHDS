@@ -1174,7 +1174,7 @@ a:focus {
   backface-visibility: visible !important;
   -webkit-animation: flipInX 0.7s both;
   -o-animation: flipInX 0.7s both;
-  animation: flipInX 0.7s both;
+  animation: flipInX 0.1s both;
 }
 @keyframes flipInX {
   0% {

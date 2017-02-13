@@ -104,9 +104,6 @@
     <Compile Include="Edmx\TimeRecords.cs">
       <DependentUpon>EastRiverModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Edmx\view_发货_汇总_销售与加工.cs">
-      <DependentUpon>PinhuaModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Edmx\业务类型.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>
@@ -144,6 +141,15 @@
       <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Edmx\物料登记.cs">
+      <DependentUpon>PinhuaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Edmx\生产入库.cs">
+      <DependentUpon>PinhuaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Edmx\生产入库_D.cs">
+      <DependentUpon>PinhuaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Edmx\生产型号.cs">
       <DependentUpon>PinhuaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Edmx\考勤卡号变动.cs">

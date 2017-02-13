@@ -1,4 +1,5 @@
-﻿@model PHDS.Entities.Edmx.物料登记
+﻿@using PHDS.Web.Controllers
+@model PHDS.Entities.Edmx.物料登记
 @{
     var pinhua = new PHDS.Entities.Edmx.PinhuaEntities();
     var newitemJson = Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model, Newtonsoft.Json.Formatting.Indented));
@@ -8,124 +9,186 @@
     var itemgroupJson = Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(itemgroup, Newtonsoft.Json.Formatting.Indented));
 }
 <div class="row">
-    <div class="col-sm-2">
-        @Html.Partial("WuliaoNavi")
-    </div>
-    <div class="col-sm-10" style="font-size:12px;">
-        @using (Html.BeginForm("WuliaoEdit", "BasicSetting", FormMethod.Post, new { id = "myForm" }))
-        {
-            <div class="box box-danger" id="formBox" v-cloak>
-                <div class="box-header with-border">
-                    <h3 class="box-title">物料编辑</h3>
-                    <div class="box-tools pull-right">
-                        <!-- Buttons, labels, and many other things can be placed here! -->
+    <div class="col-xs-12">
+        <div class="my-sidebar">
+            @Html.Partial("WuliaoNavi")
+        </div>
+        <div class="my-content">
+            @using (Html.BeginForm<BasicSettingController>(p => p.WuliaoEdit(""), FormMethod.Post, new { id = "myForm" }))
+            {
+                <div class="box box-danger" id="formBox" v-cloak>
+                    <div class="box-header with-border">
+                        <h3 class="box-title">物料编辑</h3>
+                        <div class="box-tools pull-right">
+                            <!-- Buttons, labels, and many other things can be placed here! -->
 
-                    </div><!-- /.box-tools -->
-                </div><!-- /.box-header -->
-                <div class="box-body">
-                    <div class="form-group">
-                        <label for="编号">编号</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" @Html.Vue2().vModelFor(x => x.编号) v-bind:readonly="!isTrackingNoEditable">
-                            <div class="input-group-addon">
-                                <input type="checkbox" style="display: inline-block;margin-bottom: 2px; vertical-align:middle" v-bind:checked="isTrackingNoEditable" v-on:click="isTrackingNoEditable=!isTrackingNoEditable">
-                                <a href="javascript:;" v-on:click="isTrackingNoEditable=!isTrackingNoEditable"> 允许编辑</a>
+                        </div><!-- /.box-tools -->
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label" v-bind:class="classFormHorizontal.formgroupLeft" for="编号">编号</label>
+                                <div v-bind:class="classFormHorizontal.formgroupRight">
+                                    <input type="text" class="form-control" @Html.Vue2().vModelFor(x => x.编号) v-bind:readonly="!isTrackingNoEditable">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" v-bind:class="classFormHorizontal.formgroupLeft" for="分类编号">分类</label>
+                                <div v-bind:class="classFormHorizontal.formgroupRight">
+                                    <select class="form-control" @Html.Vue2().vModelFor(x => x.分类编号) v-on:change="fnType">
+                                        <optgroup v-for="groupitem in 物料顶级分类" v-bind:label="groupitem.全称">
+                                            <option v-for="item in innerTypes(groupitem.完整编码)" v-bind:value="item.完整编码">{{item.完整编码}} - {{item.全称}}</option>
+                                        </optgroup>
+                                    </select>
+                                    <input class="form-control" type="hidden" @Html.Vue2().vModelFor(x => x.类型) readonly />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" v-bind:class="classFormHorizontal.formgroupLeft" for="描述">描述</label>
+                                <div v-bind:class="classFormHorizontal.formgroupRight">
+                                    <input type="text" class="form-control" @Html.Vue2().vModelFor(x => x.描述) placeholder="输入描述...">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" v-bind:class="classFormHorizontal.formgroupLeft" for="规格">规格</label>
+                                <div v-bind:class="classFormHorizontal.formgroupRight">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" @Html.Vue2().vModelFor(x => x.规格) placeholder="输入规格..." v-bind:readonly="isReadOnly" v-bind:value="fn规格()">
+                                        <div class="input-group-addon">
+                                            <input type="checkbox" style="display: inline-block;margin-bottom: 2px; vertical-align:middle" v-bind:checked="!isReadOnly" v-on:click="isReadOnly=!isReadOnly">
+                                            <a href="javascript:;" v-on:click="isReadOnly=!isReadOnly"> 编辑</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" v-bind:class="classFormHorizontal.formgroupLeft" for="Length">长</label>
+                                <div v-bind:class="classFormHorizontal.formgroupRight">
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" @Html.Vue2().vModelFor(x => x.Length) placeholder="输入长...">
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"> <span class="caret"></span></button>
+                                            <ul class="dropdown-menu dropdown-menu-right">
+                                                <li v-on:click="fnLengthClick"><a href="javascript:;">450</a></li>
+                                                <li role="separator" class="divider"></li>
+                                                <li v-on:click="fnLengthClick"><a href="javascript:;">300</a></li>
+                                                <li v-on:click="fnLengthClick"><a href="javascript:;">500</a></li>
+                                                <li v-on:click="fnLengthClick"><a href="javascript:;">600</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" v-bind:class="classFormHorizontal.formgroupLeft" for="Width">宽</label>
+                                <div v-bind:class="classFormHorizontal.formgroupRight">
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" @Html.Vue2().vModelFor(x => x.Width) placeholder="输入宽...">
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"> <span class="caret"></span></button>
+                                            <ul class="dropdown-menu dropdown-menu-right">
+                                                <li v-on:click="fnWidthClick"><a href="javascript:;">450</a></li>
+                                                <li role="separator" class="divider"></li>
+                                                <li v-on:click="fnWidthClick"><a href="javascript:;">300</a></li>
+                                                <li v-on:click="fnWidthClick"><a href="javascript:;">500</a></li>
+                                                <li v-on:click="fnWidthClick"><a href="javascript:;">600</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" v-bind:class="classFormHorizontal.formgroupLeft" for="Height">高</label>
+                                <div v-bind:class="classFormHorizontal.formgroupRight">
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" @Html.Vue2().vModelFor(x => x.Height) placeholder="输入高...">
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"> <span class="caret"></span></button>
+                                            <ul class="dropdown-menu dropdown-menu-right">
+                                                <li v-on:click="fnHeightClick"><a href="javascript:;">15</a></li>
+                                                <li role="separator" class="divider"></li>
+                                                <li v-on:click="fnHeightClick"><a href="javascript:;">12</a></li>
+                                                <li v-on:click="fnHeightClick"><a href="javascript:;">18</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" v-bind:class="classFormHorizontal.formgroupLeft" for="面皮厚度">面皮</label>
+                                <div v-bind:class="classFormHorizontal.formgroupRight">
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" @Html.Vue2().vModelFor(x => x.面皮厚度) placeholder="输入面皮厚度...">
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"> <span class="caret"></span></button>
+                                            <ul class="dropdown-menu dropdown-menu-right">
+                                                <li v-on:click="fnThicknessClick"><a href="javascript:;">1.2</a></li>
+                                                <li role="separator" class="divider"></li>
+                                                <li v-on:click="fnThicknessClick"><a href="javascript:;">2</a></li>
+                                                <li v-on:click="fnThicknessClick"><a href="javascript:;">3</a></li>
+                                                <li v-on:click="fnThicknessClick"><a href="javascript:;">4</a></li>
+                                                <li v-on:click="fnThicknessClick"><a href="javascript:;">0.6</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="分类编号">分类</label>
-                        <select class="form-control" @Html.Vue2().vModelFor(x => x.分类编号) v-on:change="fn类型()">
-                            <optgroup v-for="groupitem in 物料顶级分类" v-bind:label="groupitem.全称">
-                                <option v-for="item in innerTypes(groupitem.完整编码)" v-bind:value="item.完整编码">{{item.完整编码}} - {{item.全称}}</option>
-                            </optgroup>
-                        </select>
-                        <input class="form-control" type="hidden" @Html.Vue2().vModelFor(x => x.类型) readonly />
-                    </div>
-                    <div class="form-group">
-                        <label for="描述">描述</label>
-                        <input type="text" class="form-control" @Html.Vue2().vModelFor(x => x.描述) placeholder="输入描述...">
-                    </div>
-                    <div class="form-group">
-                        <label for="规格">规格</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" @Html.Vue2().vModelFor(x => x.规格) placeholder="输入规格..." v-bind:readonly="isReadOnly" v-bind:value="fn规格()">
-                            <div class="input-group-addon">
-                                <input type="checkbox" style="display: inline-block;margin-bottom: 2px; vertical-align:middle" v-bind:checked="!isReadOnly" v-on:click="isReadOnly=!isReadOnly">
-                                <a href="javascript:;" v-on:click="isReadOnly=!isReadOnly"> 手动编辑</a>
+                    <div class="box-footer">
+                        <div class="row no-print">
+                            <div class="col-xs-12">
+                                <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> 打印</a>
+                                <a href="javascript:$('#myForm').submit()" class="btn btn-primary pull-right">
+                                    <i class="fa fa-check"></i> 确认提交
+                                </a>
+                                <a href="@Url.Action("Wuliao")" class="btn btn-danger pull-right" style="margin-right: 5px;">
+                                    <i class="fa fa-reply"></i> 取消
+                                </a>
                             </div>
                         </div>
                     </div>
-                    <section class="row">
-                        <article class="col-sm-4">
-                            <div class="form-group">
-                                <label for="Length">长</label>
-                                <div class="input-group">
-                                    <input type="number" class="form-control" @Html.Vue2().vModelFor(x => x.Length) placeholder="输入长...">
-                                    <div class="input-group-btn">
-                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"> <span class="caret"></span></button>
-                                        <ul class="dropdown-menu dropdown-menu-right">
-                                            <li v-on:click="fnLengthClick"><a href="javascript:;">450</a></li>
-                                            <li role="separator" class="divider"></li>
-                                            <li v-on:click="fnLengthClick"><a href="javascript:;">300</a></li>
-                                            <li v-on:click="fnLengthClick"><a href="javascript:;">500</a></li>
-                                            <li v-on:click="fnLengthClick"><a href="javascript:;">600</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="Width">宽</label>
-                                <div class="input-group">
-                                    <input type="number" class="form-control" @Html.Vue2().vModelFor(x => x.Width) placeholder="输入宽...">
-                                    <div class="input-group-btn">
-                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"> <span class="caret"></span></button>
-                                        <ul class="dropdown-menu dropdown-menu-right">
-                                            <li v-on:click="fnWidthClick"><a href="javascript:;">450</a></li>
-                                            <li role="separator" class="divider"></li>
-                                            <li v-on:click="fnWidthClick"><a href="javascript:;">300</a></li>
-                                            <li v-on:click="fnWidthClick"><a href="javascript:;">500</a></li>
-                                            <li v-on:click="fnWidthClick"><a href="javascript:;">600</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="Height">高</label>
-                                <div class="input-group">
-                                    <input type="number" class="form-control" @Html.Vue2().vModelFor(x => x.Height) placeholder="输入高...">
-                                    <div class="input-group-btn">
-                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"> <span class="caret"></span></button>
-                                        <ul class="dropdown-menu dropdown-menu-right">
-                                            <li v-on:click="fnHeightClick"><a href="javascript:;">15</a></li>
-                                            <li role="separator" class="divider"></li>
-                                            <li v-on:click="fnHeightClick"><a href="javascript:;">12</a></li>
-                                            <li v-on:click="fnHeightClick"><a href="javascript:;">18</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
-                    </section>
                 </div>
-                <div class="box-footer">
-                    <div class="row no-print">
-                        <div class="col-xs-12">
-                            <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> 打印</a>
-                            <a href="javascript:$('#myForm').submit()" class="btn btn-primary pull-right">
-                                <i class="fa fa-check"></i> 确认提交
-                            </a>
-                            <a href="@Url.Action("Wuliao")" class="btn btn-danger pull-right" style="margin-right: 5px;">
-                                <i class="fa fa-reply"></i> 取消
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
+            }
+        </div>
     </div>
 </div>
 
+@section styles{
+    <style>
+        .my-sidebar {
+            position: absolute;
+            width: 230px;
+        }
+
+        .my-content {
+            margin-left: 244px;
+        }
+    </style>
+    <style media="(max-width: 991px)">
+        /* RESPONSIVE MODE */
+        /* 991px */
+        .my-sidebar {
+            width: 186px;
+        }
+
+        .my-content {
+            margin-left: 200px;
+        }
+    </style>
+    <style media="(max-width: 767px)">
+        /* RESPONSIVE MODE */
+        /* 767px */
+        .my-sidebar {
+            position: relative;
+            width: 100%;
+        }
+
+        .my-content {
+            margin-left: 0px;
+        }
+    </style>
+}
 
 @section scripts{
     <script>
@@ -137,6 +200,21 @@
                 物料所有分类: @itemtypesJson,
                 isReadOnly: false,
                 isTrackingNoEditable: false,
+
+                classFormHorizontal:{
+                    formgroupLeft:{
+                        'col-xs-3': true,
+                        'col-sm-3': true,
+                        'col-md-2': true,
+                        'col-lg-2': true,
+                    },
+                    formgroupRight:{
+                        'col-xs-9' :true,
+                        'col-sm-9': true,
+                        'col-md-8': true,
+                        'col-lg-5': true,
+                    },
+                }
             },
             computed: {
 
@@ -148,7 +226,7 @@
                     })
                     return array
                 },
-                fn类型: function(){
+                fnType: function(){
                     var array = this.物料所有分类.filter(function(member){
                         return member.完整编码 == this.mvcModel.分类编号
                     },this)
@@ -166,9 +244,6 @@
                             @Html.Vue2().modelDataFor(x=>x.规格) = ""
                     }
                 },
-                fn长宽高按钮单机: function(event){
-                    console.log(event.target)
-                },
                 fnLengthClick: function (event) {
                     // `event` 是原生 DOM 事件
                     @Html.Vue2().modelDataFor(x=>x.Length) = event.target.innerText;
@@ -180,6 +255,10 @@
                 fnHeightClick: function (event) {
                     // `event` 是原生 DOM 事件
                     @Html.Vue2().modelDataFor(x=>x.Height) = event.target.innerText;
+                },
+                fnThicknessClick: function (event) {
+                    // `event` 是原生 DOM 事件
+                    @Html.Vue2().modelDataFor(x=>x.面皮厚度) = event.target.innerText;
                 }
             },
         })

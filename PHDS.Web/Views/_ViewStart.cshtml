@@ -14,7 +14,7 @@
         //if (UserManager.IsInRole(User.Identity.GetUserId(),"管理员"))
         if (User.IsInRole("管理员"))
         {
-            Layout = "~/Views/Shared/_Layout_Administrator.cshtml";
+            Layout = "~/Views/Shared/AdminLTE/_Layout_AdminLTE.cshtml";
         }
         //else if(UserManager.IsInRole(User.Identity.GetUserId(), "对账员"))
         else if (User.IsInRole("对账员"))

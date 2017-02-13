@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace PHDS.Web.Controllers
 {
-    public class BasicSettingController : Controller
+    public class BasicSettingController : BaseController
     {
         public ActionResult Wuliao()
         {
@@ -57,7 +57,8 @@ namespace PHDS.Web.Controllers
                 Helpers.Pinhua.Copy.ShadowCopy(model, order);
                 database.SaveChanges();
 
-                return RedirectToAction(Helpers.Common.GetActionName<BasicSettingController>(x => x.Wuliao()));
+                //return RedirectToAction(Helpers.Common.GetActionName<BasicSettingController>(x => x.Wuliao()));
+                return RedirectToAction(nameof(this.Wuliao));
             }
         }
 

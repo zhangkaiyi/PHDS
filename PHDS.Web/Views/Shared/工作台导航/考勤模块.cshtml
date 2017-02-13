@@ -46,12 +46,12 @@
                             if (item.年 == year)
                             {
                                 <li class="@if (rcid == item.ExcelServerRCID) { @Html.Raw("active"); }">
-                                    <a href="#">
-                                        <i class="fa fa-star-o"></i> <span> @item.年 - @item.月.ToString("D2")</span><span class="pull-right-container">
+                                    <a href="@Url.Action("MonthReport", "Kaoqin", new { year=item.年, month=item.月, rcid = item.ExcelServerRCID })">
+                                        <i class="fa fa-circle-o"></i> <span> @item.年 - @item.月.ToString("D2")</span>@*<span class="pull-right-container">
                                             <i class="fa fa-angle-left pull-right"></i>
-                                        </span>
+                                        </span>*@
                                     </a>
-                                    <ul class="treeview-menu">
+                                    @*<ul class="treeview-menu">
                                         <li class="@if (Request["workerid"] == null ) { @Html.Raw("active"); } ">
                                             <a href="@Url.Action("MonthReport", "Kaoqin", new { year=item.年, month=item.月, rcid = item.ExcelServerRCID })">
                                                 <i class="fa fa-circle-o"></i> <span> 所有人</span>
@@ -65,7 +65,7 @@
                                             }
                                         }
 
-                                    </ul>
+                                    </ul>*@
                                 </li>
                             }
                         }

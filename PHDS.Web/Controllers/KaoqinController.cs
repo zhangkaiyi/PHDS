@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace PHDS.Web.Controllers
 {
-    public class KaoqinController : Controller
+    public class KaoqinController : BaseController
     {
         public ActionResult RecordDetails(string id, DateTime? time)
         { 
