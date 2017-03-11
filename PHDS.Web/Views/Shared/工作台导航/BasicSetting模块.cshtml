@@ -1,8 +1,4 @@
 ﻿@using PHDS.Web.Controllers
-@{
-    var controllerName = ViewContext.RouteData.Values["controller"].ToString();
-    var actionName = ViewContext.RouteData.Values["action"].ToString();
-}
 
 <a href="#">
     <i class="fa fa-gear"></i> <span>基础设置</span>
@@ -11,6 +7,6 @@
     </span>
 </a>
 <ul class="treeview-menu">
-    <li><a href="@Url.Action("Wuliao", "BasicSetting")"><i class="fa fa-money"></i><span> 物料管理</span></a></li>
-    <li><a href="@Url.Action("Partner", "BasicSetting")"><i class="fa fa-money"></i><span> 往来单位</span></a></li>
+    <li><a href="@(Url.Action<BasicSettingController>(p=>p.Wuliao()))"><i class="fa fa-money"></i><span> 物料管理</span></a></li>
+    <li><a href="@(Url.Action<BasicSettingController>(p=>p.Kehu()))"><i class="fa fa-money"></i><span> 客户管理</span></a></li>
 </ul>

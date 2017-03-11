@@ -1,7 +1,4 @@
 ﻿@{
-    var controllerName = ViewContext.RouteData.Values["controller"].ToString();
-    var actionName = ViewContext.RouteData.Values["action"].ToString();
-
     var 考勤区间集合 = PHDS.Entities.DAL.Kaoqin.考勤区间();
     var years = from p in 考勤区间集合
                 group p by p.年 into g
@@ -24,7 +21,7 @@
     </span>
 </a>
 <ul class="treeview-menu">
-    <li class="@if (actionName == "MonthReport" && controllerName == "Kaoqin") { @Html.Raw("active") } ">
+    <li class="@if (Html.ViewActionName() == "MonthReport" && Html.ViewControllerName() == "Kaoqin") { @Html.Raw("active") } ">
         <a href="@Url.Action("MonthReport", "Kaoqin")">
             <i class="fa fa-random"></i> <span> 考勤报表</span><span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>

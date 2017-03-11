@@ -80,5 +80,25 @@ namespace PHDS.Web.Controllers
 
             return RedirectToAction(redirect);
         }
+
+        public ActionResult Kehu()
+        {
+            return View();
+        }
+
+        public ActionResult KehuAdd()
+        {
+            return View();
+        }
+
+        public ActionResult KehuEdit()
+        {
+            return View();
+        }
+
+        public ActionResult KehuDelete()
+        {
+            return View();
+        }
     }
 }

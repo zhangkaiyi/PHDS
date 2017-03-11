@@ -1,8 +1,5 @@
 ﻿@{
     Layout = "~/Views/Shared/AdminLTE/_Layout_AdminLTE_Base.cshtml";
-
-    var controllerName = @ViewContext.RouteData.Values["controller"].ToString();
-    var actionName = @ViewContext.RouteData.Values["action"].ToString();
 }
 @section styles{
     @RenderSection("styles", required: false)
@@ -15,12 +12,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            @controllerName
-            <small>@actionName</small>
+            @Html.ViewControllerName()
+            <small>@Html.ViewActionName()</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> @controllerName</a></li>
-            <li class="active">@actionName</li>
+            <li><a href="#"><i class="fa fa-dashboard"></i> @Html.ViewControllerName()</a></li>
+            <li class="active">@Html.ViewActionName()</li>
         </ol>
     </section>
 

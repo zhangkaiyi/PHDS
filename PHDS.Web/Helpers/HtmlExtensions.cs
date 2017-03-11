@@ -39,7 +39,18 @@ namespace System.Web.Mvc
             var controller = GetControllerName(typeof(TController));
             return helper.BeginForm(action, controller, method, htmlAttributes);
         }
-        
+        public static string ViewControllerName(this HtmlHelper helper)
+        {
+            return helper.ViewContext.RouteData.Values["controller"].ToString();
+        }
+        public static string ViewActionName(this HtmlHelper helper)
+        {
+            return helper.ViewContext.RouteData.Values["action"].ToString();
+        }
+        public static string ViewAreaName(this HtmlHelper helper)
+        {
+            return helper.ViewContext.RouteData.DataTokens["area"]?.ToString();
+        }
     }
 
     public static class UrlExtensions

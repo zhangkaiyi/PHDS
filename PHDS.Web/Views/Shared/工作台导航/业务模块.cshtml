@@ -1,13 +1,9 @@
 ﻿@using PHDS.Web.Controllers
-@{
-    var controllerName = ViewContext.RouteData.Values["controller"].ToString();
-    var actionName = ViewContext.RouteData.Values["action"].ToString();
-}
+
 @functions{
     IHtmlString activeByControllerName(string targetController)
     {
-        var controllerName = @ViewContext.RouteData.Values["controller"].ToString();
-        if (controllerName.ToLower() == targetController.ToLower())
+        if (Html.ViewControllerName().ToLower() == targetController.ToLower())
         {
             return Html.Raw("active");
         }
@@ -15,9 +11,7 @@
     }
     IHtmlString activeByActionName(string targetAction, string targetController)
     {
-        var actionName = @ViewContext.RouteData.Values["action"].ToString();
-        var controllerName = @ViewContext.RouteData.Values["controller"].ToString();
-        if (actionName.ToLower() == targetAction.ToLower() && controllerName.ToLower() == targetController.ToLower())
+        if (Html.ViewActionName().ToLower() == targetAction.ToLower() && Html.ViewControllerName().ToLower() == targetController.ToLower())
         {
             return Html.Raw("active");
         }
@@ -32,8 +26,6 @@
 </a>
 <ul class="treeview-menu">
     <li class="@activeByActionName("Index", "Stockout")"><a href="@Url.Action("Index", "Stockout")"><i class="fa fa-circle-o"></i> <span> 发货单</span></a></li>
-    <li class="@activeByActionName("Report", "Stockout")"><a href="@Url.Action("Report", "Stockout")"><i class="fa fa-circle-o"></i> <span> 图表</span></a></li>
     <li><a href="@Url.Action("Shouhuo", "Home")"><i class="fa fa-circle-o"></i> <span> 收货单</span></a></li>
     <li><a href="@Url.Action("Zaitu", "Home")"><i class="fa fa-circle-o"></i> <span> 在途物料</span></a></li>
-    <li><a href="@Url.Action("Wanglai", "Home")"><i class="fa fa-circle-o"></i> <span> 往来</span></a></li>
 </ul>

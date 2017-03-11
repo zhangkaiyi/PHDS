@@ -7,8 +7,7 @@
 @functions{
     IHtmlString activeByControllerName(string targetController)
     {
-        var controllerName = @ViewContext.RouteData.Values["controller"].ToString();
-        if (controllerName.ToLower() == targetController.ToLower())
+        if (Html.ViewControllerName().ToLower() == targetController.ToLower())
         {
             return Html.Raw("active");
         }
@@ -16,9 +15,7 @@
     }
     IHtmlString activeByActionName(string targetAction, string targetController)
     {
-        var actionName = @ViewContext.RouteData.Values["action"].ToString();
-        var controllerName = @ViewContext.RouteData.Values["controller"].ToString();
-        if (actionName.ToLower() == targetAction.ToLower() && controllerName.ToLower() == targetController.ToLower())
+        if (Html.ViewActionName().ToLower() == targetAction.ToLower() && Html.ViewControllerName().ToLower() == targetController.ToLower())
         {
             return Html.Raw("active");
         }

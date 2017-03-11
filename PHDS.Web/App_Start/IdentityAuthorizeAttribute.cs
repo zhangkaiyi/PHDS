@@ -49,6 +49,9 @@ namespace PHDS.Web
         /// <returns></returns>
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
+            //判断是否登陆
+            if (!httpContext.User.Identity.IsAuthenticated)
+                return false;
             //取父类的验证结果
             var result = base.AuthorizeCore(httpContext);
             //如果验证未通过，则调用访问验证逻辑

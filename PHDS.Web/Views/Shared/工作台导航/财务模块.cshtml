@@ -1,8 +1,5 @@
 ﻿@using PHDS.Web.Controllers
 @{
-    var controllerName = ViewContext.RouteData.Values["controller"].ToString();
-    var actionName = ViewContext.RouteData.Values["action"].ToString();
-
     int[] ranks = { 120, 90, 60, 30, 0 };
 
     var rankList = new List<CaiwuController.RanksModel> {
@@ -32,7 +29,7 @@
 <ul class="treeview-menu">
     <li><a href="@Url.Action("Shoukuan", "Caiwu")"><i class="fa fa-money"></i><span> 收款</span></a></li>
     <li><a href="@Url.Action("Fukuan", "Caiwu")"><i class="fa fa-money"></i><span> 付款</span></a></li>
-    <li class="@if (controllerName=="Caiwu" && actionName=="ChaZhang" ) { @Html.Raw("active") } ">
+    <li class="@if (Html.ViewControllerName()=="Caiwu" && Html.ViewActionName()=="ChaZhang" ) { @Html.Raw("active") } ">
         <a href="javascript:;">
             <i class="fa fa-money"></i> <span> 查账</span><span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>

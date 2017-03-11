@@ -16,7 +16,7 @@
         <div class="my-content">
             @using (Html.BeginForm<BasicSettingController>(p => p.WuliaoEdit(""), FormMethod.Post, new { id = "myForm" }))
             {
-                <div class="box box-danger" id="formBox" v-cloak>
+                <div class="box box-warning" id="formBox" v-cloak>
                     <div class="box-header with-border">
                         <h3 class="box-title">物料编辑</h3>
                         <div class="box-tools pull-right">
@@ -53,7 +53,7 @@
                                 <label class="control-label" v-bind:class="classFormHorizontal.formgroupLeft" for="规格">规格</label>
                                 <div v-bind:class="classFormHorizontal.formgroupRight">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" @Html.Vue2().vModelFor(x => x.规格) placeholder="输入规格..." v-bind:readonly="isReadOnly" v-bind:value="fn规格()">
+                                        <input type="text" class="form-control" @Html.Vue2().vModelFor(x => x.规格) placeholder="输入规格..." v-bind:readonly="isReadOnly" v-bind:value="fnSpec()">
                                         <div class="input-group-addon">
                                             <input type="checkbox" style="display: inline-block;margin-bottom: 2px; vertical-align:middle" v-bind:checked="!isReadOnly" v-on:click="isReadOnly=!isReadOnly">
                                             <a href="javascript:;" v-on:click="isReadOnly=!isReadOnly"> 编辑</a>
@@ -154,42 +154,6 @@
     </div>
 </div>
 
-@section styles{
-    <style>
-        .my-sidebar {
-            position: absolute;
-            width: 230px;
-        }
-
-        .my-content {
-            margin-left: 244px;
-        }
-    </style>
-    <style media="(max-width: 991px)">
-        /* RESPONSIVE MODE */
-        /* 991px */
-        .my-sidebar {
-            width: 186px;
-        }
-
-        .my-content {
-            margin-left: 200px;
-        }
-    </style>
-    <style media="(max-width: 767px)">
-        /* RESPONSIVE MODE */
-        /* 767px */
-        .my-sidebar {
-            position: relative;
-            width: 100%;
-        }
-
-        .my-content {
-            margin-left: 0px;
-        }
-    </style>
-}
-
 @section scripts{
     <script>
         var vm = new Vue({
@@ -214,12 +178,51 @@
                         'col-md-8': true,
                         'col-lg-5': true,
                     },
+                },
+                boxCollapse :{
+                    screenWidth: window.innerWidth,
+                    collapseWidth: 768,
+                    isLocked: false,
+                },
+            },
+            mounted:function(){
+                if(window.innerWidth < this.boxCollapse.collapseWidth){
+                    $('.my-sidebar>.box').addClass("collapsed-box")
+                    $(".my-sidebar .fa-minus").removeClass("fa-minus").addClass("fa-plus")
+                    $(".my-sidebar .box-body").hide()
                 }
+                
+                $(window).on("resize",this.resizeHandler)
             },
             computed: {
 
             },
             methods: {
+                resizeHandler: function(){
+                    if(!this.boxCollapse.isLocked){
+                        this.boxCollapse.isLocked = true
+                        setTimeout(function(){
+                            var oldWidth = this.boxCollapse.screenWidth
+                            var newWidth = window.innerWidth
+                            this.boxCollapse.screenWidth = newWidth
+                            console.log("window.innerWidth",window.innerWidth,"document.body.clientWidth",document.body.clientWidth)
+
+                            if(newWidth < this.boxCollapse.collapseWidth){
+                                $('.my-sidebar>.box').addClass("collapsed-box")
+                                $(".my-sidebar .fa-minus").removeClass("fa-minus").addClass("fa-plus")
+                                //$(".my-sidebar .box-body").css("display","none")
+                                $(".my-sidebar .box-body").hide()
+                            }
+                            else if(oldWidth<this.boxCollapse.collapseWidth && newWidth>=this.boxCollapse.collapseWidth) {
+                                $('.my-sidebar>.collapsed-box').removeClass("collapsed-box")
+                                $(".my-sidebar .fa-plus").removeClass("fa-plus").addClass("fa-minus")
+                                //$(".my-sidebar .box-body").css("display","block")
+                                $(".my-sidebar .box-body").show()
+                            }
+                            this.boxCollapse.isLocked = false
+                        }.bind(this),250)
+                    }
+                },
                 innerTypes:function(key){
                     var array = $.grep(this.物料所有分类, function(item){
                         return item.完整编码 != key && item.完整编码.indexOf(key) >= 0
@@ -232,7 +235,7 @@
                     },this)
                     @Html.Vue2().modelDataFor(x=>x.类型) = array.length>0 ? array[0].全称 :  ""
                 },
-                fn规格: function(){
+                fnSpec: function(){
                     var length = @Html.Vue2().modelDataFor(x => x.Length);
                     var width = @Html.Vue2().modelDataFor(x => x.Width);
                     var height = @Html.Vue2().modelDataFor(x => x.Height);
